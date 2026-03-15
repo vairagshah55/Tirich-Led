@@ -1,0 +1,79 @@
+@import './fonts.css';
+@import './tailwind.css';
+@import './theme.css';
+
+/* Glitch effect animation */
+@keyframes glitch {
+  0% {
+    text-shadow: 0.05em 0 0 #0ea5e9, -0.05em -0.025em 0 #f97316,
+      -0.025em 0.05em 0 #3b82f6;
+  }
+  14% {
+    text-shadow: 0.05em 0 0 #0ea5e9, -0.05em -0.025em 0 #f97316,
+      -0.025em 0.05em 0 #3b82f6;
+  }
+  15% {
+    text-shadow: -0.05em -0.025em 0 #0ea5e9, 0.025em 0.025em 0 #f97316,
+      -0.05em -0.05em 0 #3b82f6;
+  }
+  49% {
+    text-shadow: -0.05em -0.025em 0 #0ea5e9, 0.025em 0.025em 0 #f97316,
+      -0.05em -0.05em 0 #3b82f6;
+  }
+  50% {
+    text-shadow: 0.025em 0.05em 0 #0ea5e9, 0.05em 0 0 #f97316,
+      0 -0.05em 0 #3b82f6;
+  }
+  99% {
+    text-shadow: 0.025em 0.05em 0 #0ea5e9, 0.05em 0 0 #f97316,
+      0 -0.05em 0 #3b82f6;
+  }
+  100% {
+    text-shadow: -0.025em 0 0 #0ea5e9, -0.025em -0.025em 0 #f97316,
+      -0.025em -0.05em 0 #3b82f6;
+  }
+}
+
+.glitch {
+  animation: glitch 1s infinite;
+}
+
+/* Scanline effect */
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+.scanline {
+  animation: scanline 8s linear infinite;
+}
+
+/* Neon glow pulse */
+@keyframes neon-pulse {
+  0%, 100% {
+    text-shadow: 
+      0 0 10px rgba(14, 165, 233, 0.8),
+      0 0 20px rgba(14, 165, 233, 0.6),
+      0 0 30px rgba(14, 165, 233, 0.4),
+      0 0 40px rgba(249, 115, 22, 0.3),
+      0 0 70px rgba(249, 115, 22, 0.2),
+      0 0 80px rgba(249, 115, 22, 0.1);
+  }
+  50% {
+    text-shadow: 
+      0 0 20px rgba(14, 165, 233, 1),
+      0 0 30px rgba(14, 165, 233, 0.8),
+      0 0 40px rgba(14, 165, 233, 0.6),
+      0 0 50px rgba(249, 115, 22, 0.5),
+      0 0 80px rgba(249, 115, 22, 0.3),
+      0 0 100px rgba(249, 115, 22, 0.2);
+  }
+}
+
+.neon-pulse {
+  animation: neon-pulse 2s ease-in-out infinite;
+}
