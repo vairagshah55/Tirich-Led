@@ -164,7 +164,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#020617]">
+    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#020617]">
       {/* Animated gradient orbs */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div

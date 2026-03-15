@@ -17,19 +17,30 @@ export function Navigation() {
   }, []);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
-    e.preventDefault();
-    const targetElement = document.querySelector(targetId);
-    if (targetElement) {
-      targetElement.scrollIntoView({ behavior: 'smooth' });
+    if (targetId.startsWith('#')) {
+      e.preventDefault();
     }
+
+    const id = targetId.startsWith('#') ? targetId.slice(1) : targetId;
+    const targetElement = id ? document.getElementById(id) : null;
+
     if (isMobileMenuOpen) {
       setIsMobileMenuOpen(false);
+    }
+
+    if (targetElement) {
+      requestAnimationFrame(() => {
+        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    } else if (targetId.startsWith('#')) {
+      window.location.hash = targetId;
     }
   };
 
   const navLinks = [
-    { name: 'Products', href: '#products' },
+    { name: 'Home', href: '#home' },
     { name: 'About', href: '#about' },
+    { name: 'Products', href: '#products' },
     { name: 'Features', href: '#features' },
     { name: 'Technology', href: '#technology' },
     { name: 'Contact', href: '#contact' },
@@ -48,15 +59,11 @@ export function Navigation() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <motion.a
-            href="/"
+            href="#home"
             className="flex items-center gap-3"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={(e) => {
-              e.preventDefault();
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-              if (isMobileMenuOpen) setIsMobileMenuOpen(false);
-            }}
+            onClick={(e) => handleNavClick(e, '#home')}
           >
             <motion.div
               animate={{

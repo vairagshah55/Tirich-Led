@@ -28,7 +28,7 @@ export function About() {
   };
 
   return (
-    <SectionShell id="about" className="py-24 px-6 bg-slate-950 relative overflow-hidden">
+    <SectionShell id="about" className="py-24 px-6 bg-slate-950 relative overflow-hidden scroll-mt-20">
       {/* Background decoration */}
       <div className="absolute top-0 right-0 w-1/3 h-full bg-primary/5 blur-[120px] pointer-events-none" />
       
