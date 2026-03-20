@@ -1,0 +1,309 @@
+/* ── Engine wrapper ─────────────────────────────────────────────── */
+.engine {
+  max-width: 1060px;
+  margin: 0 auto;
+}
+
+/* ── Prompt bar ─────────────────────────────────────────────────── */
+.promptBar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.55rem 1rem;
+  border: 1px solid rgba(197, 163, 104, 0.22);
+  background: rgba(197, 163, 104, 0.05);
+  max-width: 340px;
+  margin-bottom: 2.5rem;
+}
+.promptDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #C5A368;
+  flex-shrink: 0;
+  animation: dotPulse 1.4s ease-in-out infinite;
+}
+@keyframes dotPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.35; transform: scale(0.65); }
+}
+.promptText {
+  font-size: 0.76rem;
+  letter-spacing: 0.06em;
+  color: rgba(197, 163, 104, 0.85);
+  font-family: 'Inter', monospace;
+  animation: promptFade 0.3s ease;
+}
+@keyframes promptFade {
+  from { opacity: 0; transform: translateY(3px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Three-column layout ────────────────────────────────────────── */
+.layout {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* ── Panel eyebrow ──────────────────────────────────────────────── */
+.panelEyebrow {
+  font-size: 0.63rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(197, 163, 104, 0.5);
+  margin: 0 0 0.75rem;
+}
+
+/* ── Input panel ────────────────────────────────────────────────── */
+.inputPanel {
+  flex: 0 0 200px;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.inputPanel.inputVisible {
+  opacity: 1;
+  transform: translateX(0);
+}
+.inputCard {
+  position: relative;
+  border: 1px solid rgba(197, 163, 104, 0.28);
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.03);
+}
+.inputImg {
+  width: 100%;
+  display: block;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+.inputOverlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  animation: overlayIn 0.4s ease forwards;
+}
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.sourceBadge {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(197, 163, 104, 0.9);
+  background: rgba(14, 14, 14, 0.78);
+  padding: 0.35rem 0.5rem;
+  backdrop-filter: blur(4px);
+  z-index: 2;
+  transition: opacity 0.25s ease;
+}
+
+/* ── Connector ──────────────────────────────────────────────────── */
+.connector {
+  flex: 0 0 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  opacity: 0;
+  transition: opacity 0.5s ease 0.45s;
+}
+.connector.connectorVisible {
+  opacity: 1;
+}
+.pulseSvg {
+  width: 120px;
+  height: 40px;
+}
+.pulsePath {
+  animation: dashFlow 1.1s linear infinite;
+}
+@keyframes dashFlow {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: -17; }
+}
+.connectorLabel {
+  font-size: 0.58rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(197, 163, 104, 0.45);
+}
+
+/* ── Output panel ───────────────────────────────────────────────── */
+.outputPanel {
+  flex: 1;
+  min-width: 0;
+}
+.outputGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.55rem;
+}
+
+/* ── Output card ────────────────────────────────────────────────── */
+.outputCard {
+  opacity: 0;
+  transform: translateY(16px) scale(0.95);
+  transition:
+    opacity    0.45s ease,
+    transform  0.45s cubic-bezier(0.23, 1, 0.32, 1);
+  cursor: none;
+}
+.outputCard.outputVisible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.outputCard:hover .imgWrap {
+  transform: scale(1.05);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.55);
+  z-index: 2;
+}
+.imgWrap {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.32s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.32s ease;
+}
+.outputImg {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+  /* Works for both <img> and <video> */
+}
+
+/* Shimmer sweep on first appear */
+.shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgba(197, 163, 104, 0.28) 50%,
+    transparent 65%
+  );
+  background-size: 200% 100%;
+  background-position: 150% 0;
+  pointer-events: none;
+  opacity: 0;
+}
+.outputCard.outputVisible .shimmer {
+  animation: shimmerSweep 0.75s ease forwards;
+}
+@keyframes shimmerSweep {
+  0%   { background-position: 150% 0; opacity: 0.9; }
+  100% { background-position: -50% 0; opacity: 0; }
+}
+
+/* Category badge */
+.categoryBadge {
+  position: absolute;
+  top: 0.4rem;
+  left: 0.4rem;
+  font-size: 0.52rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(197, 163, 104, 0.92);
+  background: rgba(14, 14, 14, 0.72);
+  padding: 0.18rem 0.45rem;
+  backdrop-filter: blur(4px);
+}
+
+/* Play button (Social category) */
+.playBtn {
+  position: absolute;
+  bottom: 0.45rem;
+  right: 0.45rem;
+  width: 22px;
+  height: 22px;
+  background: rgba(197, 163, 104, 0.88);
+  color: #0e0e0e;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.5rem;
+  padding-left: 2px;
+}
+
+.outputLabel {
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+  margin: 0.4rem 0 0;
+  text-align: center;
+}
+
+/* ── Feature bar ────────────────────────────────────────────────── */
+.featureBar {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(197, 163, 104, 0.12);
+}
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: rgba(255, 255, 255, 0.45);
+}
+.featureIcon {
+  color: #C5A368;
+  font-size: 1rem;
+}
+.featureLabel {
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* ── Responsive ─────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .layout {
+    flex-direction: column;
+    align-items: center;
+  }
+  .inputPanel {
+    flex: 0 0 auto;
+    width: 200px;
+  }
+  .connector {
+    flex: 0 0 auto;
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+  .pulseSvg {
+    transform: none;
+  }
+  .outputPanel {
+    width: 100%;
+  }
+  .featureBar {
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 600px) {
+  .outputGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.35rem;
+  }
+  .featureBar {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+}

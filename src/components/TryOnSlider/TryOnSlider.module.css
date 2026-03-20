@@ -1,0 +1,89 @@
+.container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  max-height: 640px;
+  overflow: hidden;
+  cursor: col-resize;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ── Images ─────────────────────────────────────────────────── */
+.after,
+.before {
+  position: absolute;
+  inset: 0;
+}
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+/* "Before" filter — raw / unprocessed look */
+.imgBefore {
+  filter: grayscale(0.82) contrast(0.83) brightness(0.86) sepia(0.08);
+}
+
+/* ── Labels ──────────────────────────────────────────────────── */
+.label {
+  position: absolute;
+  top: 1.4rem;
+  padding: 0.3rem 0.9rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  background: rgba(26, 26, 26, 0.78);
+  color: #c9a84c;
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+  white-space: nowrap;
+}
+.labelLeft  { left: 1.2rem; }
+.labelRight { right: 1.2rem; }
+
+/* ── Handle ──────────────────────────────────────────────────── */
+.handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.handleLine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background: #c9a84c;
+  transform: translateX(-50%);
+}
+.handleBtn {
+  position: relative;
+  z-index: 1;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #c9a84c;
+  color: #1a1a1a;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: col-resize;
+  pointer-events: auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+}
+.handleBtn:hover {
+  transform: scale(1.12);
+  box-shadow: 0 6px 28px rgba(201, 168, 76, 0.4);
+}

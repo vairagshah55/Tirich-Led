@@ -1,0 +1,244 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  padding: 2rem;
+}
+
+.card {
+  background: #ffffff;
+  padding: 2.5rem 3rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+  max-width: 980px;
+  width: 100%;
+}
+
+.title {
+  margin: 0 0 0.25rem;
+  font-size: 2rem;
+  color: #0f172a;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 1rem;
+  color: #475569;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.roleChips {
+  margin-top: 0.75rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.roleChip {
+  background: #e2e8f0;
+  color: #1e293b;
+  padding: 0.25rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.logoutButton {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+.logoutButton:hover {
+  box-shadow: 0 6px 16px rgba(239, 68, 68, 0.3);
+}
+
+.logoutButton:active {
+  transform: scale(0.98);
+}
+
+.section {
+  margin-top: 2rem;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 2rem;
+}
+
+.sectionTitle {
+  margin: 0 0 1rem;
+  font-size: 1.25rem;
+  color: #0f172a;
+}
+
+.subTitle {
+  margin: 1.5rem 0 0.75rem;
+  font-size: 1rem;
+  color: #0f172a;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.row {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.input {
+  flex: 1;
+  min-width: 200px;
+  padding: 0.65rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid #d1d5db;
+  font-size: 0.95rem;
+}
+
+.primaryButton {
+  padding: 0.7rem 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  background: #2563eb;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.secondaryButton {
+  padding: 0.7rem 1.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #cbd5f5;
+  background: #f8fafc;
+  color: #1e293b;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.fieldErrors {
+  margin-top: 0.5rem;
+  color: #ef4444;
+  font-size: 0.875rem;
+}
+
+.table {
+  width: 100%;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.tableHeader,
+.tableRow {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  align-items: center;
+}
+
+.tableHeader {
+  background: #f8fafc;
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tableRow {
+  border-top: 1px solid #e2e8f0;
+  font-size: 0.9rem;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tableHeaderProducts,
+.tableRowProducts {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  align-items: center;
+}
+
+.tableHeaderProducts {
+  background: #f8fafc;
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tableRowProducts {
+  border-top: 1px solid #e2e8f0;
+  font-size: 0.9rem;
+}
+
+.smallButton {
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.4rem;
+  border: 1px solid #10b981;
+  background: #10b981;
+  color: white;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.smallButtonSecondary {
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.4rem;
+  border: 1px solid #ef4444;
+  background: white;
+  color: #ef4444;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.error {
+  margin: 0 0 1rem;
+  color: #ef4444;
+}
+
+.loading {
+  margin: 0 0 1rem;
+  color: #475569;
+}
+
+.empty {
+  padding: 1rem;
+  color: #64748b;
+}
+
+@media (max-width: 800px) {
+  .tableHeader,
+  .tableRow {
+    grid-template-columns: 1fr 1fr;
+  }
+  .tableHeaderProducts,
+  .tableRowProducts {
+    grid-template-columns: 1fr 1fr;
+  }
+}

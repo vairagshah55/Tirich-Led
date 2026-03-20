@@ -1,0 +1,144 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+/* ── Card ────────────────────────────────────────────────────── */
+.item {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  cursor: crosshair;
+  background: #111;
+}
+.mediaWrap {
+  position: absolute;
+  inset: 0;
+}
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.65s ease;
+}
+.item:hover .img { transform: scale(1.05); }
+
+/* ── Soft glow halo (large radius, feathered) ────────────────── */
+.glowLayer {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 110px 200px at var(--gx, -400px) var(--gy, -400px),
+    rgba(255, 248, 220, 0.45) 0%,
+    rgba(201, 168, 76,  0.12) 45%,
+    transparent 75%
+  );
+  mix-blend-mode: screen;
+  pointer-events: none;
+  transition: background 0.05s linear;
+}
+
+/* ── Starburst: tiny bright dot + cross-shaped rays at cursor ─ */
+.starLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* The "star" is rendered via multiple box-shadows on a pseudo */
+}
+.starLayer::before {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  top: var(--gy, -400px);
+  left: var(--gx, -400px);
+  transform: translate(-50%, -50%);
+  box-shadow:
+    /* Core dot */
+    0 0 4px 2px rgba(255, 255, 255, 0.8),
+    /* Horizontal ray */
+    -20px 0 8px 1px rgba(255, 255, 255, 0.15),
+     20px 0 8px 1px rgba(255, 255, 255, 0.15),
+    /* Vertical ray */
+    0 -20px 8px 1px rgba(255, 255, 255, 0.15),
+    0  20px 8px 1px rgba(255, 255, 255, 0.15),
+    /* Outer glow */
+    0 0 20px 6px rgba(201, 168, 76, 0.25);
+  transition: top 0.04s linear, left 0.04s linear;
+  opacity: 0;
+}
+.item:hover .starLayer::before { opacity: 1; }
+
+/* ── Nacre / Pearl iridescent shimmer on hover ────────────────── */
+@keyframes nacreShift {
+  0%   { background-position: 0%   50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0%   50%; }
+}
+.nacreLayer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    125deg,
+    transparent              0%,
+    rgba(255, 230, 200, 0.07) 18%,
+    rgba(201, 168,  76, 0.10) 32%,
+    rgba(180, 220, 255, 0.08) 48%,
+    rgba(255, 200, 230, 0.07) 64%,
+    rgba(200, 255, 220, 0.06) 80%,
+    transparent              100%
+  );
+  background-size: 250% 250%;
+  animation: nacreShift 5.5s ease-in-out infinite;
+  animation-play-state: paused;
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 0.55s ease;
+  pointer-events: none;
+  z-index: 3;
+}
+.item:hover .nacreLayer {
+  opacity: 1;
+  animation-play-state: running;
+}
+
+/* ── Hover info overlay ───────────────────────────────────────── */
+.info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem 1.25rem 1.25rem;
+  background: linear-gradient(to top, rgba(26, 26, 26, 0.85) 0%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  transform: translateY(12px);
+  opacity: 0;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+.item:hover .info {
+  transform: translateY(0);
+  opacity: 1;
+}
+.infoEyebrow {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #c9a84c;
+}
+.infoLabel {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #fff;
+  font-family: 'Georgia', serif;
+}
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr; }
+  .item { aspect-ratio: 16 / 9; }
+}

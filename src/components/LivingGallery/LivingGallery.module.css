@@ -1,0 +1,158 @@
+/* ── Outer wrapper — clips the scrolling track ──────────────────── */
+.wrap {
+  overflow: hidden;
+  position: relative;
+  padding-bottom: 0;
+  cursor: none;
+}
+
+/* ── Scrolling track ────────────────────────────────────────────── */
+.track {
+  display: flex;
+  gap: 1.1rem;
+  width: max-content;
+  will-change: transform;
+  padding: 0.5rem 0 0.75rem; /* breathing room so scale(1.05) isn't clipped */
+}
+
+/* ── Card ───────────────────────────────────────────────────────── */
+.card {
+  flex: 0 0 210px;
+  height: 373px; /* 9:16 of 210px */
+  position: relative;
+  overflow: hidden;
+  border-radius: 3px;
+  transition:
+    transform  0.38s cubic-bezier(0.23, 1, 0.32, 1),
+    opacity    0.38s ease;
+}
+
+/* When ANY card in the track is hovered — dim the rest */
+.track.hasHover .card {
+  opacity: 0.55;
+}
+.track.hasHover .card.hovered {
+  opacity: 1;
+  transform: scale(1.06);
+  z-index: 2;
+}
+
+/* ── Media (works for both <img> and <video>) ───────────────────── */
+.media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+/* ── Play / Watch indicator ─────────────────────────────────────── */
+.playBtn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 48px;
+  height: 48px;
+  border: 1.5px solid rgba(255, 255, 255, 0.65);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  background: rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  pointer-events: none;
+  transition:
+    width    0.35s cubic-bezier(0.23, 1, 0.32, 1),
+    height   0.35s cubic-bezier(0.23, 1, 0.32, 1),
+    background  0.3s ease,
+    border-color 0.3s ease;
+  overflow: hidden;
+}
+.playIcon {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.9);
+  padding-left: 3px;
+  transition: font-size 0.3s ease, color 0.3s ease;
+}
+/* "Watch Result" text — hidden by default */
+.playLabel {
+  font-size: 0;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #0e0e0e;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: font-size 0.3s ease 0.05s;
+  line-height: 1.1;
+}
+
+/* Hovered card — expand button, show "Watch Result", go gold */
+.hovered .playBtn {
+  width: 80px;
+  height: 80px;
+  background: rgba(197, 163, 104, 0.92);
+  border-color: #C5A368;
+}
+.hovered .playIcon {
+  font-size: 0;
+}
+.hovered .playLabel {
+  font-size: 0.5rem;
+}
+
+/* ── Glassmorphism caption ──────────────────────────────────────── */
+.caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.85rem 0.9rem 0.7rem;
+  background: rgba(10, 10, 10, 0.58);
+  backdrop-filter: blur(12px) saturate(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  transform: translateY(0);
+  transition: transform 0.35s ease;
+}
+.captionEyebrow {
+  font-size: 0.53rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(197, 163, 104, 0.75);
+  margin: 0 0 0.2rem;
+  font-family: 'Inter', sans-serif;
+}
+.captionLabel {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.92);
+  margin: 0 0 0.25rem;
+  line-height: 1.2;
+}
+.aiBadge {
+  font-size: 0.5rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(197, 163, 104, 0.5);
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ── Gold progress bar ──────────────────────────────────────────── */
+.progressWrap {
+  height: 1.5px;
+  background: rgba(197, 163, 104, 0.1);
+  margin-top: 1.25rem;
+  overflow: hidden;
+}
+.progressBar {
+  height: 100%;
+  background: linear-gradient(to right, rgba(197, 163, 104, 0.4), #C5A368);
+  width: 0%;
+}

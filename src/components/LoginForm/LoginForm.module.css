@@ -1,0 +1,74 @@
+.form {
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #1f2937;
+}
+
+.passwordWrapper {
+  position: relative;
+}
+
+.showPasswordButton {
+  position: absolute;
+  right: 1rem;
+  top: 2.3rem; /* Adjust to align vertically with the input */
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+}
+
+.rememberMe {
+  display: flex;
+  align-items: center;
+}
+
+.rememberMe input {
+  margin-right: 0.5rem;
+}
+
+.rememberMe label {
+  color: #4a5568;
+}
+
+.forgotPassword {
+  color: #3b82f6;
+  text-decoration: none;
+}
+
+.forgotPassword:hover {
+  text-decoration: underline;
+}
+
+.formError {
+  margin: 0 0 1rem;
+  font-size: 0.875rem;
+  color: #ef4444;
+}
+
+.formSuccess {
+  margin: 0 0 1rem;
+  font-size: 0.875rem;
+  color: #16a34a;
+}

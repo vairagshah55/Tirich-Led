@@ -1,0 +1,101 @@
+/* ── Theme tokens — dark mode defaults ───────────────────────────── */
+:root {
+  --nav-bg:                rgba(26, 26, 26, 0.88);
+  --nav-text:              #dddddd;
+  --bg-page:               #1a1a1a;   /* page / offwhite replacement     */
+  --bg-section:            #1a1a1a;   /* charcoal dark sections          */
+  --bg-deep:               #0e0e0e;   /* deeper black (craftsmanship)    */
+  --bg-footer:             #111111;
+  --bg-card:               #242424;   /* card / input card bg            */
+  --bg-light-section:      #1e1e1e;   /* "light" sections in dark mode   */
+  --marquee-bg:            #1a1a1a;
+  --text-on-section:       #ffffff;
+  --text-on-section-muted: rgba(255, 255, 255, 0.50);
+  --text-on-section-dim:   rgba(255, 255, 255, 0.38);
+  --text-footer:           rgba(255, 255, 255, 0.40);
+  --text-body:             #dddddd;
+  --step-card-bg:          rgba(255, 255, 255, 0.04);
+  --step-card-hover:       rgba(255, 255, 255, 0.07);
+  --stat-hover:            rgba(91, 164, 207, 0.08);
+  --lifestyle-glass-bg:    rgba(30, 30, 30, 0.78);
+}
+
+/* ── Light mode overrides ────────────────────────────────────────── */
+[data-theme="light"] {
+  --nav-bg:                rgba(240, 244, 248, 0.94);
+  --nav-text:              #1a2a3a;
+  --bg-page:               #f0f4f8;
+  --bg-section:            #e2eaf2;
+  --bg-deep:               #d6e2ed;
+  --bg-footer:             #ccd8e4;
+  --bg-card:               #ffffff;
+  --bg-light-section:      #f0f4f8;
+  --marquee-bg:            #dce8f2;
+  --text-on-section:       #0d1a2a;
+  --text-on-section-muted: rgba(13, 26, 42, 0.55);
+  --text-on-section-dim:   rgba(13, 26, 42, 0.45);
+  --text-footer:           rgba(13, 26, 42, 0.45);
+  --text-body:             #1a2a3a;
+  --step-card-bg:          rgba(0, 0, 0, 0.03);
+  --step-card-hover:       rgba(0, 0, 0, 0.06);
+  --stat-hover:            #e8f2fa;
+  --lifestyle-glass-bg:    rgba(240, 244, 248, 0.82);
+}
+
+/* ── Smooth theme transition ─────────────────────────────────────── */
+html.theme-switching,
+html.theme-switching * {
+  transition:
+    background-color 0.38s ease,
+    color            0.3s  ease,
+    border-color     0.3s  ease !important;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bg-page);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* ── Page transition (fade + lift on every route change) ── */
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.pageTransition {
+  animation: pageEnter 0.5s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+/* ── Section glow (on nav click) — global so classList.add works ── */
+@keyframes sectionGlow {
+  0%   { box-shadow: inset 0 0 0 2px rgba(91, 164, 207, 0.8); }
+  60%  { box-shadow: inset 0 0 0 2px rgba(91, 164, 207, 0.3); }
+  100% { box-shadow: inset 0 0 0 0px rgba(91, 164, 207, 0); }
+}
+.js-section-glow {
+  animation: sectionGlow 1s ease-out forwards !important;
+}
+
+/* ── Blur-to-focus reveal — scoped to elements with data-reveal ── */
+[data-reveal] {
+  opacity: 0;
+  filter: blur(14px);
+  transform: translateY(30px);
+  transition:
+    opacity   0.9s ease,
+    filter    0.9s ease,
+    transform 0.9s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.js-revealed[data-reveal] {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
+}
