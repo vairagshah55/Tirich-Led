@@ -360,18 +360,6 @@ export default function LandingPage() {
         <AnatomySection image={product1} />
       </section>
 
-      {/* ── LIGHTING ENVIRONMENT PREVIEW ─────────────────────────── */}
-      <section className={styles.sectionLight} id="customizer" data-cursor-theme="light">
-        <div className={styles.sectionHeader} data-reveal>
-          <p className={styles.sectionEyebrow}>Lighting Environments</p>
-          <h2 className={styles.sectionTitle}>See Your Space, Transformed</h2>
-          <p className={styles.sectionLead}>
-            Visualize how Tirich LED products perform across different environments —
-            from cool-white offices to warm-amber hospitality spaces.
-          </p>
-        </div>
-        <LightingCustomizer video={proVid3} />
-      </section>
 
       {/* ── ONE-TO-MANY PRODUCT CATALOG ──────────────────────────── */}
       <section className={styles.transformSection} id="catalog" data-cursor-theme="dark">
