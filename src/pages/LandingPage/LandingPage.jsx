@@ -69,6 +69,9 @@ const OUTPUTS = [
   { label: 'TLC-129 Series',   category: 'Series',  type: 'image', image: product8  },
 ];
 
+// ── Hero video slides ─────────────────────────────────────────────
+const HERO_VIDEOS = [heroVideo, proVid1, proVid2, proVid3];
+
 // ── Bokeh particle definitions ────────────────────────────────────
 const BOKEH = [
   { speedX: 0.025, speedY: 0.018, w: 80,  h: 80,  l: '74%', t: '18%', blur: 25, op: 0.12 },
@@ -117,6 +120,8 @@ export default function LandingPage() {
   const heroBgRef           = useRef(null);
   const heroContentRef      = useRef(null);
   const bokehRefs           = useRef([]);
+  const heroVidRefs         = useRef([]);
+  const [activeVidIdx, setActiveVidIdx] = useState(0);
 
   // ── 1. Blur-to-Focus Reveal ──────────────────────────────────
   useEffect(() => {
@@ -142,6 +147,19 @@ export default function LandingPage() {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  // ── 3. Hero Video Auto-Advance ────────────────────────────────
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveVidIdx(prev => (prev + 1) % HERO_VIDEOS.length);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, [activeVidIdx]);
+
+  useEffect(() => {
+    const vid = heroVidRefs.current[activeVidIdx];
+    if (vid) { vid.currentTime = 0; vid.play().catch(() => {}); }
+  }, [activeVidIdx]);
 
 
   // ── 4. Hero: 3D Tilt + Bokeh Mouse Parallax ─────────────────
@@ -215,22 +233,29 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* ── HERO: 3D TILT + BOKEH PARTICLES ─────────────────────── */}
+      {/* ── HERO: VIDEO CAROUSEL + 3D TILT + BOKEH ──────────────── */}
       <section
         className={styles.hero}
         id="hero"
         onMouseMove={onHeroMouseMove}
         onMouseLeave={onHeroMouseLeave}
       >
-        <video
-          ref={heroBgRef}
-          className={styles.heroBackground}
-          src={heroVideo}
-          autoPlay
-          muted
-          loop
-          playsInline
-        />
+        {/* ── Video slides ── */}
+        <div ref={heroBgRef} className={styles.heroVideos}>
+          {HERO_VIDEOS.map((src, i) => (
+            <video
+              key={i}
+              ref={el => { heroVidRefs.current[i] = el; }}
+              className={`${styles.heroVideoSlide}${i === activeVidIdx ? ` ${styles.heroVideoSlideActive}` : ''}`}
+              src={src}
+              autoPlay
+              muted
+              loop
+              playsInline
+            />
+          ))}
+        </div>
+
         <div className={styles.heroOverlay} />
 
         {/* Bokeh particles — depth parallax on mouse move */}
@@ -262,6 +287,37 @@ export default function LandingPage() {
             </a>
           </div>
         </div>
+
+        {/* ── Prev / Next arrows ── */}
+        <button
+          className={`${styles.heroArrow} ${styles.heroArrowLeft}`}
+          onClick={() => setActiveVidIdx(i => (i - 1 + HERO_VIDEOS.length) % HERO_VIDEOS.length)}
+          aria-label="Previous video"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button
+          className={`${styles.heroArrow} ${styles.heroArrowRight}`}
+          onClick={() => setActiveVidIdx(i => (i + 1) % HERO_VIDEOS.length)}
+          aria-label="Next video"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+
+        {/* ── Slide indicators ── */}
+        <div className={styles.heroDots}>
+          {HERO_VIDEOS.map((_, i) => (
+            <button
+              key={i}
+              className={`${styles.heroDot}${i === activeVidIdx ? ` ${styles.heroDotActive}` : ''}`}
+              onClick={() => setActiveVidIdx(i)}
+              aria-label={`Video ${i + 1}`}
+            />
+          ))}
+        </div>
+
+        {/* ── Progress bar resets on each slide ── */}
+        <div className={styles.heroProgressBar} key={activeVidIdx} />
 
         <div className={styles.heroScroll}>
           <span>Scroll</span>

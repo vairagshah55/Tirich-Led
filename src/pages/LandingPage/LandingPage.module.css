@@ -182,15 +182,102 @@
   align-items: center;
   overflow: hidden;
 }
-.heroBackground {
+
+/* ── Video Carousel Container ───────────────────────────────────── */
+.heroVideos {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+}
+.heroVideoSlide {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
-  /* parallax applied via JS transform */
-  will-change: transform;
+  opacity: 0;
+  transition: opacity 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.heroVideoSlideActive {
+  opacity: 1;
+}
+
+/* ── Prev / Next Arrows ─────────────────────────────────────────── */
+.heroArrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(13, 17, 23, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: 0;
+  transition: opacity 0.35s ease, background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+.hero:hover .heroArrow {
+  opacity: 1;
+}
+.heroArrow:hover {
+  background: rgba(91, 164, 207, 0.22);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.heroArrowLeft  { left: 2rem; }
+.heroArrowRight { right: 2rem; }
+
+/* ── Slide Dot Indicators ───────────────────────────────────────── */
+.heroDots {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+.heroDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.28);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.4s ease;
+}
+.heroDotActive {
+  width: 28px;
+  background: var(--gold);
+}
+
+/* ── Progress Bar ───────────────────────────────────────────────── */
+.heroProgressBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+  z-index: 5;
+  animation: heroProgress 6s linear forwards;
+}
+@keyframes heroProgress {
+  from { width: 0%; }
+  to   { width: 100%; }
 }
 .heroOverlay {
   position: absolute;
