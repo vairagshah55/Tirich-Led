@@ -101,15 +101,6 @@ export default function Navbar() {
           >
             Technology
           </a>
-
-          {/* Projects → scrolls to lifestyle */}
-          <a
-            href={isHome ? '#lifestyle' : '/#lifestyle'}
-            className={styles.navLink}
-            onClick={goToSection('lifestyle')}
-          >
-            Projects
-          </a>
         </div>
 
         {/* ── Right controls ── */}
@@ -235,7 +226,6 @@ export default function Navbar() {
 
           <Link to="/about" className={styles.mobileLink}>About</Link>
           <a href={isHome ? '#craftsmanship' : '/#craftsmanship'} className={styles.mobileLink} onClick={goToSection('craftsmanship')}>Technology</a>
-          <a href={isHome ? '#lifestyle' : '/#lifestyle'} className={styles.mobileLink} onClick={goToSection('lifestyle')}>Projects</a>
 
           <div className={styles.mobileDivider} />
           <div className={styles.mobileCtaRow}>

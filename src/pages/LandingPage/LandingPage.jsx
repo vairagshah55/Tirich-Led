@@ -481,29 +481,6 @@ export default function LandingPage() {
         <LusterGallery items={GALLERY_ITEMS} />
       </section>
 
-      {/* ── PROJECTS / LIFESTYLE ─────────────────────────────────── */}
-      <section className={styles.lifestyle} id="lifestyle" data-cursor-theme="light">
-        <div className={styles.lifestyleCopy} data-reveal>
-          <p className={styles.sectionEyebrow}>Built for Every Environment</p>
-          <h2 className={styles.sectionTitle}>Light It. Live In It.</h2>
-          <p className={styles.sectionBody}>
-            From sprawling warehouse floors to intimate hospitality spaces — Tirich LED
-            delivers consistent, efficient illumination across every commercial and
-            residential application.
-          </p>
-          <div className={styles.lifestyleFeatures}>
-            <div className={styles.feature}><span className={styles.featureIcon}>✦</span><span>Long-life SMD 2835 chipsets</span></div>
-            <div className={styles.feature}><span className={styles.featureIcon}>✦</span><span>3-year manufacturer warranty</span></div>
-            <div className={styles.feature}><span className={styles.featureIcon}>✦</span><span>Custom CCT &amp; CRI options available</span></div>
-          </div>
-          <button className={styles.btnPrimary} onClick={() => navigate('/ai-studio')} {...mag}>
-            Request a Quote
-          </button>
-        </div>
-        <div className={styles.lifestyleMedia} data-reveal style={{ transitionDelay: '0.15s' }}>
-          <img src={hdHanging} alt="Tirich LED hanging pendant installation" className={styles.lifestyleImg} />
-        </div>
-      </section>
 
       {/* ── STATS BAR ────────────────────────────────────────────── */}
       <div className={styles.statsBar} data-cursor-theme="light">
@@ -527,7 +504,6 @@ export default function LandingPage() {
               <span className={styles.footerNavHead}>Explore</span>
               <a href="#collections"   onClick={scrollToSection('collections')}>Products</a>
               <a href="#craftsmanship" onClick={scrollToSection('craftsmanship')}>Technology</a>
-              <a href="#lifestyle"     onClick={scrollToSection('lifestyle')}>Projects</a>
             </div>
             <div className={styles.footerNavCol}>
               <span className={styles.footerNavHead}>Company</span>
