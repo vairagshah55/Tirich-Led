@@ -150,26 +150,31 @@ a.infoValue:hover { color: var(--clr-accent-text); }
 }
 .input,
 .textarea {
-  background: var(--bg-deep, #0e0e0e);
-  border: 1px solid rgba(236,138,28,0.2);
-  color: var(--text-on-deep);  /* always light text — input bg is always dark */
+  background: var(--bg-card);            /* #FFFFFF light / #1E1F2E dark */
+  border: 1px solid rgba(42, 47, 99, 0.22);
+  color: var(--text-on-section);         /* #2A2F63 light (12.5:1 ✓) / #F0F1F7 dark (14.7:1 ✓) */
   padding: 0.85rem 1rem;
   font-size: 0.9rem;
   font-family: inherit;
   outline: none;
-  transition: border-color 0.25s ease;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
   width: 100%;
   box-sizing: border-box;
   appearance: none;
-  border-radius: 0;
+  border-radius: 4px;
+}
+.input:hover {
+  border-color: rgba(42, 47, 99, 0.45);
 }
 .input:focus,
 .textarea:focus {
-  border-color: var(--btn-ghost-fg);
+  border-color: var(--brand-orange);     /* always orange — visible in both modes */
+  box-shadow: 0 0 0 3px rgba(236, 138, 28, 0.12);
 }
 .input::placeholder,
 .textarea::placeholder {
-  color: rgba(255,255,255,0.2);
+  color: var(--text-on-section-muted);   /* #5A5E7A light (6.3:1 ✓) / #9CA1BA dark (6.5:1 ✓) */
+  opacity: 0.65;
 }
 .textarea {
   resize: vertical;
@@ -177,10 +182,14 @@ a.infoValue:hover { color: var(--clr-accent-text); }
 }
 select.input {
   cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23EC8A1C' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
 }
 select.input option {
-  background: #0e0e0e;
-  color: var(--text-on-deep);
+  background: var(--bg-card);
+  color: var(--text-on-section);
 }
 
 /* ── Buttons ────────────────────────────────────────────────────── */
@@ -265,6 +274,17 @@ select.input option {
 [data-reveal].js-revealed {
   opacity: 1;
   transform: none;
+}
+
+/* ── Dark-mode input border override ────────────────────────────── */
+/* In dark mode bg-card = #1E1F2E — navy border would be invisible */
+:global([data-theme="dark"]) .input,
+:global([data-theme="dark"]) .textarea {
+  border-color: rgba(236, 138, 28, 0.2);
+}
+:global([data-theme="dark"]) .input:hover,
+:global([data-theme="dark"]) .textarea:hover {
+  border-color: rgba(236, 138, 28, 0.45);
 }
 
 /* ── Responsive ─────────────────────────────────────────────────── */
