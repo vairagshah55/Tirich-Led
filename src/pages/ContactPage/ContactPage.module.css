@@ -30,7 +30,7 @@
   font-size: 0.75rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: #EC8A1C;
+  color: var(--clr-accent-text);
   margin: 0 0 1.25rem;
 }
 .heroTitle {
@@ -41,7 +41,7 @@
   line-height: 1.1;
   margin: 0 0 1.5rem;
 }
-.heroAccent { color: #FF9F2F; }
+.heroAccent { color: var(--clr-accent-text); }
 .heroLead {
   font-size: 1.1rem;
   line-height: 1.8;
@@ -73,7 +73,7 @@
   font-size: 0.72rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #EC8A1C;
+  color: var(--clr-accent-text);
   margin: 0 0 0.75rem;
 }
 .sectionTitle {
@@ -106,7 +106,7 @@
 }
 .infoIcon {
   font-size: 1.2rem;
-  color: #EC8A1C;
+  color: var(--clr-accent-text);
   flex-shrink: 0;
   margin-top: 0.1rem;
 }
@@ -124,7 +124,7 @@
   text-decoration: none;
   transition: color 0.2s ease;
 }
-a.infoValue:hover { color: #EC8A1C; }
+a.infoValue:hover { color: var(--clr-accent-text); }
 
 /* ── Form Column ────────────────────────────────────────────────── */
 .form {
@@ -152,7 +152,7 @@ a.infoValue:hover { color: #EC8A1C; }
 .textarea {
   background: var(--bg-deep, #0e0e0e);
   border: 1px solid rgba(236,138,28,0.2);
-  color: var(--text-on-section);
+  color: var(--text-on-deep);  /* always light text — input bg is always dark */
   padding: 0.85rem 1rem;
   font-size: 0.9rem;
   font-family: inherit;
@@ -165,7 +165,7 @@ a.infoValue:hover { color: #EC8A1C; }
 }
 .input:focus,
 .textarea:focus {
-  border-color: #EC8A1C;
+  border-color: var(--btn-ghost-fg);
 }
 .input::placeholder,
 .textarea::placeholder {
@@ -180,13 +180,13 @@ select.input {
 }
 select.input option {
   background: #0e0e0e;
-  color: var(--text-on-section);
+  color: var(--text-on-deep);
 }
 
 /* ── Buttons ────────────────────────────────────────────────────── */
 .btnPrimary {
-  background: #EC8A1C;
-  color: #0d1117;
+  background: var(--btn-solid-bg);
+  color: var(--btn-solid-text);
   border: none;
   padding: 0.95rem 2.4rem;
   font-size: 0.8rem;
@@ -202,8 +202,8 @@ select.input option {
 
 .btnGhost {
   background: transparent;
-  color: #EC8A1C;
-  border: 1px solid #EC8A1C;
+  color: var(--clr-accent-text);
+  border: 1px solid var(--btn-ghost-fg);
   padding: 0.85rem 2rem;
   font-size: 0.8rem;
   letter-spacing: 0.12em;
@@ -213,7 +213,7 @@ select.input option {
   transition: background 0.25s ease, color 0.25s ease;
   margin-top: 1.5rem;
 }
-.btnGhost:hover { background: #EC8A1C; color: #0d1117; }
+.btnGhost:hover { background: var(--btn-solid-bg); color: var(--btn-solid-text); }
 
 /* ── Success State ──────────────────────────────────────────────── */
 .successBox {
@@ -224,6 +224,10 @@ select.input option {
   flex-direction: column;
   align-items: flex-start;
   gap: 1rem;
+  /* Scope text tokens for dark bg */
+  --text-on-section:       var(--text-on-deep);
+  --text-on-section-muted: var(--text-on-deep-muted);
+  --clr-accent-text:       var(--brand-orange);
 }
 .successIcon {
   width: 44px;
@@ -234,7 +238,7 @@ select.input option {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #EC8A1C;
+  color: var(--clr-accent-text);
   font-size: 1rem;
 }
 .successTitle {

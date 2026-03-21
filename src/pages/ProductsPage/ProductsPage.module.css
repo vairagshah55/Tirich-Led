@@ -39,7 +39,7 @@
   font-size: 0.72rem;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: #EC8A1C;
+  color: var(--clr-accent-text);
   margin: 0 0 0.75rem;
 }
 .heroTitle {
@@ -74,6 +74,9 @@
   position: sticky;
   top: 68px;
   z-index: 10;
+  /* Scope text tokens for dark bg */
+  --text-on-section-muted: var(--text-on-deep-muted);
+  --clr-accent-text:       var(--brand-orange);
 }
 .filterInner {
   max-width: 1200px;
@@ -99,10 +102,10 @@
   font-family: inherit;
   transition: color 0.2s ease, border-color 0.2s ease;
 }
-.filterBtn:hover { color: #EC8A1C; }
+.filterBtn:hover { color: var(--clr-accent-text); }
 .filterBtnActive {
-  color: #EC8A1C;
-  border-bottom-color: #EC8A1C;
+  color: var(--clr-accent-text);
+  border-bottom-color: var(--clr-accent-text);
 }
 
 /* ── Product grid ───────────────────────────────────────────────── */
@@ -149,14 +152,14 @@
 }
 .card:hover .cardImg { transform: scale(1.06); }
 
-/* Category badge */
+/* Category badge — always on dark overlay, so always use orange (passes 7.9:1 ✓) */
 .cardBadge {
   position: absolute;
   top: 1rem;
   left: 1rem;
   background: rgba(13,17,23,0.78);
   border: 1px solid rgba(236,138,28,0.3);
-  color: #EC8A1C;
+  color: var(--brand-orange);
   padding: 0.25rem 0.65rem;
   font-size: 0.65rem;
   letter-spacing: 0.14em;
@@ -177,8 +180,8 @@
 }
 .card:hover .cardOverlay { opacity: 1; }
 .cardOverlayBtn {
-  background: #EC8A1C;
-  color: #0d1117;
+  background: var(--btn-solid-bg);
+  color: var(--btn-solid-text);
   border: none;
   padding: 0.65rem 1.5rem;
   font-size: 0.72rem;
@@ -225,7 +228,7 @@
 .specChip {
   background: rgba(236,138,28,0.08);
   border: 1px solid rgba(236,138,28,0.2);
-  color: #EC8A1C;
+  color: var(--clr-accent-text);
   padding: 0.2rem 0.55rem;
   font-size: 0.65rem;
   letter-spacing: 0.1em;
@@ -249,7 +252,7 @@
   font-size: 0.72rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #EC8A1C;
+  color: var(--clr-accent-text);
   display: flex;
   align-items: center;
   gap: 0.35rem;

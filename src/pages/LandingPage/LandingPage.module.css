@@ -1,11 +1,12 @@
 /* ── Tokens ─────────────────────────────────────────────────────── */
 :root {
-  --gold:       #EC8A1C;
-  --gold-light: #FF9F2F;
+  /* Map local aliases → WCAG global tokens from index.css */
+  --gold:       var(--clr-accent-text);
+  --gold-light: var(--clr-accent-hover);
   --gold-dark:  #c97010;
-  --charcoal:   #0D0E16;
-  --offwhite:   #F3F4F9;
-  --text-muted: #8C90A8;
+  --charcoal:   var(--btn-solid-text);
+  --offwhite:   #F0F1F7;
+  --text-muted: var(--text-on-section-muted);
   --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   --font-sans:  'Inter', 'Helvetica Neue', Arial, sans-serif;
   --bordeaux:   #2A2F63;
@@ -76,7 +77,7 @@
   cursor: none;
   transition: background var(--transition), color var(--transition);
 }
-.navCta:hover { background: var(--gold); color: var(--charcoal); }
+.navCta:hover { background: var(--btn-solid-bg); color: var(--btn-solid-text); }
 
 /* ── Theme toggle ───────────────────────────────────────────────── */
 .themeToggle {
@@ -115,8 +116,8 @@
 
 /* ── Buttons ────────────────────────────────────────────────────── */
 .btnPrimary {
-  background: var(--gold);
-  color: var(--charcoal);
+  background: var(--btn-solid-bg);
+  color: var(--btn-solid-text);
   border: none;
   padding: 0.9rem 2.2rem;
   font-size: 0.8rem;
@@ -140,7 +141,7 @@
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
   transition: left 0.4s ease;
 }
-.btnPrimary:hover { background: var(--gold-light); }
+.btnPrimary:hover { background: var(--brand-orange-hover); }
 .btnPrimary:hover::after { left: 150%; }
 
 .btnGhost {
@@ -681,13 +682,19 @@
 .detail .sectionTitle  { color: var(--text-on-section); }
 .detail .sectionBody   { color: var(--text-on-section-muted); }
 .detail .btnPrimary    { border-color: rgba(236, 138, 28, 0.5); color: var(--gold); }
-.detail .btnPrimary:hover { background: var(--gold); color: #0e0e0e; }
+.detail .btnPrimary:hover { background: var(--gold); color: var(--btn-solid-text); }
 
 .detail {
   display: grid;
   grid-template-columns: 1fr 1fr;
   min-height: 680px;
   background: var(--bg-deep);
+  /* Scope text tokens for dark bg */
+  --text-on-section:       var(--text-on-deep);
+  --text-on-section-muted: var(--text-on-deep-muted);
+  --clr-accent-text:       var(--brand-orange);
+  --gold:                  var(--brand-orange);
+  --btn-ghost-fg:          var(--brand-orange);
 }
 .detailMedia {
   position: relative;

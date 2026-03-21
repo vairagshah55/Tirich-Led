@@ -226,7 +226,7 @@
   width: 22px;
   height: 22px;
   background: rgba(197, 163, 104, 0.88);
-  color: #0e0e0e;
+  color: var(--btn-solid-text);
   border-radius: 50%;
   display: flex;
   align-items: center;

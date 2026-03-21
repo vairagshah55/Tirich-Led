@@ -30,7 +30,7 @@
   font-size: 0.75rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: #EC8A1C;
+  color: var(--clr-accent-text);
   margin: 0 0 1.25rem;
 }
 .heroTitle {
@@ -41,7 +41,7 @@
   line-height: 1.1;
   margin: 0 0 1.5rem;
 }
-.heroAccent { color: #FF9F2F; }
+.heroAccent { color: var(--clr-accent-text); }
 .heroLead {
   font-size: 1.1rem;
   line-height: 1.8;
@@ -63,6 +63,10 @@
   background: var(--bg-deep, #0e0e0e);
   border-top: 1px solid rgba(236,138,28,0.12);
   border-bottom: 1px solid rgba(236,138,28,0.12);
+  /* Scope text tokens for dark bg (navy in light mode) */
+  --text-on-section:       var(--text-on-deep);
+  --text-on-section-muted: var(--text-on-deep-muted);
+  --clr-accent-text:       var(--brand-orange);
 }
 .statItem {
   padding: 2.5rem 1.5rem;
@@ -76,7 +80,7 @@
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 2.8rem;
   font-weight: 400;
-  color: #EC8A1C;
+  color: var(--clr-accent-text);
   line-height: 1;
   display: block;
   margin-bottom: 0.4rem;
@@ -101,7 +105,7 @@
   font-size: 0.72rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #EC8A1C;
+  color: var(--clr-accent-text);
   margin: 0 0 0.75rem;
 }
 .sectionTitle {
@@ -155,7 +159,7 @@
 .timelineYear {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 1rem;
-  color: #EC8A1C;
+  color: var(--clr-accent-text);
   font-weight: 400;
   flex-shrink: 0;
   width: 42px;
@@ -171,6 +175,10 @@
 .values {
   padding: 6rem 4rem;
   background: var(--bg-deep, #0e0e0e);
+  /* Scope text tokens for dark bg */
+  --text-on-section:       var(--text-on-deep);
+  --text-on-section-muted: var(--text-on-deep-muted);
+  --clr-accent-text:       var(--brand-orange);
 }
 .valuesHeader {
   text-align: center;
@@ -255,7 +263,7 @@
   left: 1.5rem;
   background: rgba(13, 17, 23, 0.8);
   border: 1px solid rgba(236,138,28,0.4);
-  color: #EC8A1C;
+  color: var(--brand-orange); /* always on dark overlay → orange 7.9:1 ✓ */
   padding: 0.45rem 0.9rem;
   font-size: 0.68rem;
   letter-spacing: 0.16em;
@@ -287,7 +295,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  color: #EC8A1C;
+  color: var(--clr-accent-text);
   font-size: 0.65rem;
 }
 
@@ -296,6 +304,11 @@
   padding: 6rem 4rem;
   background: var(--bg-deep, #0e0e0e);
   text-align: center;
+  /* Scope text tokens for dark bg */
+  --text-on-section:       var(--text-on-deep);
+  --text-on-section-muted: var(--text-on-deep-muted);
+  --clr-accent-text:       var(--brand-orange);
+  --btn-ghost-fg:          var(--brand-orange);
 }
 .ctaTitle {
   font-family: 'Cormorant Garamond', Georgia, serif;
@@ -318,8 +331,8 @@
   flex-wrap: wrap;
 }
 .btnPrimary {
-  background: #EC8A1C;
-  color: #0d1117;
+  background: var(--btn-solid-bg);
+  color: var(--btn-solid-text);
   border: none;
   padding: 0.9rem 2.2rem;
   font-size: 0.8rem;
@@ -335,8 +348,8 @@
 .btnPrimary:hover { background: #FF9F2F; }
 .btnGhost {
   background: transparent;
-  color: #EC8A1C;
-  border: 1px solid #EC8A1C;
+  color: var(--clr-accent-text);
+  border: 1px solid var(--btn-ghost-fg);
   padding: 0.9rem 2.2rem;
   font-size: 0.8rem;
   letter-spacing: 0.12em;
@@ -347,7 +360,7 @@
   display: inline-block;
   transition: background 0.25s ease, color 0.25s ease;
 }
-.btnGhost:hover { background: #EC8A1C; color: #0d1117; }
+.btnGhost:hover { background: var(--btn-solid-bg); color: var(--btn-solid-text); }
 
 /* ── Responsive ─────────────────────────────────────────────────── */
 @media (max-width: 900px) {

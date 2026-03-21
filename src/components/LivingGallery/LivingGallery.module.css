@@ -83,7 +83,7 @@
   font-size: 0;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #0e0e0e;
+  color: var(--btn-solid-text);
   font-family: 'Inter', sans-serif;
   font-weight: 600;
   white-space: nowrap;
