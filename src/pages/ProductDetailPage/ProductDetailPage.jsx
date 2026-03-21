@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Navbar from '../../components/Navbar/Navbar';
 import { PRODUCTS } from '../../data/products';
 import styles from './ProductDetailPage.module.css';
@@ -15,7 +15,6 @@ const SPECS_MAP = [
 
 export default function ProductDetailPage() {
   const { slug }   = useParams();
-  const navigate   = useNavigate();
   const product    = PRODUCTS.find(p => p.slug === slug);
 
   // Related: same category, exclude current, max 3

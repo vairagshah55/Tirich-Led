@@ -4,9 +4,6 @@ import Navbar from '../../components/Navbar/Navbar';
 import styles from './LandingPage.module.css';
 
 // ── Product Images ─────────────────────────────────────────────────
-import product1   from '../../assets/TLC-101.jpg';
-import product4   from '../../assets/TLC-111.jpg';
-import product8   from '../../assets/TLC-129.jpg';
 
 // ── HD Product Images ───────────────────────────────────────────────
 import hdTLC121   from '../../assets/HD PHOTO/TLC-121.png';
@@ -14,7 +11,6 @@ import hdTLC333   from '../../assets/HD PHOTO/TLC-333.png';
 import hdTLC118   from '../../assets/HD PHOTO/TLC-118.jpg';
 import hdTLC107W  from '../../assets/HD PHOTO/TLC-107 WHITE.png';
 import hdTLC108   from '../../assets/HD PHOTO/TLC-108.png';
-import hdPro130   from '../../assets/HD PHOTO/PRO+130.png';
 import hdHanging  from '../../assets/HD PHOTO/HANGING LIGHT/15/PNG/HANGING LIGHT.png';
 import hdMagCOB   from '../../assets/HD PHOTO/CYLINDER/3/PNG/MAGNETIC COB.png';
 import heroVideo  from '../../assets/grok-video-1ae0e23a-fbb4-4bec-993c-fb8c0b748c3f.mp4';
@@ -23,7 +19,6 @@ import proVid2    from '../../assets/grok-video-1d4fef8d-119d-4f9f-8d71-650ca413
 import proVid3    from '../../assets/grok-video-2ca8b0c1-823e-4d11-a036-24e495b32dc3.mp4';
 
 import LusterGallery          from '../../components/LusterGallery/LusterGallery';
-import TransformationEngine   from '../../components/TransformationEngine/TransformationEngine';
 import LivingGallery          from '../../components/LivingGallery/LivingGallery';
 
 // ── Gallery items (Luster) ────────────────────────────────────────
@@ -58,18 +53,6 @@ const STATS = [
   { value: 'IP65',   label: 'Weather Certified'  },
 ];
 
-// ── Transformation Engine outputs (3×3 grid) ─────────────────────
-const OUTPUTS = [
-  { label: 'TLC-121 Panel',     category: 'Panel',     type: 'image', image: hdTLC121  },
-  { label: 'TLC-108 Downlight', category: 'Downlight', type: 'image', image: hdTLC108  },
-  { label: 'LED Campaign I',    category: 'Project',   type: 'video', video: proVid1   },
-  { label: 'TLC-111 Fixture',   category: 'Fixture',   type: 'image', image: product4  },
-  { label: 'TLC-118 Panel',     category: 'Panel',     type: 'image', image: hdTLC118  },
-  { label: 'Hanging Light',     category: 'Pendant',   type: 'image', image: hdHanging },
-  { label: 'LED Campaign II',   category: 'Project',   type: 'video', video: proVid2   },
-  { label: 'PRO+130 Fixture',   category: 'Fixture',   type: 'image', image: hdPro130  },
-  { label: 'TLC-129 Series',    category: 'Series',    type: 'image', image: product8  },
-];
 
 // ── Hero slides — each with its own video + copy ─────────────────
 const HERO_SLIDES = [
