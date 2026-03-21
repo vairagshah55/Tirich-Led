@@ -9,6 +9,7 @@ import ProductsPage from './pages/ProductsPage/ProductsPage';
 import ProductDetailPage from './pages/ProductDetailPage/ProductDetailPage';
 import ContactPage from './pages/ContactPage/ContactPage';
 import CustomCursor from './components/CustomCursor/CustomCursor';
+import WhatsAppButton from './components/WhatsAppButton/WhatsAppButton';
 
 function App() {
   const location = useLocation();
@@ -65,6 +66,7 @@ function App() {
   return (
     <div className="App">
       <CustomCursor />
+      <WhatsAppButton />
       <div key={location.key} className="pageTransition">
       <Routes>
         <Route path="/" element={<LandingPage />} />
