@@ -789,7 +789,6 @@
   margin-top: -3rem;
   box-shadow: 0 -50px 100px rgba(0, 0, 0, 0.55);
 }
-/* "Lights dimming" gradient at top edge as section slides over lifestyle */
 .howItWorks::before {
   content: '';
   position: absolute;
@@ -799,65 +798,124 @@
   pointer-events: none;
   z-index: 0;
 }
-.howItWorks .sectionEyebrow { color: var(--gold); }
+.howItWorks .sectionEyebrow { color: var(--brand-orange); }
 .howItWorks .sectionTitle   { color: var(--text-on-section); }
 .howItWorks .sectionLead    { color: var(--text-on-section-muted); }
 
+/* ── Steps grid + connector line ────────────────────────────────── */
 .stepsGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  max-width: 1100px;
+  gap: 0;                       /* cards sit flush — connector drawn in gap */
+  max-width: 1160px;
   margin: 0 auto;
-}
-.stepCard {
-  padding: 2.5rem 2rem;
-  border: 1px solid rgba(236, 138, 28, 0.18);
   position: relative;
-  transition: border-color 0.3s ease, background 0.3s ease;
-  overflow: hidden;
+}
+/* Horizontal connector line across all 3 cards (desktop only) */
+.stepsGrid::before {
+  content: '';
+  position: absolute;
+  top: 3rem;                    /* aligns with centre of step badge */
+  left: calc(100% / 6);        /* starts at centre of card 1 */
+  right: calc(100% / 6);       /* ends at centre of card 3 */
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    rgba(236,138,28,0.15),
+    rgba(236,138,28,0.5) 50%,
+    rgba(236,138,28,0.15)
+  );
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ── Step card ───────────────────────────────────────────────────── */
+.stepCard {
+  padding: 2.75rem 2.25rem 2.5rem;
+  border: 1px solid rgba(236, 138, 28, 0.14);
+  border-left: 3px solid rgba(236,138,28,0.25);  /* always-visible accent */
+  position: relative;
   background: var(--step-card-bg);
   backdrop-filter: blur(16px) saturate(1.4);
   -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  transition:
+    transform       0.35s cubic-bezier(0.23, 1, 0.32, 1),
+    box-shadow      0.35s ease,
+    border-color    0.35s ease,
+    border-left-color 0.35s ease,
+    background      0.35s ease;
+  overflow: hidden;
+  z-index: 1;
 }
-.stepCard::before {
+/* Inner glow on hover */
+.stepCard::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(236,138,28,0.06), transparent);
+  background: linear-gradient(135deg, rgba(236,138,28,0.07) 0%, transparent 60%);
   opacity: 0;
   transition: opacity 0.4s ease;
+  pointer-events: none;
 }
 .stepCard:hover {
-  border-color: var(--gold);
+  transform: translateY(-7px);
+  box-shadow:
+    0 20px 50px rgba(0,0,0,0.18),
+    0 0 0 1px rgba(236,138,28,0.22);
+  border-left-color: #EC8A1C;
   background: var(--step-card-hover);
 }
-.stepCard:hover::before { opacity: 1; }
+.stepCard:hover::after { opacity: 1; }
 
+/* ── Step badge (number circle) ──────────────────────────────────── */
 .stepNumber {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(236,138,28,0.4);
+  background: rgba(236,138,28,0.08);
   font-family: var(--font-serif);
-  font-size: 3.5rem;
-  color: rgba(236,138,28,0.15);
-  line-height: 1;
-  margin-bottom: 1.25rem;
+  font-size: 1.05rem;
   font-weight: 400;
-  transition: color 0.4s ease;
+  color: var(--brand-orange);   /* always orange — readability on any bg ✓ */
+  margin-bottom: 1.75rem;
+  position: relative;
+  z-index: 1;
+  transition:
+    background  0.35s ease,
+    border-color 0.35s ease,
+    transform   0.35s cubic-bezier(0.23, 1, 0.32, 1);
+  letter-spacing: 0.05em;
 }
-.stepCard:hover .stepNumber { color: rgba(236,138,28,0.35); }
+.stepCard:hover .stepNumber {
+  background: rgba(236,138,28,0.18);
+  border-color: #EC8A1C;
+  transform: scale(1.08);
+}
+
+/* ── Step content ────────────────────────────────────────────────── */
 .stepTitle {
   font-family: var(--font-serif);
   font-size: 1.3rem;
   font-weight: 400;
-  color: var(--text-on-section);
+  color: var(--text-on-section);    /* #2A2F63 light / #F0F1F7 dark — both pass ✓ */
   margin: 0 0 0.85rem;
+  line-height: 1.25;
+  transition: color 0.3s ease;
 }
+.stepCard:hover .stepTitle { color: var(--brand-orange); }
+
 .stepBody {
   font-size: 0.9rem;
-  line-height: 1.75;
-  color: var(--text-on-section-muted);
+  line-height: 1.8;
+  color: var(--text-on-section-muted); /* #5A5E7A light (5.4:1 ✓) / #9CA1BA dark (6.5:1 ✓) */
   margin: 0;
 }
+
+/* ── CTA ─────────────────────────────────────────────────────────── */
 .howItWorksCta {
   text-align: center;
   margin-top: 3.5rem;
@@ -1077,7 +1135,8 @@
 @media (max-width: 1100px) {
   .collectionsSticky { padding: 2rem; }
   .collectionCard { flex: 0 0 340px; }
-  .stepsGrid { grid-template-columns: 1fr; gap: 1.25rem; }
+  .stepsGrid { grid-template-columns: 1fr; gap: 1rem; }
+  .stepsGrid::before { display: none; }   /* hide connector on mobile */
   .howItWorks { padding: 5rem 2rem; }
   .sectionDark, .sectionLight { padding: 5rem 2rem; }
   .transformSection { padding: 5rem 2rem; }
