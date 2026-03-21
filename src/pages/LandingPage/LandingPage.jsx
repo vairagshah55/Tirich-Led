@@ -5,21 +5,22 @@ import styles from './LandingPage.module.css';
 
 // ── Product Images ─────────────────────────────────────────────────
 import product1   from '../../assets/TLC-101.jpg';
-import product2   from '../../assets/TLC-105.jpg';
-import product3   from '../../assets/TLC-108.jpg';
 import product4   from '../../assets/TLC-111.jpg';
-import product5   from '../../assets/TLC-112.jpg';
-import product7   from '../../assets/TLC-121.jpg';
 import product8   from '../../assets/TLC-129.jpg';
-import product9   from '../../assets/TLC-151.jpg';
-import hangingLight from '../../assets/hanging-230.jpg';
-import stripLed   from '../../assets/STRIP-LED-POST.jpg';
+
+// ── HD Product Images ───────────────────────────────────────────────
+import hdTLC121   from '../../assets/HD PHOTO/TLC-121.png';
+import hdTLC333   from '../../assets/HD PHOTO/TLC-333.png';
+import hdTLC118   from '../../assets/HD PHOTO/TLC-118.jpg';
+import hdTLC107W  from '../../assets/HD PHOTO/TLC-107 WHITE.png';
+import hdTLC108   from '../../assets/HD PHOTO/TLC-108.png';
+import hdPro130   from '../../assets/HD PHOTO/PRO+130.png';
+import hdHanging  from '../../assets/HD PHOTO/HANGING LIGHT/15/PNG/HANGING LIGHT.png';
+import hdMagCOB   from '../../assets/HD PHOTO/CYLINDER/3/PNG/MAGNETIC COB.png';
 import heroVideo  from '../../assets/grok-video-1ae0e23a-fbb4-4bec-993c-fb8c0b748c3f.mp4';
 import proVid1    from '../../assets/grok-video-083a2972-e0c2-44a4-b856-38ebb91513b1.mp4';
 import proVid2    from '../../assets/grok-video-1d4fef8d-119d-4f9f-8d71-650ca413f8be.mp4';
 import proVid3    from '../../assets/grok-video-2ca8b0c1-823e-4d11-a036-24e495b32dc3.mp4';
-import newVid1    from '../../assets/videos/grok-video-083a2972-e0c2-44a4-b856-38ebb91513b1 (2).mp4';
-import newVid2    from '../../assets/videos/grok-video-2ca8b0c1-823e-4d11-a036-24e495b32dc3 (2).mp4';
 
 import LusterGallery          from '../../components/LusterGallery/LusterGallery';
 import AnatomySection         from '../../components/AnatomySection/AnatomySection';
@@ -28,21 +29,21 @@ import LivingGallery          from '../../components/LivingGallery/LivingGallery
 
 // ── Gallery items ─────────────────────────────────────────────────
 const GALLERY_ITEMS = [
-  { eyebrow: 'Panel Series',    label: 'TLC Premium Panel',    image: product1 },
-  { eyebrow: 'Strip Series',    label: 'LED Strip Pro',        image: stripLed },
-  { eyebrow: 'Hanging Series',  label: 'Pendant LED Fixture',  image: hangingLight },
+  { eyebrow: 'Panel Series',    label: 'TLC-121 Premium Panel', image: hdTLC121  },
+  { eyebrow: 'Track Lighting',  label: 'Magnetic COB Fixture',  image: hdMagCOB  },
+  { eyebrow: 'Pendant Series',  label: 'Pendant LED Fixture',   image: hdHanging },
 ];
 
 // ── Living Gallery items ──────────────────────────────────────────
 const LIVING_GALLERY = [
-  { label: 'Strip LED Showcase',   eyebrow: 'Product Feature',    type: 'image', src: stripLed     },
-  { label: 'TLC-101 Panel',        eyebrow: 'Product Detail',     type: 'image', src: product1     },
-  { label: 'LED Project Reel',     eyebrow: 'Installation Reel',  type: 'video', src: proVid1      },
-  { label: 'TLC-105 Series',       eyebrow: 'Macro Detail',       type: 'image', src: product2     },
-  { label: 'Hanging Pendant',      eyebrow: 'Interior Lighting',  type: 'image', src: hangingLight },
-  { label: 'TLC-112 Panel',        eyebrow: 'Product Detail',     type: 'image', src: product5     },
-  { label: 'LED Campaign',         eyebrow: 'Commercial Install', type: 'video', src: proVid2      },
-  { label: 'TLC-121 Premium',      eyebrow: 'Premium Series',     type: 'image', src: product7     },
+  { label: 'TLC-121 Premium Panel',  eyebrow: 'Panel Series',       type: 'image', src: hdTLC121   },
+  { label: 'Pendant Hanging Light',  eyebrow: 'Pendant Series',     type: 'image', src: hdHanging  },
+  { label: 'LED Project Reel',       eyebrow: 'Installation Reel',  type: 'video', src: proVid1    },
+  { label: 'TLC-107 Round Pendant',  eyebrow: 'Pendant Series',     type: 'image', src: hdTLC107W  },
+  { label: 'TLC-118 Panel',          eyebrow: 'Panel Series',       type: 'image', src: hdTLC118   },
+  { label: 'Magnetic COB Fixture',   eyebrow: 'Track Lighting',     type: 'image', src: hdMagCOB   },
+  { label: 'LED Campaign',           eyebrow: 'Commercial Install', type: 'video', src: proVid2    },
+  { label: '10Z Caset Track Light',  eyebrow: 'Track Series',       type: 'image', src: hdTLC333   },
 ];
 
 const HOW_IT_WORKS = [
@@ -60,15 +61,15 @@ const STATS = [
 
 // ── Transformation Engine outputs (3×3 grid) ─────────────────────
 const OUTPUTS = [
-  { label: 'TLC-101 Panel',    category: 'Panel',   type: 'image', image: product1  },
-  { label: 'TLC-108 Downlight', category: 'Downlight', type: 'image', image: product3 },
-  { label: 'LED Campaign I',   category: 'Project', type: 'video', video: proVid1   },
-  { label: 'TLC-111 Fixture',  category: 'Fixture', type: 'image', image: product4  },
-  { label: 'TLC-112 Strip',    category: 'Strip',   type: 'image', image: product5  },
-  { label: 'Hanging Light',    category: 'Pendant', type: 'image', image: hangingLight },
-  { label: 'LED Campaign II',  category: 'Project', type: 'video', video: proVid2   },
-  { label: 'TLC-121 Panel',    category: 'Panel',   type: 'image', image: product7  },
-  { label: 'TLC-129 Series',   category: 'Series',  type: 'image', image: product8  },
+  { label: 'TLC-121 Panel',     category: 'Panel',     type: 'image', image: hdTLC121  },
+  { label: 'TLC-108 Downlight', category: 'Downlight', type: 'image', image: hdTLC108  },
+  { label: 'LED Campaign I',    category: 'Project',   type: 'video', video: proVid1   },
+  { label: 'TLC-111 Fixture',   category: 'Fixture',   type: 'image', image: product4  },
+  { label: 'TLC-118 Panel',     category: 'Panel',     type: 'image', image: hdTLC118  },
+  { label: 'Hanging Light',     category: 'Pendant',   type: 'image', image: hdHanging },
+  { label: 'LED Campaign II',   category: 'Project',   type: 'video', video: proVid2   },
+  { label: 'PRO+130 Fixture',   category: 'Fixture',   type: 'image', image: hdPro130  },
+  { label: 'TLC-129 Series',    category: 'Series',    type: 'image', image: product8  },
 ];
 
 // ── Hero slides — each with its own video + copy ─────────────────
@@ -100,20 +101,6 @@ const HERO_SLIDES = [
     title:   ['50,000 Hours', 'of Reliable', 'Illumination'],
     accent:  0,
     sub:     'CE & RoHS certified. IP65 rated. Built for the most demanding conditions.',
-  },
-  {
-    video:   newVid1,
-    tag:     'Strip LED Systems',
-    title:   ['Flexible Light', 'for Any', 'Application'],
-    accent:  2,
-    sub:     'High-density SMD 2835 chipsets. Custom CCT, CRI, and wattage configurations.',
-  },
-  {
-    video:   newVid2,
-    tag:     'Industrial Fixtures',
-    title:   ['Built for the', 'Most Demanding', 'Spaces'],
-    accent:  1,
-    sub:     'IP65 high-bay fixtures engineered for warehouses, factories, and outdoor environments.',
   },
 ];
 
@@ -187,7 +174,7 @@ export default function LandingPage() {
   useEffect(() => {
     const onScroll = () => {
       if (heroBgRef.current)
-        heroBgRef.current.style.transform = `scale(1.1) translateY(${window.scrollY * 0.28}px)`;
+        heroBgRef.current.style.transform = `scale(1.03) translateY(${window.scrollY * 0.12}px)`;
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -280,7 +267,8 @@ export default function LandingPage() {
             <video
               key={i}
               ref={el => { heroVidRefs.current[i] = el; }}
-              className={`${styles.heroVideoSlide}${i === activeVidIdx ? ` ${styles.heroVideoSlideActive}` : ''}`}
+              className={`${styles.heroVideoSlide}${i === HERO_SLIDES.length - 1 ? ` ${styles.heroVideoSlideLast}` : ''}${i === activeVidIdx ? ` ${styles.heroVideoSlideActive}` : ''}`}
+              style={{ transform: `scale(${i < 3 ? 1.1 : 1.03})` }}
               src={video}
               autoPlay
               muted
@@ -451,7 +439,7 @@ export default function LandingPage() {
       {/* ── TECHNOLOGY / CRAFTSMANSHIP ──────────────────────────── */}
       <section className={styles.detail} id="craftsmanship">
         <div className={styles.detailMedia} data-reveal>
-          <img src={product9} alt="Tirich LED TLC-151 Panel Light" className={styles.detailImg} />
+          <img src={hdTLC108} alt="Tirich LED TLC-108 Downlight" className={styles.detailImg} />
           <div className={styles.detailBadge}>IP65 Rated · CRI 95+</div>
         </div>
         <div className={styles.detailCopy} data-reveal style={{ transitionDelay: '0.15s' }}>
@@ -529,7 +517,7 @@ export default function LandingPage() {
           </button>
         </div>
         <div className={styles.lifestyleMedia} data-reveal style={{ transitionDelay: '0.15s' }}>
-          <img src={hangingLight} alt="Tirich LED hanging pendant installation" className={styles.lifestyleImg} />
+          <img src={hdHanging} alt="Tirich LED hanging pendant installation" className={styles.lifestyleImg} />
         </div>
       </section>
 
