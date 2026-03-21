@@ -420,22 +420,6 @@ export default function LandingPage() {
       </section>
 
 
-      {/* ── ONE-TO-MANY PRODUCT CATALOG ──────────────────────────── */}
-      <section className={styles.transformSection} id="catalog" data-cursor-theme="dark">
-        <div className={styles.sectionHeader} data-reveal>
-          <p className={styles.sectionEyebrow}>The Product Range</p>
-          <h2 className={styles.sectionTitle}>One Manufacturer. Complete Solutions.</h2>
-          <p className={styles.sectionLead}>
-            From a single SMD chip to a full smart lighting ecosystem — Tirich LED
-            engineers and manufactures every component in-house.
-          </p>
-        </div>
-        <TransformationEngine
-          sourceImage={product1}
-          outputs={OUTPUTS}
-        />
-      </section>
-
       {/* ── TECHNOLOGY / CRAFTSMANSHIP ──────────────────────────── */}
       <section className={styles.detail} id="craftsmanship">
         <div className={styles.detailMedia} data-reveal>
