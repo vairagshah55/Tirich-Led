@@ -23,7 +23,6 @@ import proVid2    from '../../assets/grok-video-1d4fef8d-119d-4f9f-8d71-650ca413
 import proVid3    from '../../assets/grok-video-2ca8b0c1-823e-4d11-a036-24e495b32dc3.mp4';
 
 import LusterGallery          from '../../components/LusterGallery/LusterGallery';
-import AnatomySection         from '../../components/AnatomySection/AnatomySection';
 import TransformationEngine   from '../../components/TransformationEngine/TransformationEngine';
 import LivingGallery          from '../../components/LivingGallery/LivingGallery';
 
@@ -404,19 +403,6 @@ export default function LandingPage() {
           </p>
         </div>
         <LivingGallery items={LIVING_GALLERY} />
-      </section>
-
-      {/* ── ANATOMY OF AN LED ────────────────────────────────────── */}
-      <section className={styles.sectionDark} id="anatomy" data-cursor-theme="dark">
-        <div className={styles.sectionHeader} data-reveal>
-          <p className={styles.sectionEyebrow}>Product Anatomy</p>
-          <h2 className={styles.sectionTitle}>Deconstructed, Explained</h2>
-          <p className={styles.sectionLead}>
-            Every Tirich LED product is assembled from premium-grade components.
-            Discover what's inside every fixture we manufacture.
-          </p>
-        </div>
-        <AnatomySection image={product1} />
       </section>
 
 
