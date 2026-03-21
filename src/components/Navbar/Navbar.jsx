@@ -13,7 +13,7 @@ export default function Navbar() {
 
   // ── Theme ──────────────────────────────────────────────────────
   const [theme, setTheme] = useState(
-    () => localStorage.getItem('tirich-theme') || 'dark'
+    () => localStorage.getItem('tirich-theme') || 'light'
   );
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);

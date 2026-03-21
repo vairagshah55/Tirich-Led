@@ -24,7 +24,7 @@
         position: fixed;
         inset: 0;
         z-index: 9999;
-        background: #12131C;
+        background: #F3F4F9;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -49,7 +49,7 @@
         font-size: clamp(3.2rem, 9vw, 5.8rem);
         font-weight: 400;
         letter-spacing: 0.42em;
-        color: #F0F1F7;
+        color: #2A2F63;
         line-height: 1;
         margin: 0;
         opacity: 0;
@@ -107,6 +107,14 @@
       }
     </style>
   </head>
+  <script>
+    (function(){
+      var t = localStorage.getItem('tirich-theme') || 'light';
+      if (t === 'dark') {
+        document.write('<style>#tirich-splash{background:#12131C!important}.splash-tirich{color:#F0F1F7!important}</style>');
+      }
+    })();
+  </script>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="tirich-splash">
