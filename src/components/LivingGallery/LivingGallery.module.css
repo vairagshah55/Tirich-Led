@@ -1,4 +1,4 @@
-/* ── Outer wrapper — clips the scrolling track ──────────────────── */
+/* ── Outer wrapper ───────────────────────────────────────────────── */
 .wrap {
   overflow: hidden;
   position: relative;
@@ -6,47 +6,79 @@
   cursor: none;
 }
 
-/* ── Scrolling track ────────────────────────────────────────────── */
+/* ── Scrolling track ─────────────────────────────────────────────── */
 .track {
   display: flex;
   gap: 1.1rem;
   width: max-content;
   will-change: transform;
-  padding: 0.5rem 0 0.75rem; /* breathing room so scale(1.05) isn't clipped */
+  padding: 0.5rem 0 0.75rem;
+  /* Hidden until measured — prevents flash of wrong position */
+  opacity: 0;
+  transition: opacity 0.55s ease;
+}
+.track.trackReady {
+  opacity: 1;
 }
 
-/* ── Card ───────────────────────────────────────────────────────── */
+/* ── Card ────────────────────────────────────────────────────────── */
 .card {
   flex: 0 0 210px;
-  height: 373px; /* 9:16 of 210px */
+  height: 373px;
   position: relative;
   overflow: hidden;
   border-radius: 3px;
   transition:
-    transform  0.38s cubic-bezier(0.23, 1, 0.32, 1),
-    opacity    0.38s ease;
+    transform 0.38s cubic-bezier(0.23, 1, 0.32, 1),
+    opacity   0.38s ease;
+  /* Skeleton shimmer while image loads */
+  background: linear-gradient(
+    90deg,
+    var(--bg-card, #1E1F2E) 0%,
+    rgba(236,138,28,0.06) 50%,
+    var(--bg-card, #1E1F2E) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.8s infinite linear;
+}
+/* Stop shimmer once media is loaded */
+.trackReady .card {
+  animation: none;
+  background: none;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 /* When ANY card in the track is hovered — dim the rest */
-.track.hasHover .card {
-  opacity: 0.55;
-}
+.track.hasHover .card { opacity: 0.55; }
 .track.hasHover .card.hovered {
   opacity: 1;
   transform: scale(1.06);
   z-index: 2;
 }
 
-/* ── Media (works for both <img> and <video>) ───────────────────── */
+/* ── Media ───────────────────────────────────────────────────────── */
 .media {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
   pointer-events: none;
+  /* Smooth fade-in as each image loads */
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+/* Browser fires 'load' → the onLoad handler fires → we add this class via inline style trick.
+   Simpler: use CSS — once the image is loaded, the browser naturally paints it.
+   We use the track opacity to hide jank, so we just always show media once track is ready. */
+.trackReady .media {
+  opacity: 1;
 }
 
-/* ── Play / Watch indicator ─────────────────────────────────────── */
+/* ── Play / Watch indicator ──────────────────────────────────────── */
 .playBtn {
   position: absolute;
   top: 50%;
@@ -66,9 +98,9 @@
   -webkit-backdrop-filter: blur(6px);
   pointer-events: none;
   transition:
-    width    0.35s cubic-bezier(0.23, 1, 0.32, 1),
-    height   0.35s cubic-bezier(0.23, 1, 0.32, 1),
-    background  0.3s ease,
+    width        0.35s cubic-bezier(0.23, 1, 0.32, 1),
+    height       0.35s cubic-bezier(0.23, 1, 0.32, 1),
+    background   0.3s ease,
     border-color 0.3s ease;
   overflow: hidden;
 }
@@ -78,7 +110,6 @@
   padding-left: 3px;
   transition: font-size 0.3s ease, color 0.3s ease;
 }
-/* "Watch Result" text — hidden by default */
 .playLabel {
   font-size: 0;
   letter-spacing: 0.1em;
@@ -91,21 +122,17 @@
   line-height: 1.1;
 }
 
-/* Hovered card — expand button, show "Watch Result", go gold */
+/* Hovered card */
 .hovered .playBtn {
   width: 80px;
   height: 80px;
   background: rgba(197, 163, 104, 0.92);
   border-color: #C5A368;
 }
-.hovered .playIcon {
-  font-size: 0;
-}
-.hovered .playLabel {
-  font-size: 0.5rem;
-}
+.hovered .playIcon { font-size: 0; }
+.hovered .playLabel { font-size: 0.5rem; }
 
-/* ── Glassmorphism caption ──────────────────────────────────────── */
+/* ── Glassmorphism caption ───────────────────────────────────────── */
 .caption {
   position: absolute;
   bottom: 0;
@@ -144,7 +171,7 @@
   font-family: 'Inter', sans-serif;
 }
 
-/* ── Gold progress bar ──────────────────────────────────────────── */
+/* ── Progress bar ────────────────────────────────────────────────── */
 .progressWrap {
   height: 1.5px;
   background: rgba(197, 163, 104, 0.1);
