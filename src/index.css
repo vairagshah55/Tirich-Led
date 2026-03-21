@@ -1,45 +1,64 @@
-/* ── Theme tokens — dark mode defaults ───────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════════
+   TIRICH LED — Brand Design Tokens
+   Primary palette extracted from official logo
+   ─────────────────────────────────────────────────────────────────
+   --brand-navy:         #2A2F63   Deep navy — headings, light-mode primary
+   --brand-orange:       #EC8A1C   Vibrant orange — CTAs, links, accents
+   --brand-orange-hover: #FF9F2F   Lighter orange for hover states
+   --neutral-dark:       #1F2231   Main body text (warm near-black)
+   --neutral-mid:        #8C90A8   Subheads, captions, borders
+   --neutral-light:      #F3F4F9   Backgrounds, text-on-dark
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Dark mode (default) ─────────────────────────────────────────── */
 :root {
-  --nav-bg:                rgba(26, 26, 26, 0.88);
-  --nav-text:              #dddddd;
-  --bg-page:               #1a1a1a;   /* page / offwhite replacement     */
-  --bg-section:            #1a1a1a;   /* charcoal dark sections          */
-  --bg-deep:               #0e0e0e;   /* deeper black (craftsmanship)    */
-  --bg-footer:             #111111;
-  --bg-card:               #242424;   /* card / input card bg            */
-  --bg-light-section:      #1e1e1e;   /* "light" sections in dark mode   */
-  --marquee-bg:            #1a1a1a;
-  --text-on-section:       #ffffff;
-  --text-on-section-muted: rgba(255, 255, 255, 0.50);
-  --text-on-section-dim:   rgba(255, 255, 255, 0.38);
-  --text-footer:           rgba(255, 255, 255, 0.40);
-  --text-body:             #dddddd;
-  --step-card-bg:          rgba(255, 255, 255, 0.04);
-  --step-card-hover:       rgba(255, 255, 255, 0.07);
-  --stat-hover:            rgba(91, 164, 207, 0.08);
-  --lifestyle-glass-bg:    rgba(30, 30, 30, 0.78);
+  --brand-navy:            #2A2F63;
+  --brand-orange:          #EC8A1C;
+  --brand-orange-hover:    #FF9F2F;
+  --neutral-dark:          #1F2231;
+  --neutral-mid:           #8C90A8;
+  --neutral-light:         #F3F4F9;
+
+  --nav-bg:                rgba(18, 19, 28, 0.92);
+  --nav-text:              #F3F4F9;
+  --bg-page:               #12131C;
+  --bg-section:            #171825;
+  --bg-deep:               #0D0E16;
+  --bg-footer:             #0D0E16;
+  --bg-card:               #1E1F2E;
+  --bg-light-section:      #1A1B2A;
+  --marquee-bg:            #12131C;
+  --text-on-section:       #F3F4F9;
+  --text-on-section-muted: #8C90A8;
+  --text-on-section-dim:   rgba(243, 244, 249, 0.35);
+  --text-footer:           rgba(243, 244, 249, 0.38);
+  --text-body:             #F3F4F9;
+  --step-card-bg:          rgba(42, 47, 99, 0.14);
+  --step-card-hover:       rgba(42, 47, 99, 0.24);
+  --stat-hover:            rgba(236, 138, 28, 0.08);
+  --lifestyle-glass-bg:    rgba(18, 19, 28, 0.82);
 }
 
 /* ── Light mode overrides ────────────────────────────────────────── */
 [data-theme="light"] {
-  --nav-bg:                rgba(240, 244, 248, 0.94);
-  --nav-text:              #1a2a3a;
-  --bg-page:               #f0f4f8;
-  --bg-section:            #e2eaf2;
-  --bg-deep:               #d6e2ed;
-  --bg-footer:             #ccd8e4;
-  --bg-card:               #ffffff;
-  --bg-light-section:      #f0f4f8;
-  --marquee-bg:            #dce8f2;
-  --text-on-section:       #0d1a2a;
-  --text-on-section-muted: rgba(13, 26, 42, 0.55);
-  --text-on-section-dim:   rgba(13, 26, 42, 0.45);
-  --text-footer:           rgba(13, 26, 42, 0.45);
-  --text-body:             #1a2a3a;
-  --step-card-bg:          rgba(0, 0, 0, 0.03);
-  --step-card-hover:       rgba(0, 0, 0, 0.06);
-  --stat-hover:            #e8f2fa;
-  --lifestyle-glass-bg:    rgba(240, 244, 248, 0.82);
+  --nav-bg:                rgba(243, 244, 249, 0.95);
+  --nav-text:              #1F2231;
+  --bg-page:               #F3F4F9;
+  --bg-section:            #ECEDF5;
+  --bg-deep:               #2A2F63;
+  --bg-footer:             #1F2231;
+  --bg-card:               #FFFFFF;
+  --bg-light-section:      #F3F4F9;
+  --marquee-bg:            #ECEDF5;
+  --text-on-section:       #2A2F63;
+  --text-on-section-muted: #8C90A8;
+  --text-on-section-dim:   rgba(42, 47, 99, 0.42);
+  --text-footer:           rgba(243, 244, 249, 0.65);
+  --text-body:             #1F2231;
+  --step-card-bg:          rgba(42, 47, 99, 0.05);
+  --step-card-hover:       rgba(42, 47, 99, 0.10);
+  --stat-hover:            rgba(236, 138, 28, 0.07);
+  --lifestyle-glass-bg:    rgba(243, 244, 249, 0.86);
 }
 
 /* ── Smooth theme transition ─────────────────────────────────────── */
@@ -59,6 +78,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--bg-page);
+  color: var(--text-body);
 }
 
 * {
@@ -74,17 +94,17 @@ body {
   animation: pageEnter 0.5s cubic-bezier(0.23, 1, 0.32, 1) both;
 }
 
-/* ── Section glow (on nav click) — global so classList.add works ── */
+/* ── Section glow (on nav click) ── */
 @keyframes sectionGlow {
-  0%   { box-shadow: inset 0 0 0 2px rgba(91, 164, 207, 0.8); }
-  60%  { box-shadow: inset 0 0 0 2px rgba(91, 164, 207, 0.3); }
-  100% { box-shadow: inset 0 0 0 0px rgba(91, 164, 207, 0); }
+  0%   { box-shadow: inset 0 0 0 2px rgba(236, 138, 28, 0.8); }
+  60%  { box-shadow: inset 0 0 0 2px rgba(236, 138, 28, 0.3); }
+  100% { box-shadow: inset 0 0 0 0px rgba(236, 138, 28, 0); }
 }
 .js-section-glow {
   animation: sectionGlow 1s ease-out forwards !important;
 }
 
-/* ── Blur-to-focus reveal — scoped to elements with data-reveal ── */
+/* ── Blur-to-focus reveal ── */
 [data-reveal] {
   opacity: 0;
   filter: blur(14px);

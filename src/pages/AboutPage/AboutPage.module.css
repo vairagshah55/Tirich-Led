@@ -18,7 +18,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(91,164,207,0.08) 0%, transparent 70%);
+  background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(236,138,28,0.08) 0%, transparent 70%);
   pointer-events: none;
 }
 .heroInner {
@@ -30,7 +30,7 @@
   font-size: 0.75rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: #5BA4CF;
+  color: #EC8A1C;
   margin: 0 0 1.25rem;
 }
 .heroTitle {
@@ -41,7 +41,7 @@
   line-height: 1.1;
   margin: 0 0 1.5rem;
 }
-.heroAccent { color: #82c4f0; }
+.heroAccent { color: #FF9F2F; }
 .heroLead {
   font-size: 1.1rem;
   line-height: 1.8;
@@ -52,7 +52,7 @@
 .heroDivider {
   width: 48px;
   height: 1px;
-  background: #5BA4CF;
+  background: #EC8A1C;
   margin: 2rem 0;
 }
 
@@ -61,22 +61,22 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   background: var(--bg-deep, #0e0e0e);
-  border-top: 1px solid rgba(91,164,207,0.12);
-  border-bottom: 1px solid rgba(91,164,207,0.12);
+  border-top: 1px solid rgba(236,138,28,0.12);
+  border-bottom: 1px solid rgba(236,138,28,0.12);
 }
 .statItem {
   padding: 2.5rem 1.5rem;
   text-align: center;
-  border-right: 1px solid rgba(91,164,207,0.12);
+  border-right: 1px solid rgba(236,138,28,0.12);
   transition: background 0.3s ease;
 }
 .statItem:last-child { border-right: none; }
-.statItem:hover { background: rgba(91,164,207,0.05); }
+.statItem:hover { background: rgba(236,138,28,0.05); }
 .statValue {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 2.8rem;
   font-weight: 400;
-  color: #5BA4CF;
+  color: #EC8A1C;
   line-height: 1;
   display: block;
   margin-bottom: 0.4rem;
@@ -101,7 +101,7 @@
   font-size: 0.72rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #5BA4CF;
+  color: #EC8A1C;
   margin: 0 0 0.75rem;
 }
 .sectionTitle {
@@ -137,7 +137,7 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #5BA4CF;
+  background: #EC8A1C;
   flex-shrink: 0;
   margin-top: 0.35rem;
   position: relative;
@@ -149,13 +149,13 @@
   left: 4px;
   width: 1px;
   height: 1.75rem;
-  background: rgba(91,164,207,0.25);
+  background: rgba(236,138,28,0.25);
 }
 .timelineItem:last-child .timelineDot::after { display: none; }
 .timelineYear {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 1rem;
-  color: #5BA4CF;
+  color: #EC8A1C;
   font-weight: 400;
   flex-shrink: 0;
   width: 42px;
@@ -186,7 +186,7 @@
 }
 .valueCard {
   padding: 2.5rem 2rem;
-  border: 1px solid rgba(91,164,207,0.14);
+  border: 1px solid rgba(236,138,28,0.14);
   background: var(--step-card-bg);
   backdrop-filter: blur(16px);
   transition: border-color 0.3s ease, transform 0.3s ease;
@@ -197,12 +197,12 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(91,164,207,0.05), transparent 60%);
+  background: linear-gradient(135deg, rgba(236,138,28,0.05), transparent 60%);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 .valueCard:hover {
-  border-color: rgba(91,164,207,0.35);
+  border-color: rgba(236,138,28,0.35);
   transform: translateY(-4px);
 }
 .valueCard:hover::after { opacity: 1; }
@@ -254,8 +254,8 @@
   bottom: 1.5rem;
   left: 1.5rem;
   background: rgba(13, 17, 23, 0.8);
-  border: 1px solid rgba(91,164,207,0.4);
-  color: #5BA4CF;
+  border: 1px solid rgba(236,138,28,0.4);
+  color: #EC8A1C;
   padding: 0.45rem 0.9rem;
   font-size: 0.68rem;
   letter-spacing: 0.16em;
@@ -281,13 +281,13 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: rgba(91,164,207,0.12);
-  border: 1px solid rgba(91,164,207,0.4);
+  background: rgba(236,138,28,0.12);
+  border: 1px solid rgba(236,138,28,0.4);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  color: #5BA4CF;
+  color: #EC8A1C;
   font-size: 0.65rem;
 }
 
@@ -318,7 +318,7 @@
   flex-wrap: wrap;
 }
 .btnPrimary {
-  background: #5BA4CF;
+  background: #EC8A1C;
   color: #0d1117;
   border: none;
   padding: 0.9rem 2.2rem;
@@ -332,11 +332,11 @@
   display: inline-block;
   transition: background 0.25s ease;
 }
-.btnPrimary:hover { background: #82c4f0; }
+.btnPrimary:hover { background: #FF9F2F; }
 .btnGhost {
   background: transparent;
-  color: #5BA4CF;
-  border: 1px solid #5BA4CF;
+  color: #EC8A1C;
+  border: 1px solid #EC8A1C;
   padding: 0.9rem 2.2rem;
   font-size: 0.8rem;
   letter-spacing: 0.12em;
@@ -347,13 +347,13 @@
   display: inline-block;
   transition: background 0.25s ease, color 0.25s ease;
 }
-.btnGhost:hover { background: #5BA4CF; color: #0d1117; }
+.btnGhost:hover { background: #EC8A1C; color: #0d1117; }
 
 /* ── Responsive ─────────────────────────────────────────────────── */
 @media (max-width: 900px) {
   .hero, .story, .values, .manufacturing, .ctaSection { padding: 4rem 1.5rem; }
   .statsBar { grid-template-columns: repeat(2, 1fr); }
-  .statItem { border-bottom: 1px solid rgba(91,164,207,0.12); }
+  .statItem { border-bottom: 1px solid rgba(236,138,28,0.12); }
   .story { grid-template-columns: 1fr; gap: 3rem; }
   .manufacturing { grid-template-columns: 1fr; gap: 3rem; }
   .valuesGrid { grid-template-columns: 1fr; }

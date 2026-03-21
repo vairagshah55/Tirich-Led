@@ -18,7 +18,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(91,164,207,0.08) 0%, transparent 70%);
+  background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(236,138,28,0.08) 0%, transparent 70%);
   pointer-events: none;
 }
 .heroInner {
@@ -30,7 +30,7 @@
   font-size: 0.75rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: #5BA4CF;
+  color: #EC8A1C;
   margin: 0 0 1.25rem;
 }
 .heroTitle {
@@ -41,7 +41,7 @@
   line-height: 1.1;
   margin: 0 0 1.5rem;
 }
-.heroAccent { color: #82c4f0; }
+.heroAccent { color: #FF9F2F; }
 .heroLead {
   font-size: 1.1rem;
   line-height: 1.8;
@@ -52,7 +52,7 @@
 .heroDivider {
   width: 48px;
   height: 1px;
-  background: #5BA4CF;
+  background: #EC8A1C;
   margin: 2rem 0;
 }
 
@@ -73,7 +73,7 @@
   font-size: 0.72rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #5BA4CF;
+  color: #EC8A1C;
   margin: 0 0 0.75rem;
 }
 .sectionTitle {
@@ -106,7 +106,7 @@
 }
 .infoIcon {
   font-size: 1.2rem;
-  color: #5BA4CF;
+  color: #EC8A1C;
   flex-shrink: 0;
   margin-top: 0.1rem;
 }
@@ -124,7 +124,7 @@
   text-decoration: none;
   transition: color 0.2s ease;
 }
-a.infoValue:hover { color: #5BA4CF; }
+a.infoValue:hover { color: #EC8A1C; }
 
 /* ── Form Column ────────────────────────────────────────────────── */
 .form {
@@ -151,7 +151,7 @@ a.infoValue:hover { color: #5BA4CF; }
 .input,
 .textarea {
   background: var(--bg-deep, #0e0e0e);
-  border: 1px solid rgba(91,164,207,0.2);
+  border: 1px solid rgba(236,138,28,0.2);
   color: var(--text-on-section);
   padding: 0.85rem 1rem;
   font-size: 0.9rem;
@@ -165,7 +165,7 @@ a.infoValue:hover { color: #5BA4CF; }
 }
 .input:focus,
 .textarea:focus {
-  border-color: #5BA4CF;
+  border-color: #EC8A1C;
 }
 .input::placeholder,
 .textarea::placeholder {
@@ -185,7 +185,7 @@ select.input option {
 
 /* ── Buttons ────────────────────────────────────────────────────── */
 .btnPrimary {
-  background: #5BA4CF;
+  background: #EC8A1C;
   color: #0d1117;
   border: none;
   padding: 0.95rem 2.4rem;
@@ -198,12 +198,12 @@ select.input option {
   transition: background 0.25s ease;
   align-self: flex-start;
 }
-.btnPrimary:hover { background: #82c4f0; }
+.btnPrimary:hover { background: #FF9F2F; }
 
 .btnGhost {
   background: transparent;
-  color: #5BA4CF;
-  border: 1px solid #5BA4CF;
+  color: #EC8A1C;
+  border: 1px solid #EC8A1C;
   padding: 0.85rem 2rem;
   font-size: 0.8rem;
   letter-spacing: 0.12em;
@@ -213,11 +213,11 @@ select.input option {
   transition: background 0.25s ease, color 0.25s ease;
   margin-top: 1.5rem;
 }
-.btnGhost:hover { background: #5BA4CF; color: #0d1117; }
+.btnGhost:hover { background: #EC8A1C; color: #0d1117; }
 
 /* ── Success State ──────────────────────────────────────────────── */
 .successBox {
-  border: 1px solid rgba(91,164,207,0.25);
+  border: 1px solid rgba(236,138,28,0.25);
   background: var(--bg-deep, #0e0e0e);
   padding: 3.5rem 3rem;
   display: flex;
@@ -229,12 +229,12 @@ select.input option {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: rgba(91,164,207,0.12);
-  border: 1px solid rgba(91,164,207,0.4);
+  background: rgba(236,138,28,0.12);
+  border: 1px solid rgba(236,138,28,0.4);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #5BA4CF;
+  color: #EC8A1C;
   font-size: 1rem;
 }
 .successTitle {

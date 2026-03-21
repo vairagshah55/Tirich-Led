@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import logo from '../../assets/logo-project.png';
 import styles from './Navbar.module.css';
 import { CATEGORIES, PRODUCTS } from '../../data/products';
 
@@ -59,7 +60,9 @@ export default function Navbar() {
     <>
       <nav className={styles.nav}>
         {/* ── Logo ── */}
-        <Link to="/" className={styles.navBrand}>Tirich LED</Link>
+        <Link to="/" className={styles.navBrand}>
+          <img src={logo} alt="Tirich LED" className={styles.navLogo} />
+        </Link>
 
         {/* ── Desktop centre links ── */}
         <div className={styles.navCenter}>

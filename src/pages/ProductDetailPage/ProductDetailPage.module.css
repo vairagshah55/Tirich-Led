@@ -11,7 +11,7 @@
 /* ── Breadcrumb ─────────────────────────────────────────────────── */
 .breadcrumb {
   background: var(--bg-section);
-  border-bottom: 1px solid rgba(91,164,207,0.1);
+  border-bottom: 1px solid rgba(236,138,28,0.1);
   padding: 0.85rem 4rem;
 }
 .breadcrumbInner {
@@ -30,9 +30,9 @@
   text-decoration: none;
   transition: color 0.2s ease;
 }
-.breadcrumbLink:hover { color: #5BA4CF; }
+.breadcrumbLink:hover { color: #EC8A1C; }
 .breadcrumbSep { opacity: 0.35; }
-.breadcrumbCurrent { color: #5BA4CF; }
+.breadcrumbCurrent { color: #EC8A1C; }
 
 /* ── Product main ───────────────────────────────────────────────── */
 .productMain {
@@ -54,7 +54,7 @@
   position: relative;
   overflow: hidden;
   background: var(--bg-section);
-  border: 1px solid rgba(91,164,207,0.1);
+  border: 1px solid rgba(236,138,28,0.1);
 }
 .productImg {
   width: 100%;
@@ -70,8 +70,8 @@
   bottom: 1.5rem;
   left: 1.5rem;
   background: rgba(13,17,23,0.82);
-  border: 1px solid rgba(91,164,207,0.4);
-  color: #5BA4CF;
+  border: 1px solid rgba(236,138,28,0.4);
+  color: #EC8A1C;
   padding: 0.4rem 0.9rem;
   font-size: 0.65rem;
   letter-spacing: 0.18em;
@@ -85,7 +85,7 @@
   font-size: 0.72rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #5BA4CF;
+  color: #EC8A1C;
   margin: 0 0 0.75rem;
   display: flex;
   align-items: center;
@@ -94,7 +94,7 @@
 .eyebrowDivider {
   flex: 1;
   height: 1px;
-  background: rgba(91,164,207,0.2);
+  background: rgba(236,138,28,0.2);
 }
 .productName {
   font-family: 'Cormorant Garamond', Georgia, serif;
@@ -117,7 +117,7 @@
   color: var(--text-on-section-muted);
   margin: 0 0 2.5rem;
   padding-bottom: 2.5rem;
-  border-bottom: 1px solid rgba(91,164,207,0.1);
+  border-bottom: 1px solid rgba(236,138,28,0.1);
 }
 
 /* ── Specs table ────────────────────────────────────────────────── */
@@ -125,7 +125,7 @@
   font-size: 0.68rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #5BA4CF;
+  color: #EC8A1C;
   margin: 0 0 1.25rem;
 }
 .specsTable {
@@ -134,10 +134,10 @@
   margin-bottom: 2.5rem;
 }
 .specRow {
-  border-bottom: 1px solid rgba(91,164,207,0.08);
+  border-bottom: 1px solid rgba(236,138,28,0.08);
   transition: background 0.2s ease;
 }
-.specRow:hover { background: rgba(91,164,207,0.04); }
+.specRow:hover { background: rgba(236,138,28,0.04); }
 .specKey {
   padding: 0.85rem 0;
   font-size: 0.75rem;
@@ -160,7 +160,7 @@
   font-size: 0.68rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #5BA4CF;
+  color: #EC8A1C;
   margin: 0 0 1rem;
 }
 .featuresList {
@@ -182,14 +182,14 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: rgba(91,164,207,0.1);
-  border: 1px solid rgba(91,164,207,0.35);
+  background: rgba(236,138,28,0.1);
+  border: 1px solid rgba(236,138,28,0.35);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   font-size: 0.6rem;
-  color: #5BA4CF;
+  color: #EC8A1C;
 }
 
 /* ── CTA buttons ────────────────────────────────────────────────── */
@@ -199,7 +199,7 @@
   flex-wrap: wrap;
 }
 .btnPrimary {
-  background: #5BA4CF;
+  background: #EC8A1C;
   color: #0d1117;
   border: none;
   padding: 0.9rem 2.2rem;
@@ -225,13 +225,13 @@
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
   transition: left 0.4s ease;
 }
-.btnPrimary:hover { background: #82c4f0; }
+.btnPrimary:hover { background: #FF9F2F; }
 .btnPrimary:hover::after { left: 150%; }
 
 .btnGhost {
   background: transparent;
-  color: #5BA4CF;
-  border: 1px solid rgba(91,164,207,0.5);
+  color: #EC8A1C;
+  border: 1px solid rgba(236,138,28,0.5);
   padding: 0.9rem 2.2rem;
   font-size: 0.8rem;
   letter-spacing: 0.12em;
@@ -244,13 +244,13 @@
   gap: 0.5rem;
   transition: background 0.25s ease, color 0.25s ease;
 }
-.btnGhost:hover { background: #5BA4CF; color: #0d1117; }
+.btnGhost:hover { background: #EC8A1C; color: #0d1117; }
 
 /* ── Related products ───────────────────────────────────────────── */
 .related {
   background: var(--bg-section);
   padding: 5rem 4rem;
-  border-top: 1px solid rgba(91,164,207,0.1);
+  border-top: 1px solid rgba(236,138,28,0.1);
 }
 .relatedInner {
   max-width: 1200px;
@@ -273,7 +273,7 @@
   font-size: 0.72rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #5BA4CF;
+  color: #EC8A1C;
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -290,7 +290,7 @@
 }
 .relatedCard {
   background: var(--bg-card);
-  border: 1px solid rgba(91,164,207,0.1);
+  border: 1px solid rgba(236,138,28,0.1);
   text-decoration: none;
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
@@ -299,7 +299,7 @@
 .relatedCard:hover {
   transform: translateY(-4px);
   box-shadow: 0 16px 40px rgba(0,0,0,0.22);
-  border-color: rgba(91,164,207,0.25);
+  border-color: rgba(236,138,28,0.25);
 }
 .relatedCardImg {
   width: 100%;
