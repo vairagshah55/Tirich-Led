@@ -678,11 +678,66 @@
 }
 
 /* ── Craftsmanship / Product Detail ─────────────────────────────── */
-/* Dark bg overrides for shared typography tokens */
 .detail .sectionTitle  { color: var(--text-on-section); }
 .detail .sectionBody   { color: var(--text-on-section-muted); }
-.detail .btnPrimary    { border-color: rgba(236, 138, 28, 0.5); color: var(--gold); }
-.detail .btnPrimary:hover { background: var(--gold); color: var(--btn-solid-text); }
+
+/* Replace the stretched solid btn with a refined ghost → fill CTA */
+.detail .btnPrimary {
+  background: transparent;
+  color: var(--brand-orange);             /* orange text on dark bg — 7.3:1 ✓ */
+  border: 1.5px solid var(--brand-orange);
+  padding: 0.85rem 2rem;
+  align-self: stretch;                    /* full width inside flex column */
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+  transition:
+    background   0.3s ease,
+    color        0.3s ease,
+    border-color 0.3s ease,
+    gap          0.3s ease;
+}
+/* Sweep fill on hover */
+.detail .btnPrimary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--brand-orange);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.32s cubic-bezier(0.23, 1, 0.32, 1);
+  z-index: 0;
+}
+.detail .btnPrimary:hover::before { transform: scaleX(1); }
+.detail .btnPrimary:hover {
+  color: var(--btn-solid-text);           /* dark text on orange fill — 7.5:1 ✓ */
+}
+/* Arrow icon — absolutely positioned so text stays truly centered */
+.detail .btnPrimary::after {
+  content: '→';
+  position: absolute;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  font-size: 1rem;
+  line-height: 1;
+  transition: right 0.3s ease;
+}
+.detail .btnPrimary:hover::after { right: 1.1rem; }
+/* Ensure text label sits above the fill layer */
+.detail .btnPrimary span,
+.detail .btnPrimary {
+  position: relative;
+  z-index: 1;
+}
 
 .detail {
   display: grid;

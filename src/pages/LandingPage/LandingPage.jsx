@@ -437,7 +437,9 @@ export default function LandingPage() {
             <li><strong>IP65</strong><span>Weather Certified</span></li>
             <li><strong>CRI 95+</strong><span>Colour Accuracy</span></li>
           </ul>
-          <button className={styles.btnPrimary} {...mag}>View Products</button>
+          <button className={styles.btnPrimary} onClick={() => navigate('/products')} {...mag}>
+            <span>View Products</span>
+          </button>
         </div>
       </section>
 
