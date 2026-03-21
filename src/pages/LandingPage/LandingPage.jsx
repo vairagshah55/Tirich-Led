@@ -26,7 +26,7 @@ import LusterGallery          from '../../components/LusterGallery/LusterGallery
 import TransformationEngine   from '../../components/TransformationEngine/TransformationEngine';
 import LivingGallery          from '../../components/LivingGallery/LivingGallery';
 
-// ── Gallery items ─────────────────────────────────────────────────
+// ── Gallery items (Luster) ────────────────────────────────────────
 const GALLERY_ITEMS = [
   { eyebrow: 'Panel Series',    label: 'TLC-121 Premium Panel', image: hdTLC121  },
   { eyebrow: 'Track Lighting',  label: 'Magnetic COB Fixture',  image: hdMagCOB  },
@@ -405,6 +405,18 @@ export default function LandingPage() {
         <LivingGallery items={LIVING_GALLERY} />
       </section>
 
+      {/* ── LUSTER GALLERY ───────────────────────────────────────── */}
+      <section className={styles.sectionLight} id="luster">
+        <div className={styles.sectionHeader} data-reveal>
+          <p className={styles.sectionEyebrow}>Product Highlights</p>
+          <h2 className={styles.sectionTitle}>Precision That Catches the Eye</h2>
+          <p className={styles.sectionLead}>
+            Move your cursor over any product — see the crisp design and premium build
+            quality that define every Tirich LED fixture.
+          </p>
+        </div>
+        <LusterGallery items={GALLERY_ITEMS} />
+      </section>
 
       {/* ── TECHNOLOGY / CRAFTSMANSHIP ──────────────────────────── */}
       <section className={styles.detail} id="craftsmanship">
@@ -452,19 +464,6 @@ export default function LandingPage() {
             Request a Quote
           </button>
         </div>
-      </section>
-
-      {/* ── LUSTER GALLERY ───────────────────────────────────────── */}
-      <section className={styles.sectionLight} id="luster">
-        <div className={styles.sectionHeader} data-reveal>
-          <p className={styles.sectionEyebrow}>Product Highlights</p>
-          <h2 className={styles.sectionTitle}>Precision That Catches the Eye</h2>
-          <p className={styles.sectionLead}>
-            Move your cursor over any product — see the crisp design and premium build
-            quality that define every Tirich LED fixture.
-          </p>
-        </div>
-        <LusterGallery items={GALLERY_ITEMS} />
       </section>
 
 
