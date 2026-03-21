@@ -37,6 +37,13 @@ function App() {
     return rawBase.endsWith('/api') ? `${rawBase}/v1` : rawBase.replace(/\/$/, '');
   }, []);
 
+  const dismissSplash = () => {
+    const splash = document.getElementById('tirich-splash');
+    if (!splash) return;
+    splash.classList.add('splash-hide');
+    setTimeout(() => splash.remove(), 600);
+  };
+
   useEffect(() => {
     const restoreSession = async () => {
       try {
@@ -58,6 +65,10 @@ function App() {
 
     restoreSession();
   }, [apiBase]);
+
+  useEffect(() => {
+    if (!authLoading) dismissSplash();
+  }, [authLoading]);
 
   if (authLoading) {
     return <div className="App" />;
