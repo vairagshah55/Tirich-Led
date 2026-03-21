@@ -1,0 +1,360 @@
+/* ── Page ───────────────────────────────────────────────────────── */
+.page {
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg-page);
+  color: var(--text-body);
+  overflow-x: hidden;
+  padding-top: 68px;
+}
+
+/* ── Hero ───────────────────────────────────────────────────────── */
+.hero {
+  background: var(--bg-section);
+  padding: 7rem 4rem 6rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(91,164,207,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.heroInner {
+  max-width: 760px;
+  position: relative;
+  z-index: 1;
+}
+.heroEyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #5BA4CF;
+  margin: 0 0 1.25rem;
+}
+.heroTitle {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2.6rem, 5vw, 4.2rem);
+  font-weight: 400;
+  color: var(--text-on-section);
+  line-height: 1.1;
+  margin: 0 0 1.5rem;
+}
+.heroAccent { color: #82c4f0; }
+.heroLead {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--text-on-section-muted);
+  max-width: 580px;
+  margin: 0;
+}
+.heroDivider {
+  width: 48px;
+  height: 1px;
+  background: #5BA4CF;
+  margin: 2rem 0;
+}
+
+/* ── Stats bar ──────────────────────────────────────────────────── */
+.statsBar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: var(--bg-deep, #0e0e0e);
+  border-top: 1px solid rgba(91,164,207,0.12);
+  border-bottom: 1px solid rgba(91,164,207,0.12);
+}
+.statItem {
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  border-right: 1px solid rgba(91,164,207,0.12);
+  transition: background 0.3s ease;
+}
+.statItem:last-child { border-right: none; }
+.statItem:hover { background: rgba(91,164,207,0.05); }
+.statValue {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 2.8rem;
+  font-weight: 400;
+  color: #5BA4CF;
+  line-height: 1;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+.statLabel {
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-on-section-muted);
+}
+
+/* ── Story section ──────────────────────────────────────────────── */
+.story {
+  padding: 7rem 4rem;
+  background: var(--bg-section);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  align-items: center;
+}
+.sectionEyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #5BA4CF;
+  margin: 0 0 0.75rem;
+}
+.sectionTitle {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 400;
+  color: var(--text-on-section);
+  line-height: 1.2;
+  margin: 0 0 1.5rem;
+}
+.sectionBody {
+  font-size: 1rem;
+  line-height: 1.85;
+  color: var(--text-on-section-muted);
+  margin: 0 0 1.5rem;
+}
+
+/* Timeline dots */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  padding: 0;
+  list-style: none;
+  margin: 0;
+}
+.timelineItem {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+}
+.timelineDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #5BA4CF;
+  flex-shrink: 0;
+  margin-top: 0.35rem;
+  position: relative;
+}
+.timelineDot::after {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 4px;
+  width: 1px;
+  height: 1.75rem;
+  background: rgba(91,164,207,0.25);
+}
+.timelineItem:last-child .timelineDot::after { display: none; }
+.timelineYear {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1rem;
+  color: #5BA4CF;
+  font-weight: 400;
+  flex-shrink: 0;
+  width: 42px;
+}
+.timelineText {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-on-section-muted);
+  margin: 0;
+}
+
+/* ── Values section ─────────────────────────────────────────────── */
+.values {
+  padding: 6rem 4rem;
+  background: var(--bg-deep, #0e0e0e);
+}
+.valuesHeader {
+  text-align: center;
+  max-width: 560px;
+  margin: 0 auto 4rem;
+}
+.valuesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.valueCard {
+  padding: 2.5rem 2rem;
+  border: 1px solid rgba(91,164,207,0.14);
+  background: var(--step-card-bg);
+  backdrop-filter: blur(16px);
+  transition: border-color 0.3s ease, transform 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.valueCard::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(91,164,207,0.05), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.valueCard:hover {
+  border-color: rgba(91,164,207,0.35);
+  transform: translateY(-4px);
+}
+.valueCard:hover::after { opacity: 1; }
+.valueIcon {
+  font-size: 1.8rem;
+  margin-bottom: 1.25rem;
+  display: block;
+  filter: none;
+}
+.valueTitle {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--text-on-section);
+  margin: 0 0 0.75rem;
+}
+.valueBody {
+  font-size: 0.88rem;
+  line-height: 1.75;
+  color: var(--text-on-section-muted);
+  margin: 0;
+}
+
+/* ── Manufacturing ──────────────────────────────────────────────── */
+.manufacturing {
+  padding: 7rem 4rem;
+  background: var(--bg-section);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+}
+.manufacturingImg {
+  position: relative;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.manufacturingImg img {
+  width: 100%;
+  height: 480px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.7s ease;
+  filter: brightness(0.92) contrast(1.05);
+}
+.manufacturingImg:hover img { transform: scale(1.03); }
+.imgBadge {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  background: rgba(13, 17, 23, 0.8);
+  border: 1px solid rgba(91,164,207,0.4);
+  color: #5BA4CF;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  backdrop-filter: blur(6px);
+}
+.specsList {
+  list-style: none;
+  padding: 0;
+  margin: 2rem 0 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.specItem {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-size: 0.9rem;
+  color: var(--text-on-section-muted);
+}
+.specCheck {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(91,164,207,0.12);
+  border: 1px solid rgba(91,164,207,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #5BA4CF;
+  font-size: 0.65rem;
+}
+
+/* ── CTA ────────────────────────────────────────────────────────── */
+.ctaSection {
+  padding: 6rem 4rem;
+  background: var(--bg-deep, #0e0e0e);
+  text-align: center;
+}
+.ctaTitle {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 400;
+  color: var(--text-on-section);
+  margin: 0 0 1rem;
+}
+.ctaLead {
+  font-size: 1rem;
+  color: var(--text-on-section-muted);
+  margin: 0 auto 2.5rem;
+  max-width: 520px;
+  line-height: 1.75;
+}
+.ctaRow {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.btnPrimary {
+  background: #5BA4CF;
+  color: #0d1117;
+  border: none;
+  padding: 0.9rem 2.2rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.25s ease;
+}
+.btnPrimary:hover { background: #82c4f0; }
+.btnGhost {
+  background: transparent;
+  color: #5BA4CF;
+  border: 1px solid #5BA4CF;
+  padding: 0.9rem 2.2rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+.btnGhost:hover { background: #5BA4CF; color: #0d1117; }
+
+/* ── Responsive ─────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .hero, .story, .values, .manufacturing, .ctaSection { padding: 4rem 1.5rem; }
+  .statsBar { grid-template-columns: repeat(2, 1fr); }
+  .statItem { border-bottom: 1px solid rgba(91,164,207,0.12); }
+  .story { grid-template-columns: 1fr; gap: 3rem; }
+  .manufacturing { grid-template-columns: 1fr; gap: 3rem; }
+  .valuesGrid { grid-template-columns: 1fr; }
+}

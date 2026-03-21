@@ -1,0 +1,367 @@
+/* ── Page ───────────────────────────────────────────────────────── */
+.page {
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg-page);
+  color: var(--text-body);
+  overflow-x: hidden;
+  padding-top: 68px;
+  min-height: 100vh;
+}
+
+/* ── Breadcrumb ─────────────────────────────────────────────────── */
+.breadcrumb {
+  background: var(--bg-section);
+  border-bottom: 1px solid rgba(91,164,207,0.1);
+  padding: 0.85rem 4rem;
+}
+.breadcrumbInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-on-section-muted);
+}
+.breadcrumbLink {
+  color: var(--text-on-section-muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.breadcrumbLink:hover { color: #5BA4CF; }
+.breadcrumbSep { opacity: 0.35; }
+.breadcrumbCurrent { color: #5BA4CF; }
+
+/* ── Product main ───────────────────────────────────────────────── */
+.productMain {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: start;
+}
+
+/* ── Image panel ────────────────────────────────────────────────── */
+.imagePanel {
+  position: sticky;
+  top: calc(68px + 2rem);
+}
+.imageWrap {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-section);
+  border: 1px solid rgba(91,164,207,0.1);
+}
+.productImg {
+  width: 100%;
+  height: 520px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+  filter: brightness(0.95) contrast(1.03);
+}
+.imageWrap:hover .productImg { transform: scale(1.04); }
+.imageBadge {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  background: rgba(13,17,23,0.82);
+  border: 1px solid rgba(91,164,207,0.4);
+  color: #5BA4CF;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  backdrop-filter: blur(6px);
+}
+
+/* ── Info panel ─────────────────────────────────────────────────── */
+.infoPanel {}
+.infoEyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #5BA4CF;
+  margin: 0 0 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.eyebrowDivider {
+  flex: 1;
+  height: 1px;
+  background: rgba(91,164,207,0.2);
+}
+.productName {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 400;
+  color: var(--text-on-section);
+  line-height: 1.1;
+  margin: 0 0 0.5rem;
+}
+.productTagline {
+  font-size: 1rem;
+  color: var(--text-on-section-muted);
+  margin: 0 0 2rem;
+  font-style: italic;
+  line-height: 1.5;
+}
+.productDesc {
+  font-size: 0.95rem;
+  line-height: 1.85;
+  color: var(--text-on-section-muted);
+  margin: 0 0 2.5rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid rgba(91,164,207,0.1);
+}
+
+/* ── Specs table ────────────────────────────────────────────────── */
+.specsTitle {
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #5BA4CF;
+  margin: 0 0 1.25rem;
+}
+.specsTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2.5rem;
+}
+.specRow {
+  border-bottom: 1px solid rgba(91,164,207,0.08);
+  transition: background 0.2s ease;
+}
+.specRow:hover { background: rgba(91,164,207,0.04); }
+.specKey {
+  padding: 0.85rem 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-on-section-muted);
+  width: 40%;
+  vertical-align: middle;
+}
+.specVal {
+  padding: 0.85rem 0;
+  font-size: 0.92rem;
+  color: var(--text-on-section);
+  font-weight: 500;
+  vertical-align: middle;
+}
+
+/* ── Features list ──────────────────────────────────────────────── */
+.featuresTitle {
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #5BA4CF;
+  margin: 0 0 1rem;
+}
+.featuresList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-size: 0.9rem;
+  color: var(--text-on-section-muted);
+}
+.featureCheck {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(91,164,207,0.1);
+  border: 1px solid rgba(91,164,207,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.6rem;
+  color: #5BA4CF;
+}
+
+/* ── CTA buttons ────────────────────────────────────────────────── */
+.ctaRow {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.btnPrimary {
+  background: #5BA4CF;
+  color: #0d1117;
+  border: none;
+  padding: 0.9rem 2.2rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+.btnPrimary::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+  transition: left 0.4s ease;
+}
+.btnPrimary:hover { background: #82c4f0; }
+.btnPrimary:hover::after { left: 150%; }
+
+.btnGhost {
+  background: transparent;
+  color: #5BA4CF;
+  border: 1px solid rgba(91,164,207,0.5);
+  padding: 0.9rem 2.2rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+.btnGhost:hover { background: #5BA4CF; color: #0d1117; }
+
+/* ── Related products ───────────────────────────────────────────── */
+.related {
+  background: var(--bg-section);
+  padding: 5rem 4rem;
+  border-top: 1px solid rgba(91,164,207,0.1);
+}
+.relatedInner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.relatedHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2.5rem;
+}
+.relatedTitle {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: var(--text-on-section);
+  margin: 0;
+}
+.relatedViewAll {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #5BA4CF;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+.relatedViewAll:hover { opacity: 1; }
+
+.relatedGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.relatedCard {
+  background: var(--bg-card);
+  border: 1px solid rgba(91,164,207,0.1);
+  text-decoration: none;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  display: block;
+}
+.relatedCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.22);
+  border-color: rgba(91,164,207,0.25);
+}
+.relatedCardImg {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+  filter: brightness(0.95);
+}
+.relatedCard:hover .relatedCardImg { transform: scale(1.05); }
+.relatedCardBody {
+  padding: 1.25rem;
+}
+.relatedCardName {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--text-on-section);
+  margin: 0 0 0.25rem;
+}
+.relatedCardTag {
+  font-size: 0.78rem;
+  color: var(--text-on-section-muted);
+  margin: 0;
+}
+
+/* ── 404 / not found ────────────────────────────────────────────── */
+.notFound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  padding: 4rem 2rem;
+  gap: 1.5rem;
+}
+.notFoundTitle {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 2rem;
+  font-weight: 400;
+  color: var(--text-on-section);
+  margin: 0;
+}
+.notFoundText {
+  color: var(--text-on-section-muted);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* ── Responsive ─────────────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .productMain { gap: 3rem; padding: 2.5rem 2rem; }
+}
+@media (max-width: 900px) {
+  .breadcrumb { padding: 0.85rem 1.5rem; }
+  .productMain { grid-template-columns: 1fr; padding: 2rem 1.5rem; }
+  .imagePanel { position: relative; top: 0; }
+  .productImg { height: 360px; }
+  .related { padding: 3.5rem 1.5rem; }
+  .relatedGrid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .relatedGrid { grid-template-columns: 1fr; }
+}

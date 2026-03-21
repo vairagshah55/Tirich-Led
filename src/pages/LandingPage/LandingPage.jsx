@@ -1,5 +1,6 @@
 import { useEffect, useRef, useCallback, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import Navbar from '../../components/Navbar/Navbar';
 import styles from './LandingPage.module.css';
 
 // ── Product Images ─────────────────────────────────────────────────
@@ -20,7 +21,6 @@ import proVid3    from '../../assets/grok-video-2ca8b0c1-823e-4d11-a036-24e495b3
 
 import LusterGallery          from '../../components/LusterGallery/LusterGallery';
 import AnatomySection         from '../../components/AnatomySection/AnatomySection';
-import LightingCustomizer     from '../../components/LightingCustomizer/LightingCustomizer';
 import TransformationEngine   from '../../components/TransformationEngine/TransformationEngine';
 import LivingGallery          from '../../components/LivingGallery/LivingGallery';
 
@@ -98,23 +98,21 @@ const scrollToSection = (id) => (e) => {
 
 // ─────────────────────────────────────────────────────────────────
 export default function LandingPage() {
-  const navigate = useNavigate();
+  const navigate  = useNavigate();
+  const { search } = useLocation();
 
-  // ── Theme ────────────────────────────────────────────────────
-  const [theme, setTheme] = useState(
-    () => localStorage.getItem('tirich-theme') || 'dark'
-  );
-
+  // ── Scroll to section when navigated from another page ───────
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('tirich-theme', theme);
-  }, [theme]);
-
-  const toggleTheme = useCallback(() => {
-    document.documentElement.classList.add('theme-switching');
-    setTimeout(() => document.documentElement.classList.remove('theme-switching'), 420);
-    setTheme(t => t === 'dark' ? 'light' : 'dark');
-  }, []);
+    const params  = new URLSearchParams(search);
+    const section = params.get('section');
+    if (section) {
+      const timer = setTimeout(() => {
+        const el = document.getElementById(section);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [search]);
 
   // ── Refs ─────────────────────────────────────────────────────
   const heroBgRef           = useRef(null);
@@ -210,28 +208,7 @@ export default function LandingPage() {
     <div className={styles.page}>
 
       {/* ── NAV ─────────────────────────────────────────────────── */}
-      <nav className={styles.nav}>
-        <span className={styles.navBrand}>Tirich LED</span>
-        <div className={styles.navLinks}>
-          <a href="#collections"   onClick={scrollToSection('collections')}>Products</a>
-          <a href="#craftsmanship" onClick={scrollToSection('craftsmanship')}>Technology</a>
-          <a href="#lifestyle"     onClick={scrollToSection('lifestyle')}>Projects</a>
-          <a href="#ai-studio"     onClick={scrollToSection('ai-studio')}>About</a>
-          <button
-            className={`${styles.themeToggle} ${theme === 'light' ? styles.lightMode : ''}`}
-            onClick={toggleTheme}
-            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-            {...mag}
-          >
-            <span className={styles.themeKnob}>
-              {theme === 'dark' ? '☽' : '☀'}
-            </span>
-          </button>
-          <button className={styles.navCta} onClick={() => navigate('/login')} {...mag}>
-            Partner Login
-          </button>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* ── HERO: VIDEO CAROUSEL + 3D TILT + BOKEH ──────────────── */}
       <section

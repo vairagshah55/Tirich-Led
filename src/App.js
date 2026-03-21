@@ -4,6 +4,9 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import DashboardPage from './pages/DashboardPage/DashboardPage';
 import LandingPage from './pages/LandingPage/LandingPage';
 import AIStudioPage from './pages/AIStudioPage/AIStudioPage';
+import AboutPage from './pages/AboutPage/AboutPage';
+import ProductsPage from './pages/ProductsPage/ProductsPage';
+import ProductDetailPage from './pages/ProductDetailPage/ProductDetailPage';
 import CustomCursor from './components/CustomCursor/CustomCursor';
 
 function App() {
@@ -98,6 +101,9 @@ function App() {
             )
           }
         />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/products" element={<ProductsPage />} />
+        <Route path="/products/:slug" element={<ProductDetailPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       </div>
