@@ -191,6 +191,7 @@
   height: 100%;
   will-change: transform;
 }
+/* First 3 videos — standard full-frame */
 .heroVideoSlide {
   position: absolute;
   inset: 0;
@@ -200,6 +201,13 @@
   object-position: center;
   opacity: 0;
   transition: opacity 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+/* Last video — zoomed-out wide frame */
+.heroVideoSlideLast {
+  inset: -4% -2%;
+  width: 104%;
+  height: 108%;
+  object-position: center 30%;
 }
 .heroVideoSlideActive {
   opacity: 1;

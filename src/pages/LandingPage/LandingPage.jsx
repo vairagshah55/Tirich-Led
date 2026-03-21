@@ -18,8 +18,6 @@ import heroVideo  from '../../assets/grok-video-1ae0e23a-fbb4-4bec-993c-fb8c0b74
 import proVid1    from '../../assets/grok-video-083a2972-e0c2-44a4-b856-38ebb91513b1.mp4';
 import proVid2    from '../../assets/grok-video-1d4fef8d-119d-4f9f-8d71-650ca413f8be.mp4';
 import proVid3    from '../../assets/grok-video-2ca8b0c1-823e-4d11-a036-24e495b32dc3.mp4';
-import newVid1    from '../../assets/videos/grok-video-083a2972-e0c2-44a4-b856-38ebb91513b1 (2).mp4';
-import newVid2    from '../../assets/videos/grok-video-2ca8b0c1-823e-4d11-a036-24e495b32dc3 (2).mp4';
 
 import LusterGallery          from '../../components/LusterGallery/LusterGallery';
 import AnatomySection         from '../../components/AnatomySection/AnatomySection';
@@ -101,20 +99,6 @@ const HERO_SLIDES = [
     accent:  0,
     sub:     'CE & RoHS certified. IP65 rated. Built for the most demanding conditions.',
   },
-  {
-    video:   newVid1,
-    tag:     'Strip LED Systems',
-    title:   ['Flexible Light', 'for Any', 'Application'],
-    accent:  2,
-    sub:     'High-density SMD 2835 chipsets. Custom CCT, CRI, and wattage configurations.',
-  },
-  {
-    video:   newVid2,
-    tag:     'Industrial Fixtures',
-    title:   ['Built for the', 'Most Demanding', 'Spaces'],
-    accent:  1,
-    sub:     'IP65 high-bay fixtures engineered for warehouses, factories, and outdoor environments.',
-  },
 ];
 
 // ── Bokeh particle definitions ────────────────────────────────────
@@ -187,7 +171,7 @@ export default function LandingPage() {
   useEffect(() => {
     const onScroll = () => {
       if (heroBgRef.current)
-        heroBgRef.current.style.transform = `scale(1.1) translateY(${window.scrollY * 0.28}px)`;
+        heroBgRef.current.style.transform = `scale(1.03) translateY(${window.scrollY * 0.12}px)`;
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -280,7 +264,8 @@ export default function LandingPage() {
             <video
               key={i}
               ref={el => { heroVidRefs.current[i] = el; }}
-              className={`${styles.heroVideoSlide}${i === activeVidIdx ? ` ${styles.heroVideoSlideActive}` : ''}`}
+              className={`${styles.heroVideoSlide}${i === HERO_SLIDES.length - 1 ? ` ${styles.heroVideoSlideLast}` : ''}${i === activeVidIdx ? ` ${styles.heroVideoSlideActive}` : ''}`}
+              style={{ transform: `scale(${i < 3 ? 1.1 : 1.03})` }}
               src={video}
               autoPlay
               muted
