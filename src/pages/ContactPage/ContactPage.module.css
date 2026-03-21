@@ -1,0 +1,275 @@
+/* ── Page ───────────────────────────────────────────────────────── */
+.page {
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg-page);
+  color: var(--text-body);
+  overflow-x: hidden;
+  padding-top: 68px;
+}
+
+/* ── Hero ───────────────────────────────────────────────────────── */
+.hero {
+  background: var(--bg-section);
+  padding: 7rem 4rem 6rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(91,164,207,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.heroInner {
+  max-width: 760px;
+  position: relative;
+  z-index: 1;
+}
+.heroEyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #5BA4CF;
+  margin: 0 0 1.25rem;
+}
+.heroTitle {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2.6rem, 5vw, 4.2rem);
+  font-weight: 400;
+  color: var(--text-on-section);
+  line-height: 1.1;
+  margin: 0 0 1.5rem;
+}
+.heroAccent { color: #82c4f0; }
+.heroLead {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--text-on-section-muted);
+  max-width: 580px;
+  margin: 0;
+}
+.heroDivider {
+  width: 48px;
+  height: 1px;
+  background: #5BA4CF;
+  margin: 2rem 0;
+}
+
+/* ── Contact Section ────────────────────────────────────────────── */
+.contactSection {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 5rem;
+  padding: 7rem 4rem;
+  background: var(--bg-section);
+  align-items: start;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── Info Column ────────────────────────────────────────────────── */
+.sectionEyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #5BA4CF;
+  margin: 0 0 0.75rem;
+}
+.sectionTitle {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-weight: 400;
+  color: var(--text-on-section);
+  line-height: 1.2;
+  margin: 0 0 1.25rem;
+}
+.sectionBody {
+  font-size: 0.95rem;
+  line-height: 1.85;
+  color: var(--text-on-section-muted);
+  margin: 0 0 2.5rem;
+}
+
+.infoList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+.infoItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+.infoIcon {
+  font-size: 1.2rem;
+  color: #5BA4CF;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+.infoLabel {
+  display: block;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-on-section-muted);
+  margin-bottom: 0.3rem;
+}
+.infoValue {
+  font-size: 0.95rem;
+  color: var(--text-on-section);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+a.infoValue:hover { color: #5BA4CF; }
+
+/* ── Form Column ────────────────────────────────────────────────── */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.label {
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-on-section-muted);
+}
+.input,
+.textarea {
+  background: var(--bg-deep, #0e0e0e);
+  border: 1px solid rgba(91,164,207,0.2);
+  color: var(--text-on-section);
+  padding: 0.85rem 1rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.25s ease;
+  width: 100%;
+  box-sizing: border-box;
+  appearance: none;
+  border-radius: 0;
+}
+.input:focus,
+.textarea:focus {
+  border-color: #5BA4CF;
+}
+.input::placeholder,
+.textarea::placeholder {
+  color: rgba(255,255,255,0.2);
+}
+.textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+select.input {
+  cursor: pointer;
+}
+select.input option {
+  background: #0e0e0e;
+  color: var(--text-on-section);
+}
+
+/* ── Buttons ────────────────────────────────────────────────────── */
+.btnPrimary {
+  background: #5BA4CF;
+  color: #0d1117;
+  border: none;
+  padding: 0.95rem 2.4rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.25s ease;
+  align-self: flex-start;
+}
+.btnPrimary:hover { background: #82c4f0; }
+
+.btnGhost {
+  background: transparent;
+  color: #5BA4CF;
+  border: 1px solid #5BA4CF;
+  padding: 0.85rem 2rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.25s ease, color 0.25s ease;
+  margin-top: 1.5rem;
+}
+.btnGhost:hover { background: #5BA4CF; color: #0d1117; }
+
+/* ── Success State ──────────────────────────────────────────────── */
+.successBox {
+  border: 1px solid rgba(91,164,207,0.25);
+  background: var(--bg-deep, #0e0e0e);
+  padding: 3.5rem 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.successIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(91,164,207,0.12);
+  border: 1px solid rgba(91,164,207,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #5BA4CF;
+  font-size: 1rem;
+}
+.successTitle {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: var(--text-on-section);
+  margin: 0;
+}
+.successBody {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--text-on-section-muted);
+  margin: 0;
+  max-width: 420px;
+}
+
+/* ── Reveal animation ───────────────────────────────────────────── */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+[data-reveal].js-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Responsive ─────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .hero { padding: 5rem 1.5rem 4rem; }
+  .contactSection {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    padding: 4rem 1.5rem;
+  }
+  .formRow { grid-template-columns: 1fr; }
+}

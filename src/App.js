@@ -7,6 +7,7 @@ import AIStudioPage from './pages/AIStudioPage/AIStudioPage';
 import AboutPage from './pages/AboutPage/AboutPage';
 import ProductsPage from './pages/ProductsPage/ProductsPage';
 import ProductDetailPage from './pages/ProductDetailPage/ProductDetailPage';
+import ContactPage from './pages/ContactPage/ContactPage';
 import CustomCursor from './components/CustomCursor/CustomCursor';
 
 function App() {
@@ -104,6 +105,7 @@ function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/products/:slug" element={<ProductDetailPage />} />
+        <Route path="/contact" element={<ContactPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       </div>

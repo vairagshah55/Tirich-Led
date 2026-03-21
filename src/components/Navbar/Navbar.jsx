@@ -101,6 +101,14 @@ export default function Navbar() {
           >
             Technology
           </a>
+
+          {/* Contact */}
+          <Link
+            to="/contact"
+            className={`${styles.navLink} ${pathname === '/contact' ? styles.navLinkActive : ''}`}
+          >
+            Contact
+          </Link>
         </div>
 
         {/* ── Right controls ── */}
@@ -226,6 +234,7 @@ export default function Navbar() {
 
           <Link to="/about" className={styles.mobileLink}>About</Link>
           <a href={isHome ? '#craftsmanship' : '/#craftsmanship'} className={styles.mobileLink} onClick={goToSection('craftsmanship')}>Technology</a>
+          <Link to="/contact" className={styles.mobileLink} onClick={() => setMobileOpen(false)}>Contact</Link>
 
           <div className={styles.mobileDivider} />
           <div className={styles.mobileCtaRow}>
