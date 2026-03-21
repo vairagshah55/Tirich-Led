@@ -12,6 +12,6 @@ const Button = ({ children, onClick, disabled = false, loading = false, type = '
       {loading ? <div className={styles.spinner}></div> : children}
     </button>
   );
-}; 
+};
 
 export default Button;
