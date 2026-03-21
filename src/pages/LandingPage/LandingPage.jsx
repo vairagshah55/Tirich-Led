@@ -495,7 +495,7 @@ export default function LandingPage() {
             <div className={styles.footerNavCol}>
               <span className={styles.footerNavHead}>Company</span>
               <a href="#ai-studio" onClick={scrollToSection('ai-studio')}>About Us</a>
-              <button className={styles.footerNavBtn} onClick={() => navigate('/login')}>Partner Login</button>
+              {/* <button className={styles.footerNavBtn} onClick={() => navigate('/login')}>Partner Login</button> */}
             </div>
           </nav>
         </div>

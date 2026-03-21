@@ -127,10 +127,10 @@ export default function Navbar() {
             </span>
           </button>
 
-          {/* Partner login */}
-          <button className={styles.navCta} onClick={() => navigate('/login')}>
+          {/* Partner login — hidden until ready */}
+          {/* <button className={styles.navCta} onClick={() => navigate('/login')}>
             Partner Login
-          </button>
+          </button> */}
 
           {/* Hamburger */}
           <button
@@ -239,12 +239,12 @@ export default function Navbar() {
           <a href={isHome ? '#craftsmanship' : '/#craftsmanship'} className={styles.mobileLink} onClick={goToSection('craftsmanship')}>Technology</a>
           <Link to="/contact" className={styles.mobileLink} onClick={() => setMobileOpen(false)}>Contact</Link>
 
-          <div className={styles.mobileDivider} />
+          {/* <div className={styles.mobileDivider} />
           <div className={styles.mobileCtaRow}>
             <button className={styles.mobileCta} onClick={() => { navigate('/login'); setMobileOpen(false); }}>
               Partner Login
             </button>
-          </div>
+          </div> */}
         </div>
       )}
     </>

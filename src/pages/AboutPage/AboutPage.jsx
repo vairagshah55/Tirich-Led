@@ -172,7 +172,7 @@ export default function AboutPage() {
         </p>
         <div className={styles.ctaRow}>
           <Link to="/products" className={styles.btnPrimary}>Browse Products</Link>
-          <Link to="/login" className={styles.btnGhost}>Partner Login</Link>
+          {/* <Link to="/login" className={styles.btnGhost}>Partner Login</Link> */}
         </div>
       </section>
     </div>
