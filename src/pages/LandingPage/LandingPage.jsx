@@ -18,6 +18,8 @@ import heroVideo  from '../../assets/grok-video-1ae0e23a-fbb4-4bec-993c-fb8c0b74
 import proVid1    from '../../assets/grok-video-083a2972-e0c2-44a4-b856-38ebb91513b1.mp4';
 import proVid2    from '../../assets/grok-video-1d4fef8d-119d-4f9f-8d71-650ca413f8be.mp4';
 import proVid3    from '../../assets/grok-video-2ca8b0c1-823e-4d11-a036-24e495b32dc3.mp4';
+import newVid1    from '../../assets/videos/grok-video-083a2972-e0c2-44a4-b856-38ebb91513b1 (2).mp4';
+import newVid2    from '../../assets/videos/grok-video-2ca8b0c1-823e-4d11-a036-24e495b32dc3 (2).mp4';
 
 import LusterGallery          from '../../components/LusterGallery/LusterGallery';
 import AnatomySection         from '../../components/AnatomySection/AnatomySection';
@@ -69,8 +71,51 @@ const OUTPUTS = [
   { label: 'TLC-129 Series',   category: 'Series',  type: 'image', image: product8  },
 ];
 
-// ── Hero video slides ─────────────────────────────────────────────
-const HERO_VIDEOS = [heroVideo, proVid1, proVid2, proVid3];
+// ── Hero slides — each with its own video + copy ─────────────────
+const HERO_SLIDES = [
+  {
+    video:   heroVideo,
+    tag:     'Premium LED Manufacturing',
+    title:   ['Where Every', 'Beam', 'Powers a Vision'],
+    accent:  1,
+    sub:     'Industrial-grade LED solutions for commercial, residential, and architectural applications.',
+  },
+  {
+    video:   proVid1,
+    tag:     'Commercial Lighting',
+    title:   ['Precision', 'Engineered', 'for Performance'],
+    accent:  0,
+    sub:     'Every product tested for luminous flux, colour accuracy, and thermal consistency.',
+  },
+  {
+    video:   proVid2,
+    tag:     'Architectural Lighting',
+    title:   ['Light That', 'Defines', 'Your Space'],
+    accent:  1,
+    sub:     'From strip LEDs to pendant fixtures — tailored illumination for every environment.',
+  },
+  {
+    video:   proVid3,
+    tag:     'Manufacturing Excellence',
+    title:   ['50,000 Hours', 'of Reliable', 'Illumination'],
+    accent:  0,
+    sub:     'CE & RoHS certified. IP65 rated. Built for the most demanding conditions.',
+  },
+  {
+    video:   newVid1,
+    tag:     'Strip LED Systems',
+    title:   ['Flexible Light', 'for Any', 'Application'],
+    accent:  2,
+    sub:     'High-density SMD 2835 chipsets. Custom CCT, CRI, and wattage configurations.',
+  },
+  {
+    video:   newVid2,
+    tag:     'Industrial Fixtures',
+    title:   ['Built for the', 'Most Demanding', 'Spaces'],
+    accent:  1,
+    sub:     'IP65 high-bay fixtures engineered for warehouses, factories, and outdoor environments.',
+  },
+];
 
 // ── Bokeh particle definitions ────────────────────────────────────
 const BOKEH = [
@@ -119,7 +164,9 @@ export default function LandingPage() {
   const heroContentRef      = useRef(null);
   const bokehRefs           = useRef([]);
   const heroVidRefs         = useRef([]);
-  const [activeVidIdx, setActiveVidIdx] = useState(0);
+  const [activeVidIdx,  setActiveVidIdx]  = useState(0);
+  const [displaySlide,  setDisplaySlide]  = useState(0);
+  const [textVisible,   setTextVisible]   = useState(true);
 
   // ── 1. Blur-to-Focus Reveal ──────────────────────────────────
   useEffect(() => {
@@ -149,9 +196,19 @@ export default function LandingPage() {
   // ── 3. Hero Video Auto-Advance ────────────────────────────────
   useEffect(() => {
     const timer = setInterval(() => {
-      setActiveVidIdx(prev => (prev + 1) % HERO_VIDEOS.length);
-    }, 6000);
+      setActiveVidIdx(prev => (prev + 1) % HERO_SLIDES.length);
+    }, 7000);
     return () => clearInterval(timer);
+  }, [activeVidIdx]);
+
+  // Text fade-out → swap content → fade-in on slide change
+  useEffect(() => {
+    setTextVisible(false);
+    const t = setTimeout(() => {
+      setDisplaySlide(activeVidIdx);
+      setTextVisible(true);
+    }, 380);
+    return () => clearTimeout(t);
   }, [activeVidIdx]);
 
   useEffect(() => {
@@ -219,12 +276,12 @@ export default function LandingPage() {
       >
         {/* ── Video slides ── */}
         <div ref={heroBgRef} className={styles.heroVideos}>
-          {HERO_VIDEOS.map((src, i) => (
+          {HERO_SLIDES.map(({ video }, i) => (
             <video
               key={i}
               ref={el => { heroVidRefs.current[i] = el; }}
               className={`${styles.heroVideoSlide}${i === activeVidIdx ? ` ${styles.heroVideoSlideActive}` : ''}`}
-              src={src}
+              src={video}
               autoPlay
               muted
               loop
@@ -233,7 +290,9 @@ export default function LandingPage() {
           ))}
         </div>
 
+        {/* Layered overlay: left-dark for text, right-lighter for depth */}
         <div className={styles.heroOverlay} />
+        <div className={styles.heroOverlayRight} />
 
         {/* Bokeh particles — depth parallax on mouse move */}
         {BOKEH.map((b, i) => (
@@ -245,55 +304,90 @@ export default function LandingPage() {
           />
         ))}
 
-        <div ref={heroContentRef} className={styles.heroContent}>
-          <p className={styles.heroEyebrow} data-reveal>Premium LED Manufacturing — EST. 2020</p>
-          <h1 className={styles.heroTitle} data-reveal style={{ transitionDelay: '0.1s' }}>
-            Where Every<br />
-            <span className={styles.heroAccent}>Beam</span> Powers a Vision
-          </h1>
-          <p className={styles.heroSubtitle} data-reveal style={{ transitionDelay: '0.2s' }}>
-            Industrial-grade LED solutions for commercial, residential, and architectural applications.
-            Engineered for performance, certified for reliability.
-          </p>
-          <div className={styles.heroActions} data-reveal style={{ transitionDelay: '0.3s' }}>
-            <button className={styles.btnPrimary} onClick={() => navigate('/ai-studio')} {...mag}>
-              Explore Products
-            </button>
-            <a href="#collections" className={styles.btnGhost} onClick={scrollToSection('collections')} {...mag}>
-              View Catalog
-            </a>
+        {/* ── Hero text content ── */}
+        <div
+          ref={heroContentRef}
+          className={`${styles.heroContent} ${textVisible ? styles.heroTextIn : styles.heroTextOut}`}
+        >
+          {/* Left accent bar */}
+          <div className={styles.heroBar} />
+
+          <div className={styles.heroContentInner}>
+            {/* Slide number */}
+            <span className={styles.heroSlideNum}>
+              {String(displaySlide + 1).padStart(2, '0')}
+              <span className={styles.heroSlideTotal}> / {String(HERO_SLIDES.length).padStart(2, '0')}</span>
+            </span>
+
+            {/* Category tag */}
+            <p className={styles.heroEyebrow}>
+              <span className={styles.heroEyebrowDiamond}>◆</span>
+              {HERO_SLIDES[displaySlide].tag}
+            </p>
+
+            {/* Title — word-level accent */}
+            <h1 className={styles.heroTitle}>
+              {HERO_SLIDES[displaySlide].title.map((line, li) => (
+                <span
+                  key={li}
+                  className={`${styles.heroTitleLine} ${li === HERO_SLIDES[displaySlide].accent ? styles.heroTitleAccent : ''}`}
+                >
+                  {line}
+                  {li < HERO_SLIDES[displaySlide].title.length - 1 && <br />}
+                </span>
+              ))}
+            </h1>
+
+            {/* Gold rule */}
+            <div className={styles.heroRule} />
+
+            {/* Subtitle */}
+            <p className={styles.heroSubtitle}>{HERO_SLIDES[displaySlide].sub}</p>
+
+            {/* CTAs */}
+            <div className={styles.heroActions}>
+              <button className={styles.heroBtnPrimary} onClick={() => navigate('/products')} {...mag}>
+                Explore Products
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </button>
+              <a href="#collections" className={styles.heroBtnGhost} onClick={scrollToSection('collections')} {...mag}>
+                View Catalogue
+              </a>
+            </div>
           </div>
         </div>
 
         {/* ── Prev / Next arrows ── */}
         <button
           className={`${styles.heroArrow} ${styles.heroArrowLeft}`}
-          onClick={() => setActiveVidIdx(i => (i - 1 + HERO_VIDEOS.length) % HERO_VIDEOS.length)}
+          onClick={() => setActiveVidIdx(i => (i - 1 + HERO_SLIDES.length) % HERO_SLIDES.length)}
           aria-label="Previous video"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
         <button
           className={`${styles.heroArrow} ${styles.heroArrowRight}`}
-          onClick={() => setActiveVidIdx(i => (i + 1) % HERO_VIDEOS.length)}
+          onClick={() => setActiveVidIdx(i => (i + 1) % HERO_SLIDES.length)}
           aria-label="Next video"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
 
-        {/* ── Slide indicators ── */}
+        {/* ── Dot indicators (bottom-right) ── */}
         <div className={styles.heroDots}>
-          {HERO_VIDEOS.map((_, i) => (
+          {HERO_SLIDES.map((_, i) => (
             <button
               key={i}
               className={`${styles.heroDot}${i === activeVidIdx ? ` ${styles.heroDotActive}` : ''}`}
               onClick={() => setActiveVidIdx(i)}
-              aria-label={`Video ${i + 1}`}
+              aria-label={`Slide ${i + 1}`}
             />
           ))}
         </div>
 
-        {/* ── Progress bar resets on each slide ── */}
+        {/* ── Progress bar ── */}
         <div className={styles.heroProgressBar} key={activeVidIdx} />
 
         <div className={styles.heroScroll}>
