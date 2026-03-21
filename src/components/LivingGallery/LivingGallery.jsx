@@ -154,7 +154,7 @@ export default function LivingGallery({ items }) {
               <div className={styles.caption}>
                 <p className={styles.captionEyebrow}>{item.eyebrow}</p>
                 <p className={styles.captionLabel}>{item.label}</p>
-                <p className={styles.aiBadge}>AI-Generated · 4K Studio</p>
+                <p className={styles.aiBadge}>Tirich LED · Precision Lighting</p>
               </div>
             </div>
           );
