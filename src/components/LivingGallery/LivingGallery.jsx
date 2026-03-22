@@ -67,11 +67,6 @@ const GalleryCard = memo(function GalleryCard({
         </picture>
       ))}
 
-      <div className={styles.playBtn}>
-        <span className={styles.playIcon}>&#9654;</span>
-        <span className={styles.playLabel}>Watch Result</span>
-      </div>
-
       <div className={styles.caption}>
         <p className={styles.captionEyebrow}>{item.eyebrow}</p>
         <p className={styles.captionLabel}>{item.label}</p>
@@ -199,11 +194,10 @@ export default function LivingGallery({ items }) {
   }, []);
 
   const onSectionEnter = () => {
-    pausedRef.current = true;
+    // keep scrolling — do not pause
   };
 
   const onSectionLeave = () => {
-    pausedRef.current = false;
     magnetRef.current = 0;
     setHoveredIdx(null);
   };

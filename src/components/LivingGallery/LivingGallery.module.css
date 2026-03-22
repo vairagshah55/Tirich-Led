@@ -159,10 +159,7 @@
   left: 0;
   right: 0;
   padding: 0.85rem 0.9rem 0.7rem;
-  background: rgba(10, 10, 10, 0.58);
-  backdrop-filter: blur(12px) saturate(1.2);
-  -webkit-backdrop-filter: blur(12px) saturate(1.2);
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.62) 0%, transparent 100%);
   transform: translateY(0);
   transition: transform 0.35s ease;
 }
@@ -251,8 +248,6 @@
 
   .caption {
     padding: 0.9rem 1rem 0.85rem;
-    backdrop-filter: blur(16px) saturate(1.4);
-    -webkit-backdrop-filter: blur(16px) saturate(1.4);
   }
 
   .captionEyebrow {
