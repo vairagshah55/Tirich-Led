@@ -2,7 +2,13 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../../components/Navbar/Navbar';
 import styles from './AboutPage.module.css';
-import product9 from '../../assets/TLC-151.jpg';
+import img101   from '../../assets/TLC-101.jpg';
+import img112   from '../../assets/TLC-112.jpg';
+import img108   from '../../assets/TLC-108.jpg';
+import img151   from '../../assets/TLC-151.jpg';
+import imgHang  from '../../assets/hanging-230.jpg';
+import imgStrip from '../../assets/STRIP-LED-POST.jpg';
+import img121   from '../../assets/TLC-121.jpg';
 
 /* ── Data ─────────────────────────────────────────────────────────── */
 
@@ -55,35 +61,88 @@ const TIMELINE = [
 
 const VALUES = [
   {
-    icon: '◈',
+    svgPaths: (
+      <>
+        <path d="M12 2L12 6M12 18L12 22M4.93 4.93L7.76 7.76M16.24 16.24L19.07 19.07M2 12L6 12M18 12L22 12"/>
+        <circle cx="12" cy="12" r="4"/>
+      </>
+    ),
     title: 'Precision Engineering',
     body: 'Every component is selected to strict tolerances. From SMD chipsets to thermal substrates, nothing ships without photometric and electrical verification.',
   },
   {
-    icon: '◎',
+    svgPaths: (
+      <>
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 6v6l4 2"/>
+      </>
+    ),
     title: 'Sustainable Manufacturing',
     body: 'We operate under an ISO-aligned quality framework, minimising waste and meeting international RoHS and CE directives across every product line.',
   },
   {
-    icon: '◇',
+    svgPaths: (
+      <>
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+        <circle cx="9" cy="7" r="4"/>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+      </>
+    ),
     title: 'Client Partnership',
     body: 'We work directly with architects, contractors, and facility managers — providing technical consultation from specification through to commissioning.',
   },
   {
-    icon: '△',
+    svgPaths: (
+      <>
+        <polyline points="23 4 23 10 17 10"/>
+        <polyline points="1 20 1 14 7 14"/>
+        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+      </>
+    ),
     title: 'Continuous Innovation',
     body: 'Our R&D team continuously refines CCT options, optic designs, and driver configurations to stay ahead of evolving project requirements.',
   },
   {
-    icon: '○',
+    svgPaths: (
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+    ),
     title: 'Integrity First',
     body: 'We publish verified photometric data, real lifespan ratings, and third-party test certificates — no inflated specifications, no shortcuts.',
   },
   {
-    icon: '□',
+    svgPaths: (
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+    ),
     title: 'Technical Excellence',
     body: 'CRI 95+, L80 50,000-hour ratings, and IP65 protection are not marketing claims — they are measured, documented, and certified outcomes.',
   },
+];
+
+const STAT_ICONS = [
+  /* Established — calendar */
+  <svg key="established" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+    <line x1="16" y1="2" x2="16" y2="6"/>
+    <line x1="8" y1="2" x2="8" y2="6"/>
+    <line x1="3" y1="10" x2="21" y2="10"/>
+  </svg>,
+  /* Products — grid */
+  <svg key="products" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <rect x="3" y="3" width="7" height="7"/>
+    <rect x="14" y="3" width="7" height="7"/>
+    <rect x="14" y="14" width="7" height="7"/>
+    <rect x="3" y="14" width="7" height="7"/>
+  </svg>,
+  /* Colour Standard — eye */
+  <svg key="colour" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+    <circle cx="12" cy="12" r="3"/>
+  </svg>,
+  /* Lifespan — lightning bolt */
+  <svg key="lifespan" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+  </svg>,
 ];
 
 const AVATAR_GRADIENTS = [
@@ -155,23 +214,41 @@ export default function AboutPage() {
 
       {/* ── HERO ─────────────────────────────────────────────────── */}
       <section className={styles.hero} aria-labelledby="about-hero-title">
+        <div className={styles.heroDotGrid} aria-hidden="true" />
+        <div className={styles.heroAccentLine} aria-hidden="true" />
         <div className={styles.heroInner}>
-          <p className={styles.heroEyebrow} data-reveal>About Tirich LED</p>
-          <h1
-            className={styles.heroTitle}
-            id="about-hero-title"
-            data-reveal
-            style={{ transitionDelay: '0.1s' }}
-          >
-            Built on Precision.<br />
-            <span className={styles.heroAccent}>Driven by Light.</span>
-          </h1>
-          <div className={styles.heroDivider} aria-hidden="true" />
-          <p className={styles.heroLead} data-reveal style={{ transitionDelay: '0.2s' }}>
-            Tirich LED is a manufacturer of industrial-grade LED lighting solutions for
-            commercial, residential, and architectural applications. Since 2020, we have
-            been engineering products that deliver on performance, longevity, and reliability.
-          </p>
+          {/* Left — text */}
+          <div className={styles.heroLeft}>
+            <p className={styles.heroEyebrow} data-reveal>About Tirich LED</p>
+            <h1
+              className={styles.heroTitle}
+              id="about-hero-title"
+              data-reveal
+              style={{ transitionDelay: '0.1s' }}
+            >
+              Built on Precision.<br />
+              <span className={styles.heroAccent}>Driven by Light.</span>
+            </h1>
+            <div className={styles.heroDivider} aria-hidden="true" />
+            <p className={styles.heroLead} data-reveal style={{ transitionDelay: '0.2s' }}>
+              Tirich LED is a manufacturer of industrial-grade LED lighting solutions for
+              commercial, residential, and architectural applications. Since 2020, we have
+              been engineering products that deliver on performance, longevity, and reliability.
+            </p>
+          </div>
+
+          {/* Right — product image mosaic */}
+          <div className={styles.heroMosaic} data-reveal style={{ transitionDelay: '0.25s' }} aria-hidden="true">
+            <div className={`${styles.heroMosaicItem} ${styles.heroMosaicItemTall}`}>
+              <img src={img112} alt="TLC-112 LED panel" loading="eager" decoding="async" />
+            </div>
+            <div className={styles.heroMosaicItem}>
+              <img src={img101} alt="TLC-101 LED panel" loading="eager" decoding="async" />
+            </div>
+            <div className={styles.heroMosaicItem}>
+              <img src={img121} alt="TLC-121 LED panel" loading="eager" decoding="async" />
+            </div>
+          </div>
         </div>
         <div className={styles.heroDecor} aria-hidden="true" />
       </section>
@@ -186,6 +263,7 @@ export default function AboutPage() {
             style={{ transitionDelay: `${i * 0.08}s` }}
             role="listitem"
           >
+            <span className={styles.statIcon}>{STAT_ICONS[i]}</span>
             <span className={styles.statValue}>{s.value}</span>
             <span className={styles.statLabel}>{s.label}</span>
           </div>
@@ -215,17 +293,33 @@ export default function AboutPage() {
         </div>
 
         <div className={styles.aboutCallouts} data-reveal style={{ transitionDelay: '0.15s' }}>
-          <div className={styles.callout}>
-            <span className={styles.calloutAccent}>500+</span>
-            <p className={styles.calloutLabel}>Product SKUs covering every lighting category</p>
+          {/* Product image grid */}
+          <div className={styles.aboutImages}>
+            <div className={`${styles.aboutImgItem} ${styles.aboutImgItemTall}`}>
+              <img src={img108} alt="TLC-108 LED fixture" loading="lazy" decoding="async" />
+            </div>
+            <div className={styles.aboutImgItem}>
+              <img src={imgHang} alt="Hanging LED pendant 230" loading="lazy" decoding="async" />
+            </div>
+            <div className={styles.aboutImgItem}>
+              <img src={imgStrip} alt="Strip LED post" loading="lazy" decoding="async" />
+            </div>
           </div>
-          <div className={styles.callout}>
-            <span className={styles.calloutAccent}>CRI 95+</span>
-            <p className={styles.calloutLabel}>Colour rendering accuracy across all product lines</p>
-          </div>
-          <div className={styles.callout}>
-            <span className={styles.calloutAccent}>IP65</span>
-            <p className={styles.calloutLabel}>Weather-rated protection for outdoor and industrial use</p>
+
+          {/* Compact stat callouts */}
+          <div className={styles.aboutStats}>
+            <div className={styles.callout}>
+              <span className={styles.calloutAccent}>500+</span>
+              <p className={styles.calloutLabel}>Product SKUs covering every lighting category</p>
+            </div>
+            <div className={styles.callout}>
+              <span className={styles.calloutAccent}>CRI 95+</span>
+              <p className={styles.calloutLabel}>Colour rendering accuracy across all product lines</p>
+            </div>
+            <div className={styles.callout}>
+              <span className={styles.calloutAccent}>IP65</span>
+              <p className={styles.calloutLabel}>Weather-rated protection for outdoor and industrial use</p>
+            </div>
           </div>
         </div>
       </section>
@@ -233,6 +327,16 @@ export default function AboutPage() {
       {/* ── MISSION + VISION ─────────────────────────────────────── */}
       <section className={styles.missionVision} aria-label="Mission and Vision">
         <div className={styles.missionCard} data-reveal>
+          <div className={styles.mvIconBg} aria-hidden="true">
+            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <circle cx="12" cy="12" r="3"/>
+              <line x1="12" y1="2" x2="12" y2="5"/>
+              <line x1="12" y1="19" x2="12" y2="22"/>
+              <line x1="2" y1="12" x2="5" y2="12"/>
+              <line x1="19" y1="12" x2="22" y2="12"/>
+            </svg>
+          </div>
           <p className={styles.mvEyebrow}>{MISSION.eyebrow}</p>
           <h2 className={styles.mvTitle}>{MISSION.title}</h2>
           <div className={styles.mvDivider} aria-hidden="true" />
@@ -240,6 +344,13 @@ export default function AboutPage() {
         </div>
 
         <div className={styles.visionCard} data-reveal style={{ transitionDelay: '0.15s' }}>
+          <div className={styles.mvIconBg} aria-hidden="true">
+            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="9" y1="18" x2="15" y2="18"/>
+              <line x1="10" y1="22" x2="14" y2="22"/>
+              <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14z"/>
+            </svg>
+          </div>
           <p className={styles.mvEyebrow}>{VISION.eyebrow}</p>
           <h2 className={styles.mvTitle}>{VISION.title}</h2>
           <div className={styles.mvDivider} aria-hidden="true" />
@@ -316,7 +427,20 @@ export default function AboutPage() {
               data-reveal
               style={{ transitionDelay: `${i * 0.08}s` }}
             >
-              <span className={styles.valueIcon} aria-hidden="true">{v.icon}</span>
+              <span className={styles.valueIcon} aria-hidden="true">
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  {v.svgPaths}
+                </svg>
+              </span>
               <h3 className={styles.valueTitle}>{v.title}</h3>
               <p className={styles.valueBody}>{v.body}</p>
             </article>
@@ -369,7 +493,7 @@ export default function AboutPage() {
       <section className={styles.manufacturing} aria-labelledby="manufacturing-title">
         <div className={styles.manufacturingImg} data-reveal>
           <img
-            src={product9}
+            src={img151}
             alt="Tirich LED TLC-151 panel light"
             loading="lazy"
             decoding="async"
