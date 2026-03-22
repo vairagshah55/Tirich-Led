@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import logo from '../../assets/logo-project.png';
+import logo from '../../assets/new-log.png';
 import styles from './Navbar.module.css';
 import { CATEGORIES, PRODUCTS } from '../../data/products';
 
@@ -10,6 +10,14 @@ export default function Navbar() {
   const navigate   = useNavigate();
   const { pathname } = useLocation();
   const isHome     = pathname === '/';
+
+  // ── Scroll-aware ───────────────────────────────────────────────
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   // ── Theme ──────────────────────────────────────────────────────
   const [theme, setTheme] = useState(
@@ -58,7 +66,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className={styles.nav}>
+      <nav className={`${styles.nav} ${scrolled ? styles.navScrolled : ''}`}>
         {/* ── Logo ── */}
         <Link to="/" className={styles.navBrand}>
           <img src={logo} alt="Tirich LED" className={styles.navLogo} />
