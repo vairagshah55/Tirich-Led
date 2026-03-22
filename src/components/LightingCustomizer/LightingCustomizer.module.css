@@ -26,7 +26,7 @@
   left: 1.25rem;
   padding: 0.3rem 0.85rem;
   background: rgba(26, 26, 26, 0.8);
-  color: #c9a84c;
+  color: #ea7d1f;
   font-size: 0.75rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -49,7 +49,7 @@
   font-size: 0.72rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #C5A368;
+  color: #ea7d1f;
   margin: 0;
   font-weight: 600;
 }
@@ -62,9 +62,9 @@
 /* Lighting preset pills */
 .presetBtn {
   padding: 0.55rem 1.1rem;
-  border: 1.5px solid #C5A368;
+  border: 1.5px solid #ea7d1f;
   background: transparent;
-  color: #C5A368;
+  color: #ea7d1f;
   font-size: 0.78rem;
   letter-spacing: 0.08em;
   cursor: none;
@@ -73,17 +73,17 @@
   border-radius: 2px;
 }
 .presetBtn:hover {
-  background: #C5A368;
+  background: #ea7d1f;
   color: #fff;
-  box-shadow: 0 4px 18px rgba(197, 163, 104, 0.35);
+  box-shadow: 0 4px 18px rgba(234, 125, 31, 0.35);
   transform: translateY(-1px);
 }
 .presetBtnActive {
-  background: #C5A368;
-  border-color: #C5A368;
+  background: #ea7d1f;
+  border-color: #ea7d1f;
   color: #fff;
   font-weight: 600;
-  box-shadow: 0 4px 18px rgba(197, 163, 104, 0.35);
+  box-shadow: 0 4px 18px rgba(234, 125, 31, 0.35);
 }
 
 /* Skin-tone swatches */
@@ -96,7 +96,7 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 .toneBtn:hover  { transform: scale(1.12); }
-.toneBtnActive  { box-shadow: 0 0 0 3px #C5A368; }
+.toneBtnActive  { box-shadow: 0 0 0 3px #ea7d1f; }
 
 .tone_fair   { background: #f5dcc8; }
 .tone_medium { background: #c8884e; }

@@ -57,7 +57,7 @@
     linear-gradient(
       90deg,
       rgba(255, 255, 255, 0.04) 0%,
-      rgba(197, 163, 104, 0.18) 48%,
+      rgba(234, 125, 31, 0.18) 48%,
       rgba(255, 255, 255, 0.04) 100%
     ),
     linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.22));
@@ -140,8 +140,8 @@
 .hovered .playBtn {
   width: 80px;
   height: 80px;
-  background: rgba(197, 163, 104, 0.92);
-  border-color: #c5a368;
+  background: rgba(234, 125, 31, 0.92);
+  border-color: #ea7d1f;
 }
 
 .hovered .playIcon {
@@ -171,7 +171,7 @@
   font-size: 0.75rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(197, 163, 104, 0.75);
+  color: rgba(234, 125, 31, 0.75);
   margin: 0 0 0.2rem;
   font-family: 'Inter', sans-serif;
 }
@@ -189,21 +189,21 @@
   font-size: 0.72rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(197, 163, 104, 0.5);
+  color: rgba(234, 125, 31, 0.5);
   margin: 0;
   font-family: 'Inter', sans-serif;
 }
 
 .progressWrap {
   height: 1.5px;
-  background: rgba(197, 163, 104, 0.1);
+  background: rgba(234, 125, 31, 0.1);
   margin-top: 1.25rem;
   overflow: hidden;
 }
 
 .progressBar {
   height: 100%;
-  background: linear-gradient(to right, rgba(197, 163, 104, 0.4), #c5a368);
+  background: linear-gradient(to right, rgba(234, 125, 31, 0.4), #ea7d1f);
   width: 0%;
 }
 

@@ -4,18 +4,18 @@
    ─────────────────────────────────────────────────────────────────
    Logo colours:
      Navy  #2A2F63  (headings, dark-mode accent text)
-     Orange #EC8A1C  (CTAs, dark-mode labels, icon accents)
+     Orange #ea7d1f  (CTAs, dark-mode labels, icon accents)
    ─────────────────────────────────────────────────────────────────
    Verified contrast pairs:
    DARK MODE
      #F0F1F7 on #12131C  → 16.6:1  AAA ✓ (body text on page)
      #F0F1F7 on #171825  → 15.1:1  AAA ✓ (text on section bg)
      #9CA1BA on #171825  →  6.5:1  AA  ✓ (muted on section bg)
-     #EC8A1C on #12131C  →  7.3:1  AAA ✓ (accent text on page)
-     #EC8A1C on #171825  →  6.6:1  AA  ✓ (accent text on section)
+     #ea7d1f on #12131C  →  7.3:1  AAA ✓ (accent text on page)
+     #ea7d1f on #171825  →  6.6:1  AA  ✓ (accent text on section)
      #F0F1F7 on #0D0E16  → 17.3:1  AAA ✓ (text on deep bg)
      #9CA1BA on #0D0E16  →  6.8:1  AA  ✓ (muted on deep bg)
-     #0B0C14 on #EC8A1C  →  7.5:1  AAA ✓ (dark text on orange btn)
+     #0B0C14 on #ea7d1f  →  7.5:1  AAA ✓ (dark text on orange btn)
    LIGHT MODE
      #1F2231 on #F3F4F9  → 14.9:1  AAA ✓ (body text on page)
      #2A2F63 on #ECEDF5  → 10.8:1  AAA ✓ (text on section bg)
@@ -23,15 +23,15 @@
      #2A2F63 on #F3F4F9  → 11.7:1  AAA ✓ (accent text on page)
      #F0F1F7 on #2A2F63  → 11.1:1  AAA ✓ (text on deep/navy bg)
      #A8AECA on #2A2F63  →  5.8:1  AA  ✓ (muted on deep/navy bg)
-     #0B0C14 on #EC8A1C  →  7.5:1  AAA ✓ (dark text on orange btn)
+     #0B0C14 on #ea7d1f  →  7.5:1  AAA ✓ (dark text on orange btn)
    ═══════════════════════════════════════════════════════════════════ */
 
 /* ── Dark mode (default) ─────────────────────────────────────────── */
 :root {
   /* Brand */
   --brand-navy:            #2A2F63;
-  --brand-orange:          #EC8A1C;
-  --brand-orange-hover:    #FF9F2F;
+  --brand-orange:          #ea7d1f;
+  --brand-orange-hover:    #f08c30;
   --neutral-dark:          #1F2231;
   --neutral-mid:           #8C90A8;
   --neutral-light:         #F3F4F9;
@@ -61,19 +61,19 @@
   --text-on-deep-muted:    #9CA1BA;        /* 6.8:1 on #0D0E16 ✓ */
 
   /* Accent — WCAG text colour (use for eyebrows, labels, links) */
-  --clr-accent-text:       #EC8A1C;        /* 7.3:1 on dark bg ✓ */
-  --clr-accent-hover:      #FF9F2F;        /* large text / decorative hover */
-  --clr-accent-decoration: #EC8A1C;        /* borders, underlines, dots (decorative) */
+  --clr-accent-text:       #ea7d1f;        /* 7.3:1 on dark bg ✓ */
+  --clr-accent-hover:      #f08c30;        /* large text / decorative hover */
+  --clr-accent-decoration: #ea7d1f;        /* borders, underlines, dots (decorative) */
 
   /* Buttons */
-  --btn-solid-bg:          #EC8A1C;
+  --btn-solid-bg:          #ea7d1f;
   --btn-solid-text:        #0B0C14;        /* 7.5:1 on orange ✓ */
-  --btn-ghost-fg:          #EC8A1C;        /* 7.3:1 on dark bg ✓ */
+  --btn-ghost-fg:          #ea7d1f;        /* 7.3:1 on dark bg ✓ */
 
   /* Cards / misc */
   --step-card-bg:          rgba(42, 47, 99, 0.14);
   --step-card-hover:       rgba(42, 47, 99, 0.24);
-  --stat-hover:            rgba(236, 138, 28, 0.08);
+  --stat-hover:            rgba(234, 125, 31, 0.08);
   --lifestyle-glass-bg:    rgba(18, 19, 28, 0.82);
 }
 
@@ -106,17 +106,17 @@
   /* Accent — WCAG text colour (navy replaces orange for text in light mode) */
   --clr-accent-text:       #2A2F63;        /* 10.8:1 on bg-section ✓ */
   --clr-accent-hover:      #1A1F4A;        /* darker navy hover */
-  --clr-accent-decoration: #EC8A1C;        /* borders, underlines, dots (decorative) */
+  --clr-accent-decoration: #ea7d1f;        /* borders, underlines, dots (decorative) */
 
   /* Buttons */
-  --btn-solid-bg:          #EC8A1C;
+  --btn-solid-bg:          #ea7d1f;
   --btn-solid-text:        #0B0C14;        /* 7.5:1 on orange ✓ */
   --btn-ghost-fg:          #2A2F63;        /* 10.8:1 on bg-section ✓ */
 
   /* Cards / misc */
   --step-card-bg:          rgba(42, 47, 99, 0.05);
   --step-card-hover:       rgba(42, 47, 99, 0.10);
-  --stat-hover:            rgba(236, 138, 28, 0.07);
+  --stat-hover:            rgba(234, 125, 31, 0.07);
   --lifestyle-glass-bg:    rgba(243, 244, 249, 0.86);
 }
 
@@ -159,9 +159,9 @@ body {
 
 /* ── Section glow (on nav click) ── */
 @keyframes sectionGlow {
-  0%   { box-shadow: inset 0 0 0 2px rgba(236, 138, 28, 0.8); }
-  60%  { box-shadow: inset 0 0 0 2px rgba(236, 138, 28, 0.3); }
-  100% { box-shadow: inset 0 0 0 0px rgba(236, 138, 28, 0); }
+  0%   { box-shadow: inset 0 0 0 2px rgba(234, 125, 31, 0.8); }
+  60%  { box-shadow: inset 0 0 0 2px rgba(234, 125, 31, 0.3); }
+  100% { box-shadow: inset 0 0 0 0px rgba(234, 125, 31, 0); }
 }
 .js-section-glow {
   animation: sectionGlow 1s ease-out forwards !important;

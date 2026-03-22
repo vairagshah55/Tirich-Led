@@ -18,7 +18,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(236,138,28,0.08) 0%, transparent 70%);
+  background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(234, 125, 31,0.08) 0%, transparent 70%);
   pointer-events: none;
 }
 .heroInner {
@@ -52,7 +52,7 @@
 .heroDivider {
   width: 48px;
   height: 1px;
-  background: #EC8A1C;
+  background: #ea7d1f;
   margin: 2rem 0;
 }
 
@@ -169,7 +169,7 @@ a.infoValue:hover { color: var(--clr-accent-text); }
 .input:focus,
 .textarea:focus {
   border-color: var(--brand-orange);     /* always orange — visible in both modes */
-  box-shadow: 0 0 0 3px rgba(236, 138, 28, 0.12);
+  box-shadow: 0 0 0 3px rgba(234, 125, 31, 0.12);
 }
 .input::placeholder,
 .textarea::placeholder {
@@ -207,7 +207,7 @@ select.input option {
   transition: background 0.25s ease;
   align-self: flex-start;
 }
-.btnPrimary:hover { background: #FF9F2F; }
+.btnPrimary:hover { background: #f08c30; }
 
 .btnGhost {
   background: transparent;
@@ -226,7 +226,7 @@ select.input option {
 
 /* ── Success State ──────────────────────────────────────────────── */
 .successBox {
-  border: 1px solid rgba(236,138,28,0.25);
+  border: 1px solid rgba(234, 125, 31,0.25);
   background: var(--bg-deep, #0e0e0e);
   padding: 3.5rem 3rem;
   display: flex;
@@ -242,8 +242,8 @@ select.input option {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: rgba(236,138,28,0.12);
-  border: 1px solid rgba(236,138,28,0.4);
+  background: rgba(234, 125, 31,0.12);
+  border: 1px solid rgba(234, 125, 31,0.4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -280,11 +280,11 @@ select.input option {
 /* In dark mode bg-card = #1E1F2E — navy border would be invisible */
 :global([data-theme="dark"]) .input,
 :global([data-theme="dark"]) .textarea {
-  border-color: rgba(236, 138, 28, 0.2);
+  border-color: rgba(234, 125, 31, 0.2);
 }
 :global([data-theme="dark"]) .input:hover,
 :global([data-theme="dark"]) .textarea:hover {
-  border-color: rgba(236, 138, 28, 0.45);
+  border-color: rgba(234, 125, 31, 0.45);
 }
 
 /* ── Responsive ─────────────────────────────────────────────────── */
