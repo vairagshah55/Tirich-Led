@@ -60,7 +60,7 @@ const GalleryCard = memo(function GalleryCard({
             decoding="async"
             width={item.width || CARD_WIDTH}
             height={item.height || CARD_HEIGHT}
-            sizes="(max-width: 767px) 56vw, 210px"
+            sizes="(max-width: 480px) 68vw, (max-width: 767px) 62vw, 210px"
             onLoad={() => onMediaLoad(origIdx)}
             onError={() => onMediaLoad(origIdx)}
           />
@@ -91,6 +91,10 @@ export default function LivingGallery({ items }) {
   const magnetRef = useRef(0);
   const progressRef = useRef(null);
   const visibleRef = useRef(false);
+
+  // Touch drag refs
+  const isTouching = useRef(false);
+  const touchLastX = useRef(0);
 
   const [ready, setReady] = useState(false);
   const [shouldLoad, setShouldLoad] = useState(false);
@@ -209,6 +213,28 @@ export default function LivingGallery({ items }) {
     magnetRef.current = ((event.clientX - rect.left) / rect.width - 0.5) * 28;
   };
 
+  const onTouchStart = useCallback((e) => {
+    isTouching.current = true;
+    pausedRef.current = true;
+    touchLastX.current = e.touches[0].clientX;
+  }, []);
+
+  const onTouchMove = useCallback((e) => {
+    if (!isTouching.current) return;
+    const delta = touchLastX.current - e.touches[0].clientX;
+    touchLastX.current = e.touches[0].clientX;
+    posRef.current += delta;
+    if (halfRef.current > 0) {
+      if (posRef.current >= halfRef.current) posRef.current -= halfRef.current;
+      if (posRef.current < 0) posRef.current += halfRef.current;
+    }
+  }, []);
+
+  const onTouchEnd = useCallback(() => {
+    isTouching.current = false;
+    pausedRef.current = false;
+  }, []);
+
   return (
     <div
       ref={wrapRef}
@@ -216,6 +242,9 @@ export default function LivingGallery({ items }) {
       onMouseEnter={onSectionEnter}
       onMouseLeave={onSectionLeave}
       onMouseMove={onSectionMove}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
     >
       <div
         ref={trackRef}
@@ -237,6 +266,8 @@ export default function LivingGallery({ items }) {
           />
         ))}
       </div>
+
+      <div className={styles.edgeFade} aria-hidden="true" />
 
       <div className={styles.progressWrap}>
         <div ref={progressRef} className={styles.progressBar} />

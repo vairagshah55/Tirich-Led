@@ -207,17 +207,92 @@
   width: 0%;
 }
 
-@media (max-width: 767px) {
+/* Edge fade — visible on mobile only */
+.edgeFade {
+  display: none;
+}
+
+/* ── Mobile ─────────────────────────────────────────────────────── */
+
+/* No custom cursor on touch devices */
+@media (hover: none) {
   .wrap {
-    min-height: 328px;
+    cursor: auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .edgeFade {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 1.5px; /* sit above progress bar */
+    width: 80px;
+    background: linear-gradient(to left, var(--bg-section, #171825) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 6;
+  }
+
+  .wrap {
+    min-height: 370px;
+  }
+
+  .track {
+    gap: 0.7rem;
+    padding: 0.5rem 0 0.75rem;
   }
 
   .card {
-    flex-basis: 175px;
-    height: 310px;
+    flex: 0 0 62vw;
+    height: 338px;
+    border-radius: 10px;
   }
 
   .caption {
-    padding: 0.75rem 0.75rem 0.65rem;
+    padding: 0.9rem 1rem 0.85rem;
+    backdrop-filter: blur(16px) saturate(1.4);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  }
+
+  .captionEyebrow {
+    font-size: 0.58rem;
+    letter-spacing: 0.18em;
+    margin-bottom: 0.28rem;
+  }
+
+  .captionLabel {
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.25;
+    margin-bottom: 0.22rem;
+  }
+
+  .aiBadge {
+    font-size: 0.52rem;
+    letter-spacing: 0.12em;
+  }
+
+  /* Play button always shows icon on mobile (no hover state) */
+  .playBtn {
+    width: 46px;
+    height: 46px;
+  }
+
+  .progressWrap {
+    height: 2px;
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .wrap {
+    min-height: 350px;
+  }
+
+  .card {
+    flex: 0 0 68vw;
+    height: 318px;
+    border-radius: 10px;
   }
 }
