@@ -149,7 +149,7 @@
 }
 
 .hovered .playLabel {
-  font-size: 0.5rem;
+  font-size: 0.72rem;
 }
 
 .caption {
@@ -168,8 +168,8 @@
 }
 
 .captionEyebrow {
-  font-size: 0.53rem;
-  letter-spacing: 0.2em;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: rgba(197, 163, 104, 0.75);
   margin: 0 0 0.2rem;
@@ -186,7 +186,7 @@
 }
 
 .aiBadge {
-  font-size: 0.5rem;
+  font-size: 0.72rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: rgba(197, 163, 104, 0.5);
@@ -256,7 +256,7 @@
   }
 
   .captionEyebrow {
-    font-size: 0.58rem;
+    font-size: 0.68rem;
     letter-spacing: 0.18em;
     margin-bottom: 0.28rem;
   }
@@ -269,7 +269,7 @@
   }
 
   .aiBadge {
-    font-size: 0.52rem;
+    font-size: 0.72rem;
     letter-spacing: 0.12em;
   }
 

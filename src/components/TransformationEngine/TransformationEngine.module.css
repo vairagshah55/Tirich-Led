@@ -48,7 +48,7 @@
 
 /* ── Panel eyebrow ──────────────────────────────────────────────── */
 .panelEyebrow {
-  font-size: 0.63rem;
+  font-size: 0.72rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: rgba(197, 163, 104, 0.5);
@@ -97,7 +97,7 @@
   left: 0;
   right: 0;
   text-align: center;
-  font-size: 0.6rem;
+  font-size: 0.7rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: rgba(197, 163, 104, 0.9);
@@ -133,7 +133,7 @@
   to   { stroke-dashoffset: -17; }
 }
 .connectorLabel {
-  font-size: 0.58rem;
+  font-size: 0.7rem;
   letter-spacing: 0.28em;
   text-transform: uppercase;
   color: rgba(197, 163, 104, 0.45);
@@ -209,7 +209,7 @@
   position: absolute;
   top: 0.4rem;
   left: 0.4rem;
-  font-size: 0.52rem;
+  font-size: 0.68rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: rgba(197, 163, 104, 0.92);
@@ -231,12 +231,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.5rem;
+  font-size: 0.65rem;
   padding-left: 2px;
 }
 
 .outputLabel {
-  font-size: 0.6rem;
+  font-size: 0.72rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.3);

@@ -79,7 +79,7 @@
   background: var(--charcoal);
   color: var(--gold);
   border-radius: 999px;
-  font-size: 0.65rem;
+  font-size: 0.72rem;
   padding: 0.1rem 0.45rem;
   margin-left: 0.4rem;
   font-weight: 700;
@@ -151,7 +151,7 @@
   color: var(--charcoal);
 }
 .typeBadge {
-  font-size: 0.65rem;
+  font-size: 0.72rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: 0.15rem 0.5rem;
@@ -427,7 +427,7 @@
 @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
 
 .cardType {
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text-muted);
