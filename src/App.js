@@ -11,6 +11,16 @@ import ContactPage from './pages/ContactPage/ContactPage';
 import CustomCursor from './components/CustomCursor/CustomCursor';
 import WhatsAppButton from './components/WhatsAppButton/WhatsAppButton';
 
+const PAGE_TITLES = {
+  '/':           'Tirich LED — Precision LED Lighting',
+  '/about':      'About Us | Tirich LED',
+  '/products':   'Products | Tirich LED',
+  '/contact':    'Contact Us | Tirich LED',
+  '/login':      'Partner Login | Tirich LED',
+  '/dashboard':  'Dashboard | Tirich LED',
+  '/ai-studio':  'AI Studio | Tirich LED',
+};
+
 function App() {
   const location = useLocation();
   const [authUser, setAuthUser] = useState(() => {
@@ -69,6 +79,18 @@ function App() {
   useEffect(() => {
     if (!authLoading) dismissSplash();
   }, [authLoading]);
+
+  useEffect(() => {
+    const path = location.pathname;
+    // Product detail: /products/:slug
+    if (path.startsWith('/products/')) {
+      const slug = path.replace('/products/', '').replace(/-/g, ' ');
+      const name = slug.replace(/\b\w/g, c => c.toUpperCase());
+      document.title = `${name} | Tirich LED`;
+    } else {
+      document.title = PAGE_TITLES[path] || 'Tirich LED — Precision LED Lighting';
+    }
+  }, [location.pathname]);
 
   if (authLoading) {
     return <div className="App" />;
