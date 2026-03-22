@@ -146,10 +146,10 @@ const STAT_ICONS = [
 ];
 
 const AVATAR_GRADIENTS = [
-  'linear-gradient(135deg, rgba(236,138,28,0.82) 0%, rgba(42,47,99,0.7) 100%)',
-  'linear-gradient(135deg, rgba(42,47,99,0.88) 0%, rgba(236,138,28,0.55) 100%)',
-  'linear-gradient(135deg, rgba(61,74,138,0.88) 0%, rgba(236,138,28,0.45) 100%)',
-  'linear-gradient(135deg, rgba(201,112,16,0.82) 0%, rgba(42,47,99,0.8) 100%)',
+  'linear-gradient(135deg, rgba(234,125,31,0.82) 0%, rgba(42,47,99,0.7) 100%)',
+  'linear-gradient(135deg, rgba(42,47,99,0.88) 0%, rgba(234,125,31,0.55) 100%)',
+  'linear-gradient(135deg, rgba(61,74,138,0.88) 0%, rgba(234,125,31,0.45) 100%)',
+  'linear-gradient(135deg, rgba(234,125,31,0.82) 0%, rgba(42,47,99,0.8) 100%)',
 ];
 
 const TEAM = [
