@@ -1,86 +1,99 @@
-/* ── Outer wrapper ───────────────────────────────────────────────── */
 .wrap {
   overflow: hidden;
   position: relative;
   padding-bottom: 0;
   cursor: none;
+  min-height: 390px;
+  contain: layout style;
 }
 
-/* ── Scrolling track ─────────────────────────────────────────────── */
 .track {
   display: flex;
   gap: 1.1rem;
   width: max-content;
-  will-change: transform;
   padding: 0.5rem 0 0.75rem;
-  /* Hidden until measured — prevents flash of wrong position */
-  opacity: 0;
-  transition: opacity 0.55s ease;
+  opacity: 0.01;
+  transition: opacity 0.28s ease;
 }
-.track.trackReady {
+
+.trackReady {
   opacity: 1;
 }
 
-/* ── Card ────────────────────────────────────────────────────────── */
+.trackActive {
+  will-change: transform;
+}
+
 .card {
   flex: 0 0 210px;
   height: 373px;
   position: relative;
   overflow: hidden;
   border-radius: 3px;
-  transition:
-    transform 0.38s cubic-bezier(0.23, 1, 0.32, 1),
-    opacity   0.38s ease;
-  /* Skeleton shimmer while image loads */
-  background: linear-gradient(
-    90deg,
-    var(--bg-card, #1E1F2E) 0%,
-    rgba(236,138,28,0.06) 50%,
-    var(--bg-card, #1E1F2E) 100%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.8s infinite linear;
-}
-/* Stop shimmer once media is loaded */
-.trackReady .card {
-  animation: none;
-  background: none;
+  transition: transform 0.38s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.38s ease;
+  background: var(--bg-card, #1e1f2e);
+  isolation: isolate;
 }
 
-@keyframes shimmer {
-  0%   { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+.cardLoaded {
+  background: transparent;
 }
 
-/* When ANY card in the track is hovered — dim the rest */
-.track.hasHover .card { opacity: 0.55; }
-.track.hasHover .card.hovered {
+.cardDimmed {
+  opacity: 0.55;
+}
+
+.hovered {
   opacity: 1;
   transform: scale(1.06);
   z-index: 2;
 }
 
-/* ── Media ───────────────────────────────────────────────────────── */
+.skeleton {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.04) 0%,
+      rgba(197, 163, 104, 0.18) 48%,
+      rgba(255, 255, 255, 0.04) 100%
+    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.22));
+  background-size: 200% 100%, 100% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
 .media {
+  position: relative;
+  z-index: 1;
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
   pointer-events: none;
-  /* Smooth fade-in as each image loads */
   opacity: 0;
-  transition: opacity 0.45s ease;
+  transition: opacity 0.28s ease, transform 0.35s ease;
 }
-/* Browser fires 'load' → the onLoad handler fires → we add this class via inline style trick.
-   Simpler: use CSS — once the image is loaded, the browser naturally paints it.
-   We use the track opacity to hide jank, so we just always show media once track is ready. */
-.trackReady .media {
+
+.mediaLoaded {
   opacity: 1;
 }
 
-/* ── Play / Watch indicator ──────────────────────────────────────── */
 .playBtn {
   position: absolute;
+  z-index: 2;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -98,18 +111,20 @@
   -webkit-backdrop-filter: blur(6px);
   pointer-events: none;
   transition:
-    width        0.35s cubic-bezier(0.23, 1, 0.32, 1),
-    height       0.35s cubic-bezier(0.23, 1, 0.32, 1),
-    background   0.3s ease,
+    width 0.35s cubic-bezier(0.23, 1, 0.32, 1),
+    height 0.35s cubic-bezier(0.23, 1, 0.32, 1),
+    background 0.3s ease,
     border-color 0.3s ease;
   overflow: hidden;
 }
+
 .playIcon {
   font-size: 0.85rem;
   color: rgba(255, 255, 255, 0.9);
   padding-left: 3px;
   transition: font-size 0.3s ease, color 0.3s ease;
 }
+
 .playLabel {
   font-size: 0;
   letter-spacing: 0.1em;
@@ -122,19 +137,24 @@
   line-height: 1.1;
 }
 
-/* Hovered card */
 .hovered .playBtn {
   width: 80px;
   height: 80px;
   background: rgba(197, 163, 104, 0.92);
-  border-color: #C5A368;
+  border-color: #c5a368;
 }
-.hovered .playIcon { font-size: 0; }
-.hovered .playLabel { font-size: 0.5rem; }
 
-/* ── Glassmorphism caption ───────────────────────────────────────── */
+.hovered .playIcon {
+  font-size: 0;
+}
+
+.hovered .playLabel {
+  font-size: 0.5rem;
+}
+
 .caption {
   position: absolute;
+  z-index: 2;
   bottom: 0;
   left: 0;
   right: 0;
@@ -146,6 +166,7 @@
   transform: translateY(0);
   transition: transform 0.35s ease;
 }
+
 .captionEyebrow {
   font-size: 0.53rem;
   letter-spacing: 0.2em;
@@ -154,6 +175,7 @@
   margin: 0 0 0.2rem;
   font-family: 'Inter', sans-serif;
 }
+
 .captionLabel {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 0.88rem;
@@ -162,6 +184,7 @@
   margin: 0 0 0.25rem;
   line-height: 1.2;
 }
+
 .aiBadge {
   font-size: 0.5rem;
   letter-spacing: 0.14em;
@@ -171,15 +194,30 @@
   font-family: 'Inter', sans-serif;
 }
 
-/* ── Progress bar ────────────────────────────────────────────────── */
 .progressWrap {
   height: 1.5px;
   background: rgba(197, 163, 104, 0.1);
   margin-top: 1.25rem;
   overflow: hidden;
 }
+
 .progressBar {
   height: 100%;
-  background: linear-gradient(to right, rgba(197, 163, 104, 0.4), #C5A368);
+  background: linear-gradient(to right, rgba(197, 163, 104, 0.4), #c5a368);
   width: 0%;
+}
+
+@media (max-width: 767px) {
+  .wrap {
+    min-height: 328px;
+  }
+
+  .card {
+    flex-basis: 175px;
+    height: 310px;
+  }
+
+  .caption {
+    padding: 0.75rem 0.75rem 0.65rem;
+  }
 }

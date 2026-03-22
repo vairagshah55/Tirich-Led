@@ -1,46 +1,155 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styles from './LivingGallery.module.css';
 
-const SPEED = 1.2; // px per animation frame
+const SPEED = 1.2;
+const CARD_WIDTH = 210;
+const CARD_HEIGHT = 373;
+const OBSERVER_ROOT_MARGIN = '35% 0px';
+
+const GalleryCard = memo(function GalleryCard({
+  item,
+  origIdx,
+  isClone,
+  isHovered,
+  isDimmed,
+  shouldLoad,
+  isLoaded,
+  onMediaLoad,
+  onHoverStart,
+  onHoverEnd,
+}) {
+  const cardClassName = [
+    styles.card,
+    isHovered ? styles.hovered : '',
+    isLoaded ? styles.cardLoaded : '',
+    isDimmed ? styles.cardDimmed : '',
+  ].filter(Boolean).join(' ');
+
+  return (
+    <article
+      className={cardClassName}
+      onMouseEnter={() => onHoverStart(origIdx)}
+      onMouseLeave={onHoverEnd}
+      aria-hidden={isClone}
+    >
+      {!isLoaded && <div className={styles.skeleton} aria-hidden="true" />}
+
+      {shouldLoad && (item.type === 'video' ? (
+        <video
+          src={item.src}
+          poster={item.poster}
+          className={`${styles.media} ${isLoaded ? styles.mediaLoaded : ''}`}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload={origIdx < 2 ? 'metadata' : 'none'}
+          onLoadedData={() => onMediaLoad(origIdx)}
+          onCanPlay={() => onMediaLoad(origIdx)}
+          onError={() => onMediaLoad(origIdx)}
+        />
+      ) : (
+        <picture>
+          {item.webpSrc ? <source srcSet={item.webpSrc} type="image/webp" /> : null}
+          <img
+            src={item.src}
+            alt={item.label}
+            className={`${styles.media} ${isLoaded ? styles.mediaLoaded : ''}`}
+            loading={origIdx < 2 ? 'eager' : 'lazy'}
+            fetchPriority={origIdx < 2 ? 'high' : 'auto'}
+            decoding="async"
+            width={item.width || CARD_WIDTH}
+            height={item.height || CARD_HEIGHT}
+            sizes="(max-width: 767px) 56vw, 210px"
+            onLoad={() => onMediaLoad(origIdx)}
+            onError={() => onMediaLoad(origIdx)}
+          />
+        </picture>
+      ))}
+
+      <div className={styles.playBtn}>
+        <span className={styles.playIcon}>&#9654;</span>
+        <span className={styles.playLabel}>Watch Result</span>
+      </div>
+
+      <div className={styles.caption}>
+        <p className={styles.captionEyebrow}>{item.eyebrow}</p>
+        <p className={styles.captionLabel}>{item.label}</p>
+        <p className={styles.aiBadge}>Tirich LED &middot; Precision Lighting</p>
+      </div>
+    </article>
+  );
+});
 
 export default function LivingGallery({ items }) {
-  const trackRef    = useRef(null);
-  const posRef      = useRef(0);
-  const rafRef      = useRef(null);
-  const pausedRef   = useRef(false);
-  const halfRef     = useRef(0);
-  const magnetRef   = useRef(0);
+  const wrapRef = useRef(null);
+  const trackRef = useRef(null);
+  const posRef = useRef(0);
+  const rafRef = useRef(null);
+  const pausedRef = useRef(false);
+  const halfRef = useRef(0);
+  const magnetRef = useRef(0);
   const progressRef = useRef(null);
-  const loadedRef   = useRef(0);        // count of loaded images/videos
-  const totalRef    = useRef(0);        // total media items to wait for
-  const startedRef  = useRef(false);    // RAF started flag
+  const visibleRef = useRef(false);
 
-  const [ready, setReady]           = useState(false);
+  const [ready, setReady] = useState(false);
+  const [shouldLoad, setShouldLoad] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [loadedMap, setLoadedMap] = useState({});
   const [hoveredIdx, setHoveredIdx] = useState(null);
 
-  const doubled = [...items, ...items];
-  const n = items.length;
+  const doubled = useMemo(
+    () => [...items, ...items].map((item, index) => ({
+      ...item,
+      cloneIndex: index,
+      origIdx: index % items.length,
+      isClone: index >= items.length,
+    })),
+    [items]
+  );
 
-  // ── Measure track width (called after media loads) ───────────────
   const measure = useCallback(() => {
     const track = trackRef.current;
     if (!track) return;
-    const w = track.scrollWidth / 2;
-    if (w > 0) halfRef.current = w;
+
+    const width = track.scrollWidth / 2;
+    if (width > 0) {
+      halfRef.current = width;
+    }
   }, []);
 
-  // ── Start animation loop once track is measured ──────────────────
-  const startRAF = useCallback(() => {
-    if (startedRef.current) return;
-    startedRef.current = true;
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
 
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        visibleRef.current = entry.isIntersecting;
+        setIsVisible(entry.isIntersecting);
+
+        if (entry.isIntersecting) {
+          setShouldLoad(true);
+        }
+      },
+      {
+        rootMargin: OBSERVER_ROOT_MARGIN,
+        threshold: 0.01,
+      }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
     const animate = () => {
-      if (!pausedRef.current) {
+      if (!pausedRef.current && visibleRef.current) {
         posRef.current += SPEED;
         if (halfRef.current > 0 && posRef.current >= halfRef.current) {
           posRef.current = 0;
         }
       }
+
       const x = posRef.current + magnetRef.current;
       if (trackRef.current) {
         trackRef.current.style.transform = `translateX(${-x}px)`;
@@ -48,59 +157,61 @@ export default function LivingGallery({ items }) {
       if (progressRef.current && halfRef.current > 0) {
         progressRef.current.style.width = `${(posRef.current / halfRef.current) * 100}%`;
       }
+
       rafRef.current = requestAnimationFrame(animate);
     };
+
     rafRef.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(rafRef.current);
   }, []);
 
-  // ── Called each time a media element finishes loading ────────────
-  const onMediaLoad = useCallback(() => {
-    loadedRef.current += 1;
-    measure(); // re-measure as each item loads
-    if (loadedRef.current >= totalRef.current) {
-      measure(); // final accurate measure
-      setReady(true);
-      startRAF();
-    }
-  }, [measure, startRAF]);
-
-  // ── Setup: count total media, add resize listener ────────────────
   useEffect(() => {
-    // Count image items only (videos fire canplay, images fire load)
-    totalRef.current = doubled.length;
+    if (!shouldLoad) return;
 
+    const track = trackRef.current;
+    if (!track) return;
+
+    setReady(true);
+    measure();
+
+    const resizeObserver = new ResizeObserver(() => {
+      measure();
+    });
+
+    resizeObserver.observe(track);
     window.addEventListener('resize', measure);
 
-    // Safety net: if media takes >2s, start anyway with whatever width we have
-    const fallback = setTimeout(() => {
-      measure();
-      if (!startedRef.current) {
-        setReady(true);
-        startRAF();
-      }
-    }, 2000);
-
     return () => {
-      cancelAnimationFrame(rafRef.current);
+      resizeObserver.disconnect();
       window.removeEventListener('resize', measure);
-      clearTimeout(fallback);
     };
-  }, [measure, startRAF, doubled.length]);
+  }, [measure, shouldLoad]);
 
-  // ── Section mouse handlers ────────────────────────────────────────
-  const onSectionEnter = () => { pausedRef.current = true; };
+  const onMediaLoad = useCallback((index) => {
+    setLoadedMap((prev) => {
+      if (prev[index]) return prev;
+      return { ...prev, [index]: true };
+    });
+  }, []);
+
+  const onSectionEnter = () => {
+    pausedRef.current = true;
+  };
+
   const onSectionLeave = () => {
     pausedRef.current = false;
     magnetRef.current = 0;
     setHoveredIdx(null);
   };
-  const onSectionMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    magnetRef.current = ((e.clientX - rect.left) / rect.width - 0.5) * 28;
+
+  const onSectionMove = (event) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    magnetRef.current = ((event.clientX - rect.left) / rect.width - 0.5) * 28;
   };
 
   return (
     <div
+      ref={wrapRef}
       className={styles.wrap}
       onMouseEnter={onSectionEnter}
       onMouseLeave={onSectionLeave}
@@ -108,60 +219,25 @@ export default function LivingGallery({ items }) {
     >
       <div
         ref={trackRef}
-        className={`${styles.track} ${hoveredIdx !== null ? styles.hasHover : ''} ${ready ? styles.trackReady : ''}`}
+        className={`${styles.track} ${ready ? styles.trackReady : ''} ${isVisible ? styles.trackActive : ''}`}
       >
-        {doubled.map((item, i) => {
-          const origIdx  = i % n;
-          const isHovered = hoveredIdx === origIdx;
-          return (
-            <div
-              key={i}
-              className={`${styles.card} ${isHovered ? styles.hovered : ''}`}
-              onMouseEnter={() => setHoveredIdx(origIdx)}
-              onMouseLeave={() => setHoveredIdx(null)}
-            >
-              {item.type === 'video' ? (
-                <video
-                  src={item.src}
-                  className={styles.media}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="auto"
-                  onCanPlay={onMediaLoad}
-                  onError={onMediaLoad}   /* count errors so fallback still fires */
-                />
-              ) : (
-                <img
-                  src={item.src}
-                  alt={item.label}
-                  className={styles.media}
-                  loading="eager"
-                  decoding="async"
-                  onLoad={onMediaLoad}
-                  onError={onMediaLoad}   /* count errors so fallback still fires */
-                />
-              )}
-
-              {/* Play / Watch indicator */}
-              <div className={styles.playBtn}>
-                <span className={styles.playIcon}>▶</span>
-                <span className={styles.playLabel}>Watch Result</span>
-              </div>
-
-              {/* Glassmorphism caption */}
-              <div className={styles.caption}>
-                <p className={styles.captionEyebrow}>{item.eyebrow}</p>
-                <p className={styles.captionLabel}>{item.label}</p>
-                <p className={styles.aiBadge}>Tirich LED · Precision Lighting</p>
-              </div>
-            </div>
-          );
-        })}
+        {doubled.map((item) => (
+          <GalleryCard
+            key={`${item.label}-${item.cloneIndex}`}
+            item={item}
+            origIdx={item.origIdx}
+            isClone={item.isClone}
+            isHovered={hoveredIdx === item.origIdx}
+            isDimmed={hoveredIdx !== null && hoveredIdx !== item.origIdx}
+            shouldLoad={shouldLoad}
+            isLoaded={Boolean(loadedMap[item.origIdx])}
+            onMediaLoad={onMediaLoad}
+            onHoverStart={setHoveredIdx}
+            onHoverEnd={() => setHoveredIdx(null)}
+          />
+        ))}
       </div>
 
-      {/* Progress bar */}
       <div className={styles.progressWrap}>
         <div ref={progressRef} className={styles.progressBar} />
       </div>
