@@ -99,7 +99,6 @@ export default function ProductsPage() {
               {/* Image */}
               <div className={styles.cardMedia}>
                 <img src={product.image} alt={product.name} className={styles.cardImg} />
-                <span className={styles.cardBadge}>{product.category}</span>
                 <div className={styles.cardOverlay}>
                   <span className={styles.cardOverlayBtn}>View Details</span>
                 </div>
