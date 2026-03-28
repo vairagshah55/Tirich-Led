@@ -1145,6 +1145,154 @@
   .gallerySection .sectionHeader { padding: 0 1.5rem; }
 }
 
+/* ── Ambient Environments ───────────────────────────────────────── */
+.ambientSection {
+  background: var(--bg-deep);
+  padding: 5rem 4rem 4rem;
+  position: relative;
+}
+
+.ambientHeader { margin-bottom: 2.4rem; }
+
+.ambientHeaderTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.ambientSectionNum {
+  font-size: 5rem;
+  font-weight: 800;
+  line-height: 1;
+  color: rgba(255,255,255,0.05);
+  font-family: var(--font-display);
+  letter-spacing: -0.04em;
+  user-select: none;
+  flex-shrink: 0;
+  margin-top: -0.5rem;
+}
+
+.ambientSection .sectionEyebrow { color: var(--clr-accent-decoration); }
+.ambientSection .sectionTitle   { color: #F0F0FA; }
+.ambientSection .sectionLead    { color: rgba(240,240,250,0.5); max-width: 540px; }
+
+/* Tabs */
+.ambientTabs {
+  display: flex;
+  align-items: flex-end;
+  gap: 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  margin-bottom: 2rem;
+}
+
+.ambientTab {
+  position: relative;
+  padding: 0.75rem 1.8rem;
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.3);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: none;
+  font-family: inherit;
+  transition: color 0.22s ease;
+}
+.ambientTabActive { color: #fff; }
+
+.ambientTabLine {
+  position: absolute;
+  bottom: -1px; left: 0; right: 0;
+  height: 2px;
+  background: var(--brand-orange);
+  border-radius: 1px 1px 0 0;
+}
+
+/* Grid */
+.ambientGrid {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr 1fr;
+  grid-template-rows: 290px 290px;
+  gap: 4px;
+}
+
+.ambientCard {
+  position: relative;
+  overflow: hidden;
+  background: rgba(255,255,255,0.04);
+  cursor: none;
+}
+
+.ambientCardFeatured { grid-row: span 2; }
+
+.ambientImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.ambientCard:hover .ambientImg { transform: scale(1.05); }
+
+.ambientOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(26,23,64,0.88) 0%, rgba(26,23,64,0.15) 48%, transparent 70%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.4rem 1.6rem;
+  opacity: 0;
+  transition: opacity 0.32s ease;
+}
+.ambientCardFeatured .ambientOverlay { opacity: 1; }
+.ambientCard:hover .ambientOverlay   { opacity: 1; }
+
+.ambientCardTag {
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--brand-orange);
+  margin-bottom: 0.3rem;
+}
+
+.ambientCardTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+  font-family: var(--font-display);
+  transform: translateY(5px);
+  transition: transform 0.32s ease;
+}
+.ambientCardFeatured .ambientCardTitle {
+  font-size: 1.35rem;
+  transform: none;
+}
+.ambientCard:hover .ambientCardTitle { transform: translateY(0); }
+
+@media (max-width: 1100px) {
+  .ambientSection { padding: 5rem 2rem 4rem; }
+  .ambientGrid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 240px 240px 240px;
+  }
+  .ambientCardFeatured { grid-column: span 2; grid-row: span 1; }
+}
+
+@media (max-width: 700px) {
+  .ambientSection { padding: 4rem 1.5rem 3rem; }
+  .ambientSectionNum { display: none; }
+  .ambientGrid {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(5, 220px);
+  }
+  .ambientCardFeatured { grid-column: span 1; }
+  .ambientTabs { overflow-x: auto; scrollbar-width: none; }
+  .ambientTabs::-webkit-scrollbar { display: none; }
+}
+
 /* ── Catalogue CTA strip ────────────────────────────────────────── */
 .catalogueCta {
   display: flex;
