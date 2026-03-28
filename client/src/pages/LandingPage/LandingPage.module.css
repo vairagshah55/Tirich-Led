@@ -80,39 +80,6 @@
 .navCta:hover { background: var(--btn-solid-bg); color: var(--btn-solid-text); }
 
 /* ── Theme toggle ───────────────────────────────────────────────── */
-.themeToggle {
-  position: relative;
-  width: 44px;
-  height: 24px;
-  border-radius: 12px;
-  background: rgba(234, 125, 31, 0.18);
-  border: 1px solid rgba(234, 125, 31, 0.35);
-  cursor: none;
-  flex-shrink: 0;
-  transition: background 0.3s ease, border-color 0.3s ease;
-  padding: 0;
-}
-.themeToggle:hover {
-  border-color: var(--gold);
-}
-.themeKnob {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: var(--gold);
-  transition: transform 0.32s cubic-bezier(0.23, 1, 0.32, 1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.7rem;
-  line-height: 1;
-}
-.themeToggle.lightMode .themeKnob {
-  transform: translateX(20px);
-}
 
 /* ── Buttons ────────────────────────────────────────────────────── */
 .btnPrimary {

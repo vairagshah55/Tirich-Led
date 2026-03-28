@@ -1,132 +1,43 @@
-/* ═══════════════════════════════════════════════════════════════════
-   TIRICH LED — WCAG 2.1 AA Compliant Design Token System
-   All text/background pairs verified ≥ 4.5:1 (normal text) or ≥ 3:1 (large text)
-   ─────────────────────────────────────────────────────────────────
-   Logo colours:
-     Navy  #2A2F63  (headings, dark-mode accent text)
-     Orange #ea7d1f  (CTAs, dark-mode labels, icon accents)
-   ─────────────────────────────────────────────────────────────────
-   Verified contrast pairs:
-   DARK MODE
-     #F0F1F7 on #12131C  → 16.6:1  AAA ✓ (body text on page)
-     #F0F1F7 on #171825  → 15.1:1  AAA ✓ (text on section bg)
-     #9CA1BA on #171825  →  6.5:1  AA  ✓ (muted on section bg)
-     #ea7d1f on #12131C  →  7.3:1  AAA ✓ (accent text on page)
-     #ea7d1f on #171825  →  6.6:1  AA  ✓ (accent text on section)
-     #F0F1F7 on #0D0E16  → 17.3:1  AAA ✓ (text on deep bg)
-     #9CA1BA on #0D0E16  →  6.8:1  AA  ✓ (muted on deep bg)
-     #0B0C14 on #ea7d1f  →  7.5:1  AAA ✓ (dark text on orange btn)
-   LIGHT MODE
-     #1F2231 on #F3F4F9  → 14.9:1  AAA ✓ (body text on page)
-     #2A2F63 on #ECEDF5  → 10.8:1  AAA ✓ (text on section bg)
-     #5A5E7A on #ECEDF5  →  5.4:1  AA  ✓ (muted on section bg)
-     #2A2F63 on #F3F4F9  → 11.7:1  AAA ✓ (accent text on page)
-     #F0F1F7 on #2A2F63  → 11.1:1  AAA ✓ (text on deep/navy bg)
-     #A8AECA on #2A2F63  →  5.8:1  AA  ✓ (muted on deep/navy bg)
-     #0B0C14 on #ea7d1f  →  7.5:1  AAA ✓ (dark text on orange btn)
-   ═══════════════════════════════════════════════════════════════════ */
+﻿:root {
+  --brand-navy: #2a2f63;
+  --brand-orange: #ea7d1f;
+  --brand-orange-hover: #f08c30;
+  --neutral-dark: #1f2231;
+  --neutral-mid: #8c90a8;
+  --neutral-light: #f3f4f9;
 
-/* ── Dark mode (default) ─────────────────────────────────────────── */
-:root {
-  /* Brand */
-  --brand-navy:            #2A2F63;
-  --brand-orange:          #ea7d1f;
-  --brand-orange-hover:    #f08c30;
-  --neutral-dark:          #1F2231;
-  --neutral-mid:           #8C90A8;
-  --neutral-light:         #F3F4F9;
+  --bg-page: #f3f4f9;
+  --bg-section: #ecedf5;
+  --bg-deep: #2a2f63;
+  --bg-footer: #1f2231;
+  --bg-card: #ffffff;
+  --bg-light-section: #f3f4f9;
+  --marquee-bg: #ecedf5;
 
-  /* Backgrounds */
-  --bg-page:               #12131C;
-  --bg-section:            #171825;
-  --bg-deep:               #0D0E16;
-  --bg-footer:             #0D0E16;
-  --bg-card:               #1E1F2E;
-  --bg-light-section:      #1A1B2A;
-  --marquee-bg:            #12131C;
+  --nav-bg: rgba(243, 244, 249, 0.95);
+  --nav-text: #1f2231;
 
-  /* Nav */
-  --nav-bg:                rgba(18, 19, 28, 0.92);
-  --nav-text:              #F0F1F7;
+  --text-body: #1f2231;
+  --text-on-section: #2a2f63;
+  --text-on-section-muted: #5a5e7a;
+  --text-on-section-dim: rgba(42, 47, 99, 0.42);
+  --text-footer: rgba(243, 244, 249, 0.65);
 
-  /* Text — section backgrounds (bg-page / bg-section) */
-  --text-body:             #F0F1F7;
-  --text-on-section:       #F0F1F7;
-  --text-on-section-muted: #9CA1BA;        /* 6.5:1 on #171825 ✓ */
-  --text-on-section-dim:   rgba(240, 241, 247, 0.35);
-  --text-footer:           rgba(240, 241, 247, 0.38);
+  --text-on-deep: #f0f1f7;
+  --text-on-deep-muted: #a8aeca;
 
-  /* Text — deep / navy backgrounds (bg-deep) */
-  --text-on-deep:          #F0F1F7;        /* 17.3:1 on #0D0E16 ✓ */
-  --text-on-deep-muted:    #9CA1BA;        /* 6.8:1 on #0D0E16 ✓ */
+  --clr-accent-text: #2a2f63;
+  --clr-accent-hover: #1a1f4a;
+  --clr-accent-decoration: #ea7d1f;
 
-  /* Accent — WCAG text colour (use for eyebrows, labels, links) */
-  --clr-accent-text:       #ea7d1f;        /* 7.3:1 on dark bg ✓ */
-  --clr-accent-hover:      #f08c30;        /* large text / decorative hover */
-  --clr-accent-decoration: #ea7d1f;        /* borders, underlines, dots (decorative) */
+  --btn-solid-bg: #ea7d1f;
+  --btn-solid-text: #0b0c14;
+  --btn-ghost-fg: #2a2f63;
 
-  /* Buttons */
-  --btn-solid-bg:          #ea7d1f;
-  --btn-solid-text:        #0B0C14;        /* 7.5:1 on orange ✓ */
-  --btn-ghost-fg:          #ea7d1f;        /* 7.3:1 on dark bg ✓ */
-
-  /* Cards / misc */
-  --step-card-bg:          rgba(42, 47, 99, 0.14);
-  --step-card-hover:       rgba(42, 47, 99, 0.24);
-  --stat-hover:            rgba(234, 125, 31, 0.08);
-  --lifestyle-glass-bg:    rgba(18, 19, 28, 0.82);
-}
-
-/* ── Light mode overrides ────────────────────────────────────────── */
-[data-theme="light"] {
-  /* Backgrounds */
-  --bg-page:               #F3F4F9;
-  --bg-section:            #ECEDF5;
-  --bg-deep:               #2A2F63;        /* navy — dark bg in light mode */
-  --bg-footer:             #1F2231;
-  --bg-card:               #FFFFFF;
-  --bg-light-section:      #F3F4F9;
-  --marquee-bg:            #ECEDF5;
-
-  /* Nav */
-  --nav-bg:                rgba(243, 244, 249, 0.95);
-  --nav-text:              #1F2231;        /* 14.9:1 on nav-bg ✓ */
-
-  /* Text — section backgrounds */
-  --text-body:             #1F2231;        /* 14.9:1 on bg-page ✓ */
-  --text-on-section:       #2A2F63;        /* 10.8:1 on bg-section ✓ */
-  --text-on-section-muted: #5A5E7A;        /* 5.4:1 on bg-section ✓ */
-  --text-on-section-dim:   rgba(42, 47, 99, 0.42);
-  --text-footer:           rgba(243, 244, 249, 0.65);
-
-  /* Text — deep / navy backgrounds */
-  --text-on-deep:          #F0F1F7;        /* 11.1:1 on #2A2F63 ✓ */
-  --text-on-deep-muted:    #A8AECA;        /* 5.8:1 on #2A2F63 ✓ */
-
-  /* Accent — WCAG text colour (navy replaces orange for text in light mode) */
-  --clr-accent-text:       #2A2F63;        /* 10.8:1 on bg-section ✓ */
-  --clr-accent-hover:      #1A1F4A;        /* darker navy hover */
-  --clr-accent-decoration: #ea7d1f;        /* borders, underlines, dots (decorative) */
-
-  /* Buttons */
-  --btn-solid-bg:          #ea7d1f;
-  --btn-solid-text:        #0B0C14;        /* 7.5:1 on orange ✓ */
-  --btn-ghost-fg:          #2A2F63;        /* 10.8:1 on bg-section ✓ */
-
-  /* Cards / misc */
-  --step-card-bg:          rgba(42, 47, 99, 0.05);
-  --step-card-hover:       rgba(42, 47, 99, 0.10);
-  --stat-hover:            rgba(234, 125, 31, 0.07);
-  --lifestyle-glass-bg:    rgba(243, 244, 249, 0.86);
-}
-
-/* ── Smooth theme transition ─────────────────────────────────────── */
-html.theme-switching,
-html.theme-switching * {
-  transition:
-    background-color 0.38s ease,
-    color            0.3s  ease,
-    border-color     0.3s  ease !important;
+  --step-card-bg: rgba(42, 47, 99, 0.05);
+  --step-card-hover: rgba(42, 47, 99, 0.1);
+  --stat-hover: rgba(234, 125, 31, 0.07);
+  --lifestyle-glass-bg: rgba(243, 244, 249, 0.86);
 }
 
 body {
@@ -148,35 +59,38 @@ body {
   box-sizing: border-box;
 }
 
-/* ── Page transition (fade + lift on every route change) ── */
+/* Page transition */
 @keyframes pageEnter {
   from { opacity: 0; transform: translateY(14px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
 .pageTransition {
   animation: pageEnter 0.5s cubic-bezier(0.23, 1, 0.32, 1) both;
 }
 
-/* ── Section glow (on nav click) ── */
+/* Section glow */
 @keyframes sectionGlow {
   0%   { box-shadow: inset 0 0 0 2px rgba(234, 125, 31, 0.8); }
   60%  { box-shadow: inset 0 0 0 2px rgba(234, 125, 31, 0.3); }
-  100% { box-shadow: inset 0 0 0 0px rgba(234, 125, 31, 0); }
+  100% { box-shadow: inset 0 0 0 0 rgba(234, 125, 31, 0); }
 }
+
 .js-section-glow {
   animation: sectionGlow 1s ease-out forwards !important;
 }
 
-/* ── Blur-to-focus reveal ── */
+/* Blur-to-focus reveal */
 [data-reveal] {
   opacity: 0;
   filter: blur(14px);
   transform: translateY(30px);
   transition:
-    opacity   0.9s ease,
-    filter    0.9s ease,
+    opacity 0.9s ease,
+    filter 0.9s ease,
     transform 0.9s cubic-bezier(0.23, 1, 0.32, 1);
 }
+
 .js-revealed[data-reveal] {
   opacity: 1;
   filter: blur(0);

@@ -62,15 +62,6 @@
 }
 
 /* Dark mode: multiply kills logo colours on dark bg — use a ghost pill instead */
-[data-theme="dark"] .navLogo {
-  mix-blend-mode: normal;
-}
-
-[data-theme="dark"] .navBrand {
-  background: rgba(255, 255, 255, 0.06);
-  padding: 4px 10px;
-  border-radius: 5px;
-}
 
 /* ── Center links ───────────────────────────────────────────────── */
 .navCenter {
@@ -163,48 +154,6 @@
 }
 
 /* ── Theme toggle ───────────────────────────────────────────────── */
-.themeToggle {
-  position: relative;
-  width: 44px;
-  height: 24px;
-  border-radius: 12px;
-  background: rgba(234, 125, 31, 0.16);
-  border: 1px solid rgba(234, 125, 31, 0.32);
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: border-color 0.3s ease, background 0.3s ease;
-  padding: 0;
-}
-
-.themeToggle:hover {
-  border-color: rgba(234, 125, 31, 0.6);
-  background: rgba(234, 125, 31, 0.22);
-}
-
-.themeToggle:focus-visible {
-  outline: 2px solid var(--brand-orange);
-  outline-offset: 2px;
-}
-
-.themeKnob {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: #ea7d1f;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.65rem;
-  transition: transform 0.32s cubic-bezier(0.23, 1, 0.32, 1);
-  line-height: 1;
-}
-
-.themeKnobLight {
-  transform: translateX(20px);
-}
 
 /* ── Partner login CTA (hidden until ready) ─────────────────────── */
 .navCta {

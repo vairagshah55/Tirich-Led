@@ -278,14 +278,6 @@ select.input option {
 
 /* ── Dark-mode input border override ────────────────────────────── */
 /* In dark mode bg-card = #1E1F2E — navy border would be invisible */
-:global([data-theme="dark"]) .input,
-:global([data-theme="dark"]) .textarea {
-  border-color: rgba(234, 125, 31, 0.2);
-}
-:global([data-theme="dark"]) .input:hover,
-:global([data-theme="dark"]) .textarea:hover {
-  border-color: rgba(234, 125, 31, 0.45);
-}
 
 /* ── Responsive ─────────────────────────────────────────────────── */
 @media (max-width: 900px) {
