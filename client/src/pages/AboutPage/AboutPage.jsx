@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'motion/react';
 import Navbar from '../../components/Navbar/Navbar';
 import styles from './AboutPage.module.css';
 import img101   from '../../assets/TLC-101.jpg';
@@ -9,6 +10,7 @@ import img151   from '../../assets/TLC-151.jpg';
 import imgHang  from '../../assets/hanging-230.jpg';
 import imgStrip from '../../assets/STRIP-LED-POST.jpg';
 import img121   from '../../assets/TLC-121.jpg';
+import { cardHover, fadeIn, fadeUp } from '../../utils/motion';
 
 /* ── Data ─────────────────────────────────────────────────────────── */
 
@@ -218,7 +220,7 @@ export default function AboutPage() {
         <div className={styles.heroAccentLine} aria-hidden="true" />
         <div className={styles.heroInner}>
           {/* Left — text */}
-          <div className={styles.heroLeft}>
+          <motion.div className={styles.heroLeft} {...fadeUp(0.05, 20)}>
             <p className={styles.heroEyebrow} data-reveal>About Tirich LED</p>
             <h1
               className={styles.heroTitle}
@@ -235,10 +237,10 @@ export default function AboutPage() {
               commercial, residential, and architectural applications. Since 2020, we have
               been engineering products that deliver on performance, longevity, and reliability.
             </p>
-          </div>
+          </motion.div>
 
           {/* Right — product image mosaic */}
-          <div className={styles.heroMosaic} data-reveal style={{ transitionDelay: '0.25s' }} aria-hidden="true">
+          <motion.div className={styles.heroMosaic} data-reveal style={{ transitionDelay: '0.25s' }} aria-hidden="true" {...fadeUp(0.12, 20)}>
             <div className={`${styles.heroMosaicItem} ${styles.heroMosaicItemTall}`}>
               <img src={img112} alt="TLC-112 LED panel" loading="eager" decoding="async" />
             </div>
@@ -248,7 +250,7 @@ export default function AboutPage() {
             <div className={styles.heroMosaicItem}>
               <img src={img121} alt="TLC-121 LED panel" loading="eager" decoding="async" />
             </div>
-          </div>
+          </motion.div>
         </div>
         <div className={styles.heroDecor} aria-hidden="true" />
       </section>
@@ -256,17 +258,19 @@ export default function AboutPage() {
       {/* ── STATS BAR ────────────────────────────────────────────── */}
       <div className={styles.statsBar} role="list" aria-label="Company highlights">
         {STATS.map((s, i) => (
-          <div
+          <motion.div
             key={s.label}
             className={styles.statItem}
             data-reveal
             style={{ transitionDelay: `${i * 0.08}s` }}
             role="listitem"
+            whileHover={cardHover}
+            {...fadeUp(Math.min(i * 0.06, 0.24), 18)}
           >
             <span className={styles.statIcon}>{STAT_ICONS[i]}</span>
             <span className={styles.statValue}>{s.value}</span>
             <span className={styles.statLabel}>{s.label}</span>
-          </div>
+          </motion.div>
         ))}
       </div>
 
@@ -326,7 +330,7 @@ export default function AboutPage() {
 
       {/* ── MISSION + VISION ─────────────────────────────────────── */}
       <section className={styles.missionVision} aria-label="Mission and Vision">
-        <div className={styles.missionCard} data-reveal>
+        <motion.div className={styles.missionCard} data-reveal whileHover={cardHover} {...fadeUp(0.08, 18)}>
           <div className={styles.mvIconBg} aria-hidden="true">
             <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="10"/>
@@ -341,9 +345,9 @@ export default function AboutPage() {
           <h2 className={styles.mvTitle}>{MISSION.title}</h2>
           <div className={styles.mvDivider} aria-hidden="true" />
           <p className={styles.mvBody}>{MISSION.body}</p>
-        </div>
+        </motion.div>
 
-        <div className={styles.visionCard} data-reveal style={{ transitionDelay: '0.15s' }}>
+        <motion.div className={styles.visionCard} data-reveal style={{ transitionDelay: '0.15s' }} whileHover={cardHover} {...fadeUp(0.16, 18)}>
           <div className={styles.mvIconBg} aria-hidden="true">
             <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
               <line x1="9" y1="18" x2="15" y2="18"/>
@@ -355,7 +359,7 @@ export default function AboutPage() {
           <h2 className={styles.mvTitle}>{VISION.title}</h2>
           <div className={styles.mvDivider} aria-hidden="true" />
           <p className={styles.mvBody}>{VISION.body}</p>
-        </div>
+        </motion.div>
       </section>
 
       {/* ── TIMELINE ─────────────────────────────────────────────── */}
@@ -421,11 +425,13 @@ export default function AboutPage() {
 
         <div className={styles.valuesGrid}>
           {VALUES.map((v, i) => (
-            <article
+            <motion.article
               key={v.title}
               className={styles.valueCard}
               data-reveal
               style={{ transitionDelay: `${i * 0.08}s` }}
+              whileHover={cardHover}
+              {...fadeUp(Math.min(i * 0.06, 0.24), 18)}
             >
               <span className={styles.valueIcon} aria-hidden="true">
                 <svg
@@ -443,7 +449,7 @@ export default function AboutPage() {
               </span>
               <h3 className={styles.valueTitle}>{v.title}</h3>
               <p className={styles.valueBody}>{v.body}</p>
-            </article>
+            </motion.article>
           ))}
         </div>
       </section>
@@ -462,11 +468,13 @@ export default function AboutPage() {
 
         <div className={styles.teamGrid}>
           {TEAM.map((member, i) => (
-            <article
+            <motion.article
               key={member.name}
               className={styles.teamCard}
               data-reveal
               style={{ transitionDelay: `${i * 0.1}s` }}
+              whileHover={cardHover}
+              {...fadeUp(Math.min(i * 0.08, 0.28), 18)}
             >
               <div className={styles.avatarWrap}>
                 <div
@@ -484,14 +492,14 @@ export default function AboutPage() {
                 <p className={styles.memberRole}>{member.role}</p>
                 <p className={styles.memberBio}>{member.bio}</p>
               </div>
-            </article>
+            </motion.article>
           ))}
         </div>
       </section>
 
       {/* ── MANUFACTURING ────────────────────────────────────────── */}
       <section className={styles.manufacturing} aria-labelledby="manufacturing-title">
-        <div className={styles.manufacturingImg} data-reveal>
+        <motion.div className={styles.manufacturingImg} data-reveal {...fadeUp(0.08, 18)}>
           <img
             src={img151}
             alt="Tirich LED TLC-151 panel light"
@@ -501,9 +509,9 @@ export default function AboutPage() {
           <span className={styles.imgBadge} aria-label="Product certifications">
             IP65 · CRI 95+ · CE Certified
           </span>
-        </div>
+        </motion.div>
 
-        <div data-reveal style={{ transitionDelay: '0.15s' }}>
+        <motion.div data-reveal style={{ transitionDelay: '0.15s' }} {...fadeUp(0.16, 18)}>
           <p className={styles.sectionEyebrow}>Manufacturing Excellence</p>
           <h2 className={styles.sectionTitle} id="manufacturing-title">
             Every Unit Tested.<br />Every Batch Certified.
@@ -521,11 +529,11 @@ export default function AboutPage() {
               </li>
             ))}
           </ul>
-        </div>
+        </motion.div>
       </section>
 
       {/* ── CTA ──────────────────────────────────────────────────── */}
-      <section className={styles.ctaSection} data-reveal aria-labelledby="cta-title">
+      <motion.section className={styles.ctaSection} data-reveal aria-labelledby="cta-title" {...fadeIn(0.1)}>
         <h2 className={styles.ctaTitle} id="cta-title">
           Ready to Specify Tirich LED?
         </h2>
@@ -537,7 +545,7 @@ export default function AboutPage() {
           <Link to="/products" className={styles.btnPrimary}>Browse Products</Link>
           <Link to="/contact" className={styles.btnGhost}>Contact Us</Link>
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 }

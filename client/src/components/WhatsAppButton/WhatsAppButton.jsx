@@ -1,4 +1,8 @@
+import { motion } from 'motion/react';
 import styles from './WhatsAppButton.module.css';
+import { buttonHover, buttonTap, scaleIn } from '../../utils/motion';
+
+const MotionAnchor = motion.a;
 
 const PHONE = '919686556384'; // +91 country code + number
 const MESSAGE = 'Hello! I am interested in Tirich LED products.';
@@ -7,12 +11,28 @@ export default function WhatsAppButton() {
   const url = `https://wa.me/${PHONE}?text=${encodeURIComponent(MESSAGE)}`;
 
   return (
-    <a
+    <MotionAnchor
       href={url}
       target="_blank"
       rel="noopener noreferrer"
       className={styles.btn}
       aria-label="Chat with us on WhatsApp"
+      {...scaleIn(0.35)}
+      animate={{
+        ...scaleIn(0.35).animate,
+        y: [0, -4, 0],
+        transition: {
+          opacity: { duration: 0.45, delay: 0.35, ease: [0.22, 1, 0.36, 1] },
+          scale: { duration: 0.45, delay: 0.35, ease: [0.22, 1, 0.36, 1] },
+          y: {
+            duration: 3.2,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          },
+        },
+      }}
+      whileHover={buttonHover}
+      whileTap={buttonTap}
     >
       {/* WhatsApp SVG icon */}
       <svg
@@ -27,6 +47,6 @@ export default function WhatsAppButton() {
         />
       </svg>
       <span className={styles.label}>Chat with us</span>
-    </a>
+    </MotionAnchor>
   );
 }

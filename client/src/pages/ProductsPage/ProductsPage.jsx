@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import { motion } from 'motion/react';
 import Navbar from '../../components/Navbar/Navbar';
 import { PRODUCTS, CATEGORIES } from '../../data/products';
 import styles from './ProductsPage.module.css';
+import { buttonHover, buttonTap, fadeIn, fadeUp } from '../../utils/motion';
 
 export default function ProductsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -45,7 +47,7 @@ export default function ProductsPage() {
       <Navbar />
 
       {/* ── BREADCRUMB ── */}
-      <nav className={styles.breadcrumb} aria-label="Breadcrumb">
+      <motion.nav className={styles.breadcrumb} aria-label="Breadcrumb" {...fadeUp(0.05, 16)}>
         <div className={styles.breadcrumbInner}>
           <Link to="/" className={styles.breadcrumbLink}>Home</Link>
           <span className={styles.breadcrumbSep} aria-hidden="true">/</span>
@@ -59,32 +61,36 @@ export default function ProductsPage() {
             <span className={styles.breadcrumbCurrent}>Products</span>
           )}
         </div>
-      </nav>
+      </motion.nav>
 
       {/* ── FILTER BAR ── */}
-      <div className={styles.filterBar}>
+      <motion.div className={styles.filterBar} {...fadeUp(0.1, 18)}>
         <div className={styles.filterInner}>
-          <button
+          <motion.button
             className={`${styles.filterBtn} ${activeCategory === 'all' ? styles.filterBtnActive : ''}`}
             onClick={() => setCategory('all')}
+            whileHover={buttonHover}
+            whileTap={buttonTap}
           >
             All Products
-          </button>
+          </motion.button>
           <span className={styles.filterSep} aria-hidden="true" />
           {CATEGORIES.map(cat => (
-            <button
+            <motion.button
               key={cat.slug}
               className={`${styles.filterBtn} ${activeCategory === cat.slug ? styles.filterBtnActive : ''}`}
               onClick={() => setCategory(cat.slug)}
+              whileHover={buttonHover}
+              whileTap={buttonTap}
             >
               {cat.label}
-            </button>
+            </motion.button>
           ))}
         </div>
-        <div className={styles.filterCount}>
+        <motion.div className={styles.filterCount} key={activeCategory} {...fadeIn(0.12)}>
           {filtered.length} {filtered.length === 1 ? 'product' : 'products'}
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* ── PRODUCT GRID ── */}
       <div className={styles.gridWrap}>
@@ -93,13 +99,17 @@ export default function ProductsPage() {
             <div className={styles.empty}>No products found in this category.</div>
           ) : (
             filtered.map((product, i) => (
-              <Link
+              <motion.div
                 key={product.slug}
-                to={`/products/${product.slug}`}
-                className={styles.card}
-                data-reveal
-                style={{ transitionDelay: `${Math.min(i * 0.055, 0.44)}s` }}
+                whileHover={{ y: -8, transition: { duration: 0.22 } }}
+                {...fadeUp(Math.min(i * 0.05, 0.3), 20)}
               >
+                <Link
+                  to={`/products/${product.slug}`}
+                  className={styles.card}
+                  data-reveal
+                  style={{ transitionDelay: `${Math.min(i * 0.055, 0.44)}s` }}
+                >
                 {/* Image */}
                 <div className={styles.cardMedia}>
                   <img src={product.image} alt={product.name} className={styles.cardImg} loading="lazy" />
@@ -146,8 +156,9 @@ export default function ProductsPage() {
                 </div>
 
                 {/* Hover glow halo */}
-                <div className={styles.cardGlow} aria-hidden="true" />
-              </Link>
+                  <div className={styles.cardGlow} aria-hidden="true" />
+                </Link>
+              </motion.div>
             ))
           )}
         </div>

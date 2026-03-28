@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { motion } from 'motion/react';
 import Navbar from '../../components/Navbar/Navbar';
 import { PRODUCTS } from '../../data/products';
 import styles from './ProductDetailPage.module.css';
+import { cardHover, fadeUp } from '../../utils/motion';
 
 const SPECS_MAP = [
   { key: 'Wattage',      field: 'wattage'  },
@@ -38,11 +40,11 @@ export default function ProductDetailPage() {
     return (
       <div className={styles.page}>
         <Navbar />
-        <div className={styles.notFound}>
+        <motion.div className={styles.notFound} {...fadeUp(0.08, 18)}>
           <h2 className={styles.notFoundTitle}>Product not found</h2>
           <p className={styles.notFoundText}>The product you're looking for doesn't exist.</p>
           <Link to="/products" className={styles.btnPrimary}>Browse All Products</Link>
-        </div>
+        </motion.div>
       </div>
     );
   }
@@ -52,7 +54,7 @@ export default function ProductDetailPage() {
       <Navbar />
 
       {/* ── BREADCRUMB ── */}
-      <div className={styles.breadcrumb}>
+      <motion.div className={styles.breadcrumb} {...fadeUp(0.05, 16)}>
         <div className={styles.breadcrumbInner}>
           <Link to="/" className={styles.breadcrumbLink}>Home</Link>
           <span className={styles.breadcrumbSep}>›</span>
@@ -64,13 +66,13 @@ export default function ProductDetailPage() {
           <span className={styles.breadcrumbSep}>›</span>
           <span className={styles.breadcrumbCurrent}>{product.name}</span>
         </div>
-      </div>
+      </motion.div>
 
       {/* ── PRODUCT MAIN ── */}
       <div className={styles.productMain}>
 
         {/* Left: Image */}
-        <div className={styles.imagePanel} data-reveal>
+        <motion.div className={styles.imagePanel} data-reveal {...fadeUp(0.08, 18)}>
           <div className={styles.imageWrap}>
             <img
               src={product.image}
@@ -79,10 +81,10 @@ export default function ProductDetailPage() {
             />
             <span className={styles.imageBadge}>{product.ip} · CRI {product.cri}</span>
           </div>
-        </div>
+        </motion.div>
 
         {/* Right: Info */}
-        <div className={styles.infoPanel} data-reveal style={{ transitionDelay: '0.12s' }}>
+        <motion.div className={styles.infoPanel} data-reveal style={{ transitionDelay: '0.12s' }} {...fadeUp(0.14, 18)}>
           <p className={styles.infoEyebrow}>
             {product.category}
             <span className={styles.eyebrowDivider} />
@@ -127,7 +129,7 @@ export default function ProductDetailPage() {
               ← All Products
             </Link>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       {/* ── RELATED PRODUCTS ── */}
@@ -145,19 +147,20 @@ export default function ProductDetailPage() {
             </div>
             <div className={styles.relatedGrid}>
               {related.map((p, i) => (
-                <Link
-                  key={p.slug}
-                  to={`/products/${p.slug}`}
-                  className={styles.relatedCard}
-                  data-reveal
-                  style={{ transitionDelay: `${i * 0.1}s` }}
-                >
-                  <img src={p.image} alt={p.name} className={styles.relatedCardImg} />
-                  <div className={styles.relatedCardBody}>
-                    <p className={styles.relatedCardName}>{p.name}</p>
-                    <p className={styles.relatedCardTag}>{p.tagline}</p>
-                  </div>
-                </Link>
+                <motion.div key={p.slug} whileHover={cardHover} {...fadeUp(Math.min(i * 0.08, 0.24), 18)}>
+                  <Link
+                    to={`/products/${p.slug}`}
+                    className={styles.relatedCard}
+                    data-reveal
+                    style={{ transitionDelay: `${i * 0.1}s` }}
+                  >
+                    <img src={p.image} alt={p.name} className={styles.relatedCardImg} />
+                    <div className={styles.relatedCardBody}>
+                      <p className={styles.relatedCardName}>{p.name}</p>
+                      <p className={styles.relatedCardTag}>{p.tagline}</p>
+                    </div>
+                  </Link>
+                </motion.div>
               ))}
             </div>
           </div>

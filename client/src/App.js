@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'motion/react';
 import LoginPage from './pages/LoginPage/LoginPage';
 import DashboardPage from './pages/DashboardPage/DashboardPage';
 import LandingPage from './pages/LandingPage/LandingPage';
@@ -10,6 +11,7 @@ import ProductDetailPage from './pages/ProductDetailPage/ProductDetailPage';
 import ContactPage from './pages/ContactPage/ContactPage';
 import CustomCursor from './components/CustomCursor/CustomCursor';
 import WhatsAppButton from './components/WhatsAppButton/WhatsAppButton';
+import { pageTransition } from './utils/motion';
 
 const PAGE_TITLES = {
   '/':           'Tirich LED — Precision LED Lighting',
@@ -100,50 +102,55 @@ function App() {
     <div className="App">
       <CustomCursor />
       <WhatsAppButton />
-      <div key={location.key} className="pageTransition">
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route
-          path="/login"
-          element={
-            isAuthed ? (
-              <Navigate to="/dashboard" replace />
-            ) : (
-              <LoginPage onLoginSuccess={handleLoginSuccess} />
-            )
-          }
-        />
-        <Route
-          path="/dashboard"
-          element={
-            isAuthed ? (
-              <DashboardPage
-                onLogout={handleLogout}
-                authUser={authUser}
-                onAuthRefresh={handleLoginSuccess}
-              />
-            ) : (
-              <Navigate to="/login" replace />
-            )
-          }
-        />
-        <Route
-          path="/ai-studio"
-          element={
-            isAuthed ? (
-              <AIStudioPage user={authUser} />
-            ) : (
-              <Navigate to="/login" replace />
-            )
-          }
-        />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/products" element={<ProductsPage />} />
-        <Route path="/products/:slug" element={<ProductDetailPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-      </div>
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={`${location.pathname}${location.search}`}
+          {...pageTransition}
+        >
+          <Routes location={location}>
+            <Route path="/" element={<LandingPage />} />
+            <Route
+              path="/login"
+              element={
+                isAuthed ? (
+                  <Navigate to="/dashboard" replace />
+                ) : (
+                  <LoginPage onLoginSuccess={handleLoginSuccess} />
+                )
+              }
+            />
+            <Route
+              path="/dashboard"
+              element={
+                isAuthed ? (
+                  <DashboardPage
+                    onLogout={handleLogout}
+                    authUser={authUser}
+                    onAuthRefresh={handleLoginSuccess}
+                  />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
+            />
+            <Route
+              path="/ai-studio"
+              element={
+                isAuthed ? (
+                  <AIStudioPage user={authUser} />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
+            />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/products" element={<ProductsPage />} />
+            <Route path="/products/:slug" element={<ProductDetailPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }

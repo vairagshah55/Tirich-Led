@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
 import Navbar from '../../components/Navbar/Navbar';
 import styles from './ContactPage.module.css';
+import { buttonHover, buttonTap, cardHover, fadeIn, fadeUp, presenceFade } from '../../utils/motion';
 
 const CONTACT_INFO = [
   {
@@ -55,8 +57,8 @@ export default function ContactPage() {
       <Navbar />
 
       {/* ── HERO ── */}
-      <section className={styles.hero}>
-        <div className={styles.heroInner}>
+      <motion.section className={styles.hero} {...fadeIn()}>
+        <motion.div className={styles.heroInner} {...fadeUp(0.05, 18)}>
           <p className={styles.heroEyebrow} data-reveal>Get In Touch</p>
           <h1 className={styles.heroTitle} data-reveal style={{ transitionDelay: '0.1s' }}>
             Let's Build Something<br />
@@ -67,14 +69,14 @@ export default function ContactPage() {
             Whether you're specifying a single fixture or an entire lighting ecosystem,
             our technical team is ready to assist — from product selection through to delivery.
           </p>
-        </div>
-      </section>
+        </motion.div>
+      </motion.section>
 
       {/* ── MAIN CONTENT ── */}
       <section className={styles.contactSection}>
 
         {/* Left: Info */}
-        <div className={styles.infoCol} data-reveal>
+        <motion.div className={styles.infoCol} data-reveal {...fadeUp(0.08, 18)}>
           <p className={styles.sectionEyebrow}>Contact Details</p>
           <h2 className={styles.sectionTitle}>Reach Our Team</h2>
           <p className={styles.sectionBody}>
@@ -84,7 +86,7 @@ export default function ContactPage() {
 
           <ul className={styles.infoList}>
             {CONTACT_INFO.map(item => (
-              <li key={item.label} className={styles.infoItem}>
+              <motion.li key={item.label} className={styles.infoItem} whileHover={cardHover} {...fadeUp(0.1, 14)}>
                 <span className={styles.infoIcon}>{item.icon}</span>
                 <div>
                   <span className={styles.infoLabel}>{item.label}</span>
@@ -94,26 +96,27 @@ export default function ContactPage() {
                     <span className={styles.infoValue}>{item.value}</span>
                   )}
                 </div>
-              </li>
+              </motion.li>
             ))}
           </ul>
-        </div>
+        </motion.div>
 
         {/* Right: Form */}
-        <div className={styles.formCol} data-reveal style={{ transitionDelay: '0.15s' }}>
+        <motion.div className={styles.formCol} data-reveal style={{ transitionDelay: '0.15s' }} {...fadeUp(0.14, 18)}>
+          <AnimatePresence mode="wait">
           {submitted ? (
-            <div className={styles.successBox}>
+            <motion.div className={styles.successBox} key="success" {...presenceFade}>
               <span className={styles.successIcon}>✓</span>
               <h3 className={styles.successTitle}>Message Received</h3>
               <p className={styles.successBody}>
                 Thank you for reaching out. Our team will get back to you within one business day.
               </p>
-              <button className={styles.btnGhost} onClick={() => setSubmitted(false)}>
+              <motion.button className={styles.btnGhost} onClick={() => setSubmitted(false)} whileHover={buttonHover} whileTap={buttonTap}>
                 Send Another Message
-              </button>
-            </div>
+              </motion.button>
+            </motion.div>
           ) : (
-            <form className={styles.form} onSubmit={handleSubmit} noValidate>
+            <motion.form className={styles.form} onSubmit={handleSubmit} noValidate key="form" {...presenceFade}>
               <div className={styles.formRow}>
                 <div className={styles.fieldGroup}>
                   <label className={styles.label}>Full Name *</label>
@@ -185,12 +188,13 @@ export default function ContactPage() {
                 />
               </div>
 
-              <button type="submit" className={styles.btnPrimary}>
+              <motion.button type="submit" className={styles.btnPrimary} whileHover={buttonHover} whileTap={buttonTap}>
                 Send Message
-              </button>
-            </form>
+              </motion.button>
+            </motion.form>
           )}
-        </div>
+          </AnimatePresence>
+        </motion.div>
       </section>
     </div>
   );

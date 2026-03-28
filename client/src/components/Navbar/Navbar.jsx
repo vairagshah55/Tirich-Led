@@ -1,8 +1,10 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'motion/react';
 import logo from '../../assets/new-log.png';
 import styles from './Navbar.module.css';
 import { CATEGORIES, PRODUCTS } from '../../data/products';
+import { buttonHover, buttonTap, fadeIn, fadeUp, presenceFade } from '../../utils/motion';
 
 const FEATURED = PRODUCTS[0]; // TLC-101 as featured product
 
@@ -66,14 +68,16 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className={`${styles.nav} ${scrolled ? styles.navScrolled : ''}`}>
+      <motion.nav className={`${styles.nav} ${scrolled ? styles.navScrolled : ''}`} {...fadeIn()}>
         {/* ── Logo ── */}
-        <Link to="/" className={styles.navBrand}>
-          <img src={logo} alt="Tirich LED" className={styles.navLogo} />
-        </Link>
+        <motion.div whileHover={{ scale: 1.03 }} whileTap={buttonTap}>
+          <Link to="/" className={styles.navBrand}>
+            <img src={logo} alt="Tirich LED" className={styles.navLogo} />
+          </Link>
+        </motion.div>
 
         {/* ── Desktop centre links ── */}
-        <div className={styles.navCenter}>
+        <motion.div className={styles.navCenter} {...fadeUp(0.05, 16)}>
           {/* Home */}
           <Link
             to="/"
@@ -120,20 +124,22 @@ export default function Navbar() {
           >
             Contact
           </Link>
-        </div>
+        </motion.div>
 
         {/* ── Right controls ── */}
-        <div className={styles.navRight}>
+        <motion.div className={styles.navRight} {...fadeUp(0.1, 16)}>
           {/* Theme toggle */}
-          <button
+          <motion.button
             className={styles.themeToggle}
             onClick={toggleTheme}
             aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            whileHover={buttonHover}
+            whileTap={buttonTap}
           >
             <span className={`${styles.themeKnob} ${theme === 'light' ? styles.themeKnobLight : ''}`}>
               {theme === 'dark' ? '☽' : '☀'}
             </span>
-          </button>
+          </motion.button>
 
           {/* Partner login — hidden until ready */}
           {/* <button className={styles.navCta} onClick={() => navigate('/login')}>
@@ -141,23 +147,27 @@ export default function Navbar() {
           </button> */}
 
           {/* Hamburger */}
-          <button
+          <motion.button
             className={`${styles.hamburger} ${mobileOpen ? styles.hamburgerOpen : ''}`}
             onClick={() => setMobileOpen(o => !o)}
             aria-label="Toggle menu"
+            whileHover={buttonHover}
+            whileTap={buttonTap}
           >
             <span /><span /><span />
-          </button>
-        </div>
-      </nav>
+          </motion.button>
+        </motion.div>
+      </motion.nav>
 
       {/* ── Mega Menu (desktop) ──────────────────────────────────── */}
-      {megaOpen && (
-        <div
-          className={styles.megaMenu}
-          onMouseEnter={openMega}
-          onMouseLeave={closeMega}
-        >
+      <AnimatePresence>
+        {megaOpen && (
+          <motion.div
+            className={styles.megaMenu}
+            onMouseEnter={openMega}
+            onMouseLeave={closeMega}
+            {...presenceFade}
+          >
           {/* Left: category grid */}
           <div className={styles.megaLeft}>
             <div className={styles.megaHeader}>
@@ -213,35 +223,41 @@ export default function Navbar() {
               </Link>
             </div>
           </div>
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ── Mobile Menu ──────────────────────────────────────────── */}
-      {mobileOpen && (
-        <div className={styles.mobileMenu}>
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div className={styles.mobileMenu} {...presenceFade}>
           <Link to="/" className={styles.mobileLink}>Home</Link>
 
-          <button
+          <motion.button
             className={styles.mobileLink}
             onClick={() => setMobileProdOpen(o => !o)}
+            whileHover={buttonHover}
+            whileTap={buttonTap}
           >
             Products
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
               style={{ transform: mobileProdOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.25s ease' }}>
               <polyline points="6 9 12 15 18 9" />
             </svg>
-          </button>
+          </motion.button>
 
-          {mobileProdOpen && (
-            <ul className={styles.mobileCatList}>
-              <li><Link to="/products">All Products</Link></li>
-              {CATEGORIES.map(cat => (
-                <li key={cat.slug}>
-                  <Link to={`/products?category=${cat.slug}`}>{cat.label}</Link>
-                </li>
-              ))}
-            </ul>
-          )}
+          <AnimatePresence>
+            {mobileProdOpen && (
+              <motion.ul className={styles.mobileCatList} {...presenceFade}>
+                <li><Link to="/products">All Products</Link></li>
+                {CATEGORIES.map(cat => (
+                  <li key={cat.slug}>
+                    <Link to={`/products?category=${cat.slug}`}>{cat.label}</Link>
+                  </li>
+                ))}
+              </motion.ul>
+            )}
+          </AnimatePresence>
 
           <Link to="/about" className={styles.mobileLink}>About</Link>
           <a href={isHome ? '#craftsmanship' : '/#craftsmanship'} className={styles.mobileLink} onClick={goToSection('craftsmanship')}>Technology</a>
@@ -253,8 +269,9 @@ export default function Navbar() {
               Partner Login
             </button>
           </div> */}
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

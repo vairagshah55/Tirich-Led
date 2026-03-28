@@ -1,7 +1,9 @@
 import { useEffect, useRef, useCallback, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { motion } from 'motion/react';
 import Navbar from '../../components/Navbar/Navbar';
 import styles from './LandingPage.module.css';
+import { buttonHover, buttonTap, cardHover, fadeIn, fadeUp } from '../../utils/motion';
 
 // ── Product Images ─────────────────────────────────────────────────
 
@@ -275,9 +277,10 @@ export default function LandingPage() {
         ))}
 
         {/* ── Hero text content ── */}
-        <div
+        <motion.div
           ref={heroContentRef}
           className={`${styles.heroContent} ${textVisible ? styles.heroTextIn : styles.heroTextOut}`}
+          {...fadeUp(0.12, 24)}
         >
           {/* Left accent bar */}
           <div className={styles.heroBar} />
@@ -316,43 +319,49 @@ export default function LandingPage() {
 
             {/* CTAs */}
             <div className={styles.heroActions}>
-              <button className={styles.heroBtnPrimary} onClick={() => navigate('/products')} {...mag}>
+              <motion.button className={styles.heroBtnPrimary} onClick={() => navigate('/products')} {...mag} whileHover={buttonHover} whileTap={buttonTap}>
                 Explore Products
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
                 </svg>
-              </button>
-              <a href="#collections" className={styles.heroBtnGhost} onClick={scrollToSection('collections')} {...mag}>
+              </motion.button>
+              <motion.a href="#collections" className={styles.heroBtnGhost} onClick={scrollToSection('collections')} {...mag} whileHover={buttonHover} whileTap={buttonTap}>
                 View Catalogue
-              </a>
+              </motion.a>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* ── Prev / Next arrows ── */}
-        <button
+        <motion.button
           className={`${styles.heroArrow} ${styles.heroArrowLeft}`}
           onClick={() => setActiveVidIdx(i => (i - 1 + HERO_SLIDES.length) % HERO_SLIDES.length)}
           aria-label="Previous video"
+          whileHover={buttonHover}
+          whileTap={buttonTap}
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-        </button>
-        <button
+        </motion.button>
+        <motion.button
           className={`${styles.heroArrow} ${styles.heroArrowRight}`}
           onClick={() => setActiveVidIdx(i => (i + 1) % HERO_SLIDES.length)}
           aria-label="Next video"
+          whileHover={buttonHover}
+          whileTap={buttonTap}
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-        </button>
+        </motion.button>
 
         {/* ── Dot indicators (bottom-right) ── */}
         <div className={styles.heroDots}>
           {HERO_SLIDES.map((_, i) => (
-            <button
+            <motion.button
               key={i}
               className={`${styles.heroDot}${i === activeVidIdx ? ` ${styles.heroDotActive}` : ''}`}
               onClick={() => setActiveVidIdx(i)}
               aria-label={`Slide ${i + 1}`}
+              whileHover={{ scale: 1.15 }}
+              whileTap={buttonTap}
             />
           ))}
         </div>
@@ -420,9 +429,9 @@ export default function LandingPage() {
             <li><strong>IP65</strong><span>Weather Certified</span></li>
             <li><strong>CRI 95+</strong><span>Colour Accuracy</span></li>
           </ul>
-          <button className={styles.btnPrimary} onClick={() => navigate('/products')} {...mag}>
+          <motion.button className={styles.btnPrimary} onClick={() => navigate('/products')} {...mag} whileHover={buttonHover} whileTap={buttonTap}>
             <span>View Products</span>
-          </button>
+          </motion.button>
         </div>
       </section>
 
@@ -437,17 +446,17 @@ export default function LandingPage() {
         </div>
         <div className={styles.stepsGrid}>
           {HOW_IT_WORKS.map((s, i) => (
-            <div key={s.step} className={styles.stepCard} data-reveal style={{ transitionDelay: `${i * 0.18}s` }}>
+            <motion.div key={s.step} className={styles.stepCard} data-reveal style={{ transitionDelay: `${i * 0.18}s` }} whileHover={cardHover} {...fadeUp(Math.min(i * 0.1, 0.28), 18)}>
               <span className={styles.stepNumber}>{s.step}</span>
               <h3 className={styles.stepTitle}>{s.title}</h3>
               <p className={styles.stepBody}>{s.body}</p>
-            </div>
+            </motion.div>
           ))}
         </div>
         <div className={styles.howItWorksCta} data-reveal>
-          <button className={styles.btnPrimary} onClick={() => navigate('/ai-studio')} {...mag}>
+          <motion.button className={styles.btnPrimary} onClick={() => navigate('/ai-studio')} {...mag} whileHover={buttonHover} whileTap={buttonTap}>
             Request a Quote
-          </button>
+          </motion.button>
         </div>
       </section>
 
@@ -455,10 +464,10 @@ export default function LandingPage() {
       {/* ── STATS BAR ────────────────────────────────────────────── */}
       <div className={styles.statsBar} data-cursor-theme="light">
         {STATS.map((s, i) => (
-          <div key={s.label} className={styles.statItem} data-reveal style={{ transitionDelay: `${i * 0.1}s` }}>
+          <motion.div key={s.label} className={styles.statItem} data-reveal style={{ transitionDelay: `${i * 0.1}s` }} whileHover={cardHover} {...fadeIn(Math.min(i * 0.08, 0.24))}>
             <span className={styles.statValue}>{s.value}</span>
             <span className={styles.statLabel}>{s.label}</span>
-          </div>
+          </motion.div>
         ))}
       </div>
 
