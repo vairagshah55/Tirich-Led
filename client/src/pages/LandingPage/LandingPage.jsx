@@ -5,20 +5,27 @@ import Navbar from '../../components/Navbar/Navbar';
 import styles from './LandingPage.module.css';
 import { buttonHover, buttonTap, cardHover, fadeIn, fadeUp } from '../../utils/motion';
 
-// ── Product Images ─────────────────────────────────────────────────
+// ── HD Images — Luster Gallery + Craftsmanship section only ────────
+import hdTLC121  from '../../assets/HD PHOTO/TLC-121.png';
+import hdTLC108  from '../../assets/HD PHOTO/TLC-108.png';
+import hdHanging from '../../assets/HD PHOTO/HANGING LIGHT/15/JJA09912 copy 2.jpg';
+import hdMagCOB  from '../../assets/HD PHOTO/CYLINDER/3/JJA09789 copy 2.jpg';
 
-// ── HD Product Images ───────────────────────────────────────────────
-import hdTLC121   from '../../assets/HD PHOTO/TLC-121.png';
-import hdTLC333   from '../../assets/HD PHOTO/TLC-333.png';
-import hdTLC118   from '../../assets/HD PHOTO/TLC-118.jpg';
-import hdTLC107W  from '../../assets/HD PHOTO/TLC-107 WHITE.png';
-import hdTLC108   from '../../assets/HD PHOTO/TLC-108.png';
-import hdHanging  from '../../assets/HD PHOTO/HANGING LIGHT/15/PNG/HANGING LIGHT.png';
-import hdMagCOB   from '../../assets/HD PHOTO/CYLINDER/3/PNG/MAGNETIC COB.png';
-import heroVideo  from '../../assets/grok-video-1ae0e23a-fbb4-4bec-993c-fb8c0b748c3f.mp4';
-import proVid1    from '../../assets/grok-video-083a2972-e0c2-44a4-b856-38ebb91513b1.mp4';
-import proVid2    from '../../assets/grok-video-1d4fef8d-119d-4f9f-8d71-650ca413f8be.mp4';
-import proVid3    from '../../assets/grok-video-2ca8b0c1-823e-4d11-a036-24e495b32dc3.mp4';
+// ── Lightweight images — Living Gallery (84 – 700 KB each) ─────────
+import lgTLC105  from '../../assets/TLC-105.jpg';         //  84 KB
+import lgTLC151  from '../../assets/TLC-151.jpg';         // 112 KB
+import lgTLC112  from '../../assets/TLC-112.jpg';         // 116 KB
+import lgStrip   from '../../assets/STRIP-LED-POST.jpg';  // 124 KB
+import lgTLC101  from '../../assets/TLC-101.jpg';         // 156 KB
+import lgHanging from '../../assets/hanging-230.jpg';     // 372 KB
+import lgTLC129  from '../../assets/TLC-129.jpg';         // 448 KB
+import lgTLC111  from '../../assets/TLC-111.jpg';         // 468 KB
+
+// ── Videos ─────────────────────────────────────────────────────────
+import heroVideo from '../../assets/grok-video-1ae0e23a-fbb4-4bec-993c-fb8c0b748c3f.mp4';
+import proVid1   from '../../assets/grok-video-083a2972-e0c2-44a4-b856-38ebb91513b1.mp4';  // 932 KB
+import proVid2   from '../../assets/grok-video-1d4fef8d-119d-4f9f-8d71-650ca413f8be.mp4'; // 1.1 MB
+import proVid3   from '../../assets/grok-video-2ca8b0c1-823e-4d11-a036-24e495b32dc3.mp4';
 
 import LusterGallery          from '../../components/LusterGallery/LusterGallery';
 import LivingGallery          from '../../components/LivingGallery/LivingGallery';
@@ -32,14 +39,16 @@ const GALLERY_ITEMS = [
 
 // ── Living Gallery items ──────────────────────────────────────────
 const LIVING_GALLERY = [
-  { label: 'TLC-121 Premium Panel',  eyebrow: 'Panel Series',       type: 'image', src: hdTLC121   },
-  { label: 'Pendant Hanging Light',  eyebrow: 'Pendant Series',     type: 'image', src: hdHanging  },
-  { label: 'LED Project Reel',       eyebrow: 'Installation Reel',  type: 'video', src: proVid1    },
-  { label: 'TLC-107 Round Pendant',  eyebrow: 'Pendant Series',     type: 'image', src: hdTLC107W  },
-  { label: 'TLC-118 Panel',          eyebrow: 'Panel Series',       type: 'image', src: hdTLC118   },
-  { label: 'Magnetic COB Fixture',   eyebrow: 'Track Lighting',     type: 'image', src: hdMagCOB   },
-  { label: 'LED Campaign',           eyebrow: 'Commercial Install', type: 'video', src: proVid2    },
-  { label: '10Z Caset Track Light',  eyebrow: 'Track Series',       type: 'image', src: hdTLC333   },
+  { label: 'TLC-105 Downlight',       eyebrow: 'Downlight Series',   type: 'image', src: lgTLC105  },
+  { label: 'TLC-112 Panel Light',     eyebrow: 'Panel Series',       type: 'image', src: lgTLC112  },
+  { label: 'LED Strip Installation',  eyebrow: 'Strip Series',       type: 'image', src: lgStrip   },
+  { label: 'LED Project Reel',        eyebrow: 'Installation Reel',  type: 'video', src: proVid1   },
+  { label: 'TLC-101 Fixture',         eyebrow: 'Commercial Series',  type: 'image', src: lgTLC101  },
+  { label: 'Hanging Pendant 230',     eyebrow: 'Pendant Series',     type: 'image', src: lgHanging },
+  { label: 'TLC-129 Track Light',     eyebrow: 'Track Series',       type: 'image', src: lgTLC129  },
+  { label: 'TLC-151 Surface Panel',   eyebrow: 'Panel Series',       type: 'image', src: lgTLC151  },
+  { label: 'LED Campaign',            eyebrow: 'Commercial Install', type: 'video', src: proVid2   },
+  { label: 'TLC-111 Ceiling Light',   eyebrow: 'Ceiling Series',     type: 'image', src: lgTLC111  },
 ];
 
 const HOW_IT_WORKS = [
