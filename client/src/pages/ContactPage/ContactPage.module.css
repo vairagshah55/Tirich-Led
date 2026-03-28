@@ -18,7 +18,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(234, 125, 31,0.08) 0%, transparent 70%);
+  background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(247, 148, 30,0.08) 0%, transparent 70%);
   pointer-events: none;
 }
 .heroInner {
@@ -34,7 +34,7 @@
   margin: 0 0 1.25rem;
 }
 .heroTitle {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
   font-size: clamp(2.6rem, 5vw, 4.2rem);
   font-weight: 400;
   color: var(--text-on-section);
@@ -52,7 +52,7 @@
 .heroDivider {
   width: 48px;
   height: 1px;
-  background: #ea7d1f;
+  background: #F7941E;
   margin: 2rem 0;
 }
 
@@ -77,7 +77,7 @@
   margin: 0 0 0.75rem;
 }
 .sectionTitle {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
   font-size: clamp(1.8rem, 3vw, 2.4rem);
   font-weight: 400;
   color: var(--text-on-section);
@@ -151,8 +151,8 @@ a.infoValue:hover { color: var(--clr-accent-text); }
 .input,
 .textarea {
   background: var(--bg-card);            /* #FFFFFF light / #1E1F2E dark */
-  border: 1px solid rgba(42, 47, 99, 0.22);
-  color: var(--text-on-section);         /* #2A2F63 light (12.5:1 ✓) / #F0F1F7 dark (14.7:1 ✓) */
+  border: 1px solid rgba(38, 34, 98, 0.22);
+  color: var(--text-on-section);         /* #262262 light (12.5:1 ✓) / #F0F0FA dark (14.7:1 ✓) */
   padding: 0.85rem 1rem;
   font-size: 0.9rem;
   font-family: inherit;
@@ -164,16 +164,16 @@ a.infoValue:hover { color: var(--clr-accent-text); }
   border-radius: 4px;
 }
 .input:hover {
-  border-color: rgba(42, 47, 99, 0.45);
+  border-color: rgba(38, 34, 98, 0.45);
 }
 .input:focus,
 .textarea:focus {
   border-color: var(--brand-orange);     /* always orange — visible in both modes */
-  box-shadow: 0 0 0 3px rgba(234, 125, 31, 0.12);
+  box-shadow: 0 0 0 3px rgba(247, 148, 30, 0.12);
 }
 .input::placeholder,
 .textarea::placeholder {
-  color: var(--text-on-section-muted);   /* #5A5E7A light (6.3:1 ✓) / #9CA1BA dark (6.5:1 ✓) */
+  color: var(--text-on-section-muted);   /* #4A4A6A light (6.3:1 ✓) / #9CA1BA dark (6.5:1 ✓) */
   opacity: 0.65;
 }
 .textarea {
@@ -182,7 +182,7 @@ a.infoValue:hover { color: var(--clr-accent-text); }
 }
 select.input {
   cursor: pointer;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23ea7d1f' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23F7941E' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 1rem center;
   padding-right: 2.5rem;
@@ -207,7 +207,7 @@ select.input option {
   transition: background 0.25s ease;
   align-self: flex-start;
 }
-.btnPrimary:hover { background: #f08c30; }
+.btnPrimary:hover { background: #FF9E2A; }
 
 .btnGhost {
   background: transparent;
@@ -226,7 +226,7 @@ select.input option {
 
 /* ── Success State ──────────────────────────────────────────────── */
 .successBox {
-  border: 1px solid rgba(234, 125, 31,0.25);
+  border: 1px solid rgba(247, 148, 30,0.25);
   background: var(--bg-deep, #0e0e0e);
   padding: 3.5rem 3rem;
   display: flex;
@@ -242,8 +242,8 @@ select.input option {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: rgba(234, 125, 31,0.12);
-  border: 1px solid rgba(234, 125, 31,0.4);
+  background: rgba(247, 148, 30,0.12);
+  border: 1px solid rgba(247, 148, 30,0.4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -251,7 +251,7 @@ select.input option {
   font-size: 1rem;
 }
 .successTitle {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
   font-size: 1.8rem;
   font-weight: 400;
   color: var(--text-on-section);

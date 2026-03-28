@@ -22,7 +22,7 @@
 }
 
 .sectionTitle {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
   font-size: clamp(1.8rem, 3vw, 2.6rem);
   font-weight: 400;
   color: var(--text-on-section);
@@ -51,7 +51,7 @@
   inset: 0;
   background: radial-gradient(
     ellipse 60% 80% at 80% 50%,
-    rgba(234, 125, 31, 0.08) 0%,
+    rgba(247, 148, 30, 0.08) 0%,
     transparent 70%
   );
   pointer-events: none;
@@ -81,7 +81,7 @@
 }
 
 .heroTitle {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
   font-size: clamp(2.6rem, 5vw, 4.2rem);
   font-weight: 400;
   color: var(--text-on-section);
@@ -174,7 +174,7 @@
   right: 0;
   width: 55%;
   height: 100%;
-  background-image: radial-gradient(circle, rgba(234, 125, 31, 0.15) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(247, 148, 30, 0.15) 1px, transparent 1px);
   background-size: 26px 26px;
   mask-image: linear-gradient(to left, rgba(0, 0, 0, 0.3) 0%, transparent 70%);
   -webkit-mask-image: linear-gradient(to left, rgba(0, 0, 0, 0.3) 0%, transparent 70%);
@@ -190,8 +190,8 @@
   background: linear-gradient(
     to bottom,
     transparent,
-    rgba(234, 125, 31, 0.3) 30%,
-    rgba(234, 125, 31, 0.3) 70%,
+    rgba(247, 148, 30, 0.3) 30%,
+    rgba(247, 148, 30, 0.3) 70%,
     transparent
   );
   pointer-events: none;
@@ -206,7 +206,7 @@
   width: 280px;
   height: 280px;
   border-radius: 50%;
-  border: 1px solid rgba(234, 125, 31, 0.12);
+  border: 1px solid rgba(247, 148, 30, 0.12);
   pointer-events: none;
   z-index: 0;
 }
@@ -216,7 +216,7 @@
   position: absolute;
   inset: 28px;
   border-radius: 50%;
-  border: 1px solid rgba(234, 125, 31, 0.08);
+  border: 1px solid rgba(247, 148, 30, 0.08);
 }
 
 .heroDecor::after {
@@ -224,7 +224,7 @@
   position: absolute;
   inset: 56px;
   border-radius: 50%;
-  border: 1px solid rgba(234, 125, 31, 0.05);
+  border: 1px solid rgba(247, 148, 30, 0.05);
 }
 
 /* ── Stats bar ──────────────────────────────────────────────────── */
@@ -232,8 +232,8 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   background: var(--bg-deep);
-  border-top: 1px solid rgba(234, 125, 31, 0.12);
-  border-bottom: 1px solid rgba(234, 125, 31, 0.12);
+  border-top: 1px solid rgba(247, 148, 30, 0.12);
+  border-bottom: 1px solid rgba(247, 148, 30, 0.12);
   /* Scope tokens for deep bg */
   --text-on-section:       var(--text-on-deep);
   --text-on-section-muted: var(--text-on-deep-muted);
@@ -243,7 +243,7 @@
 .statItem {
   padding: 2.5rem 1.5rem;
   text-align: center;
-  border-right: 1px solid rgba(234, 125, 31, 0.12);
+  border-right: 1px solid rgba(247, 148, 30, 0.12);
   transition: background 0.3s ease;
 }
 
@@ -252,7 +252,7 @@
 }
 
 .statItem:hover {
-  background: rgba(234, 125, 31, 0.05);
+  background: rgba(247, 148, 30, 0.05);
 }
 
 .statIcon {
@@ -263,7 +263,7 @@
 }
 
 .statValue {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
   font-size: 2.8rem;
   font-weight: 400;
   color: var(--clr-accent-text);
@@ -338,18 +338,18 @@
 
 .callout {
   padding: 1.75rem 2rem;
-  border-left: 2px solid rgba(234, 125, 31, 0.4);
+  border-left: 2px solid rgba(247, 148, 30, 0.4);
   background: var(--step-card-bg);
   transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .callout:hover {
   background: var(--step-card-hover);
-  border-color: rgba(234, 125, 31, 0.7);
+  border-color: rgba(247, 148, 30, 0.7);
 }
 
 .calloutAccent {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
   font-size: 2.2rem;
   font-weight: 400;
   color: var(--clr-accent-text);
@@ -385,7 +385,7 @@
 }
 
 .missionCard {
-  border-right: 1px solid rgba(234, 125, 31, 0.12);
+  border-right: 1px solid rgba(247, 148, 30, 0.12);
 }
 
 /* Radial glow on hover */
@@ -402,7 +402,7 @@
 .missionCard::before {
   background: radial-gradient(
     ellipse 70% 80% at 15% 50%,
-    rgba(234, 125, 31, 0.07) 0%,
+    rgba(247, 148, 30, 0.07) 0%,
     transparent 70%
   );
 }
@@ -410,7 +410,7 @@
 .visionCard::before {
   background: radial-gradient(
     ellipse 70% 80% at 85% 50%,
-    rgba(42, 47, 99, 0.14) 0%,
+    rgba(38, 34, 98, 0.14) 0%,
     transparent 70%
   );
 }
@@ -425,7 +425,7 @@
   position: absolute;
   top: 2rem;
   right: 2.5rem;
-  color: rgba(234, 125, 31, 0.1);
+  color: rgba(247, 148, 30, 0.1);
   pointer-events: none;
 }
 
@@ -438,7 +438,7 @@
 }
 
 .mvTitle {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
   font-size: clamp(1.8rem, 2.5vw, 2.4rem);
   font-weight: 400;
   color: var(--text-on-section);
@@ -490,8 +490,8 @@
   background: linear-gradient(
     to bottom,
     transparent 0%,
-    rgba(234, 125, 31, 0.3) 6%,
-    rgba(234, 125, 31, 0.3) 94%,
+    rgba(247, 148, 30, 0.3) 6%,
+    rgba(247, 148, 30, 0.3) 94%,
     transparent 100%
   );
   pointer-events: none;
@@ -531,7 +531,7 @@
   border-radius: 50%;
   background: var(--brand-orange);
   border: 2px solid var(--bg-section);
-  box-shadow: 0 0 0 3px rgba(234, 125, 31, 0.22);
+  box-shadow: 0 0 0 3px rgba(247, 148, 30, 0.22);
   flex-shrink: 0;
   display: block;
   position: relative;
@@ -547,7 +547,7 @@
 }
 
 .entryTitle {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
   font-size: clamp(1.25rem, 2vw, 1.6rem);
   font-weight: 400;
   color: var(--text-on-section);
@@ -595,7 +595,7 @@
 
 .valueCard {
   padding: 2.25rem 2rem;
-  border: 1px solid rgba(234, 125, 31, 0.12);
+  border: 1px solid rgba(247, 148, 30, 0.12);
   background: var(--step-card-bg);
   backdrop-filter: blur(16px);
   transition:
@@ -610,14 +610,14 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(234, 125, 31, 0.05), transparent 60%);
+  background: linear-gradient(135deg, rgba(247, 148, 30, 0.05), transparent 60%);
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;
 }
 
 .valueCard:hover {
-  border-color: rgba(234, 125, 31, 0.32);
+  border-color: rgba(247, 148, 30, 0.32);
   transform: translateY(-5px);
   background: var(--step-card-hover);
 }
@@ -627,7 +627,7 @@
 }
 
 .valueCard:focus-within {
-  outline: 2px solid rgba(234, 125, 31, 0.55);
+  outline: 2px solid rgba(247, 148, 30, 0.55);
   outline-offset: 2px;
 }
 
@@ -638,20 +638,20 @@
   justify-content: center;
   width: 52px;
   height: 52px;
-  border: 1px solid rgba(234, 125, 31, 0.2);
-  background: rgba(234, 125, 31, 0.06);
+  border: 1px solid rgba(247, 148, 30, 0.2);
+  background: rgba(247, 148, 30, 0.06);
   color: var(--clr-accent-text);
   margin-bottom: 1.5rem;
   transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .valueCard:hover .valueIcon {
-  background: rgba(234, 125, 31, 0.12);
-  border-color: rgba(234, 125, 31, 0.4);
+  background: rgba(247, 148, 30, 0.12);
+  border-color: rgba(247, 148, 30, 0.4);
 }
 
 .valueTitle {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
   font-size: 1.2rem;
   font-weight: 400;
   color: var(--text-on-section);
@@ -695,7 +695,7 @@
 
 .teamCard {
   background: var(--step-card-bg);
-  border: 1px solid rgba(234, 125, 31, 0.1);
+  border: 1px solid rgba(247, 148, 30, 0.1);
   padding: 2rem 1.75rem 2rem;
   transition:
     border-color 0.3s ease,
@@ -712,13 +712,13 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(to right, transparent, rgba(234, 125, 31, 0.5), transparent);
+  background: linear-gradient(to right, transparent, rgba(247, 148, 30, 0.5), transparent);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 
 .teamCard:hover {
-  border-color: rgba(234, 125, 31, 0.28);
+  border-color: rgba(247, 148, 30, 0.28);
   transform: translateY(-4px);
   background: var(--step-card-hover);
 }
@@ -740,7 +740,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1.5px solid rgba(234, 125, 31, 0.38);
+  border: 1.5px solid rgba(247, 148, 30, 0.38);
   position: relative;
   z-index: 1;
   transition: transform 0.3s ease;
@@ -753,7 +753,7 @@
 .avatarInitials {
   font-size: 0.95rem;
   font-weight: 600;
-  color: #F0F1F7;
+  color: #F0F0FA;
   letter-spacing: 0.06em;
   font-family: 'Inter', sans-serif;
 }
@@ -762,7 +762,7 @@
   position: absolute;
   inset: -8px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(234, 125, 31, 0.2) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(247, 148, 30, 0.2) 0%, transparent 70%);
   opacity: 0;
   transition: opacity 0.35s ease;
   pointer-events: none;
@@ -774,7 +774,7 @@
 }
 
 .memberName {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
   font-size: 1.15rem;
   font-weight: 400;
   color: var(--text-on-section);
@@ -831,7 +831,7 @@
   bottom: 1.5rem;
   left: 1.5rem;
   background: rgba(13, 17, 23, 0.82);
-  border: 1px solid rgba(234, 125, 31, 0.42);
+  border: 1px solid rgba(247, 148, 30, 0.42);
   /* always on a dark overlay → brand-orange 7.9:1 ✓ */
   color: var(--brand-orange);
   padding: 0.45rem 0.9rem;
@@ -862,8 +862,8 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: rgba(234, 125, 31, 0.1);
-  border: 1px solid rgba(234, 125, 31, 0.4);
+  background: rgba(247, 148, 30, 0.1);
+  border: 1px solid rgba(247, 148, 30, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -884,7 +884,7 @@
 }
 
 .ctaTitle {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
   font-size: clamp(1.8rem, 3vw, 2.6rem);
   font-weight: 400;
   color: var(--text-on-section);
@@ -908,7 +908,7 @@
 
 .btnPrimary {
   background: var(--btn-solid-bg);
-  color: var(--btn-solid-text);   /* #0B0C14 on orange — 7.5:1 ✓ */
+  color: var(--btn-solid-text);   /* #FFFFFF on orange — 7.5:1 ✓ */
   border: none;
   padding: 0.9rem 2.2rem;
   font-size: 0.8rem;
@@ -955,7 +955,7 @@
 
 .teamCard:focus-within,
 .valueCard:focus-within {
-  outline: 2px solid rgba(234, 125, 31, 0.5);
+  outline: 2px solid rgba(247, 148, 30, 0.5);
   outline-offset: 2px;
 }
 
@@ -1004,7 +1004,7 @@
   }
 
   .statItem {
-    border-bottom: 1px solid rgba(234, 125, 31, 0.12);
+    border-bottom: 1px solid rgba(247, 148, 30, 0.12);
   }
 
   .statItem:nth-child(2) {
@@ -1033,7 +1033,7 @@
 
   .missionCard {
     border-right: none;
-    border-bottom: 1px solid rgba(234, 125, 31, 0.12);
+    border-bottom: 1px solid rgba(247, 148, 30, 0.12);
   }
 
   .mvBody {

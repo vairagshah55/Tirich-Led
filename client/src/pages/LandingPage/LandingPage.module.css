@@ -1,16 +1,17 @@
 /* ── Tokens ─────────────────────────────────────────────────────── */
 :root {
   /* Map local aliases → WCAG global tokens from index.css */
-  --gold:       var(--clr-accent-text);
-  --gold-light: var(--clr-accent-hover);
-  --gold-dark:  #c97010;
-  --charcoal:   var(--btn-solid-text);
-  --offwhite:   #F0F1F7;
-  --text-muted: var(--text-on-section-muted);
-  --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
-  --font-sans:  'Inter', 'Helvetica Neue', Arial, sans-serif;
-  --bordeaux:   #2A2F63;
-  --transition: 0.3s ease;
+  --gold:         var(--clr-accent-text);
+  --gold-light:   var(--clr-accent-hover);
+  --gold-dark:    #D97A10;
+  --charcoal:     var(--btn-solid-text);
+  --offwhite:     #F5F5F9;
+  --text-muted:   var(--text-on-section-muted);
+  --font-display: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  --font-serif:   'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  --font-sans:    'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --bordeaux:     #262262;
+  --transition:   0.3s ease;
 }
 
 /* ── Page ───────────────────────────────────────────────────────── */
@@ -206,7 +207,7 @@
   opacity: 1;
 }
 .heroArrow:hover {
-  background: rgba(234, 125, 31, 0.22);
+  background: rgba(247, 148, 30, 0.22);
   border-color: var(--gold);
   color: var(--gold);
 }
@@ -531,7 +532,7 @@
   flex: 0 0 400px;
   background: var(--bg-card);
   overflow: hidden;
-  border: 1px solid rgba(234, 125, 31,0.12);
+  border: 1px solid rgba(247, 148, 30,0.12);
   display: flex;
   flex-direction: column;
   transition: box-shadow 0.4s ease, transform 0.4s ease;
@@ -562,7 +563,7 @@
   inset: 0;
   background: radial-gradient(
     320px circle at var(--mx, -200px) var(--my, -200px),
-    rgba(234, 125, 31,0.18),
+    rgba(247, 148, 30,0.18),
     transparent 70%
   );
   pointer-events: none;
@@ -745,8 +746,8 @@
 .detailBadge {
   position: absolute;
   bottom: 2rem; left: 2rem;
-  background: rgba(234, 125, 31, 0.12);
-  border: 1px solid rgba(234, 125, 31, 0.4);
+  background: rgba(247, 148, 30, 0.12);
+  border: 1px solid rgba(247, 148, 30, 0.4);
   color: var(--gold);
   padding: 0.5rem 1rem;
   font-size: 0.7rem;
@@ -777,7 +778,7 @@
   margin: 0 0 2.5rem;
   display: flex;
   gap: 0;
-  border-top: 1px solid rgba(234, 125, 31, 0.18);
+  border-top: 1px solid rgba(247, 148, 30, 0.18);
 }
 .detailStats li {
   display: flex;
@@ -785,7 +786,7 @@
   gap: 0.3rem;
   flex: 1;
   padding: 1.5rem 0;
-  border-right: 1px solid rgba(234, 125, 31, 0.18);
+  border-right: 1px solid rgba(247, 148, 30, 0.18);
 }
 .detailStats li:last-child { border-right: none; }
 .detailStats strong {
@@ -843,9 +844,9 @@
   height: 1px;
   background: linear-gradient(
     to right,
-    rgba(234, 125, 31,0.15),
-    rgba(234, 125, 31,0.5) 50%,
-    rgba(234, 125, 31,0.15)
+    rgba(247, 148, 30,0.15),
+    rgba(247, 148, 30,0.5) 50%,
+    rgba(247, 148, 30,0.15)
   );
   z-index: 0;
   pointer-events: none;
@@ -854,8 +855,8 @@
 /* ── Step card ───────────────────────────────────────────────────── */
 .stepCard {
   padding: 2.75rem 2.25rem 2.5rem;
-  border: 1px solid rgba(234, 125, 31, 0.14);
-  border-left: 3px solid rgba(234, 125, 31,0.25);  /* always-visible accent */
+  border: 1px solid rgba(247, 148, 30, 0.14);
+  border-left: 3px solid rgba(247, 148, 30,0.25);  /* always-visible accent */
   position: relative;
   background: var(--step-card-bg);
   backdrop-filter: blur(16px) saturate(1.4);
@@ -874,7 +875,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(234, 125, 31,0.07) 0%, transparent 60%);
+  background: linear-gradient(135deg, rgba(247, 148, 30,0.07) 0%, transparent 60%);
   opacity: 0;
   transition: opacity 0.4s ease;
   pointer-events: none;
@@ -883,8 +884,8 @@
   transform: translateY(-7px);
   box-shadow:
     0 20px 50px rgba(0,0,0,0.18),
-    0 0 0 1px rgba(234, 125, 31,0.22);
-  border-left-color: #ea7d1f;
+    0 0 0 1px rgba(247, 148, 30,0.22);
+  border-left-color: #F7941E;
   background: var(--step-card-hover);
 }
 .stepCard:hover::after { opacity: 1; }
@@ -897,8 +898,8 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  border: 1.5px solid rgba(234, 125, 31,0.4);
-  background: rgba(234, 125, 31,0.08);
+  border: 1.5px solid rgba(247, 148, 30,0.4);
+  background: rgba(247, 148, 30,0.08);
   font-family: var(--font-serif);
   font-size: 1.05rem;
   font-weight: 400;
@@ -913,8 +914,8 @@
   letter-spacing: 0.05em;
 }
 .stepCard:hover .stepNumber {
-  background: rgba(234, 125, 31,0.18);
-  border-color: #ea7d1f;
+  background: rgba(247, 148, 30,0.18);
+  border-color: #F7941E;
   transform: scale(1.08);
 }
 
@@ -923,7 +924,7 @@
   font-family: var(--font-serif);
   font-size: 1.3rem;
   font-weight: 400;
-  color: var(--text-on-section);    /* #2A2F63 light / #F0F1F7 dark — both pass ✓ */
+  color: var(--text-on-section);    /* #262262 light / #F0F0FA dark — both pass ✓ */
   margin: 0 0 0.85rem;
   line-height: 1.25;
   transition: color 0.3s ease;
@@ -933,7 +934,7 @@
 .stepBody {
   font-size: 0.9rem;
   line-height: 1.8;
-  color: var(--text-on-section-muted); /* #5A5E7A light (5.4:1 ✓) / #9CA1BA dark (6.5:1 ✓) */
+  color: var(--text-on-section-muted); /* #4A4A6A light (5.4:1 ✓) / #9CA1BA dark (6.5:1 ✓) */
   margin: 0;
 }
 
@@ -997,8 +998,8 @@
   display: flex;
   justify-content: center;
   background: var(--bg-card);
-  border-top:    1px solid rgba(234, 125, 31,0.12);
-  border-bottom: 1px solid rgba(234, 125, 31,0.12);
+  border-top:    1px solid rgba(247, 148, 30,0.12);
+  border-bottom: 1px solid rgba(247, 148, 30,0.12);
 }
 .statItem {
   flex: 1;
@@ -1007,7 +1008,7 @@
   align-items: center;
   justify-content: center;
   padding: 3rem 2rem;
-  border-right: 1px solid rgba(234, 125, 31,0.12);
+  border-right: 1px solid rgba(247, 148, 30,0.12);
   gap: 0.4rem;
   transition: background 0.3s ease;
 }
@@ -1053,7 +1054,7 @@
   justify-content: space-between;
   align-items: flex-start;
   padding: 4rem;
-  border-bottom: 1px solid rgba(234, 125, 31,0.12);
+  border-bottom: 1px solid rgba(247, 148, 30,0.12);
   gap: 3rem;
 }
 .footerBrand { display: flex; flex-direction: column; gap: 0.5rem; }
@@ -1104,7 +1105,7 @@
 .bokeh {
   position: absolute;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(234, 125, 31,1) 0%, rgba(234, 125, 31,0) 70%);
+  background: radial-gradient(circle, rgba(247, 148, 30,1) 0%, rgba(247, 148, 30,0) 70%);
   pointer-events: none;
   will-change: transform;
   z-index: 1;
@@ -1196,7 +1197,7 @@
     padding: 3rem 1.5rem;
   }
   .statsBar { flex-wrap: wrap; }
-  .statItem { flex: 0 0 50%; border-bottom: 1px solid rgba(234, 125, 31,0.12); }
+  .statItem { flex: 0 0 50%; border-bottom: 1px solid rgba(247, 148, 30,0.12); }
   .footerTop { flex-direction: column; padding: 2.5rem 1.5rem; }
   .footerNav { gap: 2rem; }
 }

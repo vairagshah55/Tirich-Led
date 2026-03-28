@@ -15,7 +15,7 @@
 /* ── Breadcrumb ─────────────────────────────────────────────────── */
 .breadcrumb {
   background: var(--bg-section);
-  border-bottom: 1px solid rgba(234, 125, 31, 0.1);
+  border-bottom: 1px solid rgba(247, 148, 30, 0.1);
   padding: 0.85rem 4rem;
 }
 .breadcrumbInner {
@@ -43,7 +43,7 @@
    ══════════════════════════════════════════════════════════════════ */
 .filterBar {
   background: var(--bg-deep);
-  border-bottom: 1px solid rgba(234, 125, 31, 0.1);
+  border-bottom: 1px solid rgba(247, 148, 30, 0.1);
   padding: 0 4rem;
   position: sticky;
   top: 68px;
@@ -70,7 +70,7 @@
 .filterSep {
   width: 1px;
   height: 16px;
-  background: rgba(234, 125, 31, 0.2);
+  background: rgba(247, 148, 30, 0.2);
   margin: 0 0.5rem;
   flex-shrink: 0;
 }
@@ -156,7 +156,7 @@
     0 2px 4px rgba(0, 0, 0, 0.06),
     0 8px 24px rgba(0, 0, 0, 0.1),
     0 24px 56px rgba(0, 0, 0, 0.14),
-    0 0 0 1px rgba(234, 125, 31, 0.2);
+    0 0 0 1px rgba(247, 148, 30, 0.2);
 }
 
 /* Hover glow halo — mimics LED throw */
@@ -165,7 +165,7 @@
   inset: 0;
   background: radial-gradient(
     ellipse 80% 60% at 50% 110%,
-    rgba(234, 125, 31, 0.18) 0%,
+    rgba(247, 148, 30, 0.18) 0%,
     transparent 70%
   );
   opacity: 0;
@@ -266,7 +266,7 @@
   transform: translateX(-50%);
   width: 60%;
   height: 60px;
-  background: radial-gradient(ellipse, rgba(234, 125, 31, 0.5) 0%, transparent 70%);
+  background: radial-gradient(ellipse, rgba(247, 148, 30, 0.5) 0%, transparent 70%);
   pointer-events: none;
   filter: blur(8px);
 }
@@ -297,7 +297,7 @@
 }
 
 .cardName {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
   font-size: 1.35rem;
   font-weight: 400;
   color: var(--text-on-section);
@@ -330,8 +330,8 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--clr-accent-text);
-  background: rgba(234, 125, 31, 0.07);
-  border: 1px solid rgba(234, 125, 31, 0.18);
+  background: rgba(247, 148, 30, 0.07);
+  border: 1px solid rgba(247, 148, 30, 0.18);
   padding: 0.18rem 0.5rem;
   border-radius: 2px;
 }
@@ -342,7 +342,7 @@
   align-items: center;
   justify-content: space-between;
   padding-top: 0.9rem;
-  border-top: 1px solid rgba(234, 125, 31, 0.09);
+  border-top: 1px solid rgba(247, 148, 30, 0.09);
 }
 
 .cardWattage {

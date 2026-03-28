@@ -32,7 +32,7 @@
   background: radial-gradient(
     ellipse 110px 200px at var(--gx, -400px) var(--gy, -400px),
     rgba(255, 248, 220, 0.45) 0%,
-    rgba(234, 125, 31,  0.12) 45%,
+    rgba(247, 148, 30,  0.12) 45%,
     transparent 75%
   );
   mix-blend-mode: screen;
@@ -67,7 +67,7 @@
     0 -20px 8px 1px rgba(255, 255, 255, 0.15),
     0  20px 8px 1px rgba(255, 255, 255, 0.15),
     /* Outer glow */
-    0 0 20px 6px rgba(234, 125, 31, 0.25);
+    0 0 20px 6px rgba(247, 148, 30, 0.25);
   transition: top 0.04s linear, left 0.04s linear;
   opacity: 0;
 }
@@ -129,7 +129,7 @@
   font-size: 0.72rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #ea7d1f;
+  color: #F7941E;
 }
 .infoLabel {
   font-size: 0.9rem;

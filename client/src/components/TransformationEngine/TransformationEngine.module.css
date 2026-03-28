@@ -10,8 +10,8 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.55rem 1rem;
-  border: 1px solid rgba(234, 125, 31, 0.22);
-  background: rgba(234, 125, 31, 0.05);
+  border: 1px solid rgba(247, 148, 30, 0.22);
+  background: rgba(247, 148, 30, 0.05);
   max-width: 340px;
   margin-bottom: 2.5rem;
 }
@@ -19,7 +19,7 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #ea7d1f;
+  background: #F7941E;
   flex-shrink: 0;
   animation: dotPulse 1.4s ease-in-out infinite;
 }
@@ -30,7 +30,7 @@
 .promptText {
   font-size: 0.76rem;
   letter-spacing: 0.06em;
-  color: rgba(234, 125, 31, 0.85);
+  color: rgba(247, 148, 30, 0.85);
   font-family: 'Inter', monospace;
   animation: promptFade 0.3s ease;
 }
@@ -51,7 +51,7 @@
   font-size: 0.72rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgba(234, 125, 31, 0.5);
+  color: rgba(247, 148, 30, 0.5);
   margin: 0 0 0.75rem;
 }
 
@@ -68,7 +68,7 @@
 }
 .inputCard {
   position: relative;
-  border: 1px solid rgba(234, 125, 31, 0.28);
+  border: 1px solid rgba(247, 148, 30, 0.28);
   overflow: hidden;
   background: rgba(255, 255, 255, 0.03);
 }
@@ -100,7 +100,7 @@
   font-size: 0.7rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(234, 125, 31, 0.9);
+  color: rgba(247, 148, 30, 0.9);
   background: rgba(14, 14, 14, 0.78);
   padding: 0.35rem 0.5rem;
   backdrop-filter: blur(4px);
@@ -136,7 +136,7 @@
   font-size: 0.7rem;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: rgba(234, 125, 31, 0.45);
+  color: rgba(247, 148, 30, 0.45);
 }
 
 /* ── Output panel ───────────────────────────────────────────────── */
@@ -188,7 +188,7 @@
   background: linear-gradient(
     105deg,
     transparent 35%,
-    rgba(234, 125, 31, 0.28) 50%,
+    rgba(247, 148, 30, 0.28) 50%,
     transparent 65%
   );
   background-size: 200% 100%;
@@ -212,7 +212,7 @@
   font-size: 0.68rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(234, 125, 31, 0.92);
+  color: rgba(247, 148, 30, 0.92);
   background: rgba(14, 14, 14, 0.72);
   padding: 0.18rem 0.45rem;
   backdrop-filter: blur(4px);
@@ -225,7 +225,7 @@
   right: 0.45rem;
   width: 22px;
   height: 22px;
-  background: rgba(234, 125, 31, 0.88);
+  background: rgba(247, 148, 30, 0.88);
   color: var(--btn-solid-text);
   border-radius: 50%;
   display: flex;
@@ -251,7 +251,7 @@
   gap: 3rem;
   margin-top: 3rem;
   padding-top: 2rem;
-  border-top: 1px solid rgba(234, 125, 31, 0.12);
+  border-top: 1px solid rgba(247, 148, 30, 0.12);
 }
 .featureItem {
   display: flex;
@@ -260,7 +260,7 @@
   color: rgba(255, 255, 255, 0.45);
 }
 .featureIcon {
-  color: #ea7d1f;
+  color: #F7941E;
   font-size: 1rem;
 }
 .featureLabel {
