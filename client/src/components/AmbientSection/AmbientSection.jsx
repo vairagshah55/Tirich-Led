@@ -49,6 +49,8 @@ export default function AmbientSection() {
   const gridRef    = useRef(null);
   const featImgRef = useRef(null);
 
+  const activeIdx = TABS.findIndex(t => t.id === activeEnv);
+
   // ── Spring cursor ────────────────────────────────────────────────
   const rawX    = useMotionValue(-300);
   const rawY    = useMotionValue(-300);
@@ -59,6 +61,12 @@ export default function AmbientSection() {
   const onMove = useCallback((e) => {
     rawX.set(e.clientX);
     rawY.set(e.clientY);
+
+    if (sectionRef.current) {
+      const r = sectionRef.current.getBoundingClientRect();
+      sectionRef.current.style.setProperty('--mx', `${e.clientX - r.left}px`);
+      sectionRef.current.style.setProperty('--my', `${e.clientY - r.top}px`);
+    }
 
     if (gridRef.current) {
       const r = gridRef.current.getBoundingClientRect();
@@ -78,6 +86,10 @@ export default function AmbientSection() {
     rawX.set(-300);
     rawY.set(-300);
     setHoveredItem(null);
+    if (sectionRef.current) {
+      sectionRef.current.style.setProperty('--mx', '-999px');
+      sectionRef.current.style.setProperty('--my', '-999px');
+    }
     if (featImgRef.current) {
       featImgRef.current.style.transform = 'translate(0,0) scale(1.04)';
     }
@@ -88,6 +100,9 @@ export default function AmbientSection() {
     setActiveEnv(id);
   }, []);
 
+  // Pill width per tab
+  const tabCount = TABS.length;
+
   return (
     <section
       id="environments"
@@ -96,6 +111,11 @@ export default function AmbientSection() {
       onMouseMove={onMove}
       onMouseLeave={onLeave}
     >
+      {/* Decorative background */}
+      <div className={styles.orbOrange} aria-hidden />
+      <div className={styles.orbNavy} aria-hidden />
+      <div className={styles.sectionSpotlight} aria-hidden />
+      <div className={styles.topStripe} aria-hidden />
 
       {/* ── Floating spring cursor label ─────────────────────────── */}
       <AnimatePresence>
@@ -124,7 +144,14 @@ export default function AmbientSection() {
       >
         <div className={styles.headerInner}>
           <div>
-            <p className={styles.eyebrow}>Real World Applications</p>
+            <p className={styles.eyebrow}>
+              <motion.span
+                className={styles.eyebrowDot}
+                animate={{ scale: [1, 1.5, 1] }}
+                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              />
+              Real World Applications
+            </p>
             <h2 className={styles.title}>LED Lighting Across Every Space</h2>
             <p className={styles.lead}>
               From warm residential interiors to high-intensity commercial
@@ -135,14 +162,23 @@ export default function AmbientSection() {
         </div>
       </motion.div>
 
-      {/* ── Category tabs ───────────────────────────────────────── */}
+      {/* ── Pill-style category tabs ───────────────────────────── */}
       <motion.div
         className={styles.tabs}
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
+        initial={{ opacity: 0, y: 14 }}
+        whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-60px' }}
         transition={{ duration: 0.5, delay: 0.18, ease: EASE }}
       >
+        {/* Sliding pill */}
+        <motion.span
+          className={styles.tabPill}
+          initial={false}
+          animate={{ x: `calc(${activeIdx * 100}% + ${activeIdx * 4}px)` }}
+          style={{ width: `calc(${100 / tabCount}% - 3px)` }}
+          transition={{ type: 'spring', stiffness: 420, damping: 32 }}
+        />
+
         {TABS.map(({ id, num }) => (
           <button
             key={id}
@@ -151,13 +187,6 @@ export default function AmbientSection() {
           >
             <span className={styles.tabNum}>{num}</span>
             <span className={styles.tabLabel}>{id}</span>
-            {activeEnv === id && (
-              <motion.span
-                className={styles.tabLine}
-                layoutId="ambEnvTabLine"
-                transition={{ duration: 0.34, ease: EASE }}
-              />
-            )}
           </button>
         ))}
       </motion.div>
@@ -177,9 +206,9 @@ export default function AmbientSection() {
             <motion.div
               key={i}
               className={`${styles.card}${i === 0 ? ` ${styles.cardFeat}` : ''}`}
-              initial={{ clipPath: 'inset(100% 0% 0% 0%)' }}
-              animate={{ clipPath: 'inset(0% 0% 0% 0%)' }}
-              exit={{ clipPath: 'inset(0% 0% 100% 0%)' }}
+              initial={{ clipPath: 'inset(100% 0% 0% 0%)', opacity: 0 }}
+              animate={{ clipPath: 'inset(0% 0% 0% 0%)', opacity: 1 }}
+              exit={{ clipPath: 'inset(0% 0% 100% 0%)', opacity: 0 }}
               transition={{ duration: 0.52, delay: i * 0.065, ease: EASE }}
               onMouseEnter={() => setHoveredItem(item)}
               onMouseLeave={() => setHoveredItem(null)}
@@ -216,7 +245,11 @@ export default function AmbientSection() {
       {/* ── Bottom meta bar ─────────────────────────────────────── */}
       <div className={styles.meta}>
         <span className={styles.metaLeft}>
-          <span className={styles.metaDot} />
+          <motion.span
+            className={styles.metaDot}
+            animate={{ scale: [1, 1.4, 1] }}
+            transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+          />
           {activeEnv} · LED Installations
         </span>
         <span className={styles.metaRight}>
