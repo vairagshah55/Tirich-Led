@@ -1,10 +1,9 @@
 import { useEffect, useRef, useCallback, useState } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'motion/react';
 import Navbar from '../../components/Navbar/Navbar';
 import styles from './LandingPage.module.css';
 import { buttonHover, buttonTap, fadeUp } from '../../utils/motion';
-import footerLogo from '../../assets/new-log.png';
 
 
 // ── Lightweight images — Living Gallery (84 – 700 KB each) ─────────
@@ -24,6 +23,7 @@ import proVid2   from '../../assets/grok-video-1d4fef8d-119d-4f9f-8d71-650ca413f
 import LivingGallery          from '../../components/LivingGallery/LivingGallery';
 import AmbientSection         from '../../components/AmbientSection/AmbientSection';
 import SmartLightingSection   from '../../components/SmartLightingSection/SmartLightingSection';
+import Footer                 from '../../components/Footer/Footer';
 
 // ── Hero banner images (Pexels — free commercial use) ─────────────
 const HERO_IMG_1 = 'https://images.pexels.com/photos/19689230/pexels-photo-19689230.jpeg?auto=compress&cs=tinysrgb&w=1920';
@@ -599,85 +599,7 @@ export default function LandingPage() {
         </motion.div>
       </motion.section>
 
-      {/* ── FOOTER ───────────────────────────────────────────────── */}
-      <footer className={styles.footer}>
-        <div className={styles.footerOrb} aria-hidden />
-
-        <motion.div
-          className={styles.footerTop}
-          initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-        >
-          {/* Brand column */}
-          <div className={styles.footerBrand}>
-            <div className={styles.footerLogoRow}>
-              <img src={footerLogo} alt="Tirich LED" className={styles.footerLogo} />
-            </div>
-            <p className={styles.footerTagline}>
-              Premium LED lighting solutions — engineered for commercial, residential, and architectural spaces.
-            </p>
-
-            {/* Social icons */}
-            <div className={styles.footerSocials}>
-              {[
-                { label: 'Instagram', href: '#', icon: <><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></> },
-                { label: 'Facebook', href: '#', icon: <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/> },
-                { label: 'Twitter', href: '#', icon: <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/> },
-              ].map((s) => (
-                <motion.a
-                  key={s.label}
-                  href={s.href}
-                  className={styles.footerSocialLink}
-                  aria-label={s.label}
-                  whileHover={{ y: -3, scale: 1.1 }}
-                  whileTap={{ scale: 0.92 }}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                    {s.icon}
-                  </svg>
-                </motion.a>
-              ))}
-            </div>
-          </div>
-
-          {/* Nav columns */}
-          <nav className={styles.footerNav}>
-            <div className={styles.footerNavCol}>
-              <span className={styles.footerNavHead}>Explore</span>
-              <a href="#collections" onClick={scrollToSection('collections')}>Products</a>
-              <a href="#environments" onClick={scrollToSection('environments')}>Applications</a>
-              <a href="#smart-lighting" onClick={scrollToSection('smart-lighting')}>Smart Lighting</a>
-              <a href="#new-launches" onClick={scrollToSection('new-launches')}>New Launches</a>
-            </div>
-            <div className={styles.footerNavCol}>
-              <span className={styles.footerNavHead}>Company</span>
-              <Link to="/contact">Contact</Link>
-              <Link to="/products">All Products</Link>
-              <Link to="/smart-lighting">Smart Systems</Link>
-            </div>
-            <div className={styles.footerNavCol}>
-              <span className={styles.footerNavHead}>Support</span>
-              <a href="#" onClick={(e) => e.preventDefault()}>Catalogue</a>
-              <a href="#" onClick={(e) => e.preventDefault()}>Warranty</a>
-              <a href="#" onClick={(e) => e.preventDefault()}>FAQs</a>
-            </div>
-          </nav>
-        </motion.div>
-
-        {/* Bottom bar */}
-        <div className={styles.footerBottom}>
-          <p>© {new Date().getFullYear()} Tirich LED. All rights reserved.</p>
-          <div className={styles.footerBottomLinks}>
-            <a href="#" onClick={(e) => e.preventDefault()}>Privacy</a>
-            <span className={styles.footerDivider} />
-            <a href="#" onClick={(e) => e.preventDefault()}>Terms</a>
-          </div>
-        </div>
-      </footer>
+      <Footer />
 
     </div>
   );

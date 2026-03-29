@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import Navbar from '../../components/Navbar/Navbar';
 import styles from './AboutPage.module.css';
+import Footer from '../../components/Footer/Footer';
 
 const EASE = [0.22, 1, 0.36, 1];
 const QUART_OUT = [0.25, 1, 0.5, 1];
@@ -912,6 +913,8 @@ export default function AboutPage() {
           <Link to="/products" className={styles.btnGhost}>View Products</Link>
         </motion.div>
       </section>
+
+      <Footer />
     </div>
   );
 }
