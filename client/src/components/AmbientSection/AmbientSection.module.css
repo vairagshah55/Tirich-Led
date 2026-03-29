@@ -1,0 +1,303 @@
+.section {
+  background: #1A1740;
+  padding: 5rem 4rem 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Header ────────────────────────────────────────────────────── */
+.header { margin-bottom: 2.8rem; }
+
+.headerInner {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.ghostNum {
+  font-size: 7rem;
+  font-weight: 900;
+  line-height: 0.85;
+  color: rgba(255, 255, 255, 0.04);
+  font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: -0.06em;
+  user-select: none;
+  flex-shrink: 0;
+  pointer-events: none;
+  margin-top: -0.4rem;
+}
+
+.eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #F7941E;
+  margin: 0 0 0.65rem;
+  font-weight: 500;
+}
+
+.title {
+  font-size: clamp(1.9rem, 3vw, 2.6rem);
+  font-weight: 800;
+  color: #F0F0FA;
+  margin: 0 0 0.75rem;
+  font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+.lead {
+  font-size: 0.88rem;
+  color: rgba(240, 240, 250, 0.42);
+  margin: 0;
+  max-width: 500px;
+  line-height: 1.7;
+}
+
+/* ── Tabs ──────────────────────────────────────────────────────── */
+.tabs {
+  display: flex;
+  align-items: flex-end;
+  gap: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  margin-bottom: 2rem;
+}
+
+.tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.82rem 1.6rem;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.28);
+  cursor: none;
+  font-family: inherit;
+  transition: color 0.22s ease;
+}
+
+.tabActive { color: #ffffff; }
+
+.tabNum {
+  font-size: 0.56rem;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  opacity: 0.5;
+  color: inherit;
+}
+
+.tabLabel {
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.tabLine {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #F7941E;
+  border-radius: 1px 1px 0 0;
+}
+
+/* ── Grid ──────────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr 1fr;
+  grid-template-rows: 290px 290px;
+  gap: 4px;
+  position: relative;
+  --mx: 50%;
+  --my: 50%;
+}
+
+.spotlight {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    440px circle at var(--mx) var(--my),
+    rgba(247, 148, 30, 0.08),
+    transparent 55%
+  );
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* ── Cards ─────────────────────────────────────────────────────── */
+.card {
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.03);
+  cursor: none;
+}
+
+.cardFeat { grid-row: span 2; }
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.04);
+  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.card:not(.cardFeat):hover .img { transform: scale(1.09); }
+
+.overlayFeat {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(26, 23, 64, 0.93) 0%,
+    rgba(26, 23, 64, 0.1) 44%,
+    transparent 66%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.8rem 2rem;
+  z-index: 2;
+}
+
+.overlayHover {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(26, 23, 64, 0.88) 0%,
+    rgba(26, 23, 64, 0.04) 55%,
+    transparent 72%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.1rem 1.2rem;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card:not(.cardFeat):hover .overlayHover { opacity: 1; }
+
+.cardTag {
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #F7941E;
+  margin-bottom: 0.3rem;
+}
+
+.cardTitle {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #ffffff;
+  font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.2;
+}
+
+.cardTitleSm {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #ffffff;
+  font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  transform: translateY(4px);
+  transition: transform 0.3s ease;
+}
+
+.card:not(.cardFeat):hover .cardTitleSm { transform: translateY(0); }
+
+/* ── Floating cursor label ──────────────────────────────────────── */
+.floatingLabel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  pointer-events: none;
+  translate: -50% calc(-100% - 14px);
+  background: rgba(20, 18, 56, 0.96);
+  border: 1px solid rgba(247, 148, 30, 0.4);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  padding: 0.5rem 0.95rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+  min-width: 148px;
+}
+
+.floatingTag {
+  font-size: 0.54rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #F7941E;
+}
+
+.floatingTitle {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #F0F0FA;
+  font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* ── Bottom meta bar ───────────────────────────────────────────── */
+.meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1.1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  margin-top: 0.25rem;
+}
+
+.metaLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.66rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.22);
+}
+
+.metaDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #F7941E;
+  flex-shrink: 0;
+}
+
+.metaRight {
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.14);
+}
+
+/* ── Responsive ────────────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .section { padding: 5rem 2rem 3rem; }
+  .grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 240px 240px 240px;
+  }
+  .cardFeat { grid-column: span 2; grid-row: span 1; }
+}
+
+@media (max-width: 700px) {
+  .section  { padding: 4rem 1.5rem 2.5rem; }
+  .ghostNum { display: none; }
+  .floatingLabel { display: none; }
+  .grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(5, 220px);
+  }
+  .cardFeat { grid-column: span 1; }
+  .tabs { overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+}
