@@ -702,6 +702,18 @@ export default function AboutPage() {
               </motion.svg>
 
               <div className={styles.mvvCardInner}>
+                {/* Animated connector dot between cards */}
+                {ci === 0 && (
+                  <motion.div
+                    className={styles.mvvConnector}
+                    initial={{ scaleX: 0 }}
+                    whileInView={{ scaleX: 1 }}
+                    viewport={REVEAL}
+                    transition={{ duration: 0.8, delay: 0.4, ease: QUART_OUT }}
+                    style={{ transformOrigin: 'left' }}
+                    aria-hidden
+                  />
+                )}
                 <motion.div
                   className={styles.mvvIconCircle}
                   initial={{ scale: 0, rotate: -20 }}

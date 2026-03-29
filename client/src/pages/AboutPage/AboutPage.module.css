@@ -846,6 +846,17 @@
 
 .mvvCardInner { position: relative; z-index: 1; }
 
+/* Connector line between mission & vision */
+.mvvConnector {
+  position: absolute;
+  top: 50%;
+  right: -16px;
+  width: 16px;
+  height: 2px;
+  background: linear-gradient(90deg, #F7941E, rgba(247,148,30,0.2));
+  z-index: 5;
+}
+
 .mvvIconCircle {
   width: 48px;
   height: 48px;
@@ -961,15 +972,38 @@
   border-color: rgba(247,148,30,0.4);
 }
 
+/* Bottom accent bar */
+.mvvValueCard::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #F7941E, rgba(247,148,30,0.15));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.25,1,0.5,1);
+}
+
+.mvvValueCard:hover::before { transform: scaleX(1); }
+
 .mvvValueNum {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.56rem;
-  font-weight: 800;
-  color: rgba(38,34,98,0.1);
-  letter-spacing: 0.1em;
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: rgba(38,34,98,0.04);
+  letter-spacing: -0.02em;
+  line-height: 1;
   display: block;
   margin-bottom: 0.3rem;
+  position: absolute;
+  top: 0.8rem;
+  right: 1rem;
+  transition: color 0.3s ease;
 }
+
+.mvvValueCard:hover .mvvValueNum { color: rgba(247,148,30,0.1); }
 
 .mvvValueTitle {
   font-family: 'Space Grotesk', sans-serif;
