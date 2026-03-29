@@ -796,6 +796,158 @@ export default function AboutPage() {
           ))}
         </motion.div>
       </section>
+
+      {/* ── TRUSTED & CERTIFIED ─────────────────────────────────── */}
+      <section className={styles.certSection}>
+        <div className={styles.certOrb} aria-hidden />
+        <div className={styles.certStripe} aria-hidden />
+
+        <div className={styles.certInner}>
+          {/* Left — animated shield visual */}
+          <motion.div
+            className={styles.certVisual}
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={REVEAL}
+            transition={{ duration: 0.7, ease: QUART_OUT }}
+          >
+            {/* Outer rotating ring */}
+            <motion.div
+              className={styles.certRingOuter}
+              animate={{ rotate: 360 }}
+              transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
+              aria-hidden
+            >
+              {['BIS', 'CE', 'RoHS', 'IP65'].map((label, i) => (
+                <span key={label} className={styles.certRingLabel} style={{ transform: `rotate(${i * 90}deg) translateY(-110px)` }}>
+                  {label}
+                </span>
+              ))}
+            </motion.div>
+
+            {/* Inner rotating ring — opposite direction */}
+            <motion.div
+              className={styles.certRingInner}
+              animate={{ rotate: -360 }}
+              transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+              aria-hidden
+            >
+              {['IEC', 'ISO', 'L80', 'CRI'].map((label, i) => (
+                <span key={label} className={styles.certRingLabel2} style={{ transform: `rotate(${i * 90}deg) translateY(-72px)` }}>
+                  {label}
+                </span>
+              ))}
+            </motion.div>
+
+            {/* Centre shield icon */}
+            <motion.div
+              className={styles.certShield}
+              initial={{ scale: 0, rotate: -15 }}
+              whileInView={{ scale: 1, rotate: 0 }}
+              viewport={REVEAL}
+              transition={{ type: 'spring', stiffness: 200, damping: 12, delay: 0.2 }}
+            >
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <polyline points="9 12 11 14 15 10"/>
+              </svg>
+            </motion.div>
+
+            {/* Pulse rings */}
+            <motion.span className={styles.certPulse1} animate={{ scale: [1, 1.6, 1], opacity: [0.2, 0, 0.2] }} transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }} aria-hidden />
+            <motion.span className={styles.certPulse2} animate={{ scale: [1, 2, 1], opacity: [0.12, 0, 0.12] }} transition={{ duration: 3.5, delay: 0.5, repeat: Infinity, ease: 'easeInOut' }} aria-hidden />
+          </motion.div>
+
+          {/* Right — content */}
+          <motion.div
+            className={styles.certContent}
+            initial={{ opacity: 0, x: 40, y: 30 }}
+            whileInView={{ opacity: 1, x: 0, y: 0 }}
+            viewport={REVEAL}
+            transition={{ duration: 0.6, delay: 0.1, ease: QUART_OUT }}
+          >
+            <p className={styles.eyebrow}>
+              <motion.span className={styles.eyebrowDot} animate={{ scale: [1, 1.5, 1] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }} />
+              Trusted & Certified
+            </p>
+            <h2 className={styles.certTitle}>BIS Approved. Globally Compliant.</h2>
+            <p className={styles.certBody}>
+              Every Tirich LED product meets or exceeds national and international safety, performance,
+              and environmental standards. Our in-house lab verifies every batch before dispatch —
+              no exceptions.
+            </p>
+
+            {/* Cert badges */}
+            <motion.div
+              className={styles.certBadges}
+              initial="hidden"
+              whileInView="visible"
+              viewport={REVEAL}
+              variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.06 } } }}
+            >
+              {[
+                { code: 'BIS', name: 'Bureau of Indian Standards' },
+                { code: 'CE', name: 'European Conformity' },
+                { code: 'RoHS', name: 'Restriction of Hazardous Substances' },
+                { code: 'IP65', name: 'Ingress Protection' },
+                { code: 'IEC', name: 'Intl Electrotechnical Commission' },
+                { code: 'ISO', name: 'Quality Management' },
+              ].map((cert) => (
+                <motion.div
+                  key={cert.code}
+                  className={styles.certBadge}
+                  variants={{
+                    hidden: { opacity: 0, scale: 0.85 },
+                    visible: { opacity: 1, scale: 1, transition: { type: 'spring', stiffness: 300, damping: 15 } },
+                  }}
+                  whileHover={{ y: -3, boxShadow: '0 8px 20px rgba(247,148,30,0.12)', transition: { duration: 0.2 } }}
+                >
+                  <span className={styles.certBadgeCode}>{cert.code}</span>
+                  <span className={styles.certBadgeName}>{cert.name}</span>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            {/* Stats row */}
+            <motion.div
+              className={styles.certStats}
+              initial="hidden"
+              whileInView="visible"
+              viewport={REVEAL}
+              variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08, delayChildren: 0.2 } } }}
+            >
+              {[
+                { val: '100%', label: 'Units Tested' },
+                { val: '0%', label: 'Defect Tolerance' },
+                { val: '6+', label: 'Certifications' },
+                { val: '50K+', label: 'Units Shipped' },
+              ].map((s) => (
+                <motion.div
+                  key={s.label}
+                  className={styles.certStat}
+                  variants={{
+                    hidden: { opacity: 0, y: 20 },
+                    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: QUART_OUT } },
+                  }}
+                >
+                  <span className={styles.certStatVal}>{s.val}</span>
+                  <span className={styles.certStatLabel}>{s.label}</span>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            <div className={styles.certCta}>
+              <Link to="/contact" className={styles.btnPrimary}>
+                Request Certificates
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </Link>
+              <Link to="/products" className={styles.btnGhost}>View Products</Link>
+            </div>
+          </motion.div>
+        </div>
+      </section>
     </div>
   );
 }
