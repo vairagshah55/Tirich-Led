@@ -3,13 +3,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'motion/react';
 import Navbar from '../../components/Navbar/Navbar';
 import styles from './LandingPage.module.css';
-import { buttonHover, buttonTap, cardHover, fadeIn, fadeUp } from '../../utils/motion';
+import { buttonHover, buttonTap, fadeUp } from '../../utils/motion';
 
-// ── HD Images — Luster Gallery + Craftsmanship section only ────────
-import hdTLC121  from '../../assets/HD PHOTO/TLC-121.png';
-import hdTLC108  from '../../assets/HD PHOTO/TLC-108.png';
-import hdHanging from '../../assets/HD PHOTO/HANGING LIGHT/15/JJA09912 copy 2.jpg';
-import hdMagCOB  from '../../assets/HD PHOTO/CYLINDER/3/JJA09789 copy 2.jpg';
 
 // ── Lightweight images — Living Gallery (84 – 700 KB each) ─────────
 import lgTLC105  from '../../assets/TLC-105.jpg';         //  84 KB
@@ -25,7 +20,6 @@ import lgTLC111  from '../../assets/TLC-111.jpg';         // 468 KB
 import proVid1   from '../../assets/grok-video-083a2972-e0c2-44a4-b856-38ebb91513b1.mp4';  // 932 KB
 import proVid2   from '../../assets/grok-video-1d4fef8d-119d-4f9f-8d71-650ca413f8be.mp4'; // 1.1 MB
 
-import LusterGallery          from '../../components/LusterGallery/LusterGallery';
 import LivingGallery          from '../../components/LivingGallery/LivingGallery';
 import AmbientSection         from '../../components/AmbientSection/AmbientSection';
 import SmartLightingSection   from '../../components/SmartLightingSection/SmartLightingSection';
@@ -35,13 +29,6 @@ const HERO_IMG_1 = 'https://images.pexels.com/photos/19689230/pexels-photo-19689
 const HERO_IMG_2 = 'https://images.pexels.com/photos/3747103/pexels-photo-3747103.jpeg?auto=compress&cs=tinysrgb&w=1920';
 const HERO_IMG_3 = 'https://images.pexels.com/photos/4626268/pexels-photo-4626268.jpeg?auto=compress&cs=tinysrgb&w=1920';
 const HERO_IMG_4 = 'https://images.pexels.com/photos/29931645/pexels-photo-29931645.jpeg?auto=compress&cs=tinysrgb&w=1920';
-
-// ── Gallery items (Luster) ────────────────────────────────────────
-const GALLERY_ITEMS = [
-  { eyebrow: 'Panel Series',    label: 'TLC-121 Premium Panel', image: hdTLC121  },
-  { eyebrow: 'Track Lighting',  label: 'Magnetic COB Fixture',  image: hdMagCOB  },
-  { eyebrow: 'Pendant Series',  label: 'Pendant LED Fixture',   image: hdHanging },
-];
 
 // ── Living Gallery items ──────────────────────────────────────────
 const LIVING_GALLERY = [
@@ -57,18 +44,7 @@ const LIVING_GALLERY = [
   { label: 'TLC-111 Ceiling Light',   eyebrow: 'Ceiling Series',     type: 'image', src: lgTLC111  },
 ];
 
-const HOW_IT_WORKS = [
-  { step: '01', title: 'Design Consultation',    body: 'Share your project specifications — space dimensions, application type, desired colour temperature, lumen output, and IP rating. Our engineers map out the optimal solution.' },
-  { step: '02', title: 'Custom Engineering',     body: 'Our R&D team configures the ideal LED assembly — custom CCT, CRI, wattage, optics, and driver specs — tailored precisely to your environment.' },
-  { step: '03', title: 'Quality Manufacturing',  body: 'Every unit is factory-tested for luminous flux, colour accuracy, thermal performance, and international safety certifications before shipping.' },
-];
 
-const STATS = [
-  { value: '500+',   label: 'Products Available' },
-  { value: 'CRI 95', label: 'Colour Standard'    },
-  { value: '50K hrs', label: 'Lifespan Rating'   },
-  { value: 'IP65',   label: 'Weather Certified'  },
-];
 
 
 // ── Hero slides — each with its own image + copy ─────────────────
@@ -421,80 +397,6 @@ export default function LandingPage() {
 
       {/* ── SMART LIGHTING ───────────────────────────────────────── */}
       <SmartLightingSection />
-
-      {/* ── LUSTER GALLERY ───────────────────────────────────────── */}
-      <section className={styles.sectionLight} id="luster">
-        <div className={styles.sectionHeader} data-reveal>
-          <p className={styles.sectionEyebrow}>Product Highlights</p>
-          <h2 className={styles.sectionTitle}>Precision That Catches the Eye</h2>
-          <p className={styles.sectionLead}>
-            Move your cursor over any product — see the crisp design and premium build
-            quality that define every Tirich LED fixture.
-          </p>
-        </div>
-        <LusterGallery items={GALLERY_ITEMS} />
-      </section>
-
-      {/* ── TECHNOLOGY / CRAFTSMANSHIP ──────────────────────────── */}
-      <section className={styles.detail} id="craftsmanship">
-        <div className={styles.detailMedia} data-reveal>
-          <img src={hdTLC108} alt="Tirich LED TLC-108 Downlight" className={styles.detailImg} />
-          <div className={styles.detailBadge}>IP65 Rated · CRI 95+</div>
-        </div>
-        <div className={styles.detailCopy} data-reveal style={{ transitionDelay: '0.15s' }}>
-          <p className={styles.sectionEyebrow}>Manufacturing Excellence</p>
-          <h2 className={styles.sectionTitle}>Precision in Every Lumen</h2>
-          <p className={styles.sectionBody}>
-            Our engineers rigorously test every production batch for luminous consistency,
-            thermal performance, and longevity. Each unit meets IEC and CE safety standards
-            before it leaves our facility.
-          </p>
-          <ul className={styles.detailStats}>
-            <li><strong>50K hrs</strong><span>Lifespan Rating</span></li>
-            <li><strong>IP65</strong><span>Weather Certified</span></li>
-            <li><strong>CRI 95+</strong><span>Colour Accuracy</span></li>
-          </ul>
-          <motion.button className={styles.btnPrimary} onClick={() => navigate('/products')} {...mag} whileHover={buttonHover} whileTap={buttonTap}>
-            <span>View Products</span>
-          </motion.button>
-        </div>
-      </section>
-
-      {/* ── OUR PROCESS ──────────────────────────────────────────── */}
-      <section className={styles.howItWorks} id="ai-studio" data-cursor-theme="dark">
-        <div className={styles.sectionHeader} data-reveal>
-          <p className={styles.sectionEyebrow}>Our Process</p>
-          <h2 className={styles.sectionTitle}>From Consultation to Installation in Three Steps</h2>
-          <p className={styles.sectionLead}>
-            We guide every client — from initial specification to final delivery and beyond.
-          </p>
-        </div>
-        <div className={styles.stepsGrid}>
-          {HOW_IT_WORKS.map((s, i) => (
-            <motion.div key={s.step} className={styles.stepCard} data-reveal style={{ transitionDelay: `${i * 0.18}s` }} whileHover={cardHover} {...fadeUp(Math.min(i * 0.1, 0.28), 18)}>
-              <span className={styles.stepNumber}>{s.step}</span>
-              <h3 className={styles.stepTitle}>{s.title}</h3>
-              <p className={styles.stepBody}>{s.body}</p>
-            </motion.div>
-          ))}
-        </div>
-        <div className={styles.howItWorksCta} data-reveal>
-          <motion.button className={styles.btnPrimary} onClick={() => navigate('/ai-studio')} {...mag} whileHover={buttonHover} whileTap={buttonTap}>
-            Request a Quote
-          </motion.button>
-        </div>
-      </section>
-
-
-      {/* ── STATS BAR ────────────────────────────────────────────── */}
-      <div className={styles.statsBar} data-cursor-theme="light">
-        {STATS.map((s, i) => (
-          <motion.div key={s.label} className={styles.statItem} data-reveal style={{ transitionDelay: `${i * 0.1}s` }} whileHover={cardHover} {...fadeIn(Math.min(i * 0.08, 0.24))}>
-            <span className={styles.statValue}>{s.value}</span>
-            <span className={styles.statLabel}>{s.label}</span>
-          </motion.div>
-        ))}
-      </div>
 
       {/* ── FOOTER ───────────────────────────────────────────────── */}
       <footer className={styles.footer}>
