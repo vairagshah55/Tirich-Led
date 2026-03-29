@@ -192,15 +192,16 @@ export default function AmbientSection() {
       </motion.div>
 
       {/* ── Image grid ──────────────────────────────────────────── */}
-      <AnimatePresence mode="wait">
+      <div className={styles.gridWrap}>
+      <AnimatePresence initial={false}>
         <motion.div
           key={activeEnv}
           ref={gridRef}
           className={styles.grid}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.14 }}
+          exit={{ opacity: 0, position: 'absolute', inset: 0, zIndex: 0 }}
+          transition={{ duration: 0.3 }}
         >
           {GALLERY[activeEnv].map((item, i) => (
             <motion.div
@@ -241,6 +242,7 @@ export default function AmbientSection() {
           <div className={styles.spotlight} aria-hidden />
         </motion.div>
       </AnimatePresence>
+      </div>
 
       {/* ── Bottom meta bar ─────────────────────────────────────── */}
       <div className={styles.meta}>
