@@ -799,154 +799,118 @@ export default function AboutPage() {
 
       {/* ── TRUSTED & CERTIFIED ─────────────────────────────────── */}
       <section className={styles.certSection}>
-        <div className={styles.certOrb} aria-hidden />
         <div className={styles.certStripe} aria-hidden />
 
-        <div className={styles.certInner}>
-          {/* Left — animated shield visual */}
-          <motion.div
-            className={styles.certVisual}
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={REVEAL}
-            transition={{ duration: 0.7, ease: QUART_OUT }}
-          >
-            {/* Outer rotating ring */}
+        {/* Header */}
+        <motion.div
+          className={styles.certHeader}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={REVEAL}
+          transition={{ duration: 0.6, ease: QUART_OUT }}
+        >
+          <p className={styles.eyebrow}>
+            <motion.span className={styles.eyebrowDot} animate={{ scale: [1, 1.5, 1] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }} />
+            Trusted & Certified
+          </p>
+          <h2 className={styles.certTitle}>BIS Approved. Globally Compliant.</h2>
+          <p className={styles.certLead}>
+            Every product meets national and international safety, performance, and environmental standards — verified in-house before dispatch.
+          </p>
+        </motion.div>
+
+        {/* Cert badge cards */}
+        <motion.div
+          className={styles.certGrid}
+          initial="hidden"
+          whileInView="visible"
+          viewport={REVEAL}
+          variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.06 } } }}
+        >
+          {[
+            { code: 'BIS', name: 'Bureau of Indian Standards', icon: <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/> },
+            { code: 'CE', name: 'European Conformity', icon: <><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></> },
+            { code: 'RoHS', name: 'Hazardous Substance Free', icon: <><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M8 12l3 3 5-5"/></> },
+            { code: 'IP65', name: 'Ingress Protection', icon: <><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></> },
+            { code: 'IEC', name: 'Electrotechnical Commission', icon: <><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></> },
+            { code: 'ISO', name: 'Quality Management', icon: <><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></> },
+          ].map((cert) => (
             <motion.div
-              className={styles.certRingOuter}
-              animate={{ rotate: 360 }}
-              transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
-              aria-hidden
+              key={cert.code}
+              className={styles.certCard}
+              variants={{
+                hidden: { opacity: 0, y: 24, scale: 0.95 },
+                visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: QUART_OUT } },
+              }}
+              whileHover={{ y: -4, transition: { duration: 0.22 } }}
             >
-              {['BIS', 'CE', 'RoHS', 'IP65'].map((label, i) => (
-                <span key={label} className={styles.certRingLabel} style={{ transform: `rotate(${i * 90}deg) translateY(-110px)` }}>
-                  {label}
-                </span>
-              ))}
+              <motion.div
+                className={styles.certCardIcon}
+                variants={{
+                  hidden: { scale: 0, rotate: -20 },
+                  visible: { scale: 1, rotate: 0, transition: { type: 'spring', stiffness: 260, damping: 14 } },
+                }}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{cert.icon}</svg>
+              </motion.div>
+              <span className={styles.certCardCode}>{cert.code}</span>
+              <span className={styles.certCardName}>{cert.name}</span>
             </motion.div>
+          ))}
+        </motion.div>
 
-            {/* Inner rotating ring — opposite direction */}
+        {/* Stats strip */}
+        <motion.div
+          className={styles.certStats}
+          initial="hidden"
+          whileInView="visible"
+          viewport={REVEAL}
+          variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } } }}
+        >
+          {[
+            { val: '100%', label: 'Units Tested', bar: 100 },
+            { val: '0%', label: 'Defect Tolerance', bar: 100 },
+            { val: '6+', label: 'Active Certifications', bar: 85 },
+            { val: '50K+', label: 'Units Shipped', bar: 92 },
+          ].map((s) => (
             <motion.div
-              className={styles.certRingInner}
-              animate={{ rotate: -360 }}
-              transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
-              aria-hidden
+              key={s.label}
+              className={styles.certStat}
+              variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: QUART_OUT } } }}
             >
-              {['IEC', 'ISO', 'L80', 'CRI'].map((label, i) => (
-                <span key={label} className={styles.certRingLabel2} style={{ transform: `rotate(${i * 90}deg) translateY(-72px)` }}>
-                  {label}
-                </span>
-              ))}
-            </motion.div>
-
-            {/* Centre shield icon */}
-            <motion.div
-              className={styles.certShield}
-              initial={{ scale: 0, rotate: -15 }}
-              whileInView={{ scale: 1, rotate: 0 }}
-              viewport={REVEAL}
-              transition={{ type: 'spring', stiffness: 200, damping: 12, delay: 0.2 }}
-            >
-              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                <polyline points="9 12 11 14 15 10"/>
-              </svg>
-            </motion.div>
-
-            {/* Pulse rings */}
-            <motion.span className={styles.certPulse1} animate={{ scale: [1, 1.6, 1], opacity: [0.2, 0, 0.2] }} transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }} aria-hidden />
-            <motion.span className={styles.certPulse2} animate={{ scale: [1, 2, 1], opacity: [0.12, 0, 0.12] }} transition={{ duration: 3.5, delay: 0.5, repeat: Infinity, ease: 'easeInOut' }} aria-hidden />
-          </motion.div>
-
-          {/* Right — content */}
-          <motion.div
-            className={styles.certContent}
-            initial={{ opacity: 0, x: 40, y: 30 }}
-            whileInView={{ opacity: 1, x: 0, y: 0 }}
-            viewport={REVEAL}
-            transition={{ duration: 0.6, delay: 0.1, ease: QUART_OUT }}
-          >
-            <p className={styles.eyebrow}>
-              <motion.span className={styles.eyebrowDot} animate={{ scale: [1, 1.5, 1] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }} />
-              Trusted & Certified
-            </p>
-            <h2 className={styles.certTitle}>BIS Approved. Globally Compliant.</h2>
-            <p className={styles.certBody}>
-              Every Tirich LED product meets or exceeds national and international safety, performance,
-              and environmental standards. Our in-house lab verifies every batch before dispatch —
-              no exceptions.
-            </p>
-
-            {/* Cert badges */}
-            <motion.div
-              className={styles.certBadges}
-              initial="hidden"
-              whileInView="visible"
-              viewport={REVEAL}
-              variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.06 } } }}
-            >
-              {[
-                { code: 'BIS', name: 'Bureau of Indian Standards' },
-                { code: 'CE', name: 'European Conformity' },
-                { code: 'RoHS', name: 'Restriction of Hazardous Substances' },
-                { code: 'IP65', name: 'Ingress Protection' },
-                { code: 'IEC', name: 'Intl Electrotechnical Commission' },
-                { code: 'ISO', name: 'Quality Management' },
-              ].map((cert) => (
+              <div className={styles.certStatTop}>
+                <span className={styles.certStatVal}>{s.val}</span>
+                <span className={styles.certStatLabel}>{s.label}</span>
+              </div>
+              <div className={styles.certStatBar}>
                 <motion.div
-                  key={cert.code}
-                  className={styles.certBadge}
-                  variants={{
-                    hidden: { opacity: 0, scale: 0.85 },
-                    visible: { opacity: 1, scale: 1, transition: { type: 'spring', stiffness: 300, damping: 15 } },
-                  }}
-                  whileHover={{ y: -3, boxShadow: '0 8px 20px rgba(247,148,30,0.12)', transition: { duration: 0.2 } }}
-                >
-                  <span className={styles.certBadgeCode}>{cert.code}</span>
-                  <span className={styles.certBadgeName}>{cert.name}</span>
-                </motion.div>
-              ))}
+                  className={styles.certStatBarFill}
+                  initial={{ width: 0 }}
+                  whileInView={{ width: `${s.bar}%` }}
+                  viewport={REVEAL}
+                  transition={{ duration: 0.8, delay: 0.2, ease: QUART_OUT }}
+                />
+              </div>
             </motion.div>
+          ))}
+        </motion.div>
 
-            {/* Stats row */}
-            <motion.div
-              className={styles.certStats}
-              initial="hidden"
-              whileInView="visible"
-              viewport={REVEAL}
-              variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08, delayChildren: 0.2 } } }}
-            >
-              {[
-                { val: '100%', label: 'Units Tested' },
-                { val: '0%', label: 'Defect Tolerance' },
-                { val: '6+', label: 'Certifications' },
-                { val: '50K+', label: 'Units Shipped' },
-              ].map((s) => (
-                <motion.div
-                  key={s.label}
-                  className={styles.certStat}
-                  variants={{
-                    hidden: { opacity: 0, y: 20 },
-                    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: QUART_OUT } },
-                  }}
-                >
-                  <span className={styles.certStatVal}>{s.val}</span>
-                  <span className={styles.certStatLabel}>{s.label}</span>
-                </motion.div>
-              ))}
-            </motion.div>
-
-            <div className={styles.certCta}>
-              <Link to="/contact" className={styles.btnPrimary}>
-                Request Certificates
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
-                </svg>
-              </Link>
-              <Link to="/products" className={styles.btnGhost}>View Products</Link>
-            </div>
-          </motion.div>
-        </div>
+        {/* CTA */}
+        <motion.div
+          className={styles.certCta}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={REVEAL}
+          transition={{ duration: 0.6, delay: 0.15, ease: QUART_OUT }}
+        >
+          <Link to="/contact" className={styles.btnPrimary}>
+            Request Certificates
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </Link>
+          <Link to="/products" className={styles.btnGhost}>View Products</Link>
+        </motion.div>
       </section>
     </div>
   );
