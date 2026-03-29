@@ -519,7 +519,7 @@ export default function LandingPage() {
               chips: ['BLE', 'Wi-Fi'],
             },
             {
-              img: 'https://images.pexels.com/photos/12709063/pexels-photo-12709063.jpeg?auto=compress&cs=tinysrgb&w=600',
+              img: 'https://media.istockphoto.com/id/1215074546/photo/controlling-light-bulb-with-mobile-device.jpg?s=612x612&w=0&k=20&c=sz-8_kbsCsaAKLCfsgFFu4SSyONwwMrNA38JXdoFJOc=',
               tag: 'Downlight Series',
               title: 'Recessed COB 15W',
               desc: 'Anti-glare reflector, adjustable 30° tilt. CRI 95+ for retail.',

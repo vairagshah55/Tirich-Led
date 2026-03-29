@@ -35,7 +35,7 @@ const GALLERY = {
   Showroom: [
     { url: 'https://images.unsplash.com/photo-1603825491103-bd638b1873b0?auto=format&fit=crop&w=1200&q=72', title: 'Luxury Brand Showroom', tag: 'Accent Spotlighting'  },
     { url: 'https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=800&q=72',   title: 'Automotive Display',    tag: 'COB Track Lighting'   },
-    { url: 'https://images.unsplash.com/photo-1524758631624-e2822132143e?auto=format&fit=crop&w=800&q=72',   title: 'Furniture Studio',      tag: 'Warm Panel Lighting'  },
+    { url: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=72',   title: 'Furniture Studio',      tag: 'Warm Panel Lighting'  },
     { url: 'https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?auto=format&fit=crop&w=800&q=72',      title: 'Product Display',       tag: 'CRI 95 Spotlights'    },
     { url: 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=800&q=72',   title: 'Fashion Boutique',      tag: 'Magnetic COB Series'  },
   ],
