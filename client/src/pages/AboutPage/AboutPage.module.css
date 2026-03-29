@@ -772,6 +772,314 @@
   flex-wrap: wrap;
 }
 
+/* ── Mission & Vision ───────────────────────────────────────────── */
+.mvSection {
+  padding: 4rem 4rem 5rem;
+  position: relative;
+  overflow: hidden;
+  background: #FFFFFF;
+}
+
+.mvOrb {
+  position: absolute;
+  width: 440px;
+  height: 440px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(247, 148, 30, 0.06) 0%, transparent 70%);
+  top: -100px;
+  right: -80px;
+  pointer-events: none;
+}
+
+.mvStripe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #F7941E 0%, rgba(247, 148, 30, 0.2) 60%, transparent 100%);
+  z-index: 2;
+}
+
+.mvHeader {
+  text-align: center;
+  max-width: 480px;
+  margin: 0 auto 2.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.mvSectionTitle {
+  font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+  font-weight: 800;
+  color: #262262;
+  margin: 0;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+/* ── Card grid ── */
+.mvGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.mvCard {
+  border-radius: 18px;
+  border: 1px solid rgba(38, 34, 98, 0.07);
+  background: #F5F5F9;
+  padding: 2rem 2rem 2.2rem;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s ease;
+}
+
+.mvCard:hover { border-color: rgba(247, 148, 30, 0.25); }
+
+/* Shimmer on hover */
+.mvCard::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(247, 148, 30, 0.05), transparent);
+  transform: skewX(-18deg);
+  pointer-events: none;
+  z-index: 1;
+  transition: left 0.6s ease;
+}
+
+.mvCard:hover::after { left: 160%; }
+
+/* Icon */
+.mvIconWrap {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 1.2rem;
+}
+
+.mvIconCircle {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(247, 148, 30, 0.08);
+  border: 1px solid rgba(247, 148, 30, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #F7941E;
+  position: relative;
+  z-index: 2;
+}
+
+.mvIconRing {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  border: 1.5px solid rgba(247, 148, 30, 0.3);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.mvLabel {
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #F7941E;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.mvTitle {
+  font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  font-weight: 800;
+  color: #262262;
+  margin: 0 0 0.7rem;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.mvDivider {
+  width: 36px;
+  height: 2px;
+  background: #F7941E;
+  border-radius: 1px;
+  margin-bottom: 0.8rem;
+}
+
+.mvBody {
+  font-size: 0.84rem;
+  color: rgba(38, 34, 98, 0.52);
+  margin: 0;
+  line-height: 1.72;
+}
+
+/* ── MV Responsive ── */
+@media (max-width: 768px) {
+  .mvSection { padding: 3rem 1.5rem 3.5rem; }
+  .mvGrid { grid-template-columns: 1fr; max-width: 480px; }
+  .mvCard { padding: 1.5rem; }
+}
+
+/* ── Core Values ────────────────────────────────────────────────── */
+.valuesSection {
+  padding: 4rem 4rem 5rem;
+  position: relative;
+  overflow: hidden;
+  background: #F5F5F9;
+}
+
+.valuesOrb {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(38, 34, 98, 0.04) 0%, transparent 70%);
+  bottom: -100px;
+  left: -80px;
+  pointer-events: none;
+}
+
+.valuesStripe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #F7941E 0%, rgba(247, 148, 30, 0.2) 60%, transparent 100%);
+  z-index: 2;
+}
+
+.valuesHeader {
+  text-align: center;
+  max-width: 520px;
+  margin: 0 auto 2.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.valuesSectionTitle {
+  font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+  font-weight: 800;
+  color: #262262;
+  margin: 0 0 0.6rem;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+.valuesSectionLead {
+  font-size: 0.86rem;
+  color: rgba(38, 34, 98, 0.5);
+  margin: 0;
+  line-height: 1.7;
+}
+
+/* ── Values grid ── */
+.valuesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  max-width: 1000px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.valueCard {
+  border-radius: 16px;
+  border: 1px solid rgba(38, 34, 98, 0.06);
+  background: #FFFFFF;
+  padding: 1.6rem 1.5rem 1.4rem;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s ease;
+}
+
+.valueCard:hover { border-color: rgba(247, 148, 30, 0.2); }
+
+/* Shimmer */
+.valueCard::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(247, 148, 30, 0.04), transparent);
+  transform: skewX(-18deg);
+  pointer-events: none;
+  z-index: 1;
+  transition: left 0.6s ease;
+}
+
+.valueCard:hover::after { left: 160%; }
+
+/* Icon */
+.valueIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: rgba(247, 148, 30, 0.08);
+  border: 1px solid rgba(247, 148, 30, 0.2);
+  color: #F7941E;
+  margin-bottom: 1rem;
+}
+
+.valueCard:hover .valueIcon {
+  background: rgba(247, 148, 30, 0.14);
+  border-color: rgba(247, 148, 30, 0.4);
+}
+
+.valueCardTitle {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #262262;
+  margin: 0 0 0.4rem;
+  line-height: 1.2;
+}
+
+.valueCardBody {
+  font-size: 0.78rem;
+  color: rgba(38, 34, 98, 0.5);
+  margin: 0 0 0.8rem;
+  line-height: 1.65;
+}
+
+/* Bottom accent line */
+.valueAccentLine {
+  width: 32px;
+  height: 2px;
+  background: linear-gradient(90deg, #F7941E, rgba(247, 148, 30, 0.3));
+  border-radius: 1px;
+}
+
+/* ── Values Responsive ── */
+@media (max-width: 900px) {
+  .valuesGrid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .valuesSection { padding: 3rem 1.5rem 3.5rem; }
+  .valuesGrid { grid-template-columns: 1fr; max-width: 400px; }
+  .valueCard { padding: 1.3rem; }
+}
+
 /* ── Responsive ─────────────────────────────────────────────────── */
 @media (max-width: 1100px) {
   .videoSection { padding: 4rem 2rem; }

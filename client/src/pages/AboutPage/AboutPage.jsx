@@ -628,6 +628,256 @@ export default function AboutPage() {
           })}
         </div>
       </section>
+
+      {/* ── MISSION & VISION ────────────────────────────────────── */}
+      <section className={styles.mvSection}>
+        <div className={styles.mvOrb} aria-hidden />
+        <div className={styles.mvStripe} aria-hidden />
+
+        <motion.div
+          className={styles.mvHeader}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={REVEAL}
+          transition={{ duration: 0.6, ease: QUART_OUT }}
+        >
+          <p className={styles.eyebrow}>
+            <motion.span
+              className={styles.eyebrowDot}
+              animate={{ scale: [1, 1.5, 1] }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            What Drives Us
+          </p>
+          <h2 className={styles.mvSectionTitle}>Purpose Behind Every Product</h2>
+        </motion.div>
+
+        <div className={styles.mvGrid}>
+          {/* Mission card */}
+          <motion.div
+            className={styles.mvCard}
+            initial={{ opacity: 0, x: -50, y: 30 }}
+            whileInView={{ opacity: 1, x: 0, y: 0 }}
+            viewport={REVEAL}
+            transition={{ duration: 0.6, ease: QUART_OUT }}
+            whileHover={{ y: -5, boxShadow: '0 18px 44px rgba(38,34,98,0.1)', transition: { duration: 0.25 } }}
+          >
+            <div className={styles.mvIconWrap}>
+              <motion.div
+                className={styles.mvIconCircle}
+                initial={{ scale: 0, rotate: -20 }}
+                whileInView={{ scale: 1, rotate: 0 }}
+                viewport={REVEAL}
+                transition={{ type: 'spring', stiffness: 220, damping: 12, delay: 0.1 }}
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/>
+                  <line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/>
+                  <line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/>
+                </svg>
+              </motion.div>
+              {/* Pulse ring */}
+              <motion.span
+                className={styles.mvIconRing}
+                animate={{ scale: [1, 1.6, 1], opacity: [0.3, 0, 0.3] }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+                aria-hidden
+              />
+            </div>
+            <motion.span
+              className={styles.mvLabel}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={REVEAL}
+              transition={{ duration: 0.6, delay: 0.15, ease: QUART_OUT }}
+            >
+              Our Mission
+            </motion.span>
+            <motion.h3
+              className={styles.mvTitle}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={REVEAL}
+              transition={{ duration: 0.6, delay: 0.2, ease: QUART_OUT }}
+            >
+              Engineer with Purpose
+            </motion.h3>
+            <motion.div className={styles.mvDivider} initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={REVEAL} transition={{ duration: 0.5, delay: 0.25, ease: QUART_OUT }} style={{ transformOrigin: 'left' }} />
+            <motion.p
+              className={styles.mvBody}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={REVEAL}
+              transition={{ duration: 0.6, delay: 0.3, ease: QUART_OUT }}
+            >
+              To manufacture LED lighting solutions that professionals can specify with absolute
+              confidence — delivering measurable, consistent performance on every project, at every scale.
+            </motion.p>
+          </motion.div>
+
+          {/* Vision card */}
+          <motion.div
+            className={styles.mvCard}
+            initial={{ opacity: 0, x: 50, y: 30 }}
+            whileInView={{ opacity: 1, x: 0, y: 0 }}
+            viewport={REVEAL}
+            transition={{ duration: 0.6, delay: 0.1, ease: QUART_OUT }}
+            whileHover={{ y: -5, boxShadow: '0 18px 44px rgba(38,34,98,0.1)', transition: { duration: 0.25 } }}
+          >
+            <div className={styles.mvIconWrap}>
+              <motion.div
+                className={styles.mvIconCircle}
+                initial={{ scale: 0, rotate: -20 }}
+                whileInView={{ scale: 1, rotate: 0 }}
+                viewport={REVEAL}
+                transition={{ type: 'spring', stiffness: 220, damping: 12, delay: 0.15 }}
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/>
+                  <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14z"/>
+                </svg>
+              </motion.div>
+              <motion.span
+                className={styles.mvIconRing}
+                animate={{ scale: [1, 1.6, 1], opacity: [0.3, 0, 0.3] }}
+                transition={{ duration: 2.5, delay: 0.5, repeat: Infinity, ease: 'easeInOut' }}
+                aria-hidden
+              />
+            </div>
+            <motion.span
+              className={styles.mvLabel}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={REVEAL}
+              transition={{ duration: 0.6, delay: 0.2, ease: QUART_OUT }}
+            >
+              Our Vision
+            </motion.span>
+            <motion.h3
+              className={styles.mvTitle}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={REVEAL}
+              transition={{ duration: 0.6, delay: 0.25, ease: QUART_OUT }}
+            >
+              Define the Standard
+            </motion.h3>
+            <motion.div className={styles.mvDivider} initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={REVEAL} transition={{ duration: 0.5, delay: 0.3, ease: QUART_OUT }} style={{ transformOrigin: 'left' }} />
+            <motion.p
+              className={styles.mvBody}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={REVEAL}
+              transition={{ duration: 0.6, delay: 0.35, ease: QUART_OUT }}
+            >
+              To become India's most trusted LED manufacturer by setting the industry benchmark
+              for photometric precision, sustainable production, and uncompromising technical excellence.
+            </motion.p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── CORE VALUES ─────────────────────────────────────────── */}
+      <section className={styles.valuesSection}>
+        <div className={styles.valuesOrb} aria-hidden />
+        <div className={styles.valuesStripe} aria-hidden />
+
+        <motion.div
+          className={styles.valuesHeader}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={REVEAL}
+          transition={{ duration: 0.6, ease: QUART_OUT }}
+        >
+          <p className={styles.eyebrow}>
+            <motion.span
+              className={styles.eyebrowDot}
+              animate={{ scale: [1, 1.5, 1] }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            Core Values
+          </p>
+          <h2 className={styles.valuesSectionTitle}>What We Stand For</h2>
+          <p className={styles.valuesSectionLead}>
+            Six principles that define every decision — from how we source components to how we support clients after installation.
+          </p>
+        </motion.div>
+
+        <motion.div
+          className={styles.valuesGrid}
+          initial="hidden"
+          whileInView="visible"
+          viewport={REVEAL}
+          variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08 } } }}
+        >
+          {[
+            {
+              icon: <><circle cx="12" cy="12" r="4"/><path d="M12 2L12 6M12 18L12 22M4.93 4.93L7.76 7.76M16.24 16.24L19.07 19.07M2 12L6 12M18 12L22 12"/></>,
+              title: 'Precision Engineering',
+              body: 'Every component selected to strict tolerances — from SMD chipsets to thermal substrates, nothing ships without verification.',
+            },
+            {
+              icon: <><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></>,
+              title: 'Sustainable Manufacturing',
+              body: 'ISO-aligned quality framework, minimising waste and meeting international RoHS and CE directives across every product line.',
+            },
+            {
+              icon: <><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></>,
+              title: 'Client Partnership',
+              body: 'Working directly with architects, contractors, and facility managers — from specification through to commissioning.',
+            },
+            {
+              icon: <><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></>,
+              title: 'Continuous Innovation',
+              body: 'Our R&D team continuously refines CCT options, optic designs, and driver configurations to stay ahead of project requirements.',
+            },
+            {
+              icon: <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>,
+              title: 'Integrity First',
+              body: 'Verified photometric data, real lifespan ratings, and third-party test certificates — no inflated specs, no shortcuts.',
+            },
+            {
+              icon: <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>,
+              title: 'Technical Excellence',
+              body: 'CRI 95+, L80 50,000-hour ratings, and IP65 protection are measured, documented, and certified outcomes.',
+            },
+          ].map((v, i) => (
+            <motion.article
+              key={v.title}
+              className={styles.valueCard}
+              variants={{
+                hidden: { opacity: 0, y: 30, scale: 0.96 },
+                visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.6, ease: QUART_OUT } },
+              }}
+              whileHover={{ y: -5, boxShadow: '0 16px 40px rgba(38,34,98,0.1)', transition: { duration: 0.25 } }}
+            >
+              {/* Icon with spring bounce */}
+              <motion.span
+                className={styles.valueIcon}
+                variants={{
+                  hidden: { scale: 0, rotate: -20 },
+                  visible: { scale: 1, rotate: 0, transition: { type: 'spring', stiffness: 240, damping: 12, delay: 0.05 } },
+                }}
+              >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  {v.icon}
+                </svg>
+              </motion.span>
+              <h3 className={styles.valueCardTitle}>{v.title}</h3>
+              <p className={styles.valueCardBody}>{v.body}</p>
+              {/* Bottom accent line — draws on reveal */}
+              <motion.div
+                className={styles.valueAccentLine}
+                variants={{
+                  hidden: { scaleX: 0 },
+                  visible: { scaleX: 1, transition: { duration: 0.5, delay: 0.1, ease: QUART_OUT } },
+                }}
+                style={{ transformOrigin: 'left' }}
+              />
+            </motion.article>
+          ))}
+        </motion.div>
+      </section>
     </div>
   );
 }
