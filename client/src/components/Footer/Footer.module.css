@@ -111,6 +111,21 @@
 
 .footerNavCol a:hover { color: var(--brand-navy, #262262); }
 
+.footerPlaceholderLink {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  color: rgba(38, 34, 98, 0.55);
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  text-align: left;
+  transition: color 0.22s ease;
+}
+
+.footerPlaceholderLink:hover { color: var(--brand-navy, #262262); }
+
 .footerBottom {
   display: flex;
   align-items: center;
@@ -138,6 +153,13 @@
 }
 
 .footerBottomLinks a:hover { color: var(--brand-orange, #F7941E); }
+
+.footerBottomLinks .footerPlaceholderLink {
+  color: rgba(38, 34, 98, 0.3);
+  font-size: 0.72rem;
+}
+
+.footerBottomLinks .footerPlaceholderLink:hover { color: var(--brand-orange, #F7941E); }
 
 .footerDivider {
   width: 1px;

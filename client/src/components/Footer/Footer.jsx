@@ -65,9 +65,9 @@ export default function Footer() {
           </div>
           <div className={styles.footerNavCol}>
             <span className={styles.footerNavHead}>Support</span>
-            <a href="#" onClick={(e) => e.preventDefault()}>Catalogue</a>
-            <a href="#" onClick={(e) => e.preventDefault()}>Warranty</a>
-            <a href="#" onClick={(e) => e.preventDefault()}>FAQs</a>
+            <button type="button" className={styles.footerPlaceholderLink}>Catalogue</button>
+            <button type="button" className={styles.footerPlaceholderLink}>Warranty</button>
+            <button type="button" className={styles.footerPlaceholderLink}>FAQs</button>
           </div>
         </nav>
       </motion.div>
@@ -75,9 +75,9 @@ export default function Footer() {
       <div className={styles.footerBottom}>
         <p>&copy; {new Date().getFullYear()} Tirich LED. All rights reserved.</p>
         <div className={styles.footerBottomLinks}>
-          <a href="#" onClick={(e) => e.preventDefault()}>Privacy</a>
+          <button type="button" className={styles.footerPlaceholderLink}>Privacy</button>
           <span className={styles.footerDivider} />
-          <a href="#" onClick={(e) => e.preventDefault()}>Terms</a>
+          <button type="button" className={styles.footerPlaceholderLink}>Terms</button>
         </div>
       </div>
     </footer>
