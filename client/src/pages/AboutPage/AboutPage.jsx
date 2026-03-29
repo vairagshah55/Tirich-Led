@@ -1,551 +1,296 @@
-import { useEffect } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import Navbar from '../../components/Navbar/Navbar';
 import styles from './AboutPage.module.css';
-import img101   from '../../assets/TLC-101.jpg';
-import img112   from '../../assets/TLC-112.jpg';
-import img108   from '../../assets/TLC-108.jpg';
-import img151   from '../../assets/TLC-151.jpg';
-import imgHang  from '../../assets/hanging-230.jpg';
-import imgStrip from '../../assets/STRIP-LED-POST.jpg';
-import img121   from '../../assets/TLC-121.jpg';
-import { cardHover, fadeIn, fadeUp } from '../../utils/motion';
 
-/* ── Data ─────────────────────────────────────────────────────────── */
+const EASE = [0.22, 1, 0.36, 1];
 
-const STATS = [
-  { value: '2020',    label: 'Established' },
-  { value: '500+',    label: 'Products' },
-  { value: 'CRI 95',  label: 'Colour Standard' },
-  { value: '50K hrs', label: 'Rated Lifespan' },
-];
-
-const MISSION = {
-  eyebrow: 'Our Mission',
-  title: 'Engineer with Purpose',
-  body: 'To manufacture LED lighting solutions that professionals can specify with absolute confidence — delivering measurable, consistent performance on every project, at every scale.',
-};
-
-const VISION = {
-  eyebrow: 'Our Vision',
-  title: 'Define the Standard',
-  body: "To become India's most trusted LED manufacturer by setting the industry benchmark for photometric precision, sustainable production, and uncompromising technical excellence.",
-};
-
-const TIMELINE = [
+const PANELS = [
   {
-    year: '2020',
-    title: 'Lighting the Way',
-    text: 'Tirich LED founded with a precise focus on commercial-grade panel lighting for the Indian market — built on a commitment to photometric accuracy from day one.',
+    id: 'quality',
+    tab: 'Quality',
+    icon: <><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></>,
+    eyebrow: 'Manufacturing Excellence',
+    title: 'Every Unit Tested. Every Batch Certified.',
+    body: 'Our quality process runs alongside every stage of manufacturing. Each production batch undergoes systematic verification — from component selection and assembly to photometric testing and certification.',
+    stat: '100%',
+    statLabel: 'Tested',
+    specs: [
+      'IEC and CE safety certifications',
+      'In-house photometric testing (lumen, CRI, CCT)',
+      'Thermal cycling and lifespan testing',
+      '100% driver burn-in before shipping',
+    ],
   },
   {
-    year: '2021',
-    title: 'A New Chapter',
-    text: 'Expanded the product range to include industrial high-bay fixtures, strip LEDs, and custom CCT solutions, growing from a single category to a comprehensive portfolio.',
+    id: 'engineering',
+    tab: 'Engineering',
+    icon: <><circle cx="12" cy="12" r="4"/><path d="M12 2L12 6M12 18L12 22M4.93 4.93L7.76 7.76M16.24 16.24L19.07 19.07M2 12L6 12M18 12L22 12"/></>,
+    eyebrow: 'Precision Engineering',
+    title: 'Designed for Performance. Built to Last.',
+    body: 'Every component — from SMD chipsets to thermal substrates — is selected to strict tolerances. Our R&D team continuously refines optic designs, CCT options, and driver configurations.',
+    stat: 'CRI 95+',
+    statLabel: 'Accuracy',
+    specs: [
+      'CRI 95+ colour accuracy across all lines',
+      'Custom CCT and wattage configurations',
+      'Advanced thermal management design',
+      'L80 rated 50,000-hour lifespan',
+    ],
   },
   {
-    year: '2022',
-    title: 'Certified Excellence',
-    text: 'Achieved CE and RoHS international certifications. Launched the IP65-rated tri-proof and high-bay series, purpose-built for demanding industrial environments.',
-  },
-  {
-    year: '2023',
-    title: 'Architectural Vision',
-    text: 'Entered the architectural lighting segment with pendant and recessed downlight collections for hospitality, retail, and premium commercial interiors.',
-  },
-  {
-    year: '2024',
-    title: 'Complete Ecosystem',
-    text: 'Launched a 500+ SKU catalogue spanning every lighting application. Established pan-India distributor partnerships to serve projects nationwide.',
+    id: 'sustainability',
+    tab: 'Sustainability',
+    icon: <><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M7 12l3 3 7-7"/></>,
+    eyebrow: 'Responsible Manufacturing',
+    title: 'Less Waste. Higher Standards.',
+    body: 'We operate under an ISO-aligned quality framework, minimising production waste while meeting international RoHS and CE directives across every product line we manufacture.',
+    stat: 'IP65',
+    statLabel: 'Rated',
+    specs: [
+      'RoHS compliant materials and processes',
+      'Energy-efficient production workflow',
+      'Recyclable aluminium housing and packaging',
+      'Reduced carbon footprint per unit shipped',
+    ],
   },
 ];
 
-const VALUES = [
-  {
-    svgPaths: (
-      <>
-        <path d="M12 2L12 6M12 18L12 22M4.93 4.93L7.76 7.76M16.24 16.24L19.07 19.07M2 12L6 12M18 12L22 12"/>
-        <circle cx="12" cy="12" r="4"/>
-      </>
-    ),
-    title: 'Precision Engineering',
-    body: 'Every component is selected to strict tolerances. From SMD chipsets to thermal substrates, nothing ships without photometric and electrical verification.',
-  },
-  {
-    svgPaths: (
-      <>
-        <circle cx="12" cy="12" r="10"/>
-        <path d="M12 6v6l4 2"/>
-      </>
-    ),
-    title: 'Sustainable Manufacturing',
-    body: 'We operate under an ISO-aligned quality framework, minimising waste and meeting international RoHS and CE directives across every product line.',
-  },
-  {
-    svgPaths: (
-      <>
-        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-        <circle cx="9" cy="7" r="4"/>
-        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-      </>
-    ),
-    title: 'Client Partnership',
-    body: 'We work directly with architects, contractors, and facility managers — providing technical consultation from specification through to commissioning.',
-  },
-  {
-    svgPaths: (
-      <>
-        <polyline points="23 4 23 10 17 10"/>
-        <polyline points="1 20 1 14 7 14"/>
-        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
-      </>
-    ),
-    title: 'Continuous Innovation',
-    body: 'Our R&D team continuously refines CCT options, optic designs, and driver configurations to stay ahead of evolving project requirements.',
-  },
-  {
-    svgPaths: (
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-    ),
-    title: 'Integrity First',
-    body: 'We publish verified photometric data, real lifespan ratings, and third-party test certificates — no inflated specifications, no shortcuts.',
-  },
-  {
-    svgPaths: (
-      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-    ),
-    title: 'Technical Excellence',
-    body: 'CRI 95+, L80 50,000-hour ratings, and IP65 protection are not marketing claims — they are measured, documented, and certified outcomes.',
-  },
+const PARTICLES = [
+  { size: 6, x: '12%', y: '18%', dur: 4.2, delay: 0 },
+  { size: 4, x: '88%', y: '25%', dur: 3.6, delay: 0.8 },
+  { size: 8, x: '75%', y: '72%', dur: 5.0, delay: 0.4 },
+  { size: 5, x: '22%', y: '82%', dur: 3.8, delay: 1.2 },
+  { size: 3, x: '65%', y: '12%', dur: 4.5, delay: 0.6 },
+  { size: 6, x: '42%', y: '90%', dur: 3.4, delay: 1.0 },
 ];
-
-const STAT_ICONS = [
-  /* Established — calendar */
-  <svg key="established" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-    <line x1="16" y1="2" x2="16" y2="6"/>
-    <line x1="8" y1="2" x2="8" y2="6"/>
-    <line x1="3" y1="10" x2="21" y2="10"/>
-  </svg>,
-  /* Products — grid */
-  <svg key="products" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <rect x="3" y="3" width="7" height="7"/>
-    <rect x="14" y="3" width="7" height="7"/>
-    <rect x="14" y="14" width="7" height="7"/>
-    <rect x="3" y="14" width="7" height="7"/>
-  </svg>,
-  /* Colour Standard — eye */
-  <svg key="colour" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-    <circle cx="12" cy="12" r="3"/>
-  </svg>,
-  /* Lifespan — lightning bolt */
-  <svg key="lifespan" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-  </svg>,
-];
-
-const AVATAR_GRADIENTS = [
-  'linear-gradient(135deg, rgba(234,125,31,0.82) 0%, rgba(42,47,99,0.7) 100%)',
-  'linear-gradient(135deg, rgba(42,47,99,0.88) 0%, rgba(234,125,31,0.55) 100%)',
-  'linear-gradient(135deg, rgba(61,74,138,0.88) 0%, rgba(234,125,31,0.45) 100%)',
-  'linear-gradient(135deg, rgba(234,125,31,0.82) 0%, rgba(42,47,99,0.8) 100%)',
-];
-
-const TEAM = [
-  {
-    name: 'Prataprai Manshani',
-    role: 'Founder & Chairman',
-    initials: 'PM',
-    bio: 'Pioneered quality-led LED adoption in India, founding Tirich LED with a commitment to manufacturing products that professionals can rely on without reservation.',
-  },
-  {
-    name: 'Jitendra Manshani',
-    role: 'Managing Director',
-    initials: 'JM',
-    bio: 'Leads product strategy, engineering direction, and business development — ensuring every product and partnership meets the Tirich LED standard.',
-  },
-  {
-    name: 'Engineering Division',
-    role: 'R&D & Photometrics',
-    initials: 'RD',
-    bio: 'In-house team responsible for optical design, driver engineering, photometric testing, and certification compliance across all product lines.',
-  },
-  {
-    name: 'Quality Assurance',
-    role: 'QA & Certification',
-    initials: 'QA',
-    bio: 'Every batch undergoes thermal cycling, lumen output verification, colour accuracy checks, and full burn-in testing before clearance for dispatch.',
-  },
-];
-
-const SPECS = [
-  'IEC and CE safety certifications on every product line',
-  'In-house photometric testing (lumen output, CRI, CCT)',
-  'Thermal cycling and accelerated lifespan testing',
-  '100% driver burn-in test before shipping',
-  'ISO-aligned quality management framework',
-];
-
-/* ── Component ───────────────────────────────────────────────────── */
 
 export default function AboutPage() {
+  const [activePanel, setActivePanel] = useState(0);
+  const sectionRef = useRef(null);
+
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+
+  // Auto-advance every 5 seconds
   useEffect(() => {
-    window.scrollTo(0, 0);
+    const timer = setInterval(() => {
+      setActivePanel((prev) => (prev + 1) % PANELS.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [activePanel]);
 
-    const observer = new IntersectionObserver(
-      (entries) =>
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.classList.add('js-revealed');
-            observer.unobserve(e.target);
-          }
-        }),
-      { threshold: 0.08 }
-    );
-
-    document.querySelectorAll('[data-reveal]').forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+  const selectPanel = useCallback((idx) => {
+    setActivePanel(idx);
   }, []);
+
+  // Mouse spotlight
+  const onMove = useCallback((e) => {
+    if (!sectionRef.current) return;
+    const r = sectionRef.current.getBoundingClientRect();
+    sectionRef.current.style.setProperty('--mx', `${e.clientX - r.left}px`);
+    sectionRef.current.style.setProperty('--my', `${e.clientY - r.top}px`);
+  }, []);
+
+  const onLeave = useCallback(() => {
+    if (!sectionRef.current) return;
+    sectionRef.current.style.setProperty('--mx', '-999px');
+    sectionRef.current.style.setProperty('--my', '-999px');
+  }, []);
+
+  const panel = PANELS[activePanel];
 
   return (
     <div className={styles.page}>
       <Navbar />
 
-      {/* ── HERO ─────────────────────────────────────────────────── */}
-      <section className={styles.hero} aria-labelledby="about-hero-title">
-        <div className={styles.heroDotGrid} aria-hidden="true" />
-        <div className={styles.heroAccentLine} aria-hidden="true" />
-        <div className={styles.heroInner}>
-          {/* Left — text */}
-          <motion.div className={styles.heroLeft} {...fadeUp(0.05, 20)}>
-            <p className={styles.heroEyebrow} data-reveal>About Tirich LED</p>
-            <h1
-              className={styles.heroTitle}
-              id="about-hero-title"
-              data-reveal
-              style={{ transitionDelay: '0.1s' }}
-            >
-              Built on Precision.<br />
-              <span className={styles.heroAccent}>Driven by Light.</span>
-            </h1>
-            <div className={styles.heroDivider} aria-hidden="true" />
-            <p className={styles.heroLead} data-reveal style={{ transitionDelay: '0.2s' }}>
-              Tirich LED is a manufacturer of industrial-grade LED lighting solutions for
-              commercial, residential, and architectural applications. Since 2020, we have
-              been engineering products that deliver on performance, longevity, and reliability.
-            </p>
-          </motion.div>
+      <section
+        ref={sectionRef}
+        className={styles.videoSection}
+        onMouseMove={onMove}
+        onMouseLeave={onLeave}
+      >
+        {/* Decorative layers */}
+        <div className={styles.videoOrb} aria-hidden />
+        <div className={styles.videoOrbNavy} aria-hidden />
+        <div className={styles.videoStripe} aria-hidden />
+        <div className={styles.videoSpotlight} aria-hidden />
 
-          {/* Right — product image mosaic */}
-          <motion.div className={styles.heroMosaic} data-reveal style={{ transitionDelay: '0.25s' }} aria-hidden="true" {...fadeUp(0.12, 20)}>
-            <div className={`${styles.heroMosaicItem} ${styles.heroMosaicItemTall}`}>
-              <img src={img112} alt="TLC-112 LED panel" loading="eager" decoding="async" />
-            </div>
-            <div className={styles.heroMosaicItem}>
-              <img src={img101} alt="TLC-101 LED panel" loading="eager" decoding="async" />
-            </div>
-            <div className={styles.heroMosaicItem}>
-              <img src={img121} alt="TLC-121 LED panel" loading="eager" decoding="async" />
-            </div>
-          </motion.div>
-        </div>
-        <div className={styles.heroDecor} aria-hidden="true" />
-      </section>
-
-      {/* ── STATS BAR ────────────────────────────────────────────── */}
-      <div className={styles.statsBar} role="list" aria-label="Company highlights">
-        {STATS.map((s, i) => (
+        {/* Floating particles */}
+        {PARTICLES.map((p, i) => (
           <motion.div
-            key={s.label}
-            className={styles.statItem}
-            data-reveal
-            style={{ transitionDelay: `${i * 0.08}s` }}
-            role="listitem"
-            whileHover={cardHover}
-            {...fadeUp(Math.min(i * 0.06, 0.24), 18)}
-          >
-            <span className={styles.statIcon}>{STAT_ICONS[i]}</span>
-            <span className={styles.statValue}>{s.value}</span>
-            <span className={styles.statLabel}>{s.label}</span>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* ── ABOUT COMPANY ────────────────────────────────────────── */}
-      <section className={styles.aboutSection} aria-labelledby="about-company-title">
-        <div className={styles.aboutText} data-reveal>
-          <p className={styles.sectionEyebrow}>Our Story</p>
-          <h2 className={styles.sectionTitle} id="about-company-title">
-            From a Single Product<br />to a Complete Ecosystem
-          </h2>
-          <p className={styles.sectionBody}>
-            Tirich LED was founded with one clear purpose: to manufacture LED lighting
-            products that professionals can specify with confidence. We started with a
-            focused range of panel lights and have grown into a manufacturer covering
-            every lighting application — from commercial interiors to demanding industrial
-            environments.
-          </p>
-          <p className={styles.sectionBody}>
-            Every product passes through our in-house quality process — from component
-            selection and assembly to photometric testing and certification. We don't
-            outsource quality assurance; it is built into every stage of our manufacturing
-            workflow.
-          </p>
-        </div>
-
-        <div className={styles.aboutCallouts} data-reveal style={{ transitionDelay: '0.15s' }}>
-          {/* Product image grid */}
-          <div className={styles.aboutImages}>
-            <div className={`${styles.aboutImgItem} ${styles.aboutImgItemTall}`}>
-              <img src={img108} alt="TLC-108 LED fixture" loading="lazy" decoding="async" />
-            </div>
-            <div className={styles.aboutImgItem}>
-              <img src={imgHang} alt="Hanging LED pendant 230" loading="lazy" decoding="async" />
-            </div>
-            <div className={styles.aboutImgItem}>
-              <img src={imgStrip} alt="Strip LED post" loading="lazy" decoding="async" />
-            </div>
-          </div>
-
-          {/* Compact stat callouts */}
-          <div className={styles.aboutStats}>
-            <div className={styles.callout}>
-              <span className={styles.calloutAccent}>500+</span>
-              <p className={styles.calloutLabel}>Product SKUs covering every lighting category</p>
-            </div>
-            <div className={styles.callout}>
-              <span className={styles.calloutAccent}>CRI 95+</span>
-              <p className={styles.calloutLabel}>Colour rendering accuracy across all product lines</p>
-            </div>
-            <div className={styles.callout}>
-              <span className={styles.calloutAccent}>IP65</span>
-              <p className={styles.calloutLabel}>Weather-rated protection for outdoor and industrial use</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── MISSION + VISION ─────────────────────────────────────── */}
-      <section className={styles.missionVision} aria-label="Mission and Vision">
-        <motion.div className={styles.missionCard} data-reveal whileHover={cardHover} {...fadeUp(0.08, 18)}>
-          <div className={styles.mvIconBg} aria-hidden="true">
-            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="10"/>
-              <circle cx="12" cy="12" r="3"/>
-              <line x1="12" y1="2" x2="12" y2="5"/>
-              <line x1="12" y1="19" x2="12" y2="22"/>
-              <line x1="2" y1="12" x2="5" y2="12"/>
-              <line x1="19" y1="12" x2="22" y2="12"/>
-            </svg>
-          </div>
-          <p className={styles.mvEyebrow}>{MISSION.eyebrow}</p>
-          <h2 className={styles.mvTitle}>{MISSION.title}</h2>
-          <div className={styles.mvDivider} aria-hidden="true" />
-          <p className={styles.mvBody}>{MISSION.body}</p>
-        </motion.div>
-
-        <motion.div className={styles.visionCard} data-reveal style={{ transitionDelay: '0.15s' }} whileHover={cardHover} {...fadeUp(0.16, 18)}>
-          <div className={styles.mvIconBg} aria-hidden="true">
-            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="9" y1="18" x2="15" y2="18"/>
-              <line x1="10" y1="22" x2="14" y2="22"/>
-              <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14z"/>
-            </svg>
-          </div>
-          <p className={styles.mvEyebrow}>{VISION.eyebrow}</p>
-          <h2 className={styles.mvTitle}>{VISION.title}</h2>
-          <div className={styles.mvDivider} aria-hidden="true" />
-          <p className={styles.mvBody}>{VISION.body}</p>
-        </motion.div>
-      </section>
-
-      {/* ── TIMELINE ─────────────────────────────────────────────── */}
-      <section className={styles.timelineSection} aria-labelledby="timeline-title">
-        <div className={styles.timelineHeader} data-reveal>
-          <p className={styles.sectionEyebrow}>Our Journey</p>
-          <h2 className={styles.sectionTitle} id="timeline-title">
-            Five Years of Measured Progress
-          </h2>
-        </div>
-
-        <div className={styles.timelineTrack} aria-label="Company milestones">
-          <div className={styles.timelineLine} aria-hidden="true" />
-
-          {TIMELINE.map((item, i) => (
-            <div
-              key={item.year}
-              className={styles.timelineEntry}
-              data-reveal
-              style={{ transitionDelay: `${i * 0.1}s` }}
-            >
-              {/* Left slot — even entries only */}
-              <div className={i % 2 === 0 ? styles.entryContentLeft : styles.entryBlank}>
-                {i % 2 === 0 && (
-                  <>
-                    <p className={styles.entryYear}>{item.year}</p>
-                    <h3 className={styles.entryTitle}>{item.title}</h3>
-                    <p className={styles.entryText}>{item.text}</p>
-                  </>
-                )}
-              </div>
-
-              {/* Centre dot */}
-              <div className={styles.entryDotWrap} aria-hidden="true">
-                <span className={styles.entryDot} />
-              </div>
-
-              {/* Right slot — odd entries only */}
-              <div className={i % 2 === 1 ? styles.entryContentRight : styles.entryBlank}>
-                {i % 2 === 1 && (
-                  <>
-                    <p className={styles.entryYear}>{item.year}</p>
-                    <h3 className={styles.entryTitle}>{item.title}</h3>
-                    <p className={styles.entryText}>{item.text}</p>
-                  </>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── CORE VALUES ──────────────────────────────────────────── */}
-      <section className={styles.valuesSection} aria-labelledby="values-title">
-        <div className={styles.valuesHeader} data-reveal>
-          <p className={styles.sectionEyebrow}>Core Values</p>
-          <h2 className={styles.sectionTitle} id="values-title">What We Stand For</h2>
-          <p className={styles.valuesLead}>
-            Six principles that define every decision — from how we source components
-            to how we support our clients after installation.
-          </p>
-        </div>
-
-        <div className={styles.valuesGrid}>
-          {VALUES.map((v, i) => (
-            <motion.article
-              key={v.title}
-              className={styles.valueCard}
-              data-reveal
-              style={{ transitionDelay: `${i * 0.08}s` }}
-              whileHover={cardHover}
-              {...fadeUp(Math.min(i * 0.06, 0.24), 18)}
-            >
-              <span className={styles.valueIcon} aria-hidden="true">
-                <svg
-                  width="28"
-                  height="28"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  {v.svgPaths}
-                </svg>
-              </span>
-              <h3 className={styles.valueTitle}>{v.title}</h3>
-              <p className={styles.valueBody}>{v.body}</p>
-            </motion.article>
-          ))}
-        </div>
-      </section>
-
-      {/* ── TEAM ─────────────────────────────────────────────────── */}
-      <section className={styles.teamSection} aria-labelledby="team-title">
-        <div className={styles.teamHeader} data-reveal>
-          <p className={styles.sectionEyebrow}>The Team</p>
-          <h2 className={styles.sectionTitle} id="team-title">
-            The People Behind Tirich LED
-          </h2>
-          <p className={styles.teamLead}>
-            A team built on technical expertise and a shared commitment to precision.
-          </p>
-        </div>
-
-        <div className={styles.teamGrid}>
-          {TEAM.map((member, i) => (
-            <motion.article
-              key={member.name}
-              className={styles.teamCard}
-              data-reveal
-              style={{ transitionDelay: `${i * 0.1}s` }}
-              whileHover={cardHover}
-              {...fadeUp(Math.min(i * 0.08, 0.28), 18)}
-            >
-              <div className={styles.avatarWrap}>
-                <div
-                  className={styles.avatar}
-                  style={{ background: AVATAR_GRADIENTS[i] }}
-                  aria-hidden="true"
-                >
-                  <span className={styles.avatarInitials}>{member.initials}</span>
-                </div>
-                <div className={styles.avatarGlow} aria-hidden="true" />
-              </div>
-
-              <div className={styles.memberInfo}>
-                <h3 className={styles.memberName}>{member.name}</h3>
-                <p className={styles.memberRole}>{member.role}</p>
-                <p className={styles.memberBio}>{member.bio}</p>
-              </div>
-            </motion.article>
-          ))}
-        </div>
-      </section>
-
-      {/* ── MANUFACTURING ────────────────────────────────────────── */}
-      <section className={styles.manufacturing} aria-labelledby="manufacturing-title">
-        <motion.div className={styles.manufacturingImg} data-reveal {...fadeUp(0.08, 18)}>
-          <img
-            src={img151}
-            alt="Tirich LED TLC-151 panel light"
-            loading="lazy"
-            decoding="async"
+            key={i}
+            className={styles.particle}
+            style={{ width: p.size, height: p.size, left: p.x, top: p.y }}
+            animate={{ y: [0, -14, 0], opacity: [0.3, 0.7, 0.3] }}
+            transition={{ duration: p.dur, delay: p.delay, repeat: Infinity, ease: 'easeInOut' }}
+            aria-hidden
           />
-          <span className={styles.imgBadge} aria-label="Product certifications">
-            IP65 · CRI 95+ · CE Certified
-          </span>
-        </motion.div>
+        ))}
 
-        <motion.div data-reveal style={{ transitionDelay: '0.15s' }} {...fadeUp(0.16, 18)}>
-          <p className={styles.sectionEyebrow}>Manufacturing Excellence</p>
-          <h2 className={styles.sectionTitle} id="manufacturing-title">
-            Every Unit Tested.<br />Every Batch Certified.
-          </h2>
-          <p className={styles.sectionBody}>
-            Our quality process is not a final step — it runs alongside every stage of
-            manufacturing. Each production batch undergoes systematic verification before
-            it is cleared for dispatch.
-          </p>
-          <ul className={styles.specsList} aria-label="Quality certifications and processes">
-            {SPECS.map((s) => (
-              <li key={s} className={styles.specItem}>
-                <span className={styles.specCheck} aria-hidden="true">✓</span>
-                {s}
-              </li>
-            ))}
-          </ul>
-        </motion.div>
-      </section>
+        <div className={styles.videoInner}>
+          {/* Left — YouTube embed with floating badge */}
+          <motion.div
+            className={styles.videoWrap}
+            initial={{ opacity: 0, x: -30, scale: 0.97 }}
+            whileInView={{ opacity: 1, x: 0, scale: 1 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.7, ease: EASE }}
+          >
+            <div className={styles.videoEmbed}>
+              <iframe
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                title="Tirich LED — Manufacturing Excellence"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+              {/* Shimmer border */}
+              <div className={styles.videoShimmer} aria-hidden />
+            </div>
 
-      {/* ── CTA ──────────────────────────────────────────────────── */}
-      <motion.section className={styles.ctaSection} data-reveal aria-labelledby="cta-title" {...fadeIn(0.1)}>
-        <h2 className={styles.ctaTitle} id="cta-title">
-          Ready to Specify Tirich LED?
-        </h2>
-        <p className={styles.ctaLead}>
-          Explore our full product range or get in touch with our technical team
-          to discuss your project requirements.
-        </p>
-        <div className={styles.ctaRow}>
-          <Link to="/products" className={styles.btnPrimary}>Browse Products</Link>
-          <Link to="/contact" className={styles.btnGhost}>Contact Us</Link>
+            {/* Floating stat badge on video */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={panel.id}
+                className={styles.videoBadge}
+                initial={{ opacity: 0, scale: 0.85, y: 8 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.85, y: -6 }}
+                transition={{ duration: 0.3, ease: EASE }}
+              >
+                <span className={styles.videoBadgeVal}>{panel.stat}</span>
+                <span className={styles.videoBadgeLabel}>{panel.statLabel}</span>
+              </motion.div>
+            </AnimatePresence>
+
+            <div className={styles.videoMeta}>
+              <motion.span
+                className={styles.videoDot}
+                animate={{ scale: [1, 1.4, 1] }}
+                transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+              />
+              Watch our manufacturing process
+            </div>
+          </motion.div>
+
+          {/* Right — swipeable content panels */}
+          <motion.div
+            className={styles.videoContent}
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.7, delay: 0.1, ease: EASE }}
+          >
+            {/* Tab bar with icons */}
+            <div className={styles.panelTabs}>
+              {PANELS.map((p, i) => (
+                <motion.button
+                  key={p.id}
+                  className={`${styles.panelTab}${i === activePanel ? ` ${styles.panelTabActive}` : ''}`}
+                  onClick={() => selectPanel(i)}
+                  whileHover={{ y: -1 }}
+                  whileTap={{ scale: 0.96 }}
+                >
+                  <svg className={styles.panelTabIcon} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    {p.icon}
+                  </svg>
+                  {p.tab}
+                </motion.button>
+              ))}
+              <motion.div
+                className={styles.panelTabIndicator}
+                initial={false}
+                animate={{ x: `${activePanel * 100}%` }}
+                transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                style={{ width: `${100 / PANELS.length}%` }}
+              />
+              <div className={styles.panelProgress} key={activePanel}>
+                <div className={styles.panelProgressFill} />
+              </div>
+            </div>
+
+            {/* Panel counter */}
+            <div className={styles.panelCounter}>
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={activePanel}
+                  className={styles.panelCounterNum}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.25 }}
+                >
+                  0{activePanel + 1}
+                </motion.span>
+              </AnimatePresence>
+              <span className={styles.panelCounterTotal}> / 0{PANELS.length}</span>
+            </div>
+
+            {/* Animated panel content */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={panel.id}
+                className={styles.panelBody}
+                initial={{ opacity: 0, y: 18, filter: 'blur(5px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                exit={{ opacity: 0, y: -14, filter: 'blur(5px)' }}
+                transition={{ duration: 0.38, ease: EASE }}
+              >
+                <p className={styles.eyebrow}>
+                  <motion.span
+                    className={styles.eyebrowDot}
+                    animate={{ scale: [1, 1.5, 1] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                  />
+                  {panel.eyebrow}
+                </p>
+                <h2 className={styles.sectionTitle}>{panel.title}</h2>
+                <p className={styles.sectionBody}>{panel.body}</p>
+
+                <ul className={styles.specsList}>
+                  {panel.specs.map((spec, si) => (
+                    <motion.li
+                      key={spec}
+                      className={styles.specItem}
+                      initial={{ opacity: 0, x: 16 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.35, delay: 0.08 + si * 0.07, ease: EASE }}
+                    >
+                      <motion.span
+                        className={styles.specCheck}
+                        initial={{ scale: 0, rotate: -45 }}
+                        animate={{ scale: 1, rotate: 0 }}
+                        transition={{ type: 'spring', stiffness: 400, damping: 18, delay: 0.12 + si * 0.07 }}
+                      >
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                      </motion.span>
+                      {spec}
+                    </motion.li>
+                  ))}
+                </ul>
+
+                <div className={styles.ctaRow}>
+                  <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.97 }}>
+                    <Link to="/products" className={styles.btnPrimary}>
+                      View Products
+                      <motion.svg
+                        width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                      >
+                        <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                      </motion.svg>
+                    </Link>
+                  </motion.div>
+                  <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.97 }}>
+                    <Link to="/contact" className={styles.btnGhost}>Get in Touch</Link>
+                  </motion.div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </motion.div>
         </div>
-      </motion.section>
+      </section>
     </div>
   );
 }
