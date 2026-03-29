@@ -334,19 +334,20 @@ export default function AboutPage() {
       {/* ── OUR JOURNEY ────────────────────────────────────────── */}
       <section className={styles.journey}>
         <div className={styles.journeyOrb} aria-hidden />
+        <div className={styles.journeyOrbNavy} aria-hidden />
         <div className={styles.journeyStripe} aria-hidden />
 
         <motion.div
           className={styles.journeyHeader}
-          initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 32, filter: 'blur(6px)' }}
+          whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.7, ease: EASE }}
         >
           <p className={styles.eyebrow}>
             <motion.span
               className={styles.eyebrowDot}
-              animate={{ scale: [1, 1.5, 1] }}
+              animate={{ scale: [1, 1.6, 1], opacity: [1, 0.6, 1] }}
               transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
             />
             Our Journey
@@ -358,110 +359,125 @@ export default function AboutPage() {
         </motion.div>
 
         <div className={styles.timeline}>
-          {/* Animated vertical line */}
+          {/* Animated vertical line — grows on scroll */}
           <motion.div
             className={styles.timelineLine}
             initial={{ scaleY: 0 }}
             whileInView={{ scaleY: 1 }}
             viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 1.2, ease: EASE }}
+            transition={{ duration: 1.6, ease: EASE }}
             style={{ transformOrigin: 'top' }}
             aria-hidden
           />
 
           {JOURNEY.map((item, i) => {
             const isLeft = i % 2 === 0;
-            return (
+
+            const cardContent = (
               <motion.div
-                key={item.year}
-                className={styles.timelineEntry}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.6, delay: 0.08, ease: EASE }}
+                className={styles.entryCard}
+                initial={{ opacity: 0, x: isLeft ? -40 : 40, scale: 0.95 }}
+                whileInView={{ opacity: 1, x: 0, scale: 1 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.6, delay: 0.12, ease: EASE }}
+                whileHover={{ y: -5, boxShadow: '0 18px 44px rgba(38,34,98,0.12)', transition: { duration: 0.25 } }}
               >
-                {/* Left content */}
-                <div className={isLeft ? styles.entryContent : styles.entryBlank}>
-                  {isLeft && (
+                <div className={styles.entryImgWrap}>
+                  <motion.img
+                    src={item.image}
+                    alt={item.name || item.caption || item.title}
+                    loading="lazy"
+                    whileHover={{ scale: 1.08 }}
+                    transition={{ duration: 0.55, ease: EASE }}
+                  />
+                  {item.type === 'director' && (
                     <motion.div
-                      className={styles.entryCard}
-                      whileHover={{ y: -4, boxShadow: '0 14px 36px rgba(38,34,98,0.1)' }}
-                      transition={{ duration: 0.25 }}
+                      className={styles.entryDirectorBadge}
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: 0.3, ease: EASE }}
                     >
-                      <div className={styles.entryImgWrap}>
-                        <motion.img
-                          src={item.image}
-                          alt={item.name || item.caption || item.title}
-                          loading="lazy"
-                          whileHover={{ scale: 1.06 }}
-                          transition={{ duration: 0.5, ease: EASE }}
-                        />
-                        {item.type === 'director' && (
-                          <div className={styles.entryDirectorBadge}>
-                            <span className={styles.entryDirectorName}>{item.name}</span>
-                            <span className={styles.entryDirectorRole}>{item.role}</span>
-                          </div>
-                        )}
-                        {(item.type === 'company' || item.type === 'team') && item.caption && (
-                          <div className={styles.entryCaption}>{item.caption}</div>
-                        )}
-                      </div>
-                      <div className={styles.entryText}>
-                        <span className={styles.entryYear}>{item.year}</span>
-                        <h3 className={styles.entryTitle}>{item.title}</h3>
-                        <p className={styles.entryBody}>{item.body}</p>
-                      </div>
+                      <span className={styles.entryDirectorName}>{item.name}</span>
+                      <span className={styles.entryDirectorRole}>{item.role}</span>
+                    </motion.div>
+                  )}
+                  {(item.type === 'company' || item.type === 'team') && item.caption && (
+                    <motion.div
+                      className={styles.entryCaption}
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: 0.3 }}
+                    >
+                      {item.caption}
                     </motion.div>
                   )}
                 </div>
+                <div className={styles.entryText}>
+                  <motion.span
+                    className={styles.entryYear}
+                    initial={{ opacity: 0, x: -8 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.35, delay: 0.2, ease: EASE }}
+                  >
+                    {item.year}
+                  </motion.span>
+                  <motion.h3
+                    className={styles.entryTitle}
+                    initial={{ opacity: 0, y: 8 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: 0.25, ease: EASE }}
+                  >
+                    {item.title}
+                  </motion.h3>
+                  <motion.p
+                    className={styles.entryBody}
+                    initial={{ opacity: 0, y: 8 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: 0.32, ease: EASE }}
+                  >
+                    {item.body}
+                  </motion.p>
+                </div>
+              </motion.div>
+            );
 
-                {/* Centre dot */}
+            return (
+              <div key={item.year} className={styles.timelineEntry}>
+                {/* Left content */}
+                <div className={isLeft ? styles.entryContent : styles.entryBlank}>
+                  {isLeft && cardContent}
+                </div>
+
+                {/* Centre dot with pulse ring */}
                 <div className={styles.entryDotCol}>
                   <motion.span
                     className={styles.entryDot}
                     initial={{ scale: 0 }}
                     whileInView={{ scale: 1 }}
                     viewport={{ once: true }}
-                    transition={{ type: 'spring', stiffness: 400, damping: 18, delay: 0.15 }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 16, delay: 0.1 + i * 0.06 }}
                   />
-                  <span className={styles.entryDotYear}>{item.year}</span>
+                  {/* Pulse ring */}
+                  <motion.span
+                    className={styles.entryDotRing}
+                    initial={{ scale: 0.6, opacity: 0 }}
+                    whileInView={{ scale: [0.6, 1.8, 0.6], opacity: [0, 0.4, 0] }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 2.5, delay: 0.3 + i * 0.1, repeat: Infinity, ease: 'easeInOut' }}
+                    aria-hidden
+                  />
                 </div>
 
                 {/* Right content */}
                 <div className={!isLeft ? styles.entryContent : styles.entryBlank}>
-                  {!isLeft && (
-                    <motion.div
-                      className={styles.entryCard}
-                      whileHover={{ y: -4, boxShadow: '0 14px 36px rgba(38,34,98,0.1)' }}
-                      transition={{ duration: 0.25 }}
-                    >
-                      <div className={styles.entryImgWrap}>
-                        <motion.img
-                          src={item.image}
-                          alt={item.name || item.caption || item.title}
-                          loading="lazy"
-                          whileHover={{ scale: 1.06 }}
-                          transition={{ duration: 0.5, ease: EASE }}
-                        />
-                        {item.type === 'director' && (
-                          <div className={styles.entryDirectorBadge}>
-                            <span className={styles.entryDirectorName}>{item.name}</span>
-                            <span className={styles.entryDirectorRole}>{item.role}</span>
-                          </div>
-                        )}
-                        {(item.type === 'company' || item.type === 'team') && item.caption && (
-                          <div className={styles.entryCaption}>{item.caption}</div>
-                        )}
-                      </div>
-                      <div className={styles.entryText}>
-                        <span className={styles.entryYear}>{item.year}</span>
-                        <h3 className={styles.entryTitle}>{item.title}</h3>
-                        <p className={styles.entryBody}>{item.body}</p>
-                      </div>
-                    </motion.div>
-                  )}
+                  {!isLeft && cardContent}
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>

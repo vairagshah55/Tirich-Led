@@ -96,7 +96,7 @@
   padding: 5rem 4rem 4rem;
   position: relative;
   overflow: hidden;
-  background: #FFFFFF;
+  background: #F5F5F9;
 }
 
 .journeyOrb {
@@ -107,6 +107,17 @@
   background: radial-gradient(circle, rgba(247, 148, 30, 0.07) 0%, transparent 70%);
   top: -120px;
   left: -100px;
+  pointer-events: none;
+}
+
+.journeyOrbNavy {
+  position: absolute;
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(38, 34, 98, 0.04) 0%, transparent 70%);
+  bottom: -80px;
+  right: -60px;
   pointer-events: none;
 }
 
@@ -167,7 +178,27 @@
     rgba(247, 148, 30, 0.3) 95%,
     transparent 100%
   );
+  box-shadow: 0 0 12px rgba(247, 148, 30, 0.15);
   pointer-events: none;
+}
+
+/* Traveling glow on timeline */
+.timelineLine::after {
+  content: '';
+  position: absolute;
+  left: -3px;
+  width: 8px;
+  height: 60px;
+  border-radius: 4px;
+  background: radial-gradient(ellipse, rgba(247, 148, 30, 0.5) 0%, transparent 70%);
+  animation: lineGlow 4s ease-in-out infinite;
+}
+
+@keyframes lineGlow {
+  0%   { top: 0%; opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { top: 95%; opacity: 0; }
 }
 
 .timelineEntry {
@@ -194,12 +225,23 @@
   height: 14px;
   border-radius: 50%;
   background: #F7941E;
-  border: 3px solid #FFFFFF;
-  box-shadow: 0 0 0 3px rgba(247, 148, 30, 0.2), 0 2px 8px rgba(247, 148, 30, 0.25);
+  border: 3px solid #F5F5F9;
+  box-shadow: 0 0 0 4px rgba(247, 148, 30, 0.18), 0 0 14px rgba(247, 148, 30, 0.3);
   flex-shrink: 0;
   display: block;
   position: relative;
   z-index: 3;
+}
+
+/* Pulse ring around dot */
+.entryDotRing {
+  position: absolute;
+  top: 1.2rem;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(247, 148, 30, 0.4);
+  pointer-events: none;
 }
 
 .entryDotYear {
@@ -217,17 +259,39 @@
 .entryCard {
   border-radius: 16px;
   border: 1px solid rgba(38, 34, 98, 0.07);
-  background: #F5F5F9;
+  background: #FFFFFF;
   overflow: hidden;
-  transition: border-color 0.3s ease;
+  position: relative;
+  transition: border-color 0.3s ease, box-shadow 0.35s ease;
+  box-shadow: 0 4px 16px rgba(38, 34, 98, 0.05);
 }
 
-.entryCard:hover { border-color: rgba(247, 148, 30, 0.2); }
+.entryCard:hover {
+  border-color: rgba(247, 148, 30, 0.25);
+  box-shadow: 0 16px 44px rgba(38, 34, 98, 0.1);
+}
+
+/* Shimmer sweep on hover */
+.entryCard::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(247, 148, 30, 0.06), transparent);
+  transform: skewX(-18deg);
+  pointer-events: none;
+  z-index: 5;
+  transition: left 0.6s ease;
+}
+
+.entryCard:hover::after { left: 160%; }
 
 .entryImgWrap {
   position: relative;
   overflow: hidden;
-  height: 200px;
+  height: 210px;
 }
 
 .entryImgWrap img {
@@ -235,6 +299,16 @@
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+/* Soft vignette fade on image edges */
+.entryImgWrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(38, 34, 98, 0.06) 100%);
+  pointer-events: none;
+  z-index: 1;
 }
 
 /* Director badge on image */
