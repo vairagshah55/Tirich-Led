@@ -45,6 +45,11 @@ export function getLeadData() {
   }
 }
 
+export function clearLeadData() {
+  localStorage.removeItem(STORAGE_KEY);
+}
+
+
 /* ────────────────── Modal Component ────────────────── */
 
 export default function LeadCaptureModal({ open, onClose, onSuccess, required = false }) {

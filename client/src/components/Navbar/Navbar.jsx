@@ -5,6 +5,7 @@ import logo from '../../assets/new-log.png';
 import styles from './Navbar.module.css';
 import { CATEGORIES, PRODUCTS } from '../../data/products';
 import { buttonHover, buttonTap, fadeIn, fadeUp, presenceFade } from '../../utils/motion';
+import { getLeadData, hasLeadData, clearLeadData } from '../LeadCaptureModal/LeadCaptureModal';
 
 const FEATURED = PRODUCTS[0];
 
@@ -32,6 +33,15 @@ export default function Navbar() {
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileProdOpen, setMobileProdOpen] = useState(false);
+
+  const [lead, setLead] = useState(() => hasLeadData() ? getLeadData() : null);
+  const firstName = lead?.name?.split(' ')[0] || '';
+
+  const handleLeadLogout = () => {
+    clearLeadData();
+    setLead(null);
+    navigate('/products');
+  };
 
   useEffect(() => {
     setMobileOpen(false);
@@ -92,6 +102,21 @@ export default function Navbar() {
         </motion.div>
 
         <motion.div className={styles.navRight} {...fadeUp(0.1, 16)}>
+          {firstName && (
+            <div className={styles.leadUser}>
+              <span className={styles.leadAvatar}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
+                </svg>
+              </span>
+              <span className={styles.leadName}>Hi, {firstName}</span>
+              <button className={styles.leadLogout} onClick={handleLeadLogout} aria-label="Logout">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" />
+                </svg>
+              </button>
+            </div>
+          )}
           <motion.button
             className={`${styles.hamburger} ${mobileOpen ? styles.hamburgerOpen : ''}`}
             onClick={() => setMobileOpen((open) => !open)}
@@ -165,6 +190,21 @@ export default function Navbar() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div className={styles.mobileMenu} {...presenceFade}>
+            {firstName && (
+              <div className={styles.mobileGreeting}>
+                <span className={styles.leadAvatar}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
+                  </svg>
+                </span>
+                <span className={styles.mobileGreetText}>Hi, {firstName}</span>
+                <button className={styles.leadLogout} onClick={handleLeadLogout} aria-label="Logout">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" />
+                  </svg>
+                </button>
+              </div>
+            )}
             <Link to="/" className={styles.mobileLink}>Home</Link>
 
             <motion.button

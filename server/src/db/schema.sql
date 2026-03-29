@@ -52,9 +52,6 @@ CREATE TABLE IF NOT EXISTS leads (
   created_at     TIMESTAMPTZ  NOT NULL DEFAULT NOW()
 );
 
-CREATE INDEX IF NOT EXISTS idx_leads_phone ON leads(phone);
-
-
 -- Indexes
 CREATE INDEX IF NOT EXISTS idx_products_category_slug ON products(category_slug);
 CREATE INDEX IF NOT EXISTS idx_products_is_active     ON products(is_active);

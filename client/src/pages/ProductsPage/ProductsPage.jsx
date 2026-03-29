@@ -12,6 +12,7 @@ export default function ProductsPage() {
   const navigate = useNavigate();
   const [showLeadModal, setShowLeadModal] = useState(false);
   const [pendingSlug, setPendingSlug] = useState(null);
+
   const activeCategoryLabel = (() => {
     const cat = CATEGORIES.find(c => c.slug === (searchParams.get('category') || ''));
     return cat ? cat.label : null;

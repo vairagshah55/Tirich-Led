@@ -176,6 +176,56 @@
   color: var(--btn-solid-text);
 }
 
+/* ── Lead user greeting ────────────────────────────────────────── */
+.leadUser {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.leadAvatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(247, 148, 30, 0.1);
+  border: 1.5px solid rgba(247, 148, 30, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #F7941E;
+  flex-shrink: 0;
+}
+
+.leadName {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--nav-text);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.leadLogout {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: 1px solid rgba(38, 34, 98, 0.08);
+  background: transparent;
+  color: rgba(38, 34, 98, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-left: 0.15rem;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.leadLogout:hover {
+  background: rgba(231, 76, 60, 0.08);
+  color: #e74c3c;
+  border-color: rgba(231, 76, 60, 0.25);
+}
+
 /* ── Hamburger ──────────────────────────────────────────────────── */
 .hamburger {
   display: none;
@@ -572,6 +622,21 @@
   color: var(--clr-accent-text);
   opacity: 1;
   padding-left: 1.35rem;
+}
+
+.mobileGreeting {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.8rem 0 1rem;
+  border-bottom: 1px solid rgba(247, 148, 30, 0.15);
+  margin-bottom: 0.25rem;
+}
+
+.mobileGreetText {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--nav-text);
 }
 
 .mobileDivider {
