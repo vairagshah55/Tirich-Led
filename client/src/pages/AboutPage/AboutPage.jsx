@@ -1,10 +1,12 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import Navbar from '../../components/Navbar/Navbar';
 import styles from './AboutPage.module.css';
 
 const EASE = [0.22, 1, 0.36, 1];
+const QUART_OUT = [0.25, 1, 0.5, 1];
+const REVEAL = { once: true, amount: 0.2 }; // triggers at 20% visible, never resets
 
 const JOURNEY = [
   {
@@ -114,6 +116,18 @@ const PARTICLES = [
 export default function AboutPage() {
   const [activePanel, setActivePanel] = useState(0);
   const sectionRef = useRef(null);
+  const videoRef = useRef(null);
+  const journeyRef = useRef(null);
+
+  // Scroll parallax for video section
+  const { scrollYProgress: videoProgress } = useScroll({ target: videoRef, offset: ['start end', 'end start'] });
+  const videoY = useTransform(videoProgress, [0, 1], [40, -40]);
+  const videoScale = useTransform(videoProgress, [0, 0.3, 1], [0.96, 1, 1]);
+  const videoOpacity = useTransform(videoProgress, [0, 0.15, 0.85, 1], [0.4, 1, 1, 0.4]);
+
+  // Scroll parallax for journey section
+  const { scrollYProgress: journeyProgress } = useScroll({ target: journeyRef, offset: ['start end', 'end start'] });
+  const journeyY = useTransform(journeyProgress, [0, 1], [30, -30]);
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
@@ -150,14 +164,15 @@ export default function AboutPage() {
       <Navbar />
 
       {/* ── VIDEO + SWIPEABLE CONTENT ───────────────────────────── */}
-      <section
-        ref={sectionRef}
+      <motion.section
+        ref={(el) => { sectionRef.current = el; videoRef.current = el; }}
         className={styles.videoSection}
         onMouseMove={onMove}
         onMouseLeave={onLeave}
+        style={{ opacity: videoOpacity }}
       >
         {/* Decorative layers */}
-        <div className={styles.videoOrb} aria-hidden />
+        <motion.div className={styles.videoOrb} style={{ y: videoY }} aria-hidden />
         <div className={styles.videoOrbNavy} aria-hidden />
         <div className={styles.videoStripe} aria-hidden />
         <div className={styles.videoSpotlight} aria-hidden />
@@ -174,7 +189,7 @@ export default function AboutPage() {
           />
         ))}
 
-        <div className={styles.videoInner}>
+        <motion.div className={styles.videoInner} style={{ y: videoY, scale: videoScale }}>
           {/* Left — YouTube embed with floating badge */}
           <motion.div
             className={styles.videoWrap}
@@ -328,21 +343,21 @@ export default function AboutPage() {
               </motion.div>
             </AnimatePresence>
           </motion.div>
-        </div>
-      </section>
+        </motion.div>
+      </motion.section>
 
-      {/* ── OUR JOURNEY ────────────────────────────────────────── */}
-      <section className={styles.journey}>
-        <div className={styles.journeyOrb} aria-hidden />
+      {/* ── OUR JOURNEY — SVG path draws on scroll ──────────────── */}
+      <section ref={journeyRef} className={styles.journey}>
+        <motion.div className={styles.journeyOrb} style={{ y: journeyY }} aria-hidden />
         <div className={styles.journeyOrbNavy} aria-hidden />
         <div className={styles.journeyStripe} aria-hidden />
 
         <motion.div
           className={styles.journeyHeader}
-          initial={{ opacity: 0, y: 32, filter: 'blur(6px)' }}
-          whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.7, ease: EASE }}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={REVEAL}
+          transition={{ duration: 0.6, ease: QUART_OUT }}
         >
           <p className={styles.eyebrow}>
             <motion.span
@@ -359,124 +374,228 @@ export default function AboutPage() {
         </motion.div>
 
         <div className={styles.timeline}>
-          {/* Animated vertical line — grows on scroll */}
-          <motion.div
-            className={styles.timelineLine}
-            initial={{ scaleY: 0 }}
-            whileInView={{ scaleY: 1 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 1.6, ease: EASE }}
-            style={{ transformOrigin: 'top' }}
-            aria-hidden
-          />
+          {/* SVG sinuous path — draws on scroll */}
+          <svg className={styles.timelineSvg} viewBox="0 0 60 1000" preserveAspectRatio="none" aria-hidden>
+            <defs>
+              <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#F7941E" stopOpacity="0" />
+                <stop offset="8%" stopColor="#F7941E" stopOpacity="1" />
+                <stop offset="92%" stopColor="#F7941E" stopOpacity="1" />
+                <stop offset="100%" stopColor="#F7941E" stopOpacity="0" />
+              </linearGradient>
+              <filter id="pathGlow">
+                <feGaussianBlur stdDeviation="4" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+            {/* Ghost track */}
+            <path
+              d="M30 0 C30 80, 30 120, 30 200 C30 280, 30 320, 30 400 C30 480, 30 520, 30 600 C30 680, 30 720, 30 800 C30 880, 30 920, 30 1000"
+              fill="none"
+              stroke="rgba(38,34,98,0.06)"
+              strokeWidth="2"
+            />
+            {/* Drawn path — pathLength controlled by scroll */}
+            <motion.path
+              d="M30 0 C30 80, 30 120, 30 200 C30 280, 30 320, 30 400 C30 480, 30 520, 30 600 C30 680, 30 720, 30 800 C30 880, 30 920, 30 1000"
+              fill="none"
+              stroke="url(#lineGrad)"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              filter="url(#pathGlow)"
+              style={{ pathLength: journeyProgress }}
+            />
+            {/* Glow trail — wider, more diffuse */}
+            <motion.path
+              d="M30 0 C30 80, 30 120, 30 200 C30 280, 30 320, 30 400 C30 480, 30 520, 30 600 C30 680, 30 720, 30 800 C30 880, 30 920, 30 1000"
+              fill="none"
+              stroke="rgba(247,148,30,0.15)"
+              strokeWidth="8"
+              strokeLinecap="round"
+              style={{ pathLength: journeyProgress }}
+            />
+          </svg>
 
           {JOURNEY.map((item, i) => {
-            const isLeft = i % 2 === 0;
-
-            const cardContent = (
-              <motion.div
-                className={styles.entryCard}
-                initial={{ opacity: 0, x: isLeft ? -40 : 40, scale: 0.95 }}
-                whileInView={{ opacity: 1, x: 0, scale: 1 }}
-                viewport={{ once: true, margin: '-50px' }}
-                transition={{ duration: 0.6, delay: 0.12, ease: EASE }}
-                whileHover={{ y: -5, boxShadow: '0 18px 44px rgba(38,34,98,0.12)', transition: { duration: 0.25 } }}
-              >
-                <div className={styles.entryImgWrap}>
-                  <motion.img
-                    src={item.image}
-                    alt={item.name || item.caption || item.title}
-                    loading="lazy"
-                    whileHover={{ scale: 1.08 }}
-                    transition={{ duration: 0.55, ease: EASE }}
-                  />
-                  {item.type === 'director' && (
-                    <motion.div
-                      className={styles.entryDirectorBadge}
-                      initial={{ opacity: 0, y: 10 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.4, delay: 0.3, ease: EASE }}
-                    >
-                      <span className={styles.entryDirectorName}>{item.name}</span>
-                      <span className={styles.entryDirectorRole}>{item.role}</span>
-                    </motion.div>
-                  )}
-                  {(item.type === 'company' || item.type === 'team') && item.caption && (
-                    <motion.div
-                      className={styles.entryCaption}
-                      initial={{ opacity: 0 }}
-                      whileInView={{ opacity: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.4, delay: 0.3 }}
-                    >
-                      {item.caption}
-                    </motion.div>
-                  )}
-                </div>
-                <div className={styles.entryText}>
-                  <motion.span
-                    className={styles.entryYear}
-                    initial={{ opacity: 0, x: -8 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.35, delay: 0.2, ease: EASE }}
-                  >
-                    {item.year}
-                  </motion.span>
-                  <motion.h3
-                    className={styles.entryTitle}
-                    initial={{ opacity: 0, y: 8 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: 0.25, ease: EASE }}
-                  >
-                    {item.title}
-                  </motion.h3>
-                  <motion.p
-                    className={styles.entryBody}
-                    initial={{ opacity: 0, y: 8 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: 0.32, ease: EASE }}
-                  >
-                    {item.body}
-                  </motion.p>
-                </div>
-              </motion.div>
-            );
-
+            const isEven = i % 2 === 0;
+            // Even: image LEFT, text RIGHT | Odd: text LEFT, image RIGHT
             return (
               <div key={item.year} className={styles.timelineEntry}>
-                {/* Left content */}
-                <div className={isLeft ? styles.entryContent : styles.entryBlank}>
-                  {isLeft && cardContent}
+
+                {/* LEFT side */}
+                <div className={styles.entrySide}>
+                  {isEven ? (
+                    /* Image side */
+                    <motion.div
+                      className={styles.entryImageCard}
+                      initial={{ opacity: 0, x: -50, y: 30 }}
+                      whileInView={{ opacity: 1, x: 0, y: 0 }}
+                      viewport={REVEAL}
+                      transition={{ duration: 0.6, ease: QUART_OUT }}
+                      whileHover={{ y: -4, boxShadow: '0 16px 40px rgba(38,34,98,0.1)', transition: { duration: 0.25 } }}
+                    >
+                      <motion.img
+                        src={item.image}
+                        alt={item.name || item.caption || item.title}
+                        loading="lazy"
+                        whileHover={{ scale: 1.06 }}
+                        transition={{ duration: 0.5, ease: QUART_OUT }}
+                      />
+                      {item.type === 'director' && (
+                        <motion.div
+                          className={styles.entryDirectorBadge}
+                          initial={{ opacity: 0, y: 20 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={REVEAL}
+                          transition={{ duration: 0.6, delay: 0.25, ease: QUART_OUT }}
+                        >
+                          <span className={styles.entryDirectorName}>{item.name}</span>
+                          <span className={styles.entryDirectorRole}>{item.role}</span>
+                        </motion.div>
+                      )}
+                      {(item.type === 'company' || item.type === 'team') && item.caption && (
+                        <motion.div
+                          className={styles.entryCaption}
+                          initial={{ opacity: 0 }}
+                          whileInView={{ opacity: 1 }}
+                          viewport={REVEAL}
+                          transition={{ duration: 0.6, delay: 0.25, ease: QUART_OUT }}
+                        >
+                          {item.caption}
+                        </motion.div>
+                      )}
+                    </motion.div>
+                  ) : (
+                    /* Text side */
+                    <motion.div
+                      className={styles.entryTextBlock}
+                      initial={{ opacity: 0, x: -50, y: 30 }}
+                      whileInView={{ opacity: 1, x: 0, y: 0 }}
+                      viewport={REVEAL}
+                      transition={{ duration: 0.6, delay: 0.08, ease: QUART_OUT }}
+                    >
+                      <motion.span className={styles.entryYear} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={REVEAL} transition={{ duration: 0.6, delay: 0.15, ease: QUART_OUT }}>
+                        {item.year}
+                      </motion.span>
+                      <motion.h3 className={styles.entryTitle} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={REVEAL} transition={{ duration: 0.6, delay: 0.2, ease: QUART_OUT }}>
+                        {item.title}
+                      </motion.h3>
+                      <motion.p className={styles.entryBody} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={REVEAL} transition={{ duration: 0.6, delay: 0.28, ease: QUART_OUT }}>
+                        {item.body}
+                      </motion.p>
+                    </motion.div>
+                  )}
                 </div>
 
-                {/* Centre dot with pulse ring */}
+                {/* CENTRE — point */}
                 <div className={styles.entryDotCol}>
                   <motion.span
-                    className={styles.entryDot}
-                    initial={{ scale: 0 }}
-                    whileInView={{ scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ type: 'spring', stiffness: 400, damping: 16, delay: 0.1 + i * 0.06 }}
-                  />
-                  {/* Pulse ring */}
-                  <motion.span
-                    className={styles.entryDotRing}
-                    initial={{ scale: 0.6, opacity: 0 }}
-                    whileInView={{ scale: [0.6, 1.8, 0.6], opacity: [0, 0.4, 0] }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 2.5, delay: 0.3 + i * 0.1, repeat: Infinity, ease: 'easeInOut' }}
+                    className={styles.entryDotRingOuter}
+                    initial={{ scale: 0, opacity: 0 }}
+                    whileInView={{ scale: [1, 2.4, 1], opacity: [0, 0.18, 0] }}
+                    viewport={REVEAL}
+                    transition={{ duration: 3, delay: 0.5, repeat: Infinity, ease: 'easeInOut' }}
                     aria-hidden
                   />
+                  <motion.span
+                    className={styles.entryDotRing}
+                    initial={{ scale: 0, opacity: 0 }}
+                    whileInView={{ scale: [1, 1.7, 1], opacity: [0, 0.3, 0] }}
+                    viewport={REVEAL}
+                    transition={{ duration: 2.5, delay: 0.4, repeat: Infinity, ease: 'easeInOut' }}
+                    aria-hidden
+                  />
+                  <motion.div
+                    className={styles.entryIcon}
+                    initial={{ scale: 0, rotate: -25 }}
+                    whileInView={{ scale: 1, rotate: 0 }}
+                    viewport={REVEAL}
+                    transition={{ type: 'spring', stiffness: 220, damping: 10, mass: 0.7, delay: 0.06 }}
+                  >
+                    {item.type === 'director' ? (
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                      </svg>
+                    ) : item.type === 'team' ? (
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                      </svg>
+                    ) : (
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                      </svg>
+                    )}
+                  </motion.div>
                 </div>
 
-                {/* Right content */}
-                <div className={!isLeft ? styles.entryContent : styles.entryBlank}>
-                  {!isLeft && cardContent}
+                {/* RIGHT side */}
+                <div className={styles.entrySide}>
+                  {!isEven ? (
+                    /* Image side */
+                    <motion.div
+                      className={styles.entryImageCard}
+                      initial={{ opacity: 0, x: 50, y: 30 }}
+                      whileInView={{ opacity: 1, x: 0, y: 0 }}
+                      viewport={REVEAL}
+                      transition={{ duration: 0.6, ease: QUART_OUT }}
+                      whileHover={{ y: -4, boxShadow: '0 16px 40px rgba(38,34,98,0.1)', transition: { duration: 0.25 } }}
+                    >
+                      <motion.img
+                        src={item.image}
+                        alt={item.name || item.caption || item.title}
+                        loading="lazy"
+                        whileHover={{ scale: 1.06 }}
+                        transition={{ duration: 0.5, ease: QUART_OUT }}
+                      />
+                      {item.type === 'director' && (
+                        <motion.div
+                          className={styles.entryDirectorBadge}
+                          initial={{ opacity: 0, y: 20 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={REVEAL}
+                          transition={{ duration: 0.6, delay: 0.25, ease: QUART_OUT }}
+                        >
+                          <span className={styles.entryDirectorName}>{item.name}</span>
+                          <span className={styles.entryDirectorRole}>{item.role}</span>
+                        </motion.div>
+                      )}
+                      {(item.type === 'company' || item.type === 'team') && item.caption && (
+                        <motion.div
+                          className={styles.entryCaption}
+                          initial={{ opacity: 0 }}
+                          whileInView={{ opacity: 1 }}
+                          viewport={REVEAL}
+                          transition={{ duration: 0.6, delay: 0.25, ease: QUART_OUT }}
+                        >
+                          {item.caption}
+                        </motion.div>
+                      )}
+                    </motion.div>
+                  ) : (
+                    /* Text side */
+                    <motion.div
+                      className={styles.entryTextBlock}
+                      initial={{ opacity: 0, x: 50, y: 30 }}
+                      whileInView={{ opacity: 1, x: 0, y: 0 }}
+                      viewport={REVEAL}
+                      transition={{ duration: 0.6, delay: 0.08, ease: QUART_OUT }}
+                    >
+                      <motion.span className={styles.entryYear} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={REVEAL} transition={{ duration: 0.6, delay: 0.15, ease: QUART_OUT }}>
+                        {item.year}
+                      </motion.span>
+                      <motion.h3 className={styles.entryTitle} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={REVEAL} transition={{ duration: 0.6, delay: 0.2, ease: QUART_OUT }}>
+                        {item.title}
+                      </motion.h3>
+                      <motion.p className={styles.entryBody} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={REVEAL} transition={{ duration: 0.6, delay: 0.28, ease: QUART_OUT }}>
+                        {item.body}
+                      </motion.p>
+                    </motion.div>
+                  )}
                 </div>
+
               </div>
             );
           })}

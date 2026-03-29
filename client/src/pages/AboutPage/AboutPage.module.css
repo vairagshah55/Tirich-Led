@@ -164,83 +164,77 @@
   z-index: 2;
 }
 
-.timelineLine {
+/* SVG drawn path */
+.timelineSvg {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 2px;
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(247, 148, 30, 0.3) 5%,
-    rgba(247, 148, 30, 0.3) 95%,
-    transparent 100%
-  );
-  box-shadow: 0 0 12px rgba(247, 148, 30, 0.15);
+  width: 60px;
+  height: 100%;
   pointer-events: none;
-}
-
-/* Traveling glow on timeline */
-.timelineLine::after {
-  content: '';
-  position: absolute;
-  left: -3px;
-  width: 8px;
-  height: 60px;
-  border-radius: 4px;
-  background: radial-gradient(ellipse, rgba(247, 148, 30, 0.5) 0%, transparent 70%);
-  animation: lineGlow 4s ease-in-out infinite;
-}
-
-@keyframes lineGlow {
-  0%   { top: 0%; opacity: 0; }
-  10%  { opacity: 1; }
-  90%  { opacity: 1; }
-  100% { top: 95%; opacity: 0; }
+  z-index: 1;
+  overflow: visible;
 }
 
 .timelineEntry {
   display: grid;
-  grid-template-columns: 1fr 4rem 1fr;
-  align-items: start;
-  padding: 1.2rem 0;
+  grid-template-columns: 1fr 5rem 1fr;
+  align-items: center;
+  padding: 2rem 0;
 }
 
-.entryContent {}
-.entryBlank {}
+.entrySide {}
 
-/* Centre dot column */
+/* Centre icon column */
 .entryDotCol {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 0.4rem;
-  padding-top: 1.2rem;
+  justify-content: center;
+  position: relative;
+  padding-top: 1.4rem;
 }
 
-.entryDot {
-  width: 14px;
-  height: 14px;
+/* Milestone icon node */
+.entryIcon {
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
-  background: #F7941E;
-  border: 3px solid #F5F5F9;
-  box-shadow: 0 0 0 4px rgba(247, 148, 30, 0.18), 0 0 14px rgba(247, 148, 30, 0.3);
-  flex-shrink: 0;
-  display: block;
+  background: #FFFFFF;
+  border: 2px solid #F7941E;
+  box-shadow: 0 0 0 5px rgba(247, 148, 30, 0.12), 0 4px 14px rgba(247, 148, 30, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #F7941E;
   position: relative;
   z-index: 3;
+  flex-shrink: 0;
 }
 
-/* Pulse ring around dot */
+/* Pulse rings */
 .entryDotRing {
   position: absolute;
-  top: 1.2rem;
-  width: 14px;
-  height: 14px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
-  border: 1.5px solid rgba(247, 148, 30, 0.4);
+  border: 1.5px solid rgba(247, 148, 30, 0.35);
+  pointer-events: none;
+}
+
+.entryDotRingOuter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(247, 148, 30, 0.2);
   pointer-events: none;
 }
 
@@ -255,24 +249,21 @@
   display: none;
 }
 
-/* ── Entry card ── */
-.entryCard {
+/* ── Image card (one side) ── */
+.entryImageCard {
   border-radius: 16px;
   border: 1px solid rgba(38, 34, 98, 0.07);
   background: #FFFFFF;
   overflow: hidden;
   position: relative;
-  transition: border-color 0.3s ease, box-shadow 0.35s ease;
-  box-shadow: 0 4px 16px rgba(38, 34, 98, 0.05);
+  box-shadow: 0 4px 18px rgba(38, 34, 98, 0.06);
+  transition: border-color 0.3s ease;
 }
 
-.entryCard:hover {
-  border-color: rgba(247, 148, 30, 0.25);
-  box-shadow: 0 16px 44px rgba(38, 34, 98, 0.1);
-}
+.entryImageCard:hover { border-color: rgba(247, 148, 30, 0.25); }
 
-/* Shimmer sweep on hover */
-.entryCard::after {
+/* Shimmer sweep */
+.entryImageCard::after {
   content: '';
   position: absolute;
   top: 0;
@@ -286,29 +277,18 @@
   transition: left 0.6s ease;
 }
 
-.entryCard:hover::after { left: 160%; }
+.entryImageCard:hover::after { left: 160%; }
 
-.entryImgWrap {
-  position: relative;
-  overflow: hidden;
-  height: 210px;
-}
-
-.entryImgWrap img {
+.entryImageCard img {
   width: 100%;
-  height: 100%;
+  height: 240px;
   object-fit: cover;
   display: block;
 }
 
-/* Soft vignette fade on image edges */
-.entryImgWrap::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at center, transparent 50%, rgba(38, 34, 98, 0.06) 100%);
-  pointer-events: none;
-  z-index: 1;
+/* ── Text block (opposite side) ── */
+.entryTextBlock {
+  padding: 0.5rem 1.5rem;
 }
 
 /* Director badge on image */
@@ -353,11 +333,6 @@
   color: rgba(240, 240, 250, 0.7);
 }
 
-/* Text content */
-.entryText {
-  padding: 1.1rem 1.3rem 1.3rem;
-}
-
 .entryYear {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 0.62rem;
@@ -388,9 +363,9 @@
 @media (max-width: 768px) {
   .journey { padding: 4rem 1.5rem 3rem; }
 
-  .timeline { padding-left: 2rem; }
+  .timeline { padding-left: 2.5rem; }
 
-  .timelineLine {
+  .timelineSvg {
     left: 0;
     transform: none;
   }
@@ -398,15 +373,30 @@
   .timelineEntry {
     display: block;
     position: relative;
-    padding: 0 0 1.5rem 2.5rem;
+    padding: 0 0 2rem 3rem;
   }
 
-  .entryBlank { display: none; }
+  .entrySide + .entryDotCol + .entrySide:empty { display: none; }
+
+  .entryTextBlock { padding: 1rem 0 0; }
+
+  .entryImageCard img { height: 200px; }
 
   .entryDotCol {
     position: absolute;
-    left: -0.45rem;
-    top: 1.2rem;
+    left: -1.2rem;
+    top: 1rem;
+  }
+
+  .entryIcon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .entryDotRing,
+  .entryDotRingOuter {
+    width: 32px;
+    height: 32px;
   }
 
   .entryDotYear { display: none; }
