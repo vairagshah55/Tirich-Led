@@ -437,16 +437,6 @@ export default function LandingPage() {
               Our latest additions — designed for modern interiors, tested to Tirich standards, and available now for your next project.
             </p>
           </div>
-          <motion.span
-            className={styles.launchesGhost}
-            aria-hidden
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          >
-            05
-          </motion.span>
         </motion.div>
 
         <motion.div

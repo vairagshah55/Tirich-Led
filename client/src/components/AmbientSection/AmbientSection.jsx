@@ -158,7 +158,6 @@ export default function AmbientSection() {
               environments — see how Tirich LED transforms real spaces.
             </p>
           </div>
-          <span className={styles.ghostNum} aria-hidden>03</span>
         </div>
       </motion.div>
 

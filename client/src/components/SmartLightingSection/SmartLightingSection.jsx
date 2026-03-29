@@ -163,7 +163,6 @@ export default function SmartLightingSection() {
               your Tirich LED fittings invisibly.
             </p>
           </div>
-          <span className={styles.ghostNum} aria-hidden>04</span>
         </div>
       </motion.div>
 
