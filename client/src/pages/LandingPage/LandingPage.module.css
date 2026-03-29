@@ -1060,57 +1060,171 @@
 }
 
 /* ── Footer ─────────────────────────────────────────────────────── */
-.footer { background: var(--bg-footer); color: var(--text-footer); }
+/* ── Footer — white theme, brand colors ──────────────────────── */
+.footer {
+  background: var(--bg-page);
+  color: var(--text-body);
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid rgba(38, 34, 98, 0.08);
+}
+
+.footerOrb {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(247, 148, 30, 0.07) 0%, transparent 70%);
+  top: -120px;
+  right: -80px;
+  pointer-events: none;
+}
+
 .footerTop {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   padding: 4rem;
-  border-bottom: 1px solid rgba(247, 148, 30,0.12);
-  gap: 3rem;
+  border-bottom: 1px solid rgba(38, 34, 98, 0.08);
+  gap: 4rem;
+  position: relative;
+  z-index: 1;
 }
-.footerBrand { display: flex; flex-direction: column; gap: 0.5rem; }
+
+/* Brand block */
+.footerBrand {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 320px;
+}
+
+.footerLogoRow {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.footerLogo {
+  height: 38px;
+  width: auto;
+  display: block;
+}
+
 .footerTagline {
-  font-size: 0.78rem;
-  letter-spacing: 0.1em;
-  color: var(--text-footer);
+  font-size: 0.82rem;
+  color: rgba(38, 34, 98, 0.5);
   margin: 0;
-  text-transform: uppercase;
+  line-height: 1.65;
+  letter-spacing: 0.01em;
 }
-.footerNav { display: flex; gap: 4rem; }
-.footerNavCol { display: flex; flex-direction: column; gap: 0.75rem; }
-.footerNavHead {
-  font-size: 0.72rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--gold);
-  font-weight: 600;
-  margin-bottom: 0.25rem;
+
+/* Social icons */
+.footerSocials {
+  display: flex;
+  gap: 8px;
+  margin-top: 0.3rem;
 }
-.footerNavCol a {
-  color: var(--text-footer);
+
+.footerSocialLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid rgba(38, 34, 98, 0.1);
+  background: var(--bg-section);
+  color: rgba(38, 34, 98, 0.45);
   text-decoration: none;
-  font-size: 0.82rem;
-  letter-spacing: 0.05em;
-  transition: color var(--transition);
+  transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease;
 }
-.footerNavCol a:hover { color: var(--gold); }
-.footerNavBtn {
-  background: none;
-  border: none;
-  cursor: none;
-  color: var(--text-footer);
-  font-size: 0.82rem;
-  letter-spacing: 0.05em;
-  padding: 0;
-  text-align: left;
-  transition: color var(--transition);
+
+.footerSocialLink:hover {
+  border-color: rgba(247, 148, 30, 0.4);
+  color: var(--brand-orange);
+  background: rgba(247, 148, 30, 0.06);
 }
-.footerNavBtn:hover { color: var(--gold); }
+
+/* Nav columns */
+.footerNav {
+  display: flex;
+  gap: 3.5rem;
+}
+
+.footerNavCol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.footerNavHead {
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--brand-orange);
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+.footerNavCol a {
+  color: rgba(38, 34, 98, 0.55);
+  text-decoration: none;
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  transition: color 0.22s ease;
+}
+
+.footerNavCol a:hover { color: var(--brand-navy); }
+
+/* Bottom bar */
 .footerBottom {
-  text-align: center;
-  padding: 1.5rem 2rem;
-  font-size: 0.78rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.3rem 4rem;
+  font-size: 0.72rem;
+  color: rgba(38, 34, 98, 0.3);
+  position: relative;
+  z-index: 1;
+}
+
+.footerBottom p { margin: 0; }
+
+.footerBottomLinks {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.footerBottomLinks a {
+  color: rgba(38, 34, 98, 0.3);
+  text-decoration: none;
+  font-size: 0.72rem;
+  transition: color 0.22s ease;
+}
+
+.footerBottomLinks a:hover { color: var(--brand-orange); }
+
+.footerDivider {
+  width: 1px;
+  height: 12px;
+  background: rgba(38, 34, 98, 0.12);
+}
+
+/* ── Footer responsive ── */
+@media (max-width: 1100px) {
+  .footerTop { padding: 3rem 2rem; gap: 2.5rem; }
+  .footerNav { gap: 2rem; }
+  .footerBottom { padding: 1.2rem 2rem; }
+}
+
+@media (max-width: 760px) {
+  .footerTop { flex-direction: column; padding: 2.5rem 1.5rem; gap: 2rem; }
+  .footerBrand { max-width: 100%; }
+  .footerNav { flex-wrap: wrap; gap: 2rem; }
+  .footerBottom { flex-direction: column; gap: 0.6rem; padding: 1.2rem 1.5rem; text-align: center; }
+  .footerBottomLinks { justify-content: center; }
 }
 
 /* ── Bokeh particles ────────────────────────────────────────────── */
