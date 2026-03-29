@@ -398,6 +398,216 @@ export default function LandingPage() {
       {/* ── SMART LIGHTING ───────────────────────────────────────── */}
       <SmartLightingSection />
 
+      {/* ── NEW LAUNCHES ────────────────────────────────────────── */}
+      <motion.section
+        className={styles.launches}
+        id="new-launches"
+        onMouseMove={(e) => {
+          const r = e.currentTarget.getBoundingClientRect();
+          e.currentTarget.style.setProperty('--lx', `${e.clientX - r.left}px`);
+          e.currentTarget.style.setProperty('--ly', `${e.clientY - r.top}px`);
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.setProperty('--lx', '-999px');
+          e.currentTarget.style.setProperty('--ly', '-999px');
+        }}
+      >
+        <div className={styles.launchesOrb} aria-hidden />
+        <div className={styles.launchesStripe} aria-hidden />
+        <div className={styles.launchesSpotlight} aria-hidden />
+
+        <motion.div
+          className={styles.launchesHeader}
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <div className={styles.launchesHeaderLeft}>
+            <p className={styles.launchesEyebrow}>
+              <motion.span
+                className={styles.launchesEyebrowDot}
+                animate={{ scale: [1, 1.6, 1], opacity: [1, 0.6, 1] }}
+                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              />
+              New Launches
+            </p>
+            <h2 className={styles.launchesTitle}>Freshly Engineered. Ready to Ship.</h2>
+            <p className={styles.launchesLead}>
+              Our latest additions — designed for modern interiors, tested to Tirich standards, and available now for your next project.
+            </p>
+          </div>
+          <motion.span
+            className={styles.launchesGhost}
+            aria-hidden
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          >
+            05
+          </motion.span>
+        </motion.div>
+
+        <motion.div
+          className={styles.launchGrid}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+          variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.1, delayChildren: 0.08 } } }}
+        >
+          {/* Featured card with 3D tilt */}
+          <motion.div
+            className={styles.launchCardFeat}
+            variants={{ hidden: { opacity: 0, y: 30, scale: 0.97 }, visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } } }}
+            whileHover={{ y: -6, boxShadow: '0 24px 56px rgba(38,34,98,0.16)', transition: { duration: 0.3 } }}
+          >
+            <div className={styles.launchCardFeatImg}>
+              <motion.img
+                src="https://images.pexels.com/photos/3324435/pexels-photo-3324435.jpeg?auto=compress&cs=tinysrgb&w=800"
+                alt="Pendant Pro Series"
+                loading="lazy"
+                whileHover={{ scale: 1.08 }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              />
+              <div className={styles.launchCardFeatImgOverlay} />
+              <motion.span
+                className={styles.launchBadge}
+                initial={{ scale: 0, rotate: -12 }}
+                whileInView={{ scale: 1, rotate: 0 }}
+                viewport={{ once: true }}
+                transition={{ type: 'spring', stiffness: 400, damping: 18, delay: 0.3 }}
+              >
+                New
+              </motion.span>
+            </div>
+            <div className={styles.launchCardFeatBody}>
+              <span className={styles.launchCardFeatTag}>Pendant Series</span>
+              <h3 className={styles.launchCardFeatTitle}>Pendant Pro — Matte Black</h3>
+              <p className={styles.launchCardFeatDesc}>
+                Precision-machined aluminium body with integrated COB LED. Warm 3000K output, CRI 95+, ideal for hospitality and dining.
+              </p>
+              <div className={styles.launchCardChips}>
+                {['3000K', 'CRI 95+', 'Dimmable'].map((chip, ci) => (
+                  <motion.span
+                    key={chip}
+                    className={styles.launchChip}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.4 + ci * 0.06, type: 'spring', stiffness: 400 }}
+                  >
+                    {chip}
+                  </motion.span>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
+          {[
+            {
+              img: 'https://images.pexels.com/photos/1166643/pexels-photo-1166643.jpeg?auto=compress&cs=tinysrgb&w=600',
+              tag: 'Panel Series',
+              title: 'Ultra-Slim Panel 40W',
+              desc: 'Edge-lit panel with flicker-free driver. 4000K neutral white.',
+              chips: ['4000K', '40W'],
+            },
+            {
+              img: 'https://images.pexels.com/photos/518973/pexels-photo-518973.jpeg?auto=compress&cs=tinysrgb&w=600',
+              tag: 'Strip LED',
+              title: 'COB Strip 24V — Warm',
+              desc: 'Dot-free, flexible COB strip. IP65 rated for cove and shelf lighting.',
+              chips: ['IP65', '24V'],
+            },
+            {
+              img: 'https://images.pexels.com/photos/443428/pexels-photo-443428.jpeg?auto=compress&cs=tinysrgb&w=600',
+              tag: 'Ambient Series',
+              title: 'Smart RGBW Controller',
+              desc: 'Bluetooth + Wi-Fi scene controller. Works with all Tirich strips.',
+              chips: ['BLE', 'Wi-Fi'],
+            },
+            {
+              img: 'https://images.pexels.com/photos/12709063/pexels-photo-12709063.jpeg?auto=compress&cs=tinysrgb&w=600',
+              tag: 'Downlight Series',
+              title: 'Recessed COB 15W',
+              desc: 'Anti-glare reflector, adjustable 30° tilt. CRI 95+ for retail.',
+              chips: ['CRI 95+', '30° Tilt'],
+            },
+          ].map((card) => (
+            <motion.div
+              key={card.title}
+              className={styles.launchCard}
+              variants={{ hidden: { opacity: 0, y: 24, scale: 0.96 }, visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } } }}
+              whileHover={{ y: -5, boxShadow: '0 18px 42px rgba(247,148,30,0.12)', transition: { duration: 0.25 } }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <div className={styles.launchCardImgWrap}>
+                <motion.img
+                  src={card.img}
+                  alt={card.title}
+                  loading="lazy"
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                />
+                <div className={styles.launchCardImgOverlay} />
+                <motion.span
+                  className={styles.launchBadge}
+                  animate={{ boxShadow: ['0 2px 10px rgba(247,148,30,0.35)', '0 2px 18px rgba(247,148,30,0.55)', '0 2px 10px rgba(247,148,30,0.35)'] }}
+                  transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+                >
+                  New
+                </motion.span>
+              </div>
+              <div className={styles.launchCardBody}>
+                <span className={styles.launchCardTag}>{card.tag}</span>
+                <h3 className={styles.launchCardTitle}>{card.title}</h3>
+                <p className={styles.launchCardDesc}>{card.desc}</p>
+                <div className={styles.launchCardChips}>
+                  {card.chips.map((chip) => (
+                    <span key={chip} className={styles.launchChip}>{chip}</span>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        <motion.div
+          className={styles.launchesMeta}
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <span className={styles.launchesMetaLeft}>
+            <motion.span
+              className={styles.launchesMetaDot}
+              animate={{ scale: [1, 1.4, 1] }}
+              transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            5 new products · March 2026
+          </span>
+          <motion.button
+            className={styles.launchesBtn}
+            onClick={() => navigate('/products')}
+            whileHover={{ y: -3, boxShadow: '0 10px 28px rgba(38,34,98,0.28)' }}
+            whileTap={{ scale: 0.96 }}
+          >
+            View All Products
+            <motion.svg
+              width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+              initial={{ x: 0 }}
+              whileHover={{ x: 3 }}
+              transition={{ duration: 0.2 }}
+            >
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </motion.svg>
+          </motion.button>
+        </motion.div>
+      </motion.section>
+
       {/* ── FOOTER ───────────────────────────────────────────────── */}
       <footer className={styles.footer}>
         <div className={styles.footerTop}>
