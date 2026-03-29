@@ -1,6 +1,6 @@
 import { useEffect, useRef, useCallback, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion } from 'motion/react';
 import Navbar from '../../components/Navbar/Navbar';
 import styles from './LandingPage.module.css';
 import { buttonHover, buttonTap, cardHover, fadeIn, fadeUp } from '../../utils/motion';
@@ -29,6 +29,8 @@ import proVid3   from '../../assets/grok-video-2ca8b0c1-823e-4d11-a036-24e495b32
 
 import LusterGallery          from '../../components/LusterGallery/LusterGallery';
 import LivingGallery          from '../../components/LivingGallery/LivingGallery';
+import AmbientSection         from '../../components/AmbientSection/AmbientSection';
+import SmartLightingSection   from '../../components/SmartLightingSection/SmartLightingSection';
 
 // ── Gallery items (Luster) ────────────────────────────────────────
 const GALLERY_ITEMS = [
@@ -56,39 +58,6 @@ const HOW_IT_WORKS = [
   { step: '02', title: 'Custom Engineering',     body: 'Our R&D team configures the ideal LED assembly — custom CCT, CRI, wattage, optics, and driver specs — tailored precisely to your environment.' },
   { step: '03', title: 'Quality Manufacturing',  body: 'Every unit is factory-tested for luminous flux, colour accuracy, thermal performance, and international safety certifications before shipping.' },
 ];
-
-const AMBIENT_TABS = ['House', 'Hotel', 'Mall', 'Showroom'];
-
-const AMBIENT_GALLERY = {
-  House: [
-    { url: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1200&q=72', title: 'Modern Living Room',   tag: 'Residential Ambient'  },
-    { url: 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=800&q=72',  title: 'Master Bedroom',       tag: 'Warm Downlighting'    },
-    { url: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=800&q=72',  title: 'Kitchen & Dining',     tag: 'Task Lighting'        },
-    { url: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800&q=72',  title: 'Open Plan Interior',   tag: 'Strip Accent Lighting'},
-    { url: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=72',  title: 'Home Office',          tag: 'Focus Lighting'       },
-  ],
-  Hotel: [
-    { url: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=1200&q=72', title: 'Grand Lobby',          tag: 'Hospitality Lighting' },
-    { url: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=72',  title: 'Luxury Suite',         tag: 'Warm Ambience'        },
-    { url: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=72',  title: 'Fine Dining',          tag: 'Pendant Series'       },
-    { url: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=800&q=72',  title: 'Pool Deck',            tag: 'IP65 Outdoor LEDs'    },
-    { url: 'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=800&q=72',  title: 'Lounge & Bar',         tag: 'Mood Lighting'        },
-  ],
-  Mall: [
-    { url: 'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&w=1200&q=72', title: 'Atrium & Common Area', tag: 'High Bay LEDs'        },
-    { url: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=72',  title: 'Retail Interior',      tag: 'CRI 95+ Track Lights' },
-    { url: 'https://images.unsplash.com/photo-1481437156560-3205f6a55735?auto=format&fit=crop&w=800&q=72',  title: 'Shopping Corridor',    tag: 'Corridor Lighting'    },
-    { url: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=800&q=72',  title: 'Anchor Store',         tag: 'Commercial Panel LED' },
-    { url: 'https://images.unsplash.com/photo-1512813195386-6cf811ad3542?auto=format&fit=crop&w=800&q=72',  title: 'F&B Zone',             tag: 'Warm Accent Lighting' },
-  ],
-  Showroom: [
-    { url: 'https://images.unsplash.com/photo-1603825491103-bd638b1873b0?auto=format&fit=crop&w=1200&q=72', title: 'Luxury Brand Showroom', tag: 'Accent Spotlighting' },
-    { url: 'https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=800&q=72',   title: 'Automotive Display',    tag: 'COB Track Lighting'  },
-    { url: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd3?auto=format&fit=crop&w=800&q=72',   title: 'Furniture Studio',      tag: 'Warm Panel Lighting' },
-    { url: 'https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?auto=format&fit=crop&w=800&q=72',      title: 'Product Display',       tag: 'CRI 95 Spotlights'   },
-    { url: 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=800&q=72',   title: 'Fashion Boutique',      tag: 'Magnetic COB Series' },
-  ],
-};
 
 const STATS = [
   { value: '500+',   label: 'Products Available' },
@@ -180,7 +149,6 @@ export default function LandingPage() {
   const [activeVidIdx,  setActiveVidIdx]  = useState(0);
   const [displaySlide,  setDisplaySlide]  = useState(0);
   const [textVisible,   setTextVisible]   = useState(true);
-  const [activeEnv,     setActiveEnv]     = useState('House');
 
   // ── 1. Blur-to-Focus Reveal ──────────────────────────────────
   useEffect(() => {
@@ -455,73 +423,10 @@ export default function LandingPage() {
       </section>
 
       {/* ── AMBIENT ENVIRONMENTS ─────────────────────────────────── */}
-      <section className={styles.ambientSection} id="environments">
+      <AmbientSection />
 
-        {/* Header */}
-        <div className={styles.ambientHeader} data-reveal>
-          <div className={styles.ambientHeaderTop}>
-            <div>
-              <p className={styles.sectionEyebrow}>Real World Applications</p>
-              <h2 className={styles.sectionTitle}>LED Lighting Across Every Space</h2>
-              <p className={styles.sectionLead}>
-                From warm residential interiors to high-intensity commercial environments —
-                see how Tirich LED transforms real spaces.
-              </p>
-            </div>
-            <span className={styles.ambientSectionNum}>03</span>
-          </div>
-        </div>
-
-        {/* Category tabs */}
-        <div className={styles.ambientTabs}>
-          {AMBIENT_TABS.map(tab => (
-            <button
-              key={tab}
-              className={`${styles.ambientTab}${activeEnv === tab ? ` ${styles.ambientTabActive}` : ''}`}
-              onClick={() => setActiveEnv(tab)}
-            >
-              {tab}
-              {activeEnv === tab && (
-                <motion.span className={styles.ambientTabLine} layoutId="ambientTabLine" />
-              )}
-            </button>
-          ))}
-        </div>
-
-        {/* Image grid */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeEnv}
-            className={styles.ambientGrid}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-          >
-            {AMBIENT_GALLERY[activeEnv].map((item, i) => (
-              <motion.div
-                key={i}
-                className={`${styles.ambientCard}${i === 0 ? ` ${styles.ambientCardFeatured}` : ''}`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <img
-                  src={item.url}
-                  alt={item.title}
-                  className={styles.ambientImg}
-                  loading="lazy"
-                />
-                <div className={styles.ambientOverlay}>
-                  <span className={styles.ambientCardTag}>{item.tag}</span>
-                  <span className={styles.ambientCardTitle}>{item.title}</span>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </AnimatePresence>
-
-      </section>
+      {/* ── SMART LIGHTING ───────────────────────────────────────── */}
+      <SmartLightingSection />
 
       {/* ── LUSTER GALLERY ───────────────────────────────────────── */}
       <section className={styles.sectionLight} id="luster">

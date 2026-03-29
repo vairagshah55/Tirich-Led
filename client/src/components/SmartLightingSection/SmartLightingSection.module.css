@@ -1,0 +1,646 @@
+/* ─────────────────────────────────────────
+   SmartLightingSection — white bg, brand colors
+   Navy: #262262  Orange: #F7941E  Text: #262262
+───────────────────────────────────────── */
+.section {
+  background: #FFFFFF;
+  padding: 5rem 4rem 4rem;
+  position: relative;
+  overflow: hidden;
+  --mx: -999px;
+  --my: -999px;
+}
+
+/* ── Decorative background orbs ── */
+.orbOrange {
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(247, 148, 30, 0.12) 0%, transparent 70%);
+  top: -160px;
+  right: -120px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.orbNavy {
+  position: absolute;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(38, 34, 98, 0.06) 0%, transparent 70%);
+  bottom: -100px;
+  left: -80px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Mouse spotlight (very subtle on white) ── */
+.spotlight {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    520px circle at var(--mx) var(--my),
+    rgba(247, 148, 30, 0.05),
+    transparent 55%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Top accent stripe ── */
+.topStripe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #F7941E 0%, rgba(247, 148, 30, 0.2) 60%, transparent 100%);
+  z-index: 2;
+}
+
+/* ── Header ── */
+.header {
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 3;
+}
+
+.headerInner {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.ghostNum {
+  font-size: 7rem;
+  font-weight: 900;
+  line-height: 0.85;
+  color: rgba(38, 34, 98, 0.05);
+  font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: -0.06em;
+  user-select: none;
+  flex-shrink: 0;
+  pointer-events: none;
+  margin-top: -0.4rem;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #F7941E;
+  margin: 0 0 0.65rem;
+  font-weight: 600;
+}
+
+.eyebrowDot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #F7941E;
+  flex-shrink: 0;
+}
+
+.title {
+  font-size: clamp(2rem, 3.2vw, 3rem);
+  font-weight: 800;
+  color: #262262;
+  margin: 0 0 0.75rem;
+  font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+}
+
+.lead {
+  font-size: 0.9rem;
+  color: rgba(38, 34, 98, 0.5);
+  margin: 0;
+  max-width: 440px;
+  line-height: 1.72;
+}
+
+/* ── Stats strip ── */
+.statsStrip {
+  display: flex;
+  gap: 1px;
+  margin-bottom: 2.4rem;
+  position: relative;
+  z-index: 3;
+}
+
+.statBox {
+  flex: 1;
+  padding: 1rem 1.4rem;
+  background: #F5F5F9;
+  border: 1px solid rgba(38, 34, 98, 0.08);
+  border-radius: 10px;
+  cursor: default;
+  transition: background 0.22s ease, border-color 0.22s ease;
+}
+
+.statBox:hover {
+  background: #fff;
+  border-color: rgba(247, 148, 30, 0.3);
+}
+
+.statsStrip .statBox + .statBox { margin-left: 8px; }
+
+.statVal {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #F7941E;
+  font-family: 'Space Grotesk', sans-serif;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 0.3rem;
+}
+
+.statLabel {
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(38, 34, 98, 0.45);
+  font-weight: 500;
+}
+
+/* ── Body grid ── */
+.body {
+  display: grid;
+  grid-template-columns: 0.88fr 1.12fr;
+  gap: 2.5rem;
+  align-items: start;
+  position: relative;
+  z-index: 3;
+}
+
+/* ── Left copy ── */
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
+}
+
+/* ── Segmented control ── */
+.segControl {
+  position: relative;
+  display: flex;
+  background: #F5F5F9;
+  border: 1px solid rgba(38, 34, 98, 0.09);
+  border-radius: 12px;
+  padding: 4px;
+  gap: 2px;
+}
+
+.segPill {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  border-radius: 8px;
+  pointer-events: none;
+  width: calc(33.333% - 4px);
+  box-shadow: 0 2px 8px rgba(247, 148, 30, 0.3);
+}
+
+.segBtn {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+  padding: 0.62rem 0.5rem;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: rgba(38, 34, 98, 0.45);
+  cursor: pointer;
+  font-family: inherit;
+  transition: color 0.22s ease;
+  letter-spacing: 0.01em;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.segBtnActive { color: #fff; font-weight: 700; }
+
+/* ── Mode copy panel ── */
+.modeCopy {
+  background: #F5F5F9;
+  border: 1px solid rgba(38, 34, 98, 0.08);
+  border-radius: 14px;
+  padding: 1.5rem 1.6rem;
+  border-left: 3px solid var(--mode-accent, #F7941E);
+}
+
+.modeEyebrow {
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--mode-accent, #F7941E);
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+}
+
+.modeTitle {
+  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+  font-weight: 800;
+  color: #262262;
+  margin: 0 0 0.6rem;
+  font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+  display: flex;
+  flex-direction: column;
+}
+
+.modeTitleLine { display: block; }
+
+.modeBody {
+  font-size: 0.84rem;
+  color: rgba(38, 34, 98, 0.52);
+  line-height: 1.72;
+  margin: 0 0 1.1rem;
+}
+
+.modeStats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.modeStat {
+  background: #fff;
+  border: 1px solid rgba(38, 34, 98, 0.07);
+  border-radius: 8px;
+  padding: 0.65rem 0.8rem;
+}
+
+.modeStatLabel {
+  display: block;
+  font-size: 0.57rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(38, 34, 98, 0.35);
+  margin-bottom: 0.28rem;
+}
+
+.modeStatVal {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #262262;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.modeChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.modeChip {
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.28rem 0.72rem;
+  border-radius: 100px;
+  border: 1px solid rgba(247, 148, 30, 0.35);
+  font-weight: 600;
+  background: rgba(247, 148, 30, 0.06);
+}
+
+/* ── CTA row ── */
+.ctaRow {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.ctaBtn {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.78rem 1.6rem;
+  background: #262262;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  transition: background 0.22s ease, transform 0.18s ease, box-shadow 0.22s ease;
+  flex-shrink: 0;
+}
+
+.ctaBtn:hover {
+  background: #1A1740;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(38, 34, 98, 0.28);
+}
+
+/* Shimmer sweep on CTA */
+.ctaBtnShimmer {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.18),
+    transparent
+  );
+  transform: skewX(-18deg);
+  animation: shimmer 3.2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%   { left: -100%; }
+  50%  { left: 160%;  }
+  100% { left: 160%;  }
+}
+
+.ctaMeta {
+  font-size: 0.72rem;
+  color: rgba(38, 34, 98, 0.38);
+  margin: 0;
+}
+
+/* ── Right visuals ── */
+.visuals {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* 3D-tilt room card */
+.roomCard {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid rgba(38, 34, 98, 0.1);
+  aspect-ratio: 16 / 10;
+  cursor: none;
+  box-shadow: 0 16px 48px rgba(38, 34, 98, 0.12);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.roomImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.05);
+  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.roomCard:hover .roomImg { transform: scale(1.09); }
+
+.roomAura {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.roomOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(26, 23, 64, 0.92) 0%,
+    rgba(26, 23, 64, 0.06) 50%,
+    transparent 72%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Floating badge */
+.roomBadge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(26, 23, 64, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(240, 240, 250, 0.85);
+}
+
+.roomBadgeDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: block;
+}
+
+/* Live panel */
+.livePanel {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 4;
+  padding: 0.95rem 1.1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(26, 23, 64, 0.86);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  min-width: 164px;
+}
+
+.livePanelTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+}
+
+.livePanelEye {
+  font-size: 0.56rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(240, 240, 250, 0.4);
+}
+
+.livePanelDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: block;
+}
+
+.livePanelMode {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #F0F0FA;
+  margin: 0 0 0.55rem;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.livePanelChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.livePanelChip {
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.22rem 0.52rem;
+  border-radius: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: rgba(240, 240, 250, 0.6);
+}
+
+/* ── Sub cards ── */
+.subCards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.subCard {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid rgba(38, 34, 98, 0.09);
+  background: #fff;
+  cursor: none;
+  box-shadow: 0 4px 18px rgba(38, 34, 98, 0.07);
+  transition: border-color 0.28s ease;
+}
+
+.subCardImgWrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.subCardImg {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.subCard:hover .subCardImg { transform: scale(1.07); }
+
+.subCardImgOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(26,23,64,0.45), transparent 60%);
+}
+
+.subCardBody {
+  padding: 0.8rem 0.95rem;
+}
+
+.subCardTag {
+  font-size: 0.56rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #F7941E;
+  display: block;
+  margin-bottom: 0.28rem;
+  font-weight: 600;
+}
+
+.subCardTitle {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #262262;
+  margin: 0;
+  font-family: 'Space Grotesk', sans-serif;
+  line-height: 1.35;
+}
+
+/* ── Pulse rings ── */
+.pulseRing {
+  position: absolute;
+  border-radius: 50%;
+  border: 1.5px solid rgba(247, 148, 30, 0.38);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Bottom meta bar ── */
+.meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(38, 34, 98, 0.08);
+  margin-top: 2.2rem;
+  position: relative;
+  z-index: 3;
+}
+
+.metaLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.64rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(38, 34, 98, 0.3);
+}
+
+.metaDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #F7941E;
+  flex-shrink: 0;
+  display: block;
+}
+
+.metaRight {
+  font-size: 0.64rem;
+  letter-spacing: 0.1em;
+  color: rgba(38, 34, 98, 0.2);
+}
+
+/* ── Responsive ── */
+@media (max-width: 1100px) {
+  .section  { padding: 5rem 2rem 3rem; }
+  .body     { grid-template-columns: 1fr; }
+  .roomCard { aspect-ratio: 16 / 8; }
+  .statsStrip { flex-wrap: wrap; }
+}
+
+@media (max-width: 700px) {
+  .section      { padding: 4rem 1.5rem 2.5rem; }
+  .ghostNum     { display: none; }
+  .segControl   { flex-wrap: wrap; }
+  .segBtn       { font-size: 0.68rem; padding: 0.55rem 0.4rem; }
+  .subCards     { grid-template-columns: 1fr; }
+  .ctaRow       { flex-direction: column; align-items: flex-start; }
+  .spotlight    { display: none; }
+  .statsStrip   { gap: 8px; }
+  .statBox      { flex: 0 0 calc(50% - 4px); }
+}

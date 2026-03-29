@@ -9,6 +9,7 @@ import AboutPage from './pages/AboutPage/AboutPage';
 import ProductsPage from './pages/ProductsPage/ProductsPage';
 import ProductDetailPage from './pages/ProductDetailPage/ProductDetailPage';
 import ContactPage from './pages/ContactPage/ContactPage';
+import SmartLightingPage from './pages/SmartLightingPage/SmartLightingPage';
 import CustomCursor from './components/CustomCursor/CustomCursor';
 import WhatsAppButton from './components/WhatsAppButton/WhatsAppButton';
 import { pageTransition } from './utils/motion';
@@ -18,6 +19,7 @@ const PAGE_TITLES = {
   '/about':      'About Us | Tirich LED',
   '/products':   'Products | Tirich LED',
   '/contact':    'Contact Us | Tirich LED',
+  '/smart-lighting': 'Smart Lighting | Tirich LED',
   '/login':      'Partner Login | Tirich LED',
   '/dashboard':  'Dashboard | Tirich LED',
   '/ai-studio':  'AI Studio | Tirich LED',
@@ -147,6 +149,7 @@ function App() {
             <Route path="/products" element={<ProductsPage />} />
             <Route path="/products/:slug" element={<ProductDetailPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/smart-lighting" element={<SmartLightingPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </motion.div>

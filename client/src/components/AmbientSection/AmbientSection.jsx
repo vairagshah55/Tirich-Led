@@ -1,8 +1,7 @@
 import { useState, useRef, useCallback } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring } from 'motion/react';
+import { MOTION_EASE as EASE } from '../../utils/motion';
 import styles from './AmbientSection.module.css';
-
-const EASE = [0.22, 1, 0.36, 1];
 
 const TABS = [
   { id: 'House',    num: '01' },

@@ -82,8 +82,8 @@ export default function Navbar() {
             About
           </Link>
 
-          <a href={isHome ? '#craftsmanship' : '/#craftsmanship'} className={styles.navLink} onClick={goToSection('craftsmanship')}>
-            Technology
+          <a href={isHome ? '#smart-lighting' : '/#smart-lighting'} className={styles.navLink} onClick={goToSection('smart-lighting')}>
+            Smart Lighting
           </a>
 
           <Link to="/contact" className={`${styles.navLink} ${pathname === '/contact' ? styles.navLinkActive : ''}`}>
@@ -135,7 +135,7 @@ export default function Navbar() {
                       <p className={styles.catDesc}>{cat.desc}</p>
                       <span className={styles.catCount}>{countBySlug(cat.slug)} products</span>
                     </div>
-                    <span className={styles.catArrow}>›</span>
+                    <span className={styles.catArrow}>ï¿½</span>
                   </Link>
                 ))}
               </div>
@@ -203,7 +203,7 @@ export default function Navbar() {
             </AnimatePresence>
 
             <Link to="/about" className={styles.mobileLink}>About</Link>
-            <a href={isHome ? '#craftsmanship' : '/#craftsmanship'} className={styles.mobileLink} onClick={goToSection('craftsmanship')}>Technology</a>
+            <a href={isHome ? '#smart-lighting' : '/#smart-lighting'} className={styles.mobileLink} onClick={goToSection('smart-lighting')}>Smart Lighting</a>
             <Link to="/contact" className={styles.mobileLink} onClick={() => setMobileOpen(false)}>Contact</Link>
           </motion.div>
         )}
