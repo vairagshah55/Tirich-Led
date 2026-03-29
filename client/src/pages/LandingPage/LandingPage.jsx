@@ -21,16 +21,20 @@ import lgHanging from '../../assets/hanging-230.jpg';     // 372 KB
 import lgTLC129  from '../../assets/TLC-129.jpg';         // 448 KB
 import lgTLC111  from '../../assets/TLC-111.jpg';         // 468 KB
 
-// ── Videos ─────────────────────────────────────────────────────────
-import heroVideo from '../../assets/grok-video-1ae0e23a-fbb4-4bec-993c-fb8c0b748c3f.mp4';
+// ── Videos (gallery only) ──────────────────────────────────────────
 import proVid1   from '../../assets/grok-video-083a2972-e0c2-44a4-b856-38ebb91513b1.mp4';  // 932 KB
 import proVid2   from '../../assets/grok-video-1d4fef8d-119d-4f9f-8d71-650ca413f8be.mp4'; // 1.1 MB
-import proVid3   from '../../assets/grok-video-2ca8b0c1-823e-4d11-a036-24e495b32dc3.mp4';
 
 import LusterGallery          from '../../components/LusterGallery/LusterGallery';
 import LivingGallery          from '../../components/LivingGallery/LivingGallery';
 import AmbientSection         from '../../components/AmbientSection/AmbientSection';
 import SmartLightingSection   from '../../components/SmartLightingSection/SmartLightingSection';
+
+// ── Hero banner images (Pexels — free commercial use) ─────────────
+const HERO_IMG_1 = 'https://images.pexels.com/photos/19689230/pexels-photo-19689230.jpeg?auto=compress&cs=tinysrgb&w=1920';
+const HERO_IMG_2 = 'https://images.pexels.com/photos/3747103/pexels-photo-3747103.jpeg?auto=compress&cs=tinysrgb&w=1920';
+const HERO_IMG_3 = 'https://images.pexels.com/photos/4626268/pexels-photo-4626268.jpeg?auto=compress&cs=tinysrgb&w=1920';
+const HERO_IMG_4 = 'https://images.pexels.com/photos/29931645/pexels-photo-29931645.jpeg?auto=compress&cs=tinysrgb&w=1920';
 
 // ── Gallery items (Luster) ────────────────────────────────────────
 const GALLERY_ITEMS = [
@@ -67,31 +71,31 @@ const STATS = [
 ];
 
 
-// ── Hero slides — each with its own video + copy ─────────────────
+// ── Hero slides — each with its own image + copy ─────────────────
 const HERO_SLIDES = [
   {
-    video:   heroVideo,
+    image:   HERO_IMG_1,
     tag:     'Premium LED Manufacturing',
     title:   ['Where Every', 'Beam', 'Powers a Vision'],
     accent:  1,
     sub:     'Industrial-grade LED solutions for commercial, residential, and architectural applications.',
   },
   {
-    video:   proVid1,
+    image:   HERO_IMG_2,
     tag:     'Commercial Lighting',
     title:   ['Precision', 'Engineered', 'for Performance'],
     accent:  0,
     sub:     'Every product tested for luminous flux, colour accuracy, and thermal consistency.',
   },
   {
-    video:   proVid2,
+    image:   HERO_IMG_3,
     tag:     'Architectural Lighting',
     title:   ['Light That', 'Defines', 'Your Space'],
     accent:  1,
     sub:     'From strip LEDs to pendant fixtures — tailored illumination for every environment.',
   },
   {
-    video:   proVid3,
+    image:   HERO_IMG_4,
     tag:     'Manufacturing Excellence',
     title:   ['50,000 Hours', 'of Reliable', 'Illumination'],
     accent:  0,
@@ -145,8 +149,7 @@ export default function LandingPage() {
   const heroBgRef           = useRef(null);
   const heroContentRef      = useRef(null);
   const bokehRefs           = useRef([]);
-  const heroVidRefs         = useRef([]);
-  const [activeVidIdx,  setActiveVidIdx]  = useState(0);
+  const [activeVidIdx,  setActiveVidIdx]  = useState(0);  // slide index (kept name for compat)
   const [displaySlide,  setDisplaySlide]  = useState(0);
   const [textVisible,   setTextVisible]   = useState(true);
 
@@ -192,12 +195,6 @@ export default function LandingPage() {
     }, 380);
     return () => clearTimeout(t);
   }, [activeVidIdx]);
-
-  useEffect(() => {
-    const vid = heroVidRefs.current[activeVidIdx];
-    if (vid) { vid.currentTime = 0; vid.play().catch(() => {}); }
-  }, [activeVidIdx]);
-
 
   // ── 4. Hero: 3D Tilt + Bokeh Mouse Parallax ─────────────────
   const onHeroMouseMove = useCallback((e) => {
@@ -256,19 +253,16 @@ export default function LandingPage() {
         onMouseMove={onHeroMouseMove}
         onMouseLeave={onHeroMouseLeave}
       >
-        {/* ── Video slides ── */}
+        {/* ── Image slides ── */}
         <div ref={heroBgRef} className={styles.heroVideos}>
-          {HERO_SLIDES.map(({ video }, i) => (
-            <video
+          {HERO_SLIDES.map(({ image }, i) => (
+            <img
               key={i}
-              ref={el => { heroVidRefs.current[i] = el; }}
-              className={`${styles.heroVideoSlide}${i === HERO_SLIDES.length - 1 ? ` ${styles.heroVideoSlideLast}` : ''}${i === activeVidIdx ? ` ${styles.heroVideoSlideActive}` : ''}`}
-              style={{ transform: `scale(${i < 3 ? 1.1 : 1.03})` }}
-              src={video}
-              autoPlay
-              muted
-              loop
-              playsInline
+              className={`${styles.heroVideoSlide}${i === activeVidIdx ? ` ${styles.heroVideoSlideActive}` : ''}`}
+              style={{ transform: 'scale(1.1)' }}
+              src={image}
+              alt={HERO_SLIDES[i].tag}
+              loading={i === 0 ? 'eager' : 'lazy'}
             />
           ))}
         </div>
