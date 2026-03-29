@@ -6,6 +6,51 @@ import styles from './AboutPage.module.css';
 
 const EASE = [0.22, 1, 0.36, 1];
 
+const JOURNEY = [
+  {
+    year: '2020',
+    title: 'Lighting the Way',
+    body: 'Tirich LED founded with a precise focus on commercial-grade panel lighting for the Indian market — built on a commitment to photometric accuracy from day one.',
+    type: 'director',
+    name: 'Prataprai Manshani',
+    role: 'Founder & Chairman',
+    image: 'https://images.pexels.com/photos/28426637/pexels-photo-28426637.jpeg?auto=compress&cs=tinysrgb&w=600',
+  },
+  {
+    year: '2021',
+    title: 'Expanding the Range',
+    body: 'Grew from a single category to a comprehensive portfolio — industrial high-bay fixtures, strip LEDs, and custom CCT solutions serving architects and contractors nationwide.',
+    type: 'company',
+    image: 'https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=600',
+    caption: 'R&D and product engineering team',
+  },
+  {
+    year: '2022',
+    title: 'Certified Excellence',
+    body: 'Achieved CE and RoHS international certifications. Launched the IP65-rated tri-proof and high-bay series for demanding industrial environments.',
+    type: 'company',
+    image: 'https://images.pexels.com/photos/3862130/pexels-photo-3862130.jpeg?auto=compress&cs=tinysrgb&w=600',
+    caption: 'Quality testing and certification lab',
+  },
+  {
+    year: '2023',
+    title: 'Architectural Vision',
+    body: 'Entered the architectural lighting segment with pendant and recessed downlight collections. Jitendra Manshani leads the expansion into hospitality and premium commercial interiors.',
+    type: 'director',
+    name: 'Jitendra Manshani',
+    role: 'Managing Director',
+    image: 'https://images.pexels.com/photos/8382594/pexels-photo-8382594.jpeg?auto=compress&cs=tinysrgb&w=600',
+  },
+  {
+    year: '2024',
+    title: 'Complete Ecosystem',
+    body: 'Launched a 500+ SKU catalogue spanning every lighting application. Established pan-India distributor partnerships and a dedicated QA division.',
+    type: 'team',
+    image: 'https://images.pexels.com/photos/9301252/pexels-photo-9301252.jpeg?auto=compress&cs=tinysrgb&w=600',
+    caption: 'The Tirich LED team — engineering, sales, and quality',
+  },
+];
+
 const PANELS = [
   {
     id: 'quality',
@@ -104,6 +149,7 @@ export default function AboutPage() {
     <div className={styles.page}>
       <Navbar />
 
+      {/* ── VIDEO + SWIPEABLE CONTENT ───────────────────────────── */}
       <section
         ref={sectionRef}
         className={styles.videoSection}
@@ -144,11 +190,9 @@ export default function AboutPage() {
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               />
-              {/* Shimmer border */}
               <div className={styles.videoShimmer} aria-hidden />
             </div>
 
-            {/* Floating stat badge on video */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={panel.id}
@@ -181,7 +225,6 @@ export default function AboutPage() {
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.7, delay: 0.1, ease: EASE }}
           >
-            {/* Tab bar with icons */}
             <div className={styles.panelTabs}>
               {PANELS.map((p, i) => (
                 <motion.button
@@ -209,7 +252,6 @@ export default function AboutPage() {
               </div>
             </div>
 
-            {/* Panel counter */}
             <div className={styles.panelCounter}>
               <AnimatePresence mode="wait">
                 <motion.span
@@ -226,7 +268,6 @@ export default function AboutPage() {
               <span className={styles.panelCounterTotal}> / 0{PANELS.length}</span>
             </div>
 
-            {/* Animated panel content */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={panel.id}
@@ -275,9 +316,7 @@ export default function AboutPage() {
                   <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.97 }}>
                     <Link to="/products" className={styles.btnPrimary}>
                       View Products
-                      <motion.svg
-                        width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
-                      >
+                      <motion.svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
                       </motion.svg>
                     </Link>
@@ -289,6 +328,142 @@ export default function AboutPage() {
               </motion.div>
             </AnimatePresence>
           </motion.div>
+        </div>
+      </section>
+
+      {/* ── OUR JOURNEY ────────────────────────────────────────── */}
+      <section className={styles.journey}>
+        <div className={styles.journeyOrb} aria-hidden />
+        <div className={styles.journeyStripe} aria-hidden />
+
+        <motion.div
+          className={styles.journeyHeader}
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.7, ease: EASE }}
+        >
+          <p className={styles.eyebrow}>
+            <motion.span
+              className={styles.eyebrowDot}
+              animate={{ scale: [1, 1.5, 1] }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            Our Journey
+          </p>
+          <h2 className={styles.journeyTitle}>Five Years of Measured Progress</h2>
+          <p className={styles.journeyLead}>
+            From a single product line to a complete lighting ecosystem — built on precision, trust, and relentless quality.
+          </p>
+        </motion.div>
+
+        <div className={styles.timeline}>
+          {/* Animated vertical line */}
+          <motion.div
+            className={styles.timelineLine}
+            initial={{ scaleY: 0 }}
+            whileInView={{ scaleY: 1 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 1.2, ease: EASE }}
+            style={{ transformOrigin: 'top' }}
+            aria-hidden
+          />
+
+          {JOURNEY.map((item, i) => {
+            const isLeft = i % 2 === 0;
+            return (
+              <motion.div
+                key={item.year}
+                className={styles.timelineEntry}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.6, delay: 0.08, ease: EASE }}
+              >
+                {/* Left content */}
+                <div className={isLeft ? styles.entryContent : styles.entryBlank}>
+                  {isLeft && (
+                    <motion.div
+                      className={styles.entryCard}
+                      whileHover={{ y: -4, boxShadow: '0 14px 36px rgba(38,34,98,0.1)' }}
+                      transition={{ duration: 0.25 }}
+                    >
+                      <div className={styles.entryImgWrap}>
+                        <motion.img
+                          src={item.image}
+                          alt={item.name || item.caption || item.title}
+                          loading="lazy"
+                          whileHover={{ scale: 1.06 }}
+                          transition={{ duration: 0.5, ease: EASE }}
+                        />
+                        {item.type === 'director' && (
+                          <div className={styles.entryDirectorBadge}>
+                            <span className={styles.entryDirectorName}>{item.name}</span>
+                            <span className={styles.entryDirectorRole}>{item.role}</span>
+                          </div>
+                        )}
+                        {(item.type === 'company' || item.type === 'team') && item.caption && (
+                          <div className={styles.entryCaption}>{item.caption}</div>
+                        )}
+                      </div>
+                      <div className={styles.entryText}>
+                        <span className={styles.entryYear}>{item.year}</span>
+                        <h3 className={styles.entryTitle}>{item.title}</h3>
+                        <p className={styles.entryBody}>{item.body}</p>
+                      </div>
+                    </motion.div>
+                  )}
+                </div>
+
+                {/* Centre dot */}
+                <div className={styles.entryDotCol}>
+                  <motion.span
+                    className={styles.entryDot}
+                    initial={{ scale: 0 }}
+                    whileInView={{ scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 18, delay: 0.15 }}
+                  />
+                  <span className={styles.entryDotYear}>{item.year}</span>
+                </div>
+
+                {/* Right content */}
+                <div className={!isLeft ? styles.entryContent : styles.entryBlank}>
+                  {!isLeft && (
+                    <motion.div
+                      className={styles.entryCard}
+                      whileHover={{ y: -4, boxShadow: '0 14px 36px rgba(38,34,98,0.1)' }}
+                      transition={{ duration: 0.25 }}
+                    >
+                      <div className={styles.entryImgWrap}>
+                        <motion.img
+                          src={item.image}
+                          alt={item.name || item.caption || item.title}
+                          loading="lazy"
+                          whileHover={{ scale: 1.06 }}
+                          transition={{ duration: 0.5, ease: EASE }}
+                        />
+                        {item.type === 'director' && (
+                          <div className={styles.entryDirectorBadge}>
+                            <span className={styles.entryDirectorName}>{item.name}</span>
+                            <span className={styles.entryDirectorRole}>{item.role}</span>
+                          </div>
+                        )}
+                        {(item.type === 'company' || item.type === 'team') && item.caption && (
+                          <div className={styles.entryCaption}>{item.caption}</div>
+                        )}
+                      </div>
+                      <div className={styles.entryText}>
+                        <span className={styles.entryYear}>{item.year}</span>
+                        <h3 className={styles.entryTitle}>{item.title}</h3>
+                        <p className={styles.entryBody}>{item.body}</p>
+                      </div>
+                    </motion.div>
+                  )}
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </section>
     </div>
