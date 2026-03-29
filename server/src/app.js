@@ -2,10 +2,11 @@ const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
-const authRoutes     = require('./routes/auth.routes');
-const productsRoutes = require('./routes/products.routes');
-const adminsRoutes   = require('./routes/admins.routes');
+const authRoutes      = require('./routes/auth.routes');
+const productsRoutes  = require('./routes/products.routes');
+const adminsRoutes    = require('./routes/admins.routes');
 const retailersRoutes = require('./routes/retailers.routes');
+const leadsRoutes     = require('./routes/leads.routes');
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use('/api/v1/auth',      authRoutes);
 app.use('/api/v1/products',  productsRoutes);
 app.use('/api/v1/admins',    adminsRoutes);
 app.use('/api/v1/retailers', retailersRoutes);
+app.use('/api/v1/leads',     leadsRoutes);
 
 // ── Health check ──────────────────────────────────────────────────
 app.get('/api/v1/health', (_req, res) => res.json({ status: 'ok' }));

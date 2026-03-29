@@ -1,19 +1,37 @@
 import { useState, useEffect } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import Navbar from '../../components/Navbar/Navbar';
 import { PRODUCTS, CATEGORIES } from '../../data/products';
+import LeadCaptureModal, { hasLeadData } from '../../components/LeadCaptureModal/LeadCaptureModal';
 import styles from './ProductsPage.module.css';
 import { buttonHover, buttonTap, fadeIn, fadeUp } from '../../utils/motion';
 
 export default function ProductsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const [showLeadModal, setShowLeadModal] = useState(false);
+  const [pendingSlug, setPendingSlug] = useState(null);
   const activeCategoryLabel = (() => {
     const cat = CATEGORIES.find(c => c.slug === (searchParams.get('category') || ''));
     return cat ? cat.label : null;
   })();
   const initialCat = searchParams.get('category') || 'all';
   const [activeCategory, setActiveCategory] = useState(initialCat);
+
+  const handleProductClick = (slug) => {
+    if (hasLeadData()) {
+      navigate(`/products/${slug}`);
+    } else {
+      setPendingSlug(slug);
+      setShowLeadModal(true);
+    }
+  };
+
+  const handleLeadSuccess = () => {
+    setShowLeadModal(false);
+    if (pendingSlug) navigate(`/products/${pendingSlug}`);
+  };
 
   useEffect(() => {
     const cat = searchParams.get('category') || 'all';
@@ -104,11 +122,14 @@ export default function ProductsPage() {
                 whileHover={{ y: -8, transition: { duration: 0.22 } }}
                 {...fadeUp(Math.min(i * 0.05, 0.3), 20)}
               >
-                <Link
-                  to={`/products/${product.slug}`}
+                <div
                   className={styles.card}
                   data-reveal
-                  style={{ transitionDelay: `${Math.min(i * 0.055, 0.44)}s` }}
+                  style={{ transitionDelay: `${Math.min(i * 0.055, 0.44)}s`, cursor: 'pointer' }}
+                  onClick={() => handleProductClick(product.slug)}
+                  role="link"
+                  tabIndex={0}
+                  onKeyDown={(e) => { if (e.key === 'Enter') handleProductClick(product.slug); }}
                 >
                 {/* Image */}
                 <div className={styles.cardMedia}>
@@ -157,12 +178,18 @@ export default function ProductsPage() {
 
                 {/* Hover glow halo */}
                   <div className={styles.cardGlow} aria-hidden="true" />
-                </Link>
+                </div>
               </motion.div>
             ))
           )}
         </div>
       </div>
+
+      <LeadCaptureModal
+        open={showLeadModal}
+        onClose={() => setShowLeadModal(false)}
+        onSuccess={handleLeadSuccess}
+      />
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import Navbar from '../../components/Navbar/Navbar';
 import Footer from '../../components/Footer/Footer';
 import { PRODUCTS } from '../../data/products';
+import LeadCaptureModal, { hasLeadData } from '../../components/LeadCaptureModal/LeadCaptureModal';
 import styles from './ProductDetailPage.module.css';
 
 const EASE = [0.25, 1, 0.5, 1];
@@ -95,6 +96,7 @@ export default function ProductDetailPage() {
   const product = PRODUCTS.find((p) => p.slug === slug);
   const related = product ? PRODUCTS.filter((p) => p.categorySlug === product.categorySlug && p.slug !== slug).slice(0, 4) : [];
   const [activeTab, setActiveTab] = useState('diagram');
+  const [showLeadModal, setShowLeadModal] = useState(() => !hasLeadData());
   const heroRef = useRef(null);
 
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
@@ -298,6 +300,13 @@ export default function ProductDetailPage() {
       )}
 
       <Footer />
+
+      <LeadCaptureModal
+        open={showLeadModal}
+        onClose={() => setShowLeadModal(false)}
+        onSuccess={() => setShowLeadModal(false)}
+        required
+      />
     </div>
   );
 }
