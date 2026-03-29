@@ -1,10 +1,9 @@
 /* ── Tokens ─────────────────────────────────────────────────────── */
 :root {
-  /* Map local aliases → WCAG global tokens from index.css */
-  --gold:         var(--clr-accent-text);
-  --gold-light:   var(--clr-accent-hover);
+  --gold:         #F7941E;
+  --gold-light:   #FFB347;
   --gold-dark:    #D97A10;
-  --charcoal:     var(--btn-solid-text);
+  --charcoal:     #0a0c10;
   --offwhite:     #F5F5F9;
   --text-muted:   var(--text-on-section-muted);
   --font-display: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
@@ -283,6 +282,7 @@
   position: relative;
   z-index: 2;
   padding: 0 4rem;
+  padding-bottom: 5rem;
   display: flex;
   align-items: stretch;
   gap: 2rem;
@@ -307,6 +307,7 @@
   min-height: 300px;
   align-self: stretch;
   border-radius: 1px;
+  box-shadow: 0 0 12px rgba(247, 148, 30, 0.25);
 }
 
 /* Inner text column */
@@ -323,10 +324,11 @@
   color: var(--gold);
   margin-bottom: 1.6rem;
   display: block;
+  text-shadow: 0 0 20px rgba(247, 148, 30, 0.3);
   animation: heroNumIn 0.5s cubic-bezier(0.23,1,0.32,1) both;
 }
 .heroSlideTotal {
-  color: rgba(255,255,255,0.25);
+  color: rgba(255,255,255,0.35);
   font-size: 0.72rem;
 }
 @keyframes heroNumIn {
@@ -339,27 +341,30 @@
   font-size: 0.7rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.55);
+  color: rgba(255,255,255,0.7);
   margin: 0 0 1.4rem;
   display: flex;
   align-items: center;
   gap: 0.7rem;
+  font-weight: 500;
 }
 .heroEyebrowDiamond {
   color: var(--gold);
   font-size: 0.65rem;
   flex-shrink: 0;
+  text-shadow: 0 0 12px rgba(247, 148, 30, 0.5);
 }
 
 /* Title */
 .heroTitle {
   font-family: var(--font-serif);
   font-size: clamp(3rem, 6.5vw, 5.4rem);
-  font-weight: 400;
+  font-weight: 700;
   color: #ffffff;
   line-height: 1.08;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
   margin: 0 0 1.5rem;
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.3);
 }
 .heroTitleLine {
   display: block;
@@ -368,6 +373,7 @@
 .heroTitleAccent {
   color: var(--gold-light);
   font-style: italic;
+  text-shadow: 0 0 40px rgba(247, 148, 30, 0.25);
 }
 
 /* Gold divider rule */
@@ -382,10 +388,10 @@
 .heroSubtitle {
   font-size: 0.97rem;
   line-height: 1.75;
-  color: rgba(255,255,255,0.6);
+  color: rgba(255,255,255,0.72);
   margin: 0 0 2.5rem;
   max-width: 460px;
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: 0.01em;
 }
 
@@ -399,21 +405,23 @@
 /* Hero primary button */
 .heroBtnPrimary {
   background: var(--gold);
-  color: #0a0c10;
+  color: #fff;
   border: none;
   padding: 0.85rem 1.9rem;
+  border-radius: 6px;
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  cursor: none;
+  cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
   font-family: inherit;
   position: relative;
   overflow: hidden;
-  transition: background 0.25s ease, gap 0.2s ease;
+  box-shadow: 0 4px 20px rgba(247, 148, 30, 0.35);
+  transition: background 0.25s ease, gap 0.2s ease, box-shadow 0.25s ease, transform 0.18s ease;
 }
 .heroBtnPrimary::after {
   content: '';
@@ -423,26 +431,30 @@
   transform: translateX(-100%);
   transition: transform 0.45s ease;
 }
-.heroBtnPrimary:hover { background: var(--gold-light); gap: 0.9rem; }
+.heroBtnPrimary:hover { background: var(--gold-light); gap: 0.9rem; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(247, 148, 30, 0.45); }
 .heroBtnPrimary:hover::after { transform: translateX(100%); }
 
 /* Hero ghost button */
 .heroBtnGhost {
-  background: transparent;
-  color: rgba(255,255,255,0.7);
-  border: 1px solid rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.85);
+  border: 1px solid rgba(255,255,255,0.25);
   padding: 0.85rem 1.9rem;
+  border-radius: 6px;
   font-size: 0.75rem;
+  font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  cursor: none;
+  cursor: pointer;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   font-family: inherit;
-  transition: border-color 0.25s ease, color 0.25s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease, transform 0.18s ease;
 }
-.heroBtnGhost:hover { border-color: var(--gold); color: var(--gold); }
+.heroBtnGhost:hover { border-color: var(--gold); color: var(--gold); background: rgba(247, 148, 30, 0.08); transform: translateY(-2px); }
 .heroScroll {
   position: absolute;
   bottom: 2.8rem; left: 4rem;
@@ -1385,7 +1397,7 @@
 }
 @media (max-width: 900px) {
   .nav { padding: 1rem 1.5rem; }
-  .heroContent { padding: 0 1.5rem; gap: 1rem; }
+  .heroContent { padding: 0 1.5rem; padding-bottom: 5rem; gap: 1rem; }
   .heroBar { min-height: 220px; }
   .heroScroll { left: 1.5rem; }
   .heroTitle { font-size: 2.6rem; }
