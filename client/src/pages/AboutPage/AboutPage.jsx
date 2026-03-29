@@ -163,6 +163,33 @@ export default function AboutPage() {
     <div className={styles.page}>
       <Navbar />
 
+      {/* ── HERO INTRO ──────────────────────────────────────────── */}
+      <motion.section
+        className={styles.heroIntro}
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: QUART_OUT }}
+      >
+        <div className={styles.heroIntroOrb} aria-hidden />
+        <div className={styles.heroIntroStripe} aria-hidden />
+        <p className={styles.eyebrow}>
+          <motion.span
+            className={styles.eyebrowDot}
+            animate={{ scale: [1, 1.5, 1] }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+          />
+          About Tirich LED
+        </p>
+        <h1 className={styles.heroIntroTitle}>
+          Built on Precision. <span className={styles.heroIntroAccent}>Driven by Light.</span>
+        </h1>
+        <p className={styles.heroIntroLead}>
+          Since 2020, Tirich LED has been manufacturing industrial-grade LED lighting
+          solutions for commercial, residential, and architectural applications —
+          engineered for performance, longevity, and reliability.
+        </p>
+      </motion.section>
+
       {/* ── VIDEO + SWIPEABLE CONTENT ───────────────────────────── */}
       <motion.section
         ref={(el) => { sectionRef.current = el; videoRef.current = el; }}
