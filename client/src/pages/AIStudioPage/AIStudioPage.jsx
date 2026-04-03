@@ -473,7 +473,8 @@ export default function AIStudioPage({ user }) {
 function GalleryCard({ img, onDelete }) {
   const isGenerating = img.status === 'generating' || img.status === 'pending';
   const isFailed = img.status === 'failed';
-  const imageUrl = img.image_path ? `http://localhost:5000${img.image_path}` : null;
+  const serverBase = (process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000/api/v1').replace('/api/v1', '');
+  const imageUrl = img.image_path ? `${serverBase}${img.image_path}` : null;
 
   return (
     <div className={styles.card}>

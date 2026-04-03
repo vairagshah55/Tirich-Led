@@ -47,7 +47,7 @@ function App() {
   const isAuthed = Boolean(authUser);
   const apiBase = useMemo(() => {
     const rawBase =
-      process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000/api/v1';
+      process.env.REACT_APP_API_BASE_URL || 'https://tirich-led.onrender.com/api/v1';
     return rawBase.endsWith('/api') ? `${rawBase}/v1` : rawBase.replace(/\/$/, '');
   }, []);
 
