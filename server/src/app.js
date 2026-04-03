@@ -11,8 +11,16 @@ const leadsRoutes     = require('./routes/leads.routes');
 const app = express();
 
 // ── Middleware ────────────────────────────────────────────────────
+const allowedOrigins = (process.env.CLIENT_ORIGIN || 'http://localhost:3000')
+  .split(',')
+  .map((o) => o.trim());
+
 app.use(cors({
-  origin: process.env.CLIENT_ORIGIN || 'http://localhost:3000',
+  origin(origin, cb) {
+    // allow server-to-server / curl (no origin) + any listed origin
+    if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
+    cb(null, false);
+  },
   credentials: true,
 }));
 app.use(express.json());
