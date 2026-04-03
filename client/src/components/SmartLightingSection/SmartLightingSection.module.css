@@ -634,13 +634,56 @@
 }
 
 @media (max-width: 700px) {
-  .section      { padding: 4rem 1.5rem 2.5rem; }
+  .section      { padding: 3.5rem 1.2rem 2rem; }
   .ghostNum     { display: none; }
-  .segControl   { flex-wrap: wrap; }
-  .segBtn       { font-size: 0.68rem; padding: 0.55rem 0.4rem; }
-  .subCards     { grid-template-columns: 1fr; }
-  .ctaRow       { flex-direction: column; align-items: flex-start; }
   .spotlight    { display: none; }
-  .statsStrip   { gap: 8px; }
-  .statBox      { flex: 0 0 calc(50% - 4px); }
+
+  /* Header */
+  .title        { font-size: 1.75rem; }
+  .lead         { font-size: 0.82rem; max-width: 100%; }
+
+  /* Stats */
+  .statsStrip   { gap: 8px; margin-bottom: 1.8rem; }
+  .statBox      { flex: 0 0 calc(50% - 4px); padding: 0.8rem 1rem; }
+  .statsStrip .statBox + .statBox { margin-left: 0; }
+  .statVal      { font-size: 1.25rem; }
+
+  /* Seg control */
+  .segControl   { flex-wrap: nowrap; }
+  .segBtn       { font-size: 0.66rem; padding: 0.55rem 0.3rem; white-space: nowrap; }
+
+  /* Mode copy */
+  .modeCopy     { padding: 1.2rem 1rem; }
+  .modeTitle    { font-size: 1.25rem; }
+  .modeBody     { font-size: 0.8rem; }
+  .modeStats    { grid-template-columns: 1fr; gap: 6px; }
+
+  /* CTA */
+  .ctaRow       { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+  .ctaBtn       { width: 100%; justify-content: center; padding: 0.72rem 1.2rem; }
+
+  /* Visuals */
+  .roomCard     { aspect-ratio: 16 / 9; }
+  .subCards     { grid-template-columns: 1fr; }
+  .subCardImg   { height: 110px; }
+
+  /* Live panel */
+  .livePanel    { bottom: 0.65rem; right: 0.65rem; padding: 0.75rem 0.85rem; min-width: 140px; border-radius: 10px; }
+  .livePanelMode { font-size: 0.78rem; }
+  .roomBadge    { top: 0.65rem; left: 0.65rem; font-size: 0.55rem; padding: 0.35rem 0.7rem; }
+
+  /* Meta */
+  .meta         { flex-direction: column; gap: 0.5rem; align-items: flex-start; margin-top: 1.6rem; }
+}
+
+@media (max-width: 400px) {
+  .section      { padding: 3rem 1rem 1.5rem; }
+  .title        { font-size: 1.5rem; }
+  .statBox      { flex: 0 0 100%; }
+  .statsStrip .statBox + .statBox { margin-left: 0; }
+  .segBtn       { font-size: 0.6rem; padding: 0.5rem 0.2rem; }
+  .segPill      { border-radius: 6px; }
+  .roomCard     { aspect-ratio: 4 / 3; }
+  .livePanel    { position: relative; bottom: auto; right: auto; width: 100%; margin-top: -1px; border-radius: 0 0 14px 14px; }
+  .roomCard     { border-radius: 14px 14px 0 0; }
 }

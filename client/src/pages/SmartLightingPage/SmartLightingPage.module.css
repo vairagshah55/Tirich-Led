@@ -895,15 +895,98 @@
 }
 
 @media (max-width: 760px) {
-  .hero { padding: 2.5rem 1.5rem 2rem; }
-  .heroTitle { font-size: clamp(2rem, 12vw, 3rem); }
-  .methodTabs,
-  .sceneGrid,
+  /* Hero */
+  .hero { padding: 2rem 1.2rem 1.5rem; gap: 1.4rem; }
+  .heroTitle { font-size: 1.75rem; max-width: none; }
+  .heroLead { font-size: 0.84rem; }
+
+  /* Method tabs — horizontal scroll instead of stacking */
+  .methodTabs { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .methodBtn { padding: 0.65rem 0.6rem; }
+  .methodBtnLabel { font-size: 0.72rem; }
+  .methodBtnKicker { font-size: 0.52rem; }
+
+  /* Method panel */
+  .methodPanel { padding: 1rem 1.1rem; }
+  .methodTitle { font-size: 1.15rem; }
+  .methodBody { font-size: 0.8rem; }
+
+  /* Hero actions — stack vertically */
+  .heroActions { flex-direction: column; align-items: stretch; gap: 0.6rem; }
+  .primaryBtn,
+  .secondaryBtn { justify-content: center; width: 100%; }
+  .inlineStatus { justify-content: center; }
+
+  /* Hero visual — single column */
   .heroVisual { grid-template-columns: 1fr; }
-  .showcaseCard { min-height: 22rem; }
-  .featureGrid { grid-template-columns: 1fr; padding: 0 1.5rem; }
-  .lab { padding: 2rem 1.5rem; }
-  .ctaSection { padding: 2rem 1.5rem; }
+  .showcaseCard { min-height: 18rem; grid-row: span 1; }
+  .showcaseBadge { font-size: 0.54rem; padding: 0.32rem 0.65rem; }
+  .showcaseFooter { padding: 0.7rem 0.8rem; }
+  .showcaseFooter strong { font-size: 0.76rem; }
+  .deviceImage { height: 7.5rem; }
+
+  /* Feature grid */
+  .featureGrid { grid-template-columns: 1fr; padding: 0 1.2rem; gap: 8px; }
+  .featureCard { padding: 1.1rem 1.2rem 1.2rem; }
+
+  /* Lab */
+  .lab { padding: 2rem 1.2rem; gap: 1.2rem; }
+  .labShell { padding: 0; gap: 10px; }
+  .sectionTitle { font-size: 1.5rem; }
+  .sectionLead { font-size: 0.82rem; }
+
+  /* Room panel */
+  .roomPanel { min-height: 22rem; }
   .zoneName { display: none; }
-  .roomPanel { min-height: 28rem; }
+  .zone { width: 2.5rem; height: 2.5rem; }
+  .zoneDot { width: 0.6rem; height: 0.6rem; }
+  .roomLegend { font-size: 0.64rem; padding: 0.6rem 0.8rem; bottom: 0.7rem; left: 0.7rem; right: 0.7rem; }
+
+  /* Control panel */
+  .controlBlock { padding: 0.9rem 1rem; }
+  .sceneGrid { grid-template-columns: 1fr 1fr; }
+  .sceneLabel { font-size: 0.7rem; }
+
+  /* CTA */
+  .ctaSection { padding: 2rem 1.2rem; }
+  .ctaCard { padding: 1.5rem 1.4rem; gap: 1.2rem; }
+  .ctaActions { width: 100%; }
+  .ctaActions .primaryBtn,
+  .ctaActions .secondaryBtn { width: 100%; text-align: center; }
+}
+
+@media (max-width: 480px) {
+  .hero { padding: 1.5rem 1rem 1.2rem; }
+  .heroTitle { font-size: 1.5rem; }
+
+  /* Method tabs stack on very small screens */
+  .methodTabs { grid-template-columns: 1fr; gap: 5px; }
+  .methodBtn { padding: 0.55rem 0.7rem; display: flex; align-items: center; gap: 0.5rem; }
+  .methodBtnLabel { margin-bottom: 0; font-size: 0.74rem; }
+  .methodBtnKicker { font-size: 0.54rem; }
+
+  /* Scene grid single column */
+  .sceneGrid { grid-template-columns: 1fr; }
+
+  /* Showcase card shorter */
+  .showcaseCard { min-height: 14rem; }
+  .showcaseFooter span { font-size: 0.52rem; }
+  .showcaseFooter strong { font-size: 0.7rem; }
+
+  /* Room panel shorter */
+  .roomPanel { min-height: 18rem; }
+  .zone { width: 2.2rem; height: 2.2rem; }
+
+  /* Lab + feature tighter */
+  .lab { padding: 1.5rem 1rem; }
+  .featureGrid { padding: 0 1rem; }
+  .ctaSection { padding: 1.5rem 1rem; }
+  .ctaCard { padding: 1.2rem 1rem; border-radius: 14px; }
+  .sectionTitle { font-size: 1.3rem; }
+
+  /* Hero panel + device card */
+  .heroPanel { padding: 0.7rem 0.8rem; }
+  .heroPanelTop strong,
+  .heroPanelRow strong { font-size: 0.7rem; }
+  .deviceCopy { padding: 0.6rem 0.75rem; }
 }
