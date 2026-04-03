@@ -412,13 +412,42 @@
   .ghostNum { display: none; }
   .floatingLabel { display: none; }
   .sectionSpotlight { display: none; }
+  .spotlight { display: none; }
   .grid {
     grid-template-columns: 1fr;
     grid-template-rows: repeat(5, 220px);
   }
   .cardFeat { grid-column: span 1; }
-  .tabs { overflow-x: auto; scrollbar-width: none; width: 100%; }
-  .tabs::-webkit-scrollbar { display: none; }
-  .tab { padding: 0.55rem 1rem; }
-  .tabLabel { font-size: 0.68rem; }
+  /* Tabs: full-width, equal columns, no horizontal scroll */
+  .tabs {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    overflow: visible;
+  }
+  .tabPill {
+    /* pill width is set via JS inline style — keep it but fix height */
+    top: 4px;
+    bottom: 4px;
+  }
+  .tab { padding: 0.6rem 0.5rem; justify-content: center; min-height: 44px; }
+  .tabNum { display: none; }
+  .tabLabel { font-size: 0.65rem; letter-spacing: 0.08em; }
+  .header { margin-bottom: 1.8rem; }
+  .lead { font-size: 0.84rem; }
+  .meta { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
+}
+
+@media (max-width: 480px) {
+  .section { padding: 3rem 1.25rem 2rem; }
+  .grid {
+    grid-template-rows: 200px repeat(4, 180px);
+  }
+  .title { font-size: clamp(1.5rem, 7vw, 1.9rem); }
+  .overlayFeat { padding: 1.2rem 1.2rem; }
+  .cardTitle { font-size: 1.05rem; }
+  .tabs { border-radius: 10px; }
+  .tab { padding: 0.55rem 0.35rem; }
+  .tabLabel { font-size: 0.6rem; letter-spacing: 0.04em; }
 }

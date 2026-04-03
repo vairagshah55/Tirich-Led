@@ -392,3 +392,14 @@
   .grid { grid-template-columns: 1fr; gap: 1.25rem; }
   .filterCount { display: none; }
 }
+
+@media (max-width: 480px) {
+  .breadcrumb { padding: 0.7rem 1.25rem; }
+  .filterBar { padding: 0 1.25rem; }
+  .gridWrap { padding: 1.5rem 1.25rem 2.5rem; }
+  .grid { gap: 1rem; }
+  .filterBtn { padding: 0.9rem 0.75rem; font-size: 0.65rem; min-height: 44px; }
+  .cardBody { padding: 1.1rem 1.1rem 0.9rem; }
+  .cardName { font-size: 1.1rem; }
+  .overlayBtn { min-height: 44px; padding: 0.75rem 1rem; }
+}

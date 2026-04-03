@@ -55,8 +55,34 @@ body {
   color: var(--text-body);
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
+}
+
+/* Responsive images */
+img,
+video,
+iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Prevent horizontal overflow */
+html {
+  overflow-x: hidden;
+}
+
+/* Remove tap highlight on mobile */
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Ensure custom cursor is hidden on touch devices */
+@media (hover: none) and (pointer: coarse) {
+  * { cursor: auto !important; }
 }
 
 /* Page transition */

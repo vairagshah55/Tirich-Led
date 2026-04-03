@@ -318,3 +318,29 @@ select.input {
   .formRow { grid-template-columns: 1fr; }
   .form { padding: 1.5rem; }
 }
+
+@media (max-width: 600px) {
+  .hero { padding: 2.5rem 1.25rem 1.5rem; }
+  .main { padding: 0 1.25rem 2.5rem; }
+  .form { padding: 1.25rem; border-radius: 14px; }
+  .btnPrimary {
+    width: 100%;
+    justify-content: center;
+    min-height: 44px;
+    align-self: stretch;
+  }
+  .successTitle { font-size: 1.1rem; }
+}
+
+@media (max-width: 480px) {
+  .heroTitle { font-size: clamp(1.5rem, 8vw, 1.9rem); }
+  .heroLead { font-size: 0.84rem; }
+  .infoCard { padding: 0.75rem 0.85rem; gap: 0.65rem; }
+  .infoIcon { width: 32px; height: 32px; border-radius: 8px; }
+  .input,
+  .textarea { font-size: 1rem; min-height: 44px; padding: 0.75rem 0.85rem; }
+  .textarea { min-height: 110px; }
+  .label { font-size: 0.6rem; }
+  .success { padding: 2rem 1.5rem; }
+  .successIcon { width: 44px; height: 44px; }
+}

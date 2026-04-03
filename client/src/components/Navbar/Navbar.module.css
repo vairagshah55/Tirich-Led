@@ -68,9 +68,10 @@
   display: flex;
   align-items: center;
   gap: 0.15rem;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  flex: 1;
+  justify-content: center;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .navLink {
@@ -151,6 +152,7 @@
   align-items: center;
   gap: 0.875rem;
   flex-shrink: 0;
+  margin-left: auto;
 }
 
 /* ── Theme toggle ───────────────────────────────────────────────── */
@@ -231,14 +233,15 @@
   display: none;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   gap: 5px;
-  width: 32px;
-  height: 32px;
+  width: 44px;
+  height: 44px;
   background: none;
   border: none;
   cursor: pointer;
   padding: 0;
-  border-radius: 3px;
+  border-radius: 6px;
   transition: opacity 0.2s ease;
 }
 
@@ -692,8 +695,32 @@
 @media (max-width: 900px) {
   .navCenter { display: none; }
   .navCta    { display: none; }
+  .leadUser  { display: none; }
   .hamburger { display: flex; }
   .megaMenu  { display: none; }
+}
+
+@media (max-width: 640px) {
+  .mobileMenu {
+    padding: 1.25rem 1.25rem 2.5rem;
+  }
+
+  .mobileLink {
+    font-size: 0.88rem;
+    padding: 0.9rem 0;
+    min-height: 44px;
+  }
+
+  .mobileCatList a {
+    padding: 0.65rem 0 0.65rem 1rem;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  .mobileCta {
+    min-height: 44px;
+  }
 }
 
 @media (max-width: 480px) {

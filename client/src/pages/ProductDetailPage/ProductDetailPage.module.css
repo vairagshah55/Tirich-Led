@@ -394,3 +394,24 @@
   .ctaRow { flex-direction: column; align-items: flex-start; }
   .tabBtn { font-size: 0.66rem; }
 }
+
+@media (max-width: 480px) {
+  .hero { padding: 1.5rem 1.25rem 2rem; }
+  .bc { padding: 0.7rem 1.25rem; }
+  .tabSection { padding: 0 1.25rem 2.5rem; }
+  .related { padding: 2.5rem 1.25rem 3rem; }
+  .heroImg { height: 240px; }
+  .prodName { font-size: clamp(1.5rem, 7vw, 2rem); }
+  .prodDesc { font-size: 0.82rem; }
+  .inlineSpec { min-width: 100%; }
+  .tabBtn { font-size: 0.6rem; padding: 0.65rem 0; min-height: 44px; }
+  .relatedGrid { grid-template-columns: 1fr; }
+  .btnPrimary, .btnGhost {
+    width: 100%;
+    justify-content: center;
+    min-height: 44px;
+  }
+  .specsGrid { grid-template-columns: 1fr; }
+  .diagramSplit { grid-template-columns: 1fr; }
+  .relImgWrap { height: 200px; }
+}

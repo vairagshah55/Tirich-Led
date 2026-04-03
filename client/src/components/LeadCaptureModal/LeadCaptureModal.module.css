@@ -12,7 +12,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
+  padding: 1rem;
+  overflow-y: auto;
 }
 
 .modal {
@@ -42,10 +43,10 @@
 
 .closeBtn {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
-  width: 32px;
-  height: 32px;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 36px;
+  height: 36px;
   border-radius: 8px;
   border: 1px solid rgba(38, 34, 98, 0.08);
   background: rgba(38, 34, 98, 0.03);
@@ -299,5 +300,28 @@
 
   .title {
     font-size: 1.15rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .modal {
+    padding: 1.5rem 1.1rem 1.25rem;
+    border-radius: 14px;
+    margin: 0.75rem;
+    max-height: calc(100dvh - 1.5rem);
+  }
+
+  .title { font-size: 1rem; }
+  .subtitle { font-size: 0.75rem; }
+
+  .input,
+  .select {
+    font-size: 1rem;
+    min-height: 44px;
+  }
+
+  .submitBtn {
+    min-height: 44px;
+    font-size: 0.78rem;
   }
 }

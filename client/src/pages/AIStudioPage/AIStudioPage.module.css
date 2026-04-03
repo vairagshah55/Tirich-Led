@@ -550,3 +550,10 @@
   .generateBar { flex-direction: column; align-items: stretch; }
   .formGrid { grid-template-columns: 1fr; }
 }
+
+@media (max-width: 480px) {
+  .header { padding: 0.85rem 1rem; gap: 0.5rem; }
+  .editor { padding: 0.85rem; }
+  .sidebar { max-height: 220px; }
+  .generateBar { gap: 0.6rem; }
+}
