@@ -1,0 +1,279 @@
+/* ─────────────────────────────────────────────
+   WhatsApp Quote Modal — Tirich brand
+───────────────────────────────────────────── */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(26, 23, 64, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.modal {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #FFFFFF;
+  border-radius: 20px;
+  padding: 2rem 2rem 1.6rem;
+  box-shadow:
+    0 24px 80px rgba(38, 34, 98, 0.18),
+    0 4px 20px rgba(38, 34, 98, 0.08);
+}
+
+/* Green top stripe (WhatsApp) */
+.modal::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent 10%, #25D366 50%, transparent 90%);
+}
+
+.closeBtn {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid rgba(38, 34, 98, 0.08);
+  background: rgba(38, 34, 98, 0.03);
+  color: rgba(38, 34, 98, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.closeBtn:hover {
+  background: rgba(38, 34, 98, 0.06);
+  color: #262262;
+  border-color: rgba(38, 34, 98, 0.15);
+}
+
+/* ── Header ── */
+.header {
+  text-align: center;
+  margin-bottom: 1.2rem;
+}
+
+.iconCircle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(37, 211, 102, 0.1);
+  border: 2px solid rgba(37, 211, 102, 0.3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #25D366;
+  margin-bottom: 0.8rem;
+}
+
+.title {
+  font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #262262;
+  margin: 0 0 0.35rem;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  font-size: 0.78rem;
+  color: rgba(38, 34, 98, 0.48);
+  margin: 0;
+  line-height: 1.6;
+  max-width: 320px;
+  margin-inline: auto;
+}
+
+/* ── Product badge ── */
+.productBadge {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0.8rem;
+  border-radius: 12px;
+  border: 1px solid rgba(38, 34, 98, 0.06);
+  background: #F5F5F9;
+  margin-bottom: 1.2rem;
+}
+
+.productThumb {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.productInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.productCat {
+  font-size: 0.54rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #F7941E;
+  font-weight: 600;
+}
+
+.productName {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #262262;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Form ── */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.label {
+  font-size: 0.64rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(38, 34, 98, 0.45);
+  font-weight: 600;
+}
+
+.req { color: #25D366; }
+
+.optional {
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: rgba(38, 34, 98, 0.3);
+  font-size: 0.62rem;
+}
+
+.input {
+  background: #F5F5F9;
+  border: 1px solid rgba(38, 34, 98, 0.08);
+  color: #262262;
+  padding: 0.68rem 0.85rem;
+  font-size: 0.84rem;
+  font-family: inherit;
+  outline: none;
+  border-radius: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+}
+
+.input:hover { border-color: rgba(38, 34, 98, 0.18); }
+
+.input:focus {
+  border-color: #25D366;
+  box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.12);
+  background: #FFFFFF;
+}
+
+.input::placeholder { color: rgba(38, 34, 98, 0.3); }
+
+.textarea {
+  resize: vertical;
+  min-height: 72px;
+  line-height: 1.55;
+}
+
+.inputError { border-color: #e74c3c; }
+.inputError:focus {
+  border-color: #e74c3c;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+}
+
+.error {
+  font-size: 0.68rem;
+  color: #e74c3c;
+  font-weight: 500;
+}
+
+/* ── Submit ── */
+.submitBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.78rem 1.5rem;
+  margin-top: 0.2rem;
+  background: #25D366;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  font-family: inherit;
+  width: 100%;
+  transition: background 0.22s, box-shadow 0.22s;
+}
+
+.submitBtn:hover {
+  background: #1EBE5A;
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.3);
+}
+
+/* ── Privacy ── */
+.privacy {
+  text-align: center;
+  font-size: 0.64rem;
+  color: rgba(38, 34, 98, 0.32);
+  margin: 0.9rem 0 0;
+  line-height: 1.5;
+}
+
+/* ── Responsive ── */
+@media (max-width: 520px) {
+  .modal {
+    padding: 1.6rem 1.3rem 1.4rem;
+    border-radius: 16px;
+  }
+  .title { font-size: 1.1rem; }
+}
+
+@media (max-width: 380px) {
+  .modal {
+    padding: 1.4rem 1.1rem 1.2rem;
+    border-radius: 14px;
+    margin: 0.75rem;
+    max-height: calc(100dvh - 1.5rem);
+  }
+  .title { font-size: 1rem; }
+  .subtitle { font-size: 0.72rem; }
+  .input { font-size: 1rem; min-height: 44px; }
+  .submitBtn { min-height: 44px; font-size: 0.8rem; }
+  .productThumb { width: 40px; height: 40px; }
+}

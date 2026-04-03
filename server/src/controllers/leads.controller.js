@@ -1,4 +1,5 @@
 const pool = require('../db/pool');
+const { notifyNewLead } = require('../utils/notify');
 
 const VALID_BUSINESS = ['led-showroom', 'electrical-shop', 'distributor', 'other'];
 const VALID_DESIGNATION = ['owner', 'interior', 'architect'];
@@ -38,6 +39,8 @@ async function create(req, res, next) {
         designation,
       ]
     );
+
+    notifyNewLead(rows[0]);
 
     res.status(201).json({ data: { lead: rows[0] } });
   } catch (err) {
