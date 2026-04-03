@@ -5,7 +5,7 @@ import styles from './LeadCaptureModal.module.css';
 
 const EASE = [0.25, 1, 0.5, 1];
 const STORAGE_KEY = 'tirichLead';
-const API_BASE = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000/api/v1';
+const API_BASE = process.env.REACT_APP_API_BASE_URL || 'https://tirich-led.onrender.com/api/v1';
 
 const BUSINESS_OPTIONS = [
   { value: '', label: 'Select business type' },
