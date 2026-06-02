@@ -115,7 +115,7 @@ export default function WhatsAppQuoteModal({ open, onClose, product }) {
             {/* Product badge */}
             {product && (
               <div className={styles.productBadge}>
-                <img src={product.image} alt={product.name} className={styles.productThumb} />
+                <img src={product.image} alt={product.name} className={styles.productThumb} loading="lazy" />
                 <div className={styles.productInfo}>
                   <span className={styles.productCat}>{product.category}</span>
                   <strong className={styles.productName}>{product.name}</strong>

@@ -7,14 +7,14 @@ import { buttonHover, buttonTap, fadeUp } from '../../utils/motion';
 
 
 // ── Lightweight images — Living Gallery (84 – 700 KB each) ─────────
-import lgTLC105  from '../../assets/TLC-105.jpg';         //  84 KB
-import lgTLC151  from '../../assets/TLC-151.jpg';         // 112 KB
-import lgTLC112  from '../../assets/TLC-112.jpg';         // 116 KB
-import lgStrip   from '../../assets/STRIP-LED-POST.jpg';  // 124 KB
-import lgTLC101  from '../../assets/TLC-101.jpg';         // 156 KB
-import lgHanging from '../../assets/hanging-230.jpg';     // 372 KB
-import lgTLC129  from '../../assets/TLC-129.jpg';         // 448 KB
-import lgTLC111  from '../../assets/TLC-111.jpg';         // 468 KB
+import lgTLC105  from '../../assets/TLC-105.webp';         //  84 KB
+import lgTLC151  from '../../assets/TLC-151.webp';         // 112 KB
+import lgTLC112  from '../../assets/TLC-112.webp';         // 116 KB
+import lgStrip   from '../../assets/STRIP-LED-POST.webp';  // 124 KB
+import lgTLC101  from '../../assets/TLC-101.webp';         // 156 KB
+import lgHanging from '../../assets/hanging-230.webp';     // 372 KB
+import lgTLC129  from '../../assets/TLC-129.webp';         // 448 KB
+import lgTLC111  from '../../assets/TLC-111.webp';         // 468 KB
 
 // ── Videos (gallery only) ──────────────────────────────────────────
 import proVid1   from '../../assets/grok-video-083a2972-e0c2-44a4-b856-38ebb91513b1.mp4';  // 932 KB

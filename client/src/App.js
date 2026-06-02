@@ -1,18 +1,24 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { Suspense, lazy, useEffect, useMemo, useState } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
-import LoginPage from './pages/LoginPage/LoginPage';
-import DashboardPage from './pages/DashboardPage/DashboardPage';
+// LandingPage is the first paint (default route) — keep it in the main
+// bundle so the homepage renders immediately without a Suspense flash.
 import LandingPage from './pages/LandingPage/LandingPage';
-import AIStudioPage from './pages/AIStudioPage/AIStudioPage';
-import AboutPage from './pages/AboutPage/AboutPage';
-import ProductsPage from './pages/ProductsPage/ProductsPage';
-import ProductDetailPage from './pages/ProductDetailPage/ProductDetailPage';
-import ContactPage from './pages/ContactPage/ContactPage';
-import SmartLightingPage from './pages/SmartLightingPage/SmartLightingPage';
 import CustomCursor from './components/CustomCursor/CustomCursor';
 import WhatsAppButton from './components/WhatsAppButton/WhatsAppButton';
 import { pageTransition } from './utils/motion';
+
+// All other pages are split into their own chunks and loaded on demand,
+// so the dashboard / AI-studio bundles and product images aren't part of
+// first paint.
+const LoginPage         = lazy(() => import('./pages/LoginPage/LoginPage'));
+const DashboardPage     = lazy(() => import('./pages/DashboardPage/DashboardPage'));
+const AIStudioPage      = lazy(() => import('./pages/AIStudioPage/AIStudioPage'));
+const AboutPage         = lazy(() => import('./pages/AboutPage/AboutPage'));
+const ProductsPage      = lazy(() => import('./pages/ProductsPage/ProductsPage'));
+const ProductDetailPage = lazy(() => import('./pages/ProductDetailPage/ProductDetailPage'));
+const ContactPage       = lazy(() => import('./pages/ContactPage/ContactPage'));
+const SmartLightingPage = lazy(() => import('./pages/SmartLightingPage/SmartLightingPage'));
 
 const PAGE_TITLES = {
   '/':           'Tirich LED — Precision LED Lighting',
@@ -31,8 +37,6 @@ function App() {
     const raw = localStorage.getItem('authUser');
     return raw ? JSON.parse(raw) : null;
   });
-  const [authLoading, setAuthLoading] = useState(true);
-
   const handleLoginSuccess = (user) => {
     if (!user) return;
     localStorage.setItem('authUser', JSON.stringify(user));
@@ -58,7 +62,17 @@ function App() {
     setTimeout(() => splash.remove(), 600);
   };
 
+  // Dismiss the splash as soon as the app has mounted — the homepage must
+  // never wait on the backend (Render free tier can cold-start for 30–60s).
   useEffect(() => {
+    dismissSplash();
+  }, []);
+
+  // Refresh/validate the session in the background. The UI renders
+  // immediately using the optimistic authUser read from localStorage; this
+  // only updates it once /auth/me resolves and never blocks first paint.
+  useEffect(() => {
+    let cancelled = false;
     const restoreSession = async () => {
       try {
         const res = await fetch(`${apiBase}/auth/me`, {
@@ -66,23 +80,19 @@ function App() {
           cache: 'no-store',
         });
         const data = await res.json().catch(() => null);
+        if (cancelled) return;
         if (res.ok && data?.data?.user) {
           localStorage.setItem('authUser', JSON.stringify(data.data.user));
           setAuthUser(data.data.user);
         }
       } catch (_) {
-        // Ignore restore failures
-      } finally {
-        setAuthLoading(false);
+        // Ignore restore failures — optimistic localStorage state stands.
       }
     };
 
     restoreSession();
+    return () => { cancelled = true; };
   }, [apiBase]);
-
-  useEffect(() => {
-    if (!authLoading) dismissSplash();
-  }, [authLoading]);
 
   useEffect(() => {
     const path = location.pathname;
@@ -96,10 +106,6 @@ function App() {
     }
   }, [location.pathname]);
 
-  if (authLoading) {
-    return <div className="App" />;
-  }
-
   return (
     <div className="App">
       <CustomCursor />
@@ -109,6 +115,7 @@ function App() {
           key={`${location.pathname}${location.search}`}
           {...pageTransition}
         >
+          <Suspense fallback={null}>
           <Routes location={location}>
             <Route path="/" element={<LandingPage />} />
             <Route
@@ -152,6 +159,7 @@ function App() {
             <Route path="/smart-lighting" element={<SmartLightingPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
+          </Suspense>
         </motion.div>
       </AnimatePresence>
     </div>

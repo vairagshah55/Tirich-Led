@@ -30,7 +30,7 @@ export default function LusterGallery({ items }) {
           style={{ transitionDelay: `${i * 0.14}s` }}
         >
           <div className={styles.mediaWrap}>
-            <img src={item.image} alt={item.label} className={styles.img} />
+            <img src={item.image} alt={item.label} className={styles.img} loading="lazy" />
 
             {/* Soft radial glow that follows cursor */}
             <div className={styles.glowLayer} />

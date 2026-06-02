@@ -45,6 +45,7 @@ export default function LightingCustomizer({ image, video }) {
             src={image}
             alt="Jewelry lighting preview"
             className={styles.img}
+            loading="lazy"
             style={{
               filter: combinedFilter || 'none',
               transition: 'filter 0.55s ease',

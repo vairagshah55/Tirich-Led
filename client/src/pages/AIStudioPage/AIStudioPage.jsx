@@ -492,7 +492,7 @@ function GalleryCard({ img, onDelete }) {
           </div>
         )}
         {imageUrl && !isGenerating && !isFailed && (
-          <img src={imageUrl} alt={img.final_prompt} className={styles.cardImg} />
+          <img src={imageUrl} alt={img.final_prompt} className={styles.cardImg} loading="lazy" />
         )}
       </div>
       <div className={styles.cardMeta}>

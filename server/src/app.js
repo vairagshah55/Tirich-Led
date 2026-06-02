@@ -34,7 +34,11 @@ app.use('/api/v1/retailers', retailersRoutes);
 app.use('/api/v1/leads',     leadsRoutes);
 
 // ── Health check ──────────────────────────────────────────────────
-app.get('/api/v1/health', (_req, res) => res.json({ status: 'ok' }));
+// Lightweight, no DB work — safe target for an external uptime pinger
+// (e.g. UptimeRobot / cron-job.org every ~10 min) to keep Render warm.
+const healthHandler = (_req, res) => res.json({ status: 'ok' });
+app.get('/api/v1/health', healthHandler);
+app.get('/health', healthHandler);
 
 // ── 404 ───────────────────────────────────────────────────────────
 app.use((_req, res) => res.status(404).json({ message: 'Route not found' }));

@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
-import logo from '../../assets/new-log.png';
+import logo from '../../assets/new-log.webp';
 import styles from './Navbar.module.css';
 import { CATEGORIES, PRODUCTS } from '../../data/products';
 import { buttonHover, buttonTap, fadeIn, fadeUp, presenceFade } from '../../utils/motion';
@@ -153,14 +153,14 @@ export default function Navbar() {
                     onClick={() => setMegaOpen(false)}
                   >
                     <div className={styles.catThumb}>
-                      <img src={cat.cover} alt={cat.label} />
+                      <img src={cat.cover} alt={cat.label} loading="lazy" />
                     </div>
                     <div className={styles.catInfo}>
                       <p className={styles.catLabel}>{cat.label}</p>
                       <p className={styles.catDesc}>{cat.desc}</p>
                       <span className={styles.catCount}>{countBySlug(cat.slug)} products</span>
                     </div>
-                    <span className={styles.catArrow}>�</span>
+                    <span className={styles.catArrow}>{'→'}</span>
                   </Link>
                 ))}
               </div>
@@ -168,7 +168,7 @@ export default function Navbar() {
 
             <div className={styles.megaRight}>
               <div className={styles.megaFeaturedImg}>
-                <img src={FEATURED.image} alt={FEATURED.name} />
+                <img src={FEATURED.image} alt={FEATURED.name} loading="lazy" />
               </div>
               <div className={styles.megaFeaturedBody}>
                 <p className={styles.megaFeaturedEye}>Featured Product</p>

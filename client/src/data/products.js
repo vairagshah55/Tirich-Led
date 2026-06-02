@@ -1,37 +1,37 @@
 // ── Existing product images ─────────────────────────────────────
-import product1     from '../assets/TLC-101.jpg';
-import product2     from '../assets/TLC-105.jpg';
-import product5     from '../assets/TLC-112.jpg';
-import product8     from '../assets/TLC-129.jpg';
-import stripLed     from '../assets/STRIP-LED-POST.jpg';
-import hangingOld   from '../assets/hanging-230.jpg';
+import product1     from '../assets/TLC-101.webp';
+import product2     from '../assets/TLC-105.webp';
+import product5     from '../assets/TLC-112.webp';
+import product8     from '../assets/TLC-129.webp';
+import stripLed     from '../assets/STRIP-LED-POST.webp';
+import hangingOld   from '../assets/hanging-230.webp';
 
 // ── HD Product images ───────────────────────────────────────────
-import hdTLC108     from '../assets/HD PHOTO/png/png/TLC-108.png';
-import hdTLC111     from '../assets/HD PHOTO/png/png/TLC-111.png';
-import hdTLC114     from '../assets/HD PHOTO/png/png/TLC-114.png';
-import hdTLC118     from '../assets/HD PHOTO/TLC-118.jpg';
-import hdTLC121     from '../assets/HD PHOTO/TLC-121.png';
-import hdTLC151     from '../assets/HD PHOTO/TLC-151.png';
-import hdTLC152     from '../assets/HD PHOTO/TLC-152.png';
-import hdTLC226     from '../assets/HD PHOTO/TLC-226.jpg';
-import hdTLC333     from '../assets/HD PHOTO/TLC-333.png';
-import hdTLC335     from '../assets/HD PHOTO/TLC-335.png';
-import hdTLC338     from '../assets/HD PHOTO/TLC-338.png';
-import hdTLC107W    from '../assets/HD PHOTO/png/png/TLC-107 WHITE.png';
-import hdTLC107B    from '../assets/HD PHOTO/png/png/TLC-107 BLACK.png';
-import hdHanging    from '../assets/HD PHOTO/HANGING LIGHT/15/PNG/HANGING LIGHT.png';
-import hdMagCOB     from '../assets/HD PHOTO/CYLINDER/3/PNG/MAGNETIC COB.png';
-import hdCylinder   from '../assets/HD PHOTO/CYLINDER 2/7/PNG/CYLINDER (1).png';
-import hdCaset      from '../assets/HD PHOTO/CASET LAZER 10Z CASTLZR/10/PNG/10Z CASET (1).png';
-import hdLazer10Z   from '../assets/HD PHOTO/LAZER 10Z LZR/18/PNG/10Z LZR.png';
-import hdPRO130     from '../assets/HD PHOTO/PRO+130.png';
-import hdPRO131     from '../assets/HD PHOTO/PRO+131.png';
-import hdPRO132     from '../assets/HD PHOTO/PRO+132.png';
-import hdPRO133     from '../assets/HD PHOTO/PRO+133.png';
-import hdPRO120     from '../assets/HD PHOTO/PRO-120.png';
-import hdPRO125     from '../assets/HD PHOTO/PRO-125.jpg';
-import hdPRO140     from '../assets/HD PHOTO/PRO-140.png';
+import hdTLC108     from '../assets/HD PHOTO/png/png/TLC-108.webp';
+import hdTLC111     from '../assets/HD PHOTO/png/png/TLC-111.webp';
+import hdTLC114     from '../assets/HD PHOTO/png/png/TLC-114.webp';
+import hdTLC118     from '../assets/HD PHOTO/TLC-118.webp';
+import hdTLC121     from '../assets/HD PHOTO/TLC-121.webp';
+import hdTLC151     from '../assets/HD PHOTO/TLC-151.webp';
+import hdTLC152     from '../assets/HD PHOTO/TLC-152.webp';
+import hdTLC226     from '../assets/HD PHOTO/TLC-226.webp';
+import hdTLC333     from '../assets/HD PHOTO/TLC-333.webp';
+import hdTLC335     from '../assets/HD PHOTO/TLC-335.webp';
+import hdTLC338     from '../assets/HD PHOTO/TLC-338.webp';
+import hdTLC107W    from '../assets/HD PHOTO/png/png/TLC-107 WHITE.webp';
+import hdTLC107B    from '../assets/HD PHOTO/png/png/TLC-107 BLACK.webp';
+import hdHanging    from '../assets/HD PHOTO/HANGING LIGHT/15/PNG/HANGING LIGHT.webp';
+import hdMagCOB     from '../assets/HD PHOTO/CYLINDER/3/PNG/MAGNETIC COB.webp';
+import hdCylinder   from '../assets/HD PHOTO/CYLINDER 2/7/PNG/CYLINDER (1).webp';
+import hdCaset      from '../assets/HD PHOTO/CASET LAZER 10Z CASTLZR/10/PNG/10Z CASET (1).webp';
+import hdLazer10Z   from '../assets/HD PHOTO/LAZER 10Z LZR/18/PNG/10Z LZR.webp';
+import hdPRO130     from '../assets/HD PHOTO/PRO+130.webp';
+import hdPRO131     from '../assets/HD PHOTO/PRO+131.webp';
+import hdPRO132     from '../assets/HD PHOTO/PRO+132.webp';
+import hdPRO133     from '../assets/HD PHOTO/PRO+133.webp';
+import hdPRO120     from '../assets/HD PHOTO/PRO-120.webp';
+import hdPRO125     from '../assets/HD PHOTO/PRO-125.webp';
+import hdPRO140     from '../assets/HD PHOTO/PRO-140.webp';
 
 export const PRODUCTS = [
   // ── PANEL LIGHTS ─────────────────────────────────────────────

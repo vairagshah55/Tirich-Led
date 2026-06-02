@@ -40,7 +40,7 @@ export default function TryOnSlider({
     >
       {/* ── After (right) — full color vivid ── */}
       <div className={styles.after}>
-        <img src={image} alt={labelB} className={styles.img} />
+        <img src={image} alt={labelB} className={styles.img} loading="lazy" />
         <span className={`${styles.label} ${styles.labelRight}`}>{labelB}</span>
       </div>
 
@@ -49,7 +49,7 @@ export default function TryOnSlider({
         className={styles.before}
         style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}
       >
-        <img src={image} alt={labelA} className={`${styles.img} ${styles.imgBefore}`} />
+        <img src={image} alt={labelA} className={`${styles.img} ${styles.imgBefore}`} loading="lazy" />
         <span className={`${styles.label} ${styles.labelLeft}`}>{labelA}</span>
       </div>
 

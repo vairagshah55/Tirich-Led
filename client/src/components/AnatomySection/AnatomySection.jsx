@@ -44,7 +44,7 @@ export default function AnatomySection({ image }) {
   return (
     <div ref={sectionRef} className={styles.wrap}>
       <div className={styles.imageWrap}>
-        <img src={image} alt="Anatomy of a Tirich LED panel light" className={styles.img} />
+        <img src={image} alt="Anatomy of a Tirich LED panel light" className={styles.img} loading="lazy" />
 
         {CALLOUTS.map((c, i) => {
           const delay      = i * 0.32;

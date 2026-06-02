@@ -285,7 +285,7 @@ export default function ProductDetailPage() {
               {related.map((p) => (
                 <motion.div key={p.slug} variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } } }} whileHover={{ y: -4, transition: { duration: 0.2 } }}>
                   <Link to={`/products/${p.slug}`} className={styles.relCard}>
-                    <div className={styles.relImgWrap}><img src={p.image} alt={p.name} className={styles.relImg} /></div>
+                    <div className={styles.relImgWrap}><img src={p.image} alt={p.name} className={styles.relImg} loading="lazy" /></div>
                     <div className={styles.relBody}>
                       <span className={styles.relCat}>{p.category}</span>
                       <h3 className={styles.relName}>{p.name}</h3>

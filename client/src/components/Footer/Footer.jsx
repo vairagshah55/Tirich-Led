@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import styles from './Footer.module.css';
-import footerLogo from '../../assets/new-log.png';
+import footerLogo from '../../assets/new-log.webp';
 
 const EASE = [0.25, 1, 0.5, 1];
 
