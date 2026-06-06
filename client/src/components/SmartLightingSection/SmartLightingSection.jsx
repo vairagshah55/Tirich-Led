@@ -4,9 +4,16 @@ import { AnimatePresence, motion, useMotionValue, useSpring } from 'motion/react
 import styles from './SmartLightingSection.module.css';
 import { MOTION_EASE, buttonTap } from '../../utils/motion';
 
-const ROOM_IMAGE   = 'https://images.pexels.com/photos/34940802/pexels-photo-34940802.jpeg?auto=compress&cs=tinysrgb&w=1600';
-const PHONE_IMAGE  = 'https://images.pexels.com/photos/35490265/pexels-photo-35490265.jpeg?auto=compress&cs=tinysrgb&w=800';
-const SWITCH_IMAGE = 'https://images.pexels.com/photos/17005389/pexels-photo-17005389.jpeg?auto=compress&cs=tinysrgb&w=800';
+// ── Per-mode imagery (3 images each, local) ───────────────────────
+import mobileHero from '../../assets/smart/mobile1.jpg';
+import mobileSub1 from '../../assets/smart/mobile2.jpg';
+import mobileSub2 from '../../assets/smart/mobile3.jpg';
+import remoteHero from '../../assets/smart/remote1.jpg';
+import remoteSub1 from '../../assets/smart/remote2.jpg';
+import remoteSub2 from '../../assets/smart/remote3.jpg';
+import autoHero   from '../../assets/smart/auto1.jpg';
+import autoSub1   from '../../assets/smart/auto2.jpg';
+import autoSub2   from '../../assets/smart/auto3.jpg';
 
 const MODES = [
   {
@@ -19,6 +26,11 @@ const MODES = [
     chips: ['Scene Control', 'Dimming', 'Schedules'],
     metric: 'iOS + Android',
     bestFor: 'Homes · Hospitality',
+    gallery: [
+      { src: mobileHero, tag: 'Mobile App',    title: 'Control every room from your phone' },
+      { src: mobileSub1, tag: 'Scene Control', title: 'Set colour & scenes in a tap'       },
+      { src: mobileSub2, tag: 'Dimming',       title: 'Dim & group from anywhere'          },
+    ],
   },
   {
     id: 'remote',
@@ -30,6 +42,11 @@ const MODES = [
     chips: ['One Tap', 'Wireless', 'Instant'],
     metric: '3-zone recall',
     bestFor: 'Lounges · Retail',
+    gallery: [
+      { src: remoteHero, tag: 'Wireless Remote', title: 'Premium ambience, no wall switch' },
+      { src: remoteSub1, tag: 'One Tap',         title: 'Instant scene recall'             },
+      { src: remoteSub2, tag: 'Wireless',        title: 'Tactile zone control'             },
+    ],
   },
   {
     id: 'auto',
@@ -41,6 +58,11 @@ const MODES = [
     chips: ['Timers', 'Motion Sensing', 'Voice-ready'],
     metric: '24/7 routines',
     bestFor: 'Retail · Smart Homes',
+    gallery: [
+      { src: autoHero, tag: 'Automation',     title: 'Lights that run on schedule'      },
+      { src: autoSub1, tag: 'Voice-ready',    title: 'Works with voice assistants'      },
+      { src: autoSub2, tag: 'Motion Sensing', title: 'Rooms respond automatically'      },
+    ],
   },
 ];
 
@@ -301,12 +323,20 @@ export default function SmartLightingSection() {
             onMouseLeave={tiltLeave}
             whileTap={buttonTap}
           >
-            <img
-              src={ROOM_IMAGE}
-              alt="Smart LED lighting — modern interior"
-              className={styles.roomImg}
-              loading="lazy"
-            />
+            <AnimatePresence initial={false}>
+              <motion.img
+                key={mode.id}
+                src={mode.gallery[0].src}
+                alt={mode.gallery[0].title}
+                className={styles.roomImg}
+                style={{ position: 'absolute', inset: 0 }}
+                loading="lazy"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.45, ease: MOTION_EASE }}
+              />
+            </AnimatePresence>
 
             {/* Animated colour aura on image — shifts with mode */}
             <motion.div
@@ -359,41 +389,48 @@ export default function SmartLightingSection() {
             </AnimatePresence>
           </motion.div>
 
-          {/* Sub cards row */}
+          {/* Sub cards row — swap with the active mode */}
           <div className={styles.subCards}>
-            {[
-              { src: PHONE_IMAGE,  tag: 'Mobile App',       title: 'Full room control from your phone',   delay: 0.22 },
-              { src: SWITCH_IMAGE, tag: 'Wireless Remote',  title: 'Scene recall in a single tap',        delay: 0.30, pulse: true },
-            ].map((card) => (
+            {mode.gallery.slice(1).map((card, i) => (
               <motion.div
-                key={card.tag}
+                key={i}
                 className={styles.subCard}
                 initial={{ opacity: 0, y: 22 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: card.delay, ease: MOTION_EASE }}
+                transition={{ duration: 0.5, delay: 0.22 + i * 0.08, ease: MOTION_EASE }}
                 whileHover={{ y: -5, boxShadow: '0 16px 40px rgba(247,148,30,0.16)', transition: { duration: 0.22 } }}
               >
-                {card.pulse && (
-                  <>
-                    {[60, 90, 120].map((sz, i) => (
-                      <motion.span
-                        key={sz}
-                        className={styles.pulseRing}
-                        style={{ width: sz, height: sz, top: 28, left: '50%', transform: 'translateX(-50%)' }}
-                        animate={{ opacity: [0.5, 0, 0.5], scale: [0.85, 1.6, 0.85] }}
-                        transition={{ duration: 2.8, delay: i * 0.7, repeat: Infinity, ease: 'easeInOut' }}
-                      />
-                    ))}
-                  </>
-                )}
                 <div className={styles.subCardImgWrap}>
-                  <img src={card.src} alt={card.tag} className={styles.subCardImg} loading="lazy" />
+                  <AnimatePresence initial={false}>
+                    <motion.img
+                      key={mode.id}
+                      src={card.src}
+                      alt={card.tag}
+                      className={styles.subCardImg}
+                      style={{ position: 'absolute', inset: 0, height: '100%' }}
+                      loading="lazy"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.35, ease: MOTION_EASE }}
+                    />
+                  </AnimatePresence>
                   <div className={styles.subCardImgOverlay} />
                 </div>
                 <div className={styles.subCardBody}>
-                  <span className={styles.subCardTag}>{card.tag}</span>
-                  <p className={styles.subCardTitle}>{card.title}</p>
+                  <AnimatePresence mode="wait" initial={false}>
+                    <motion.div
+                      key={mode.id}
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -6 }}
+                      transition={{ duration: 0.28, ease: MOTION_EASE }}
+                    >
+                      <span className={styles.subCardTag}>{card.tag}</span>
+                      <p className={styles.subCardTitle}>{card.title}</p>
+                    </motion.div>
+                  </AnimatePresence>
                 </div>
               </motion.div>
             ))}

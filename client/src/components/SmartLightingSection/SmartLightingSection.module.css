@@ -538,6 +538,7 @@
 .subCardImgWrap {
   position: relative;
   overflow: hidden;
+  height: 130px;
 }
 
 .subCardImg {
@@ -665,6 +666,7 @@
   /* Visuals */
   .roomCard     { aspect-ratio: 16 / 9; }
   .subCards     { grid-template-columns: 1fr; }
+  .subCardImgWrap { height: 150px; }
   .subCardImg   { height: 110px; }
 
   /* Live panel */
