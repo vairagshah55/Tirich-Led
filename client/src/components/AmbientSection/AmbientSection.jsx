@@ -1,7 +1,35 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useLayoutEffect } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring } from 'motion/react';
 import { MOTION_EASE as EASE } from '../../utils/motion';
 import styles from './AmbientSection.module.css';
+
+// ── House LED interiors (local) ───────────────────────────────────
+import houseLiving  from '../../assets/ambient/house1.jpg';
+import houseBedroom from '../../assets/ambient/house2.jpg';
+import houseKitchen from '../../assets/ambient/house3.jpg';
+import houseOpen    from '../../assets/ambient/house4.jpg';
+import houseOffice  from '../../assets/ambient/house5.jpg';
+
+// ── Hotel LED interiors (local) ───────────────────────────────────
+import hotelLobby  from '../../assets/ambient/hotel1.jpg';
+import hotelSuite  from '../../assets/ambient/hotel2.jpg';
+import hotelDining from '../../assets/ambient/hotel3.jpg';
+import hotelPool   from '../../assets/ambient/hotel4.jpg';
+import hotelBar    from '../../assets/ambient/hotel5.jpg';
+
+// ── Mall LED interiors (local) ────────────────────────────────────
+import mallDownlights from '../../assets/ambient/mall1.jpg';
+import mallBacklit    from '../../assets/ambient/mall2.jpg';
+import mallPromenade  from '../../assets/ambient/mall3.jpg';
+import mallCove       from '../../assets/ambient/mall4.jpg';
+import mallSaucer     from '../../assets/ambient/mall5.jpg';
+
+// ── Showroom LED interiors (local) ────────────────────────────────
+import showPendants  from '../../assets/ambient/showroom1.jpg';
+import showFurniture from '../../assets/ambient/showroom2.jpg';
+import showJewelry   from '../../assets/ambient/showroom3.jpg';
+import showBeauty    from '../../assets/ambient/showroom4.jpg';
+import showFixtures  from '../../assets/ambient/showroom5.jpg';
 
 const TABS = [
   { id: 'House',    num: '01' },
@@ -12,32 +40,32 @@ const TABS = [
 
 const GALLERY = {
   House: [
-    { url: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1200&q=72', title: 'Modern Living Room',  tag: 'Residential Ambient'   },
-    { url: 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=800&q=72',  title: 'Master Bedroom',      tag: 'Warm Downlighting'     },
-    { url: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=800&q=72',  title: 'Kitchen & Dining',    tag: 'Task Lighting'         },
-    { url: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800&q=72',  title: 'Open Plan Interior',  tag: 'Strip Accent Lighting' },
-    { url: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=72',  title: 'Home Office',         tag: 'Focus Lighting'        },
+    { url: houseLiving,  title: 'Modern Living Room',  tag: 'Cove & Downlighting'   },
+    { url: houseBedroom, title: 'Master Bedroom',      tag: 'Cove & Strip LED'      },
+    { url: houseKitchen, title: 'Kitchen & Dining',    tag: 'LED Strip Lighting'    },
+    { url: houseOpen,    title: 'Open Plan Interior',  tag: 'Under-Cabinet LEDs'    },
+    { url: houseOffice,  title: 'Home Office',         tag: 'Linear LED Lighting'   },
   ],
   Hotel: [
-    { url: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=1200&q=72', title: 'Grand Lobby',         tag: 'Hospitality Lighting'  },
-    { url: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=72',  title: 'Luxury Suite',        tag: 'Warm Ambience'         },
-    { url: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=72',  title: 'Fine Dining',         tag: 'Pendant Series'        },
-    { url: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=800&q=72',  title: 'Pool Deck',           tag: 'IP65 Outdoor LEDs'     },
-    { url: 'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=800&q=72',  title: 'Lounge & Bar',        tag: 'Mood Lighting'         },
+    { url: hotelLobby,  title: 'Grand Lobby',  tag: 'Chandelier & Pendant LED' },
+    { url: hotelSuite,  title: 'Luxury Suite', tag: 'Pendant Downlights'       },
+    { url: hotelDining, title: 'Fine Dining',  tag: 'Cove & Pendant LED'    },
+    { url: hotelPool,   title: 'Pool Deck',    tag: 'IP65 Outdoor LEDs'     },
+    { url: hotelBar,    title: 'Lounge & Bar', tag: 'Backlit Mood LED'      },
   ],
   Mall: [
-    { url: 'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&w=1200&q=72', title: 'Atrium & Common Area', tag: 'High Bay LEDs'         },
-    { url: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=72',   title: 'Retail Interior',      tag: 'CRI 95+ Track Lights'  },
-    { url: 'https://images.unsplash.com/photo-1481437156560-3205f6a55735?auto=format&fit=crop&w=800&q=72',   title: 'Shopping Corridor',    tag: 'Corridor Lighting'     },
-    { url: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=800&q=72',   title: 'Anchor Store',         tag: 'Commercial Panel LED'  },
-    { url: 'https://images.unsplash.com/photo-1512813195386-6cf811ad3542?auto=format&fit=crop&w=800&q=72',   title: 'F&B Zone',             tag: 'Warm Accent Lighting'  },
+    { url: mallDownlights, title: 'Atrium & Concourse',    tag: 'Recessed Downlights'  },
+    { url: mallBacklit,    title: 'Boutique Concourse',    tag: 'Backlit LED Ceiling'  },
+    { url: mallPromenade,  title: 'Illuminated Promenade', tag: 'Backlit Cove Ceiling' },
+    { url: mallCove,       title: 'Modern Concourse',      tag: 'Cove & Downlights'    },
+    { url: mallSaucer,     title: 'Central Atrium',        tag: 'Layered Cove LED'     },
   ],
   Showroom: [
-    { url: 'https://images.unsplash.com/photo-1603825491103-bd638b1873b0?auto=format&fit=crop&w=1200&q=72', title: 'Luxury Brand Showroom', tag: 'Accent Spotlighting'  },
-    { url: 'https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=800&q=72',   title: 'Automotive Display',    tag: 'COB Track Lighting'   },
-    { url: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=72',   title: 'Furniture Studio',      tag: 'Warm Panel Lighting'  },
-    { url: 'https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?auto=format&fit=crop&w=800&q=72',      title: 'Product Display',       tag: 'CRI 95 Spotlights'    },
-    { url: 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=800&q=72',   title: 'Fashion Boutique',      tag: 'Magnetic COB Series'  },
+    { url: showPendants,  title: 'Lighting Showroom',       tag: 'Designer Pendant LED'  },
+    { url: showFurniture, title: 'Furniture Gallery',       tag: 'Track Spot Downlights' },
+    { url: showJewelry,   title: 'Luxury Jewelry Showroom', tag: 'Pendant Downlights'    },
+    { url: showBeauty,    title: 'Beauty Retail',           tag: 'Recessed LED Downlights' },
+    { url: showFixtures,  title: 'Fixture Display Wall',    tag: 'Wall-Light LED Series'  },
   ],
 };
 
@@ -48,8 +76,23 @@ export default function AmbientSection() {
   const sectionRef = useRef(null);
   const gridRef    = useRef(null);
   const featImgRef = useRef(null);
+  const tabRefs    = useRef([]);
 
   const activeIdx = TABS.findIndex(t => t.id === activeEnv);
+
+  // ── Sliding pill: measure the active tab's real position/width ────
+  // Tabs are sized to their text (HOUSE vs SHOWROOM differ), so a fixed
+  // equal-width pill overshoots into the next tab. Measure instead.
+  const [pill, setPill] = useState({ left: 4, width: 0 });
+  useLayoutEffect(() => {
+    const measure = () => {
+      const el = tabRefs.current[activeIdx];
+      if (el) setPill({ left: el.offsetLeft, width: el.offsetWidth });
+    };
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, [activeIdx]);
 
   // ── Spring cursor ────────────────────────────────────────────────
   const rawX    = useMotionValue(-300);
@@ -99,9 +142,6 @@ export default function AmbientSection() {
     setHoveredItem(null);
     setActiveEnv(id);
   }, []);
-
-  // Pill width per tab
-  const tabCount = TABS.length;
 
   return (
     <section
@@ -173,14 +213,14 @@ export default function AmbientSection() {
         <motion.span
           className={styles.tabPill}
           initial={false}
-          animate={{ x: `calc(${activeIdx * 100}% + ${activeIdx * 4}px)` }}
-          style={{ width: `calc(${100 / tabCount}% - 3px)` }}
+          animate={{ x: pill.left - 4, width: pill.width }}
           transition={{ type: 'spring', stiffness: 420, damping: 32 }}
         />
 
-        {TABS.map(({ id, num }) => (
+        {TABS.map(({ id, num }, i) => (
           <button
             key={id}
+            ref={el => (tabRefs.current[i] = el)}
             className={`${styles.tab}${activeEnv === id ? ` ${styles.tabActive}` : ''}`}
             onClick={() => switchEnv(id)}
           >
