@@ -134,7 +134,7 @@ export default function ProductsPage() {
                 >
                 {/* Image */}
                 <div className={styles.cardMedia}>
-                  <img src={product.image} alt={product.name} className={styles.cardImg} loading="lazy" />
+                  <img src={product.image} alt={product.name} className={styles.cardImg} loading="lazy" decoding="async" />
 
                   {/* Hover overlay — progressive disclosure */}
                   <div className={styles.cardOverlay}>

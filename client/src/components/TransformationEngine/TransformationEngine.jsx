@@ -58,7 +58,7 @@ export default function TransformationEngine({ sourceImage, outputs }) {
               src={sourceImage}
               alt="Original upload"
               className={styles.inputImg}
-              loading="lazy"
+              loading="lazy" decoding="async"
             />
             {hoveredOutput && (
               hoveredOutput.type === 'video' ? (
@@ -77,7 +77,7 @@ export default function TransformationEngine({ sourceImage, outputs }) {
                   alt="AI preview"
                   className={styles.inputOverlay}
                   style={{ filter: hoveredOutput.filter }}
-                  loading="lazy"
+                  loading="lazy" decoding="async"
                 />
               )
             )}
@@ -136,7 +136,7 @@ export default function TransformationEngine({ sourceImage, outputs }) {
                       alt={o.label}
                       className={styles.outputImg}
                       style={{ filter: o.filter }}
-                      loading="lazy"
+                      loading="lazy" decoding="async"
                     />
                   )}
                   <div className={styles.shimmer} />

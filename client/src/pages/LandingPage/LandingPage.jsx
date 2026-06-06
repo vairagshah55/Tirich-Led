@@ -20,11 +20,11 @@ import lgTLC111  from '../../assets/TLC-111.webp';         // 468 KB
 import proVid1   from '../../assets/grok-video-083a2972-e0c2-44a4-b856-38ebb91513b1.mp4';  // 932 KB
 import proVid2   from '../../assets/grok-video-1d4fef8d-119d-4f9f-8d71-650ca413f8be.mp4'; // 1.1 MB
 
-// ── Hero products (real transparent product cutouts) ──────────────
-import HERO_IMG_1 from '../../assets/HD PHOTO/CYLINDER/3/PNG/MAGNETIC COB.png';
-import HERO_IMG_2 from '../../assets/HD PHOTO/LAZER 10Z LZR/18/PNG/10Z LZR.png';
-import HERO_IMG_3 from '../../assets/HD PHOTO/CYLINDER 2/7/PNG/CYLINDER (1).png';
-import HERO_IMG_4 from '../../assets/HD PHOTO/HANGING LIGHT/15/PNG/HANGING LIGHT.png';
+// ── Hero products (optimized transparent cutouts — webp, ~30 KB each) ──
+import HERO_IMG_1 from '../../assets/hero/magnetic-cob.webp';
+import HERO_IMG_2 from '../../assets/hero/10z-lzr.webp';
+import HERO_IMG_3 from '../../assets/hero/cylinder.webp';
+import HERO_IMG_4 from '../../assets/hero/hanging-light.webp';
 
 import LivingGallery          from '../../components/LivingGallery/LivingGallery';
 import AmbientSection         from '../../components/AmbientSection/AmbientSection';
@@ -249,7 +249,8 @@ export default function LandingPage() {
               className={`${styles.heroProduct}${i === activeVidIdx ? ` ${styles.heroProductActive}` : ''}`}
               src={image}
               alt={HERO_SLIDES[i].tag}
-              loading={i === 0 ? 'eager' : 'lazy'}
+              loading="eager"
+              decoding="async"
             />
           ))}
         </div>
@@ -469,6 +470,7 @@ export default function LandingPage() {
                 src="https://images.pexels.com/photos/3324435/pexels-photo-3324435.jpeg?auto=compress&cs=tinysrgb&w=800"
                 alt="Pendant Pro Series"
                 loading="lazy"
+                decoding="async"
                 whileHover={{ scale: 1.08 }}
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
@@ -549,6 +551,7 @@ export default function LandingPage() {
                   src={card.img}
                   alt={card.title}
                   loading="lazy"
+                  decoding="async"
                   whileHover={{ scale: 1.1 }}
                   transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
                   style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}

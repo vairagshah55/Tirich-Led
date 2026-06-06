@@ -468,7 +468,7 @@ export default function AboutPage() {
                       <motion.img
                         src={item.image}
                         alt={item.name || item.caption || item.title}
-                        loading="lazy"
+                        loading="lazy" decoding="async"
                         whileHover={{ scale: 1.06 }}
                         transition={{ duration: 0.5, ease: QUART_OUT }}
                       />
@@ -574,7 +574,7 @@ export default function AboutPage() {
                       <motion.img
                         src={item.image}
                         alt={item.name || item.caption || item.title}
-                        loading="lazy"
+                        loading="lazy" decoding="async"
                         whileHover={{ scale: 1.06 }}
                         transition={{ duration: 0.5, ease: QUART_OUT }}
                       />

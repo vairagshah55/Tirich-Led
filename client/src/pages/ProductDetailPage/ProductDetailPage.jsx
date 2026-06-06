@@ -143,7 +143,7 @@ export default function ProductDetailPage() {
           {/* Left — image with parallax */}
           <motion.div className={styles.imgCol} initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, ease: EASE }}>
             <motion.div className={styles.imgCard} style={{ y: imgY }}>
-              <motion.img src={product.image} alt={product.name} className={styles.heroImg} whileHover={{ scale: 1.03 }} transition={{ duration: 0.5, ease: EASE }} />
+              <motion.img src={product.image} alt={product.name} className={styles.heroImg} loading="eager" decoding="async" whileHover={{ scale: 1.03 }} transition={{ duration: 0.5, ease: EASE }} />
               <div className={styles.imgOverlay}>
                 <span className={styles.imgBadge}>{product.ip}</span>
                 <span className={styles.imgBadge}>CRI {product.cri}</span>
@@ -285,7 +285,7 @@ export default function ProductDetailPage() {
               {related.map((p) => (
                 <motion.div key={p.slug} variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } } }} whileHover={{ y: -4, transition: { duration: 0.2 } }}>
                   <Link to={`/products/${p.slug}`} className={styles.relCard}>
-                    <div className={styles.relImgWrap}><img src={p.image} alt={p.name} className={styles.relImg} loading="lazy" /></div>
+                    <div className={styles.relImgWrap}><img src={p.image} alt={p.name} className={styles.relImg} loading="lazy" decoding="async" /></div>
                     <div className={styles.relBody}>
                       <span className={styles.relCat}>{p.category}</span>
                       <h3 className={styles.relName}>{p.name}</h3>

@@ -303,7 +303,7 @@ export default function SmartLightingPage() {
                 src={ROOM_IMAGE}
                 alt="Modern living room with layered ambient smart lighting"
                 className={styles.showcaseImage}
-                loading="eager"
+                loading="eager" decoding="async"
               />
               <div className={styles.showcaseTint} style={{ background: roomTint }} />
               <div className={styles.showcaseBadge}>Scene: {scene.label}</div>
@@ -319,7 +319,7 @@ export default function SmartLightingPage() {
                   src={method.image}
                   alt={method.deviceTitle}
                   className={styles.deviceImage}
-                  loading="lazy"
+                  loading="lazy" decoding="async"
                 />
                 <div className={styles.deviceCopy}>
                   <p className={styles.deviceKicker}>{method.label}</p>
@@ -392,7 +392,7 @@ export default function SmartLightingPage() {
 
           <div className={styles.labShell}>
             <motion.div className={styles.roomPanel} whileHover={cardHover}>
-              <img src={ROOM_IMAGE} alt="Smart lighting demo room" className={styles.roomImage} loading="lazy" />
+              <img src={ROOM_IMAGE} alt="Smart lighting demo room" className={styles.roomImage} loading="lazy" decoding="async" />
               <div className={styles.roomTint} style={{ background: roomTint }} />
 
               {ZONES.map((zone) => (

@@ -70,7 +70,7 @@ export default function Navbar() {
       <motion.nav className={`${styles.nav} ${scrolled ? styles.navScrolled : ''}`} {...fadeIn()}>
         <motion.div whileHover={{ scale: 1.03 }} whileTap={buttonTap}>
           <Link to="/" className={styles.navBrand}>
-            <img src={logo} alt="Tirich LED" className={styles.navLogo} />
+            <img src={logo} alt="Tirich LED" className={styles.navLogo} decoding="async" />
           </Link>
         </motion.div>
 
@@ -153,7 +153,7 @@ export default function Navbar() {
                     onClick={() => setMegaOpen(false)}
                   >
                     <div className={styles.catThumb}>
-                      <img src={cat.cover} alt={cat.label} loading="lazy" />
+                      <img src={cat.cover} alt={cat.label} loading="lazy" decoding="async" />
                     </div>
                     <div className={styles.catInfo}>
                       <p className={styles.catLabel}>{cat.label}</p>
@@ -168,7 +168,7 @@ export default function Navbar() {
 
             <div className={styles.megaRight}>
               <div className={styles.megaFeaturedImg}>
-                <img src={FEATURED.image} alt={FEATURED.name} loading="lazy" />
+                <img src={FEATURED.image} alt={FEATURED.name} loading="lazy" decoding="async" />
               </div>
               <div className={styles.megaFeaturedBody}>
                 <p className={styles.megaFeaturedEye}>Featured Product</p>

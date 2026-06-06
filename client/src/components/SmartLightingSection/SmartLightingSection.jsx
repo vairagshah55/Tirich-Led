@@ -132,14 +132,12 @@ export default function SmartLightingSection() {
     sectionRef.current?.style.setProperty('--my', '-999px');
   }, []);
 
-  /* Stagger variants */
-  const containerVariants = {
-    hidden: {},
-    visible: { transition: { staggerChildren: 0.09, delayChildren: 0.1 } },
-  };
-  const itemVariants = {
-    hidden:  { opacity: 0, y: 22 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: MOTION_EASE } },
+  /* Per-element entrance (works with display:contents reflow on mobile) */
+  const riseIn = {
+    initial: { opacity: 0, y: 18 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: '-60px' },
+    transition: { duration: 0.5, ease: MOTION_EASE },
   };
 
   return (
@@ -218,15 +216,9 @@ export default function SmartLightingSection() {
       <div className={styles.body}>
 
         {/* ── Left ── */}
-        <motion.div
-          className={styles.copy}
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-80px' }}
-        >
+        <div className={styles.copy}>
           {/* Segmented mode control */}
-          <motion.div className={styles.segControl} variants={itemVariants}>
+          <motion.div className={styles.segControl} {...riseIn}>
             {/* Sliding pill */}
             <motion.span
               className={styles.segPill}
@@ -295,7 +287,7 @@ export default function SmartLightingSection() {
           </AnimatePresence>
 
           {/* CTA */}
-          <motion.div className={styles.ctaRow} variants={itemVariants}>
+          <motion.div className={styles.ctaRow} {...riseIn}>
             <Link to="/smart-lighting" className={styles.ctaBtn}>
               <span className={styles.ctaBtnShimmer} aria-hidden />
               View More
@@ -305,7 +297,7 @@ export default function SmartLightingSection() {
             </Link>
             <p className={styles.ctaMeta}>Explore the full interactive demo</p>
           </motion.div>
-        </motion.div>
+        </div>
 
         {/* ── Right: visuals ── */}
         <motion.div
@@ -330,7 +322,7 @@ export default function SmartLightingSection() {
                 alt={mode.gallery[0].title}
                 className={styles.roomImg}
                 style={{ position: 'absolute', inset: 0 }}
-                loading="lazy"
+                loading="lazy" decoding="async"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -409,7 +401,7 @@ export default function SmartLightingSection() {
                       alt={card.tag}
                       className={styles.subCardImg}
                       style={{ position: 'absolute', inset: 0, height: '100%' }}
-                      loading="lazy"
+                      loading="lazy" decoding="async"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}

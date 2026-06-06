@@ -50,7 +50,7 @@ export default function VelvetBox({ image }) {
               src={image}
               alt="Necklace in velvet box"
               className={styles.necklace}
-              loading="lazy"
+              loading="lazy" decoding="async"
             />
           </div>
         </div>

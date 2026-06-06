@@ -635,57 +635,83 @@
 }
 
 @media (max-width: 700px) {
-  .section      { padding: 3.5rem 1.2rem 2rem; }
+  .section      { padding: 3.25rem 1.1rem 2rem; }
   .ghostNum     { display: none; }
   .spotlight    { display: none; }
 
   /* Header */
-  .title        { font-size: 1.75rem; }
+  .header       { margin-bottom: 1.5rem; }
+  .title        { font-size: 1.7rem; }
   .lead         { font-size: 0.82rem; max-width: 100%; }
 
-  /* Stats */
-  .statsStrip   { gap: 8px; margin-bottom: 1.8rem; }
-  .statBox      { flex: 0 0 calc(50% - 4px); padding: 0.8rem 1rem; }
+  /* Stats — 3 compact tiles in one row */
+  .statsStrip   { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin-bottom: 1.5rem; }
+  .statBox      { padding: 0.7rem 0.45rem; text-align: center; }
   .statsStrip .statBox + .statBox { margin-left: 0; }
-  .statVal      { font-size: 1.25rem; }
+  .statVal      { font-size: 1.1rem; margin-bottom: 0.2rem; }
+  .statLabel    { font-size: 0.5rem; letter-spacing: 0.08em; }
 
-  /* Seg control */
-  .segControl   { flex-wrap: nowrap; }
-  .segBtn       { font-size: 0.66rem; padding: 0.55rem 0.3rem; white-space: nowrap; }
+  /* ── Reflow: tabs → hero image → copy → sub images → CTA ── */
+  .body         { display: flex; flex-direction: column; gap: 1rem; }
+  .copy,
+  .visuals      { display: contents; }
+  .segControl   { order: 1; }
+  .roomCard     { order: 2; }
+  .modeCopy     { order: 3; }
+  .subCards     { order: 4; }
+  .ctaRow       { order: 5; }
+
+  /* Seg control — full-width, big touch targets */
+  .segControl   { padding: 5px; border-radius: 14px; gap: 3px; }
+  .segBtn       {
+    font-size: 0.72rem;
+    padding: 0.55rem 0.3rem;
+    line-height: 1.15;
+    white-space: normal;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .segPill      { border-radius: 10px; }
+
+  /* Hero image */
+  .roomCard     { aspect-ratio: 16 / 11; border-radius: 16px; }
 
   /* Mode copy */
-  .modeCopy     { padding: 1.2rem 1rem; }
-  .modeTitle    { font-size: 1.25rem; }
-  .modeBody     { font-size: 0.8rem; }
-  .modeStats    { grid-template-columns: 1fr; gap: 6px; }
+  .modeCopy     { padding: 1.15rem 1.05rem; border-radius: 16px; }
+  .modeTitle    { font-size: 1.32rem; }
+  .modeBody     { font-size: 0.82rem; line-height: 1.6; margin-bottom: 0.9rem; }
+  .modeStats    { grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 0.9rem; }
 
-  /* CTA */
-  .ctaRow       { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
-  .ctaBtn       { width: 100%; justify-content: center; padding: 0.72rem 1.2rem; }
+  /* Sub images — compact pair side by side */
+  .subCards     { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .subCardImgWrap { height: 100px; }
+  .subCardBody  { padding: 0.6rem 0.7rem; }
 
-  /* Visuals */
-  .roomCard     { aspect-ratio: 16 / 9; }
-  .subCards     { grid-template-columns: 1fr; }
-  .subCardImgWrap { height: 150px; }
-  .subCardImg   { height: 110px; }
+  /* Live panel + badge */
+  .livePanel    { bottom: 0.6rem; right: 0.6rem; padding: 0.6rem 0.8rem; min-width: 128px; border-radius: 10px; }
+  .livePanelMode { font-size: 0.76rem; }
+  .roomBadge    { top: 0.6rem; left: 0.6rem; font-size: 0.54rem; padding: 0.32rem 0.66rem; }
 
-  /* Live panel */
-  .livePanel    { bottom: 0.65rem; right: 0.65rem; padding: 0.75rem 0.85rem; min-width: 140px; border-radius: 10px; }
-  .livePanelMode { font-size: 0.78rem; }
-  .roomBadge    { top: 0.65rem; left: 0.65rem; font-size: 0.55rem; padding: 0.35rem 0.7rem; }
+  /* CTA — full width */
+  .ctaRow       { flex-direction: column; align-items: stretch; gap: 0.7rem; margin-top: 0.2rem; }
+  .ctaBtn       { width: 100%; justify-content: center; padding: 0.85rem 1.2rem; font-size: 0.84rem; border-radius: 10px; }
+  .ctaMeta      { text-align: center; }
 
   /* Meta */
   .meta         { flex-direction: column; gap: 0.5rem; align-items: flex-start; margin-top: 1.6rem; }
 }
 
 @media (max-width: 400px) {
-  .section      { padding: 3rem 1rem 1.5rem; }
+  .section      { padding: 2.75rem 0.9rem 1.5rem; }
   .title        { font-size: 1.5rem; }
-  .statBox      { flex: 0 0 100%; }
-  .statsStrip .statBox + .statBox { margin-left: 0; }
-  .segBtn       { font-size: 0.6rem; padding: 0.5rem 0.2rem; }
-  .segPill      { border-radius: 6px; }
+  .statVal      { font-size: 1rem; }
+  .statLabel    { font-size: 0.46rem; }
+  .statBox      { padding: 0.62rem 0.3rem; }
+  .segBtn       { font-size: 0.66rem; min-height: 46px; }
+  .segPill      { border-radius: 9px; }
   .roomCard     { aspect-ratio: 4 / 3; }
-  .livePanel    { position: relative; bottom: auto; right: auto; width: 100%; margin-top: -1px; border-radius: 0 0 14px 14px; }
-  .roomCard     { border-radius: 14px 14px 0 0; }
+  .subCardImgWrap { height: 92px; }
+  .modeStats    { grid-template-columns: 1fr; }
 }

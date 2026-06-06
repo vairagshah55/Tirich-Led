@@ -259,6 +259,7 @@ export default function AmbientSection() {
                 alt={item.title}
                 className={styles.img}
                 loading={i === 0 ? 'eager' : 'lazy'}
+                decoding="async"
                 style={i === 0 ? { transition: 'transform 0.1s linear', transformOrigin: 'center' } : undefined}
               />
 

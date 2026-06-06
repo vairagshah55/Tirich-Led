@@ -25,7 +25,7 @@ export default function Footer() {
       >
         <div className={styles.footerBrand}>
           <div className={styles.footerLogoRow}>
-            <img src={footerLogo} alt="Tirich LED" className={styles.footerLogo} />
+            <img src={footerLogo} alt="Tirich LED" className={styles.footerLogo} loading="lazy" decoding="async" />
           </div>
           <p className={styles.footerTagline}>
             Premium LED lighting solutions — engineered for commercial, residential, and architectural spaces.
