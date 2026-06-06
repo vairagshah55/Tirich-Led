@@ -2,7 +2,7 @@
   overflow: hidden;
   position: relative;
   padding-bottom: 0;
-  cursor: none;
+  cursor: pointer;
   min-height: 390px;
   contain: layout style;
 }

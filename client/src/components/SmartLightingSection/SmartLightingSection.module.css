@@ -391,7 +391,7 @@
   border-radius: 18px;
   border: 1px solid rgba(38, 34, 98, 0.1);
   aspect-ratio: 16 / 10;
-  cursor: none;
+  cursor: pointer;
   box-shadow: 0 16px 48px rgba(38, 34, 98, 0.12);
   transform-style: preserve-3d;
   will-change: transform;
@@ -530,7 +530,7 @@
   border-radius: 14px;
   border: 1px solid rgba(38, 34, 98, 0.09);
   background: #fff;
-  cursor: none;
+  cursor: pointer;
   box-shadow: 0 4px 18px rgba(38, 34, 98, 0.07);
   transition: border-color 0.28s ease;
 }

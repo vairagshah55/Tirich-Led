@@ -20,16 +20,16 @@ import lgTLC111  from '../../assets/TLC-111.webp';         // 468 KB
 import proVid1   from '../../assets/grok-video-083a2972-e0c2-44a4-b856-38ebb91513b1.mp4';  // 932 KB
 import proVid2   from '../../assets/grok-video-1d4fef8d-119d-4f9f-8d71-650ca413f8be.mp4'; // 1.1 MB
 
+// ── Hero products (real transparent product cutouts) ──────────────
+import HERO_IMG_1 from '../../assets/HD PHOTO/CYLINDER/3/PNG/MAGNETIC COB.png';
+import HERO_IMG_2 from '../../assets/HD PHOTO/LAZER 10Z LZR/18/PNG/10Z LZR.png';
+import HERO_IMG_3 from '../../assets/HD PHOTO/CYLINDER 2/7/PNG/CYLINDER (1).png';
+import HERO_IMG_4 from '../../assets/HD PHOTO/HANGING LIGHT/15/PNG/HANGING LIGHT.png';
+
 import LivingGallery          from '../../components/LivingGallery/LivingGallery';
 import AmbientSection         from '../../components/AmbientSection/AmbientSection';
 import SmartLightingSection   from '../../components/SmartLightingSection/SmartLightingSection';
 import Footer                 from '../../components/Footer/Footer';
-
-// ── Hero banner images (Pexels — free commercial use) ─────────────
-const HERO_IMG_1 = 'https://images.pexels.com/photos/19689230/pexels-photo-19689230.jpeg?auto=compress&cs=tinysrgb&w=1920';
-const HERO_IMG_2 = 'https://images.pexels.com/photos/3747103/pexels-photo-3747103.jpeg?auto=compress&cs=tinysrgb&w=1920';
-const HERO_IMG_3 = 'https://images.pexels.com/photos/4626268/pexels-photo-4626268.jpeg?auto=compress&cs=tinysrgb&w=1920';
-const HERO_IMG_4 = 'https://images.pexels.com/photos/29931645/pexels-photo-29931645.jpeg?auto=compress&cs=tinysrgb&w=1920';
 
 // ── Living Gallery items ──────────────────────────────────────────
 const LIVING_GALLERY = [
@@ -52,31 +52,35 @@ const LIVING_GALLERY = [
 const HERO_SLIDES = [
   {
     image:   HERO_IMG_1,
-    tag:     'Premium LED Manufacturing',
-    title:   ['Where Every', 'Beam', 'Powers a Vision'],
+    tag:     'Magnetic Track System',
+    title:   ['Precision', 'COB', 'Spot Lighting'],
     accent:  1,
-    sub:     'Industrial-grade LED solutions for commercial, residential, and architectural applications.',
+    sub:     'High-CRI magnetic COB spots engineered for retail, showroom, and gallery accenting.',
+    specs:   ['CRI 95+', '7W – 15W', 'IP65 Rated', '50,000 hrs'],
   },
   {
     image:   HERO_IMG_2,
-    tag:     'Commercial Lighting',
-    title:   ['Precision', 'Engineered', 'for Performance'],
-    accent:  0,
-    sub:     'Every product tested for luminous flux, colour accuracy, and thermal consistency.',
+    tag:     'Linear LED Modules',
+    title:   ['Seamless', 'Linear', 'Illumination'],
+    accent:  1,
+    sub:     'Anti-glare linear magnetic fixtures delivering uniform, continuous light runs.',
+    specs:   ['Anti-Glare', 'Magnetic', 'CRI 90+', 'Seamless Run'],
   },
   {
     image:   HERO_IMG_3,
-    tag:     'Architectural Lighting',
-    title:   ['Light That', 'Defines', 'Your Space'],
+    tag:     'Surface Cylinder Lights',
+    title:   ['Bold', 'Cylinder', 'Design'],
     accent:  1,
-    sub:     'From strip LEDs to pendant fixtures — tailored illumination for every environment.',
+    sub:     'Deep-set anti-glare cylinder downlights for dramatic, high-contrast interiors.',
+    specs:   ['Surface Mount', 'Tri-CCT', 'CRI 95+', 'Anti-Glare'],
   },
   {
     image:   HERO_IMG_4,
-    tag:     'Manufacturing Excellence',
-    title:   ['50,000 Hours', 'of Reliable', 'Illumination'],
-    accent:  0,
-    sub:     'CE & RoHS certified. IP65 rated. Built for the most demanding conditions.',
+    tag:     'Designer Pendants',
+    title:   ['Pendants That', 'Define', 'Your Space'],
+    accent:  1,
+    sub:     'Slim suspended profiles crafted for hospitality, dining, and premium residential spaces.',
+    specs:   ['Suspended', 'Slim Profile', 'Dimmable', 'CRI 90+'],
   },
 ];
 
@@ -230,13 +234,19 @@ export default function LandingPage() {
         onMouseMove={onHeroMouseMove}
         onMouseLeave={onHeroMouseLeave}
       >
-        {/* ── Image slides ── */}
-        <div ref={heroBgRef} className={styles.heroVideos}>
+        {/* ── Cinematic backdrop: grid + spotlight beam + glow ── */}
+        <div className={styles.heroGrid} />
+        <div className={styles.heroBeam} aria-hidden="true" />
+        <div className={styles.heroGlow} />
+        <div className={styles.heroDivider} aria-hidden="true" />
+
+        {/* ── Real product showcase (right), cross-fading ── */}
+        <div ref={heroBgRef} className={styles.heroProductStage}>
+          <div className={styles.heroPodium} aria-hidden="true" />
           {HERO_SLIDES.map(({ image }, i) => (
             <img
               key={i}
-              className={`${styles.heroVideoSlide}${i === activeVidIdx ? ` ${styles.heroVideoSlideActive}` : ''}`}
-              style={{ transform: 'scale(1.1)' }}
+              className={`${styles.heroProduct}${i === activeVidIdx ? ` ${styles.heroProductActive}` : ''}`}
               src={image}
               alt={HERO_SLIDES[i].tag}
               loading={i === 0 ? 'eager' : 'lazy'}
@@ -244,9 +254,16 @@ export default function LandingPage() {
           ))}
         </div>
 
-        {/* Layered overlay: left-dark for text, right-lighter for depth */}
-        <div className={styles.heroOverlay} />
-        <div className={styles.heroOverlayRight} />
+        {/* Floating frosted-glass spec chips (active slide) */}
+        <div className={styles.heroSpecs} aria-hidden="true">
+          {HERO_SLIDES[displaySlide].specs.map((s, i) => (
+            <span key={i} className={styles.heroSpecChip}>
+              <span className={styles.heroSpecDot} />
+              {s}
+            </span>
+          ))}
+        </div>
+
 
         {/* Bokeh particles — depth parallax on mouse move */}
         {BOKEH.map((b, i) => (
@@ -314,36 +331,30 @@ export default function LandingPage() {
           </div>
         </motion.div>
 
-        {/* ── Prev / Next arrows ── */}
-        <motion.button
+        {/* ── Prev / Next chevrons ── */}
+        <button
           className={`${styles.heroArrow} ${styles.heroArrowLeft}`}
           onClick={() => setActiveVidIdx(i => (i - 1 + HERO_SLIDES.length) % HERO_SLIDES.length)}
-          aria-label="Previous video"
-          whileHover={buttonHover}
-          whileTap={buttonTap}
+          aria-label="Previous slide"
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-        </motion.button>
-        <motion.button
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button
           className={`${styles.heroArrow} ${styles.heroArrowRight}`}
           onClick={() => setActiveVidIdx(i => (i + 1) % HERO_SLIDES.length)}
-          aria-label="Next video"
-          whileHover={buttonHover}
-          whileTap={buttonTap}
+          aria-label="Next slide"
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-        </motion.button>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
 
-        {/* ── Dot indicators (bottom-right) ── */}
+        {/* ── Line indicators ── */}
         <div className={styles.heroDots}>
           {HERO_SLIDES.map((_, i) => (
-            <motion.button
+            <button
               key={i}
               className={`${styles.heroDot}${i === activeVidIdx ? ` ${styles.heroDotActive}` : ''}`}
               onClick={() => setActiveVidIdx(i)}
               aria-label={`Slide ${i + 1}`}
-              whileHover={{ scale: 1.15 }}
-              whileTap={buttonTap}
             />
           ))}
         </div>

@@ -4,7 +4,6 @@ import { AnimatePresence, motion } from 'motion/react';
 // LandingPage is the first paint (default route) — keep it in the main
 // bundle so the homepage renders immediately without a Suspense flash.
 import LandingPage from './pages/LandingPage/LandingPage';
-import CustomCursor from './components/CustomCursor/CustomCursor';
 import WhatsAppButton from './components/WhatsAppButton/WhatsAppButton';
 import { pageTransition } from './utils/motion';
 
@@ -108,7 +107,6 @@ function App() {
 
   return (
     <div className="App">
-      <CustomCursor />
       <WhatsAppButton />
       <AnimatePresence mode="wait" initial={false}>
         <motion.div

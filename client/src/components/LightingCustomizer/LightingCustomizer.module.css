@@ -67,7 +67,7 @@
   color: #F7941E;
   font-size: 0.78rem;
   letter-spacing: 0.08em;
-  cursor: none;
+  cursor: pointer;
   transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
   white-space: nowrap;
   border-radius: 2px;
@@ -92,7 +92,7 @@
   height: 36px;
   border-radius: 50%;
   border: 2px solid transparent;
-  cursor: none;
+  cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 .toneBtn:hover  { transform: scale(1.12); }

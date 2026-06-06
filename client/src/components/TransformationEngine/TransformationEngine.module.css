@@ -157,7 +157,7 @@
   transition:
     opacity    0.45s ease,
     transform  0.45s cubic-bezier(0.23, 1, 0.32, 1);
-  cursor: none;
+  cursor: pointer;
 }
 .outputCard.outputVisible {
   opacity: 1;
