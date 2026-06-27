@@ -103,7 +103,7 @@
 }
 
 .navLink:hover {
-  color: var(--clr-accent-text);
+  color: var(--brand-orange);
 }
 
 .navLink:hover::after {
@@ -111,7 +111,7 @@
 }
 
 .navLinkActive {
-  color: var(--clr-accent-text);
+  color: var(--brand-orange);
 }
 
 .navLinkActive::after {
