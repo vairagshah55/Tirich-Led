@@ -53,7 +53,7 @@ const HERO_SLIDES = [
   {
     image:   HERO_IMG_1,
     tag:     'Magnetic Track System',
-    title:   ['Precision', 'COB', 'Spot Lighting'],
+    title:   ['Minimal', 'Presence.', 'Maximum Comfort'],
     accent:  1,
     sub:     'High-CRI magnetic COB spots engineered for retail, showroom, and gallery accenting.',
     specs:   ['CRI 95+', '7W – 15W', 'IP65 Rated', '50,000 hrs'],
