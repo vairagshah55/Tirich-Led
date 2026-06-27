@@ -7,42 +7,43 @@ import { buttonHover, buttonTap, fadeUp } from '../../utils/motion';
 
 
 // ── Lightweight images — Living Gallery (84 – 700 KB each) ─────────
-import lgTLC105  from '../../assets/TLC-105.webp';         //  84 KB
-import lgTLC151  from '../../assets/TLC-151.webp';         // 112 KB
-import lgTLC112  from '../../assets/TLC-112.webp';         // 116 KB
-import lgStrip   from '../../assets/STRIP-LED-POST.webp';  // 124 KB
-import lgTLC101  from '../../assets/TLC-101.webp';         // 156 KB
+import lgTLC105 from '../../assets/TLC-105.webp';         //  84 KB
+import lgTLC151 from '../../assets/TLC-151.webp';         // 112 KB
+import lgTLC112 from '../../assets/TLC-112.webp';         // 116 KB
+import lgStrip from '../../assets/STRIP-LED-POST.webp';  // 124 KB
+import lgTLC101 from '../../assets/TLC-101.webp';         // 156 KB
 import lgHanging from '../../assets/hanging-230.webp';     // 372 KB
-import lgTLC129  from '../../assets/TLC-129.webp';         // 448 KB
-import lgTLC111  from '../../assets/TLC-111.webp';         // 468 KB
+import lgTLC129 from '../../assets/TLC-129.webp';         // 448 KB
+import lgTLC111 from '../../assets/TLC-111.webp';         // 468 KB
 
 // ── Videos (gallery only) ──────────────────────────────────────────
-import proVid1   from '../../assets/grok-video-083a2972-e0c2-44a4-b856-38ebb91513b1.mp4';  // 932 KB
-import proVid2   from '../../assets/grok-video-1d4fef8d-119d-4f9f-8d71-650ca413f8be.mp4'; // 1.1 MB
+import proVid1 from '../../assets/grok-video-083a2972-e0c2-44a4-b856-38ebb91513b1.mp4';  // 932 KB
+import proVid2 from '../../assets/grok-video-1d4fef8d-119d-4f9f-8d71-650ca413f8be.mp4'; // 1.1 MB
 
 // ── Hero products (optimized transparent cutouts — webp, ~30 KB each) ──
 import HERO_IMG_1 from '../../assets/hero/slide-1.webp';
 import HERO_IMG_2 from '../../assets/hero/slide-2.webp';
 import HERO_IMG_3 from '../../assets/hero/slide-3.webp';
 import HERO_IMG_4 from '../../assets/hero/slide-4.webp';
+import HERO_IMG_5 from '../../assets/hero/slide-5.webp';
 
-import LivingGallery          from '../../components/LivingGallery/LivingGallery';
-import AmbientSection         from '../../components/AmbientSection/AmbientSection';
-import SmartLightingSection   from '../../components/SmartLightingSection/SmartLightingSection';
-import Footer                 from '../../components/Footer/Footer';
+import LivingGallery from '../../components/LivingGallery/LivingGallery';
+import AmbientSection from '../../components/AmbientSection/AmbientSection';
+import SmartLightingSection from '../../components/SmartLightingSection/SmartLightingSection';
+import Footer from '../../components/Footer/Footer';
 
 // ── Living Gallery items ──────────────────────────────────────────
 const LIVING_GALLERY = [
-  { label: 'TLC-105 Downlight',       eyebrow: 'Downlight Series',   type: 'image', src: lgTLC105  },
-  { label: 'TLC-112 Panel Light',     eyebrow: 'Panel Series',       type: 'image', src: lgTLC112  },
-  { label: 'LED Strip Installation',  eyebrow: 'Strip Series',       type: 'image', src: lgStrip   },
-  { label: 'LED Project Reel',        eyebrow: 'Installation Reel',  type: 'video', src: proVid1   },
-  { label: 'TLC-101 Fixture',         eyebrow: 'Commercial Series',  type: 'image', src: lgTLC101  },
-  { label: 'Hanging Pendant 230',     eyebrow: 'Pendant Series',     type: 'image', src: lgHanging },
-  { label: 'TLC-129 Track Light',     eyebrow: 'Track Series',       type: 'image', src: lgTLC129  },
-  { label: 'TLC-151 Surface Panel',   eyebrow: 'Panel Series',       type: 'image', src: lgTLC151  },
-  { label: 'LED Campaign',            eyebrow: 'Commercial Install', type: 'video', src: proVid2   },
-  { label: 'TLC-111 Ceiling Light',   eyebrow: 'Ceiling Series',     type: 'image', src: lgTLC111  },
+  { label: 'TLC-105 Downlight', eyebrow: 'Downlight Series', type: 'image', src: lgTLC105 },
+  { label: 'TLC-112 Panel Light', eyebrow: 'Panel Series', type: 'image', src: lgTLC112 },
+  { label: 'LED Strip Installation', eyebrow: 'Strip Series', type: 'image', src: lgStrip },
+  { label: 'LED Project Reel', eyebrow: 'Installation Reel', type: 'video', src: proVid1 },
+  { label: 'TLC-101 Fixture', eyebrow: 'Commercial Series', type: 'image', src: lgTLC101 },
+  { label: 'Hanging Pendant 230', eyebrow: 'Pendant Series', type: 'image', src: lgHanging },
+  { label: 'TLC-129 Track Light', eyebrow: 'Track Series', type: 'image', src: lgTLC129 },
+  { label: 'TLC-151 Surface Panel', eyebrow: 'Panel Series', type: 'image', src: lgTLC151 },
+  { label: 'LED Campaign', eyebrow: 'Commercial Install', type: 'video', src: proVid2 },
+  { label: 'TLC-111 Ceiling Light', eyebrow: 'Ceiling Series', type: 'image', src: lgTLC111 },
 ];
 
 
@@ -51,50 +52,58 @@ const LIVING_GALLERY = [
 // ── Hero slides — each with its own image + copy ─────────────────
 const HERO_SLIDES = [
   {
-    image:   HERO_IMG_1,
-    tag:     'Magnetic Track System',
-    title:   ['Minimal', 'Presence.', 'Maximum Comfort'],
-    accent:  1,
-    sub:     'High-CRI magnetic COB spots engineered for retail, showroom, and gallery accenting.',
-    specs:   ['CRI 95+', '7W – 15W', 'IP65 Rated', '50,000 hrs'],
+    image: HERO_IMG_1,
+    tag: 'Magnetic Track System',
+    title: ['Minimal', 'Presence,', 'Maximum Comfort'],
+    accent: 1,
+    sub: 'High-CRI magnetic COB spots engineered for retail, showroom, and gallery accenting.',
+    specs: ['CRI 95+', '7W – 15W', 'IP65 Rated', '50,000 hrs'],
   },
   {
-    image:   HERO_IMG_2,
-    tag:     'Linear LED Modules',
-    title:   ['Crafted For', 'Modern', 'Spaces.'],
-    accent:  1,
-    sub:     'Anti-glare linear magnetic fixtures delivering uniform, continuous light runs.',
-    specs:   ['Anti-Glare', 'Magnetic', 'CRI 90+', 'Seamless Run'],
+    image: HERO_IMG_2,
+    tag: 'Linear LED Modules',
+    title: ['Crafted For', 'Modern', 'Spaces'],
+    accent: 1,
+    sub: 'Anti-glare linear magnetic fixtures delivering uniform, continuous light runs.',
+    specs: ['Anti-Glare', 'Magnetic', 'CRI 90+', 'Seamless Run'],
   },
   {
-    image:   HERO_IMG_3,
-    tag:     'Surface Cylinder Lights',
-    title:   ['A Pinpoint of Light,', 'A World of', 'Detail.'],
-    accent:  2,
-    sub:     'Deep-set anti-glare cylinder downlights for dramatic, high-contrast interiors.',
-    specs:   ['Surface Mount', 'Tri-CCT', 'CRI 95+', 'Anti-Glare'],
+    image: HERO_IMG_3,
+    tag: 'Surface Cylinder Lights',
+    title: ['A Pinpoint of Light,', 'A World of', 'Detail'],
+    accent: 2,
+    sub: 'Deep-set anti-glare cylinder downlights for dramatic, high-contrast interiors.',
+    specs: ['Surface Mount', 'Tri-CCT', 'CRI 95+', 'Anti-Glare'],
   },
   {
-    image:   HERO_IMG_4,
-    tag:     'Designer Pendants',
-    title:   ['Where Light', 'Becomes', 'Architecture.'],
-    accent:  2,
-    sub:     'Slim suspended profiles crafted for hospitality, dining, and premium residential spaces.',
-    specs:   ['Suspended', 'Slim Profile', 'Dimmable', 'CRI 90+'],
+    image: HERO_IMG_4,
+    tag: 'Designer Pendants',
+    title: ['Where Light', 'Becomes', 'Architecture'],
+    accent: 2,
+    sub: 'Slim suspended profiles crafted for hospitality, dining, and premium residential spaces',
+    specs: ['Suspended', 'Slim Profile', 'Dimmable', 'CRI 90+'],
+  },
+  {
+    image: HERO_IMG_5,
+    tag: 'Mini Recessed Spots',
+    title: ['Minimal', 'Form,', 'Maximum Focus'],
+    accent: 1,
+    sub: 'Trimless mini spotlights that disappear into the ceiling — all light, no fixture.',
+    specs: ['Trimless', 'Anti-Glare', 'CRI 90+', 'Adjustable'],
   },
 ];
 
 // ── Bokeh particle definitions ────────────────────────────────────
 const BOKEH = [
-  { speedX: 0.025, speedY: 0.018, w: 80,  h: 80,  l: '74%', t: '18%', blur: 25, op: 0.12 },
-  { speedX: 0.04,  speedY: 0.03,  w: 50,  h: 50,  l: '88%', t: '38%', blur: 18, op: 0.09 },
+  { speedX: 0.025, speedY: 0.018, w: 80, h: 80, l: '74%', t: '18%', blur: 25, op: 0.12 },
+  { speedX: 0.04, speedY: 0.03, w: 50, h: 50, l: '88%', t: '38%', blur: 18, op: 0.09 },
   { speedX: 0.015, speedY: 0.022, w: 120, h: 120, l: '60%', t: '55%', blur: 35, op: 0.06 },
-  { speedX: 0.05,  speedY: 0.04,  w: 32,  h: 32,  l: '82%', t: '65%', blur: 12, op: 0.18 },
-  { speedX: 0.03,  speedY: 0.025, w: 65,  h: 65,  l: '68%', t: '78%', blur: 22, op: 0.08 },
-  { speedX: 0.035, speedY: 0.02,  w: 45,  h: 45,  l: '55%', t: '28%', blur: 16, op: 0.11 },
-  { speedX: 0.02,  speedY: 0.035, w: 90,  h: 90,  l: '78%', t: '88%', blur: 30, op: 0.05 },
-  { speedX: 0.045, speedY: 0.022, w: 28,  h: 28,  l: '92%', t: '50%', blur: 10, op: 0.20 },
-  { speedX: 0.028, speedY: 0.038, w: 55,  h: 55,  l: '65%', t: '42%', blur: 20, op: 0.08 },
+  { speedX: 0.05, speedY: 0.04, w: 32, h: 32, l: '82%', t: '65%', blur: 12, op: 0.18 },
+  { speedX: 0.03, speedY: 0.025, w: 65, h: 65, l: '68%', t: '78%', blur: 22, op: 0.08 },
+  { speedX: 0.035, speedY: 0.02, w: 45, h: 45, l: '55%', t: '28%', blur: 16, op: 0.11 },
+  { speedX: 0.02, speedY: 0.035, w: 90, h: 90, l: '78%', t: '88%', blur: 30, op: 0.05 },
+  { speedX: 0.045, speedY: 0.022, w: 28, h: 28, l: '92%', t: '50%', blur: 10, op: 0.20 },
+  { speedX: 0.028, speedY: 0.038, w: 55, h: 55, l: '65%', t: '42%', blur: 20, op: 0.08 },
   { speedX: 0.018, speedY: 0.012, w: 100, h: 100, l: '85%', t: '22%', blur: 32, op: 0.04 },
 ];
 
@@ -110,12 +119,12 @@ const scrollToSection = (id) => (e) => {
 
 // ─────────────────────────────────────────────────────────────────
 export default function LandingPage() {
-  const navigate  = useNavigate();
+  const navigate = useNavigate();
   const { search } = useLocation();
 
   // ── Scroll to section when navigated from another page ───────
   useEffect(() => {
-    const params  = new URLSearchParams(search);
+    const params = new URLSearchParams(search);
     const section = params.get('section');
     if (section) {
       const timer = setTimeout(() => {
@@ -127,12 +136,12 @@ export default function LandingPage() {
   }, [search]);
 
   // ── Refs ─────────────────────────────────────────────────────
-  const heroBgRef           = useRef(null);
-  const heroContentRef      = useRef(null);
-  const bokehRefs           = useRef([]);
-  const [activeVidIdx,  setActiveVidIdx]  = useState(0);  // slide index (kept name for compat)
-  const [displaySlide,  setDisplaySlide]  = useState(0);
-  const [textVisible,   setTextVisible]   = useState(true);
+  const heroBgRef = useRef(null);
+  const heroContentRef = useRef(null);
+  const bokehRefs = useRef([]);
+  const [activeVidIdx, setActiveVidIdx] = useState(0);  // slide index (kept name for compat)
+  const [displaySlide, setDisplaySlide] = useState(0);
+  const [textVisible, setTextVisible] = useState(true);
 
   // ── 1. Blur-to-Focus Reveal ──────────────────────────────────
   useEffect(() => {
@@ -180,36 +189,36 @@ export default function LandingPage() {
   // ── 4. Hero: 3D Tilt + Bokeh Mouse Parallax ─────────────────
   const onHeroMouseMove = useCallback((e) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    const cx = (e.clientX - rect.left) / rect.width  - 0.5;
-    const cy = (e.clientY - rect.top)  / rect.height - 0.5;
+    const cx = (e.clientX - rect.left) / rect.width - 0.5;
+    const cy = (e.clientY - rect.top) / rect.height - 0.5;
 
     if (heroContentRef.current) {
       heroContentRef.current.style.transition = 'transform 0.08s ease';
-      heroContentRef.current.style.transform  =
+      heroContentRef.current.style.transform =
         `perspective(900px) rotateX(${cy * -7}deg) rotateY(${cx * 7}deg)`;
     }
     bokehRefs.current.forEach((el, i) => {
       if (!el) return;
       const b = BOKEH[i];
       el.style.transition = 'none';
-      el.style.transform  = `translate(${cx * b.speedX * 120}px, ${cy * b.speedY * 120}px)`;
+      el.style.transform = `translate(${cx * b.speedX * 120}px, ${cy * b.speedY * 120}px)`;
     });
   }, []);
 
   const onHeroMouseLeave = useCallback(() => {
     if (heroContentRef.current) {
       heroContentRef.current.style.transition = 'transform 0.65s ease';
-      heroContentRef.current.style.transform  = 'perspective(900px) rotateX(0) rotateY(0)';
+      heroContentRef.current.style.transform = 'perspective(900px) rotateX(0) rotateY(0)';
     }
     bokehRefs.current.forEach((el) => {
       if (!el) return;
       el.style.transition = 'transform 0.65s ease';
-      el.style.transform  = 'translate(0, 0)';
+      el.style.transform = 'translate(0, 0)';
     });
   }, []);
 
   // ── 5. Magnetic buttons ───────────────────────────────────────
-  const onMagMove  = useCallback((e) => {
+  const onMagMove = useCallback((e) => {
     const r = e.currentTarget.getBoundingClientRect();
     e.currentTarget.style.transform =
       `translate(${(e.clientX - r.left - r.width / 2) * 0.3}px, ${(e.clientY - r.top - r.height / 2) * 0.3}px)`;
@@ -217,7 +226,7 @@ export default function LandingPage() {
   const onMagEnter = useCallback((e) => { e.currentTarget.style.transition = 'transform 0.1s ease'; }, []);
   const onMagLeave = useCallback((e) => {
     e.currentTarget.style.transition = 'transform 0.6s cubic-bezier(0.23,1,0.32,1)';
-    e.currentTarget.style.transform  = '';
+    e.currentTarget.style.transform = '';
   }, []);
   const mag = { onMouseMove: onMagMove, onMouseEnter: onMagEnter, onMouseLeave: onMagLeave };
 
@@ -322,7 +331,7 @@ export default function LandingPage() {
               <motion.button className={styles.heroBtnPrimary} onClick={() => navigate('/products')} {...mag} whileHover={buttonHover} whileTap={buttonTap}>
                 Explore Products
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                  <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
                 </svg>
               </motion.button>
               <motion.a href="#collections" className={styles.heroBtnGhost} onClick={scrollToSection('collections')} {...mag} whileHover={buttonHover} whileTap={buttonTap}>
@@ -338,14 +347,14 @@ export default function LandingPage() {
           onClick={() => setActiveVidIdx(i => (i - 1 + HERO_SLIDES.length) % HERO_SLIDES.length)}
           aria-label="Previous slide"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
         </button>
         <button
           className={`${styles.heroArrow} ${styles.heroArrowRight}`}
           onClick={() => setActiveVidIdx(i => (i + 1) % HERO_SLIDES.length)}
           aria-label="Next slide"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
         </button>
 
         {/* ── Line indicators ── */}
@@ -398,7 +407,7 @@ export default function LandingPage() {
           </div>
           <motion.a href="#" download className={styles.catalogueCtaBtn} {...mag} whileHover={buttonHover} whileTap={buttonTap}>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
             </svg>
             Download Catalogue
           </motion.a>
@@ -607,7 +616,7 @@ export default function LandingPage() {
               whileHover={{ x: 3 }}
               transition={{ duration: 0.2 }}
             >
-              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
             </motion.svg>
           </motion.button>
         </motion.div>
