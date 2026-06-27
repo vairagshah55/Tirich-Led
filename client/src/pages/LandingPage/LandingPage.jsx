@@ -420,7 +420,8 @@ export default function LandingPage() {
       {/* ── SMART LIGHTING ───────────────────────────────────────── */}
       <SmartLightingSection />
 
-      {/* ── NEW LAUNCHES ────────────────────────────────────────── */}
+      {/* ── NEW LAUNCHES (temporarily disabled) ──────────────────── */}
+      {false && (
       <motion.section
         className={styles.launches}
         id="new-launches"
@@ -621,6 +622,7 @@ export default function LandingPage() {
           </motion.button>
         </motion.div>
       </motion.section>
+      )}
 
       <Footer />
 
