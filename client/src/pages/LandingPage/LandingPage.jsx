@@ -21,10 +21,10 @@ import proVid1   from '../../assets/grok-video-083a2972-e0c2-44a4-b856-38ebb9151
 import proVid2   from '../../assets/grok-video-1d4fef8d-119d-4f9f-8d71-650ca413f8be.mp4'; // 1.1 MB
 
 // ── Hero products (optimized transparent cutouts — webp, ~30 KB each) ──
-import HERO_IMG_1 from '../../assets/hero/magnetic-cob.webp';
-import HERO_IMG_2 from '../../assets/hero/10z-lzr.webp';
-import HERO_IMG_3 from '../../assets/hero/cylinder.webp';
-import HERO_IMG_4 from '../../assets/hero/hanging-light.webp';
+import HERO_IMG_1 from '../../assets/hero/slide-1.webp';
+import HERO_IMG_2 from '../../assets/hero/slide-2.webp';
+import HERO_IMG_3 from '../../assets/hero/slide-3.webp';
+import HERO_IMG_4 from '../../assets/hero/slide-4.webp';
 
 import LivingGallery          from '../../components/LivingGallery/LivingGallery';
 import AmbientSection         from '../../components/AmbientSection/AmbientSection';
