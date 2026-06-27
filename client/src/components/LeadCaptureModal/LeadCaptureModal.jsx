@@ -7,7 +7,9 @@ const EASE = [0.25, 1, 0.5, 1];
 const STORAGE_KEY = 'tirichLead';
 // Lead capture is handled by the 57facets backend.
 
-const LEAD_API_BASE = 'http://57facets.in';
+// Must be https on the live site (https://tirichled.com) — an http→https
+// redirect breaks the CORS preflight.
+const LEAD_API_BASE = 'https://57facets.in';
 // const LEAD_API_BASE = 'http://localhost:5000'
 
 const BUSINESS_OPTIONS = [
