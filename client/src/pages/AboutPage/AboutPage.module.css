@@ -547,12 +547,14 @@
   background: #262262;
 }
 
-.videoEmbed iframe {
+.videoEmbed iframe,
+.videoEmbed video {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   border: none;
+  object-fit: cover;
 }
 
 /* Shimmer sweep on video border */

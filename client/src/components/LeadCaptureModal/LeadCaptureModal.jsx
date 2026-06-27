@@ -5,7 +5,10 @@ import styles from './LeadCaptureModal.module.css';
 
 const EASE = [0.25, 1, 0.5, 1];
 const STORAGE_KEY = 'tirichLead';
-const API_BASE = process.env.REACT_APP_API_BASE_URL || 'https://tirich-led.onrender.com/api/v1';
+// Lead capture is handled by the 57facets backend.
+
+const LEAD_API_BASE = 'http://57facets.in';
+// const LEAD_API_BASE = 'http://localhost:5000'
 
 const BUSINESS_OPTIONS = [
   { value: '', label: 'Select business type' },
@@ -115,7 +118,7 @@ export default function LeadCaptureModal({ open, onClose, onSuccess, required = 
     };
 
     try {
-      const res = await fetch(`${API_BASE}/leads`, {
+      const res = await fetch(`${LEAD_API_BASE}/sub-domain/lead/store`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(leadData),
@@ -144,7 +147,7 @@ export default function LeadCaptureModal({ open, onClose, onSuccess, required = 
     setVerifyError('');
 
     try {
-      const res = await fetch(`${API_BASE}/leads/verify/${encodeURIComponent(phone)}`);
+      const res = await fetch(`${LEAD_API_BASE}/sub-domain/lead/verify/${encodeURIComponent(phone)}`);
       if (res.status === 404) {
         setVerifyError('No record found. Please fill in your details.');
         return;

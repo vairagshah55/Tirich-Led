@@ -4,6 +4,7 @@ import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import Navbar from '../../components/Navbar/Navbar';
 import styles from './AboutPage.module.css';
 import Footer from '../../components/Footer/Footer';
+import brandFilm from '../../assets/videos/Tirich Brand Film.mp4';
 
 const EASE = [0.22, 1, 0.36, 1];
 const QUART_OUT = [0.25, 1, 0.5, 1];
@@ -227,11 +228,15 @@ export default function AboutPage() {
             transition={{ duration: 0.7, ease: EASE }}
           >
             <div className={styles.videoEmbed}>
-              <iframe
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                title="Tirich LED — Manufacturing Excellence"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
+              <video
+                src={brandFilm}
+                title="Tirich Brand Film"
+                controls
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="auto"
               />
               <div className={styles.videoShimmer} aria-hidden />
             </div>
