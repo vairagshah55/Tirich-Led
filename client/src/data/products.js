@@ -6,7 +6,6 @@ import hangingOld   from '../assets/hanging-230.webp';
 
 // ── HD Product images ───────────────────────────────────────────
 import hdTLC108     from '../assets/HD PHOTO/png/png/TLC-108.webp';
-import hdTLC114     from '../assets/HD PHOTO/png/png/TLC-114.webp';
 import hdTLC118     from '../assets/HD PHOTO/TLC-118.webp';
 import hdTLC121     from '../assets/HD PHOTO/TLC-121.webp';
 import hdTLC151     from '../assets/HD PHOTO/TLC-151.webp';
@@ -41,6 +40,10 @@ import hdTLC112new  from '../assets/HD PHOTO/TLC-112.webp';
 import hdTLC159     from '../assets/HD PHOTO/TLC-159.webp';
 import hdTLC102     from '../assets/HD PHOTO/TLC-102.webp';
 import hdTLC119     from '../assets/HD PHOTO/TLC-119.webp';
+import hdTLC113     from '../assets/HD PHOTO/TLC-113.webp';
+import hdTLC114new  from '../assets/HD PHOTO/TLC-114.webp';
+import hdPRO142     from '../assets/HD PHOTO/PRO-142.webp';
+import hdPRO141     from '../assets/HD PHOTO/PRO-141.webp';
 
 // ── Technical drawing diagrams ──────────────────────────────────
 import diaPRO116    from '../assets/diagrams/PRO-116-diagram.webp';
@@ -60,6 +63,10 @@ import diaTLC102    from '../assets/diagrams/TLC-102-diagram.webp';
 import diaTLC112    from '../assets/diagrams/TLC-112-diagram.webp';
 import diaTLC335    from '../assets/diagrams/TLC-335-diagram.webp';
 import diaTLC119    from '../assets/diagrams/TLC-119-diagram.webp';
+import diaTLC113    from '../assets/diagrams/TLC-113-diagram.webp';
+import diaTLC114    from '../assets/diagrams/TLC-114-diagram.webp';
+import diaPRO142    from '../assets/diagrams/PRO-142-diagram.webp';
+import diaPRO141    from '../assets/diagrams/PRO-141-diagram.webp';
 
 const ALL_PRODUCTS = [
   // ── PANEL LIGHTS ─────────────────────────────────────────────
@@ -106,17 +113,27 @@ const ALL_PRODUCTS = [
   {
     slug: 'tlc-114',
     name: 'TLC-114',
-    category: 'Panel Lights',
-    categorySlug: 'panel-lights',
-    tagline: 'Slim Recessed LED Panel',
-    image: hdTLC114,
-    wattage: '18W / 24W / 36W',
-    cri: '95+',
-    cct: '3000K / 4000K / 6500K',
-    ip: 'IP40',
+    category: 'Downlights',
+    categorySlug: 'downlights',
+    tagline: 'Recessed Pull-Out Spotlight',
+    image: hdTLC114new,
+    diagram: diaTLC114,
+    wattage: '7W / 12W',
+    cri: '80 / 90',
+    cct: '3000K / 4000K / 5000K / 6000K / Tunable',
+    ip: 'IP20',
     lifespan: '50,000 hrs',
-    description: 'The TLC-114 slim recessed panel offers a clean, frameless aesthetic for modern commercial and retail interiors. Uniform light distribution with no visible hotspots.',
-    features: ['Frameless recessed design', 'Uniform luminance', 'Anti-glare PMMA diffuser', 'Dimmable compatible', 'CE & RoHS certified'],
+    description: 'The TLC-114 is a recessed pull-out spotlight on a CREE LED engine with a Philips driver. Its cylinder head extends and tilts out of the housing for precise directional accent lighting of artwork, displays, and architectural features.',
+    features: [
+      'CREE COB LED engine',
+      'Philips driver',
+      '130–140 LM/W efficacy',
+      'Beam angle 24° / 36° / 50°',
+      'Pull-out tilt-and-rotate head',
+      'Shinland reflector · White / Black',
+      'Power factor > 0.90 · 150–240V AC',
+      'Cutout 40 / 70mm · Dimmable · DALI',
+    ],
   },
   {
     slug: 'tlc-118',
@@ -595,6 +612,81 @@ const ALL_PRODUCTS = [
       'Ø145mm cutout · 155×82mm body · Dimmable · DALI',
     ],
   },
+  {
+    slug: 'tlc-113',
+    name: 'TLC-113',
+    category: 'Downlights',
+    categorySlug: 'downlights',
+    tagline: 'Square Single & Twin COB Downlight',
+    image: hdTLC113,
+    diagram: diaTLC113,
+    wattage: '12W / 24W (twin)',
+    cri: '80 / 90',
+    cct: '3000K / 4000K / 5000K / 6000K / 3-in-1 Tunable',
+    ip: 'IP20',
+    lifespan: '50,000 hrs',
+    description: 'The TLC-113 is a square recessed COB downlight on a Bridgelux / CREE engine with premium Philips, Fulham, or Osram drivers. Available as a single or twin-head frame, its trimless square aperture suits modern, minimal ceilings.',
+    features: [
+      'Bridgelux / CREE COB engine',
+      'Driver: Philips / Fulham / Osram',
+      '130–140 LM/W efficacy',
+      'Beam angle 24° / 36° / 60°',
+      'Single & twin-head frame',
+      'White / Black body',
+      'Power factor > 0.90 · 150–240V AC',
+      'Cutout 75×75mm / 155×77mm · Dimmable · DALI',
+    ],
+  },
+  {
+    slug: 'pro-142',
+    name: 'PRO+142',
+    category: 'Downlights',
+    categorySlug: 'downlights',
+    tagline: 'Deep Anti-Glare COB Downlight',
+    image: hdPRO142,
+    diagram: diaPRO142,
+    wattage: '15W / 18W',
+    cri: '80 / 90 / 95',
+    cct: '3000K / 4000K / 5000K / 6000K / 3-in-1 Tunable',
+    ip: 'IP20',
+    lifespan: '50,000 hrs',
+    description: 'The PRO+142 is a deep anti-glare recessed COB downlight on a CREE LED engine with an Osram driver. Its Darkoo optic and high-CRI options (up to 95) deliver premium, glare-controlled accent light for retail, hospitality, and galleries.',
+    features: [
+      'CREE COB LED engine',
+      'Osram driver',
+      '130–140 LM/W efficacy',
+      'Beam angle 38°',
+      'Darkoo deep anti-glare optic',
+      'CRI up to 95 · White / Black',
+      'Power factor > 0.90 · 150–240V AC',
+      'Cutout 50 / 62mm · Dimmable · DALI',
+    ],
+  },
+  {
+    slug: 'pro-141',
+    name: 'PRO+141',
+    category: 'Downlights',
+    categorySlug: 'downlights',
+    tagline: 'Mini Deep Anti-Glare Downlight',
+    image: hdPRO141,
+    diagram: diaPRO141,
+    wattage: '7W / 12W',
+    cri: '80 / 90',
+    cct: '3000K / 4000K / 5000K / 6000K / Tunable',
+    ip: 'IP20',
+    lifespan: '50,000 hrs',
+    description: 'The PRO+141 is a compact deep anti-glare recessed COB downlight on a Bridgelux LED engine with premium Philips, Fulham, or Osram drivers. With efficacy up to 160 LM/W and a small cutout, it delivers efficient, low-glare accent light in tight spaces.',
+    features: [
+      'Bridgelux LED engine',
+      'Driver: Philips / Fulham / Osram',
+      '150–160 LM/W high efficacy',
+      'Beam angle 24° / 38°',
+      'Shinland deep reflector',
+      'White / Black body',
+      'Power factor > 0.90 · 150–240V AC',
+      'Cutout 35 / 48mm · Dimmable · DALI',
+    ],
+  },
 
   // ── FIXTURES ─────────────────────────────────────────────────
   {
@@ -862,9 +954,13 @@ const PUBLISHED_SLUGS = [
   'tlc-159', // p26
   'tlc-102', // p27
   'tlc-103', // p28
-  'tlc-112', // p31
-  'tlc-335', // p32
-  'tlc-119', // p33
+  'tlc-113', // p31
+  'tlc-112', // p32
+  'tlc-335', // p33
+  'tlc-119', // p34
+  'tlc-114', // p36
+  'pro-142', // p37
+  'pro-141', // p38
   'pro-140', // p50
 ];
 export const PRODUCTS = PUBLISHED_SLUGS
