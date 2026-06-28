@@ -1,0 +1,259 @@
+/* ════════════════════════════════════════════════════════════════════
+   Lead List — Tirich LED admin view of captured leads
+   ════════════════════════════════════════════════════════════════════ */
+
+.page {
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg-section);
+  color: var(--text-body);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+/* ── Toolbar (search + count) ───────────────────────────────────── */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+.toolbarRight {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.count {
+  font-size: 0.85rem;
+  color: var(--text-on-section-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.exportBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 600;
+  padding: 0.6rem 1.1rem;
+  border-radius: 8px;
+  border: 0;
+  background: var(--brand-navy);
+  color: #fff;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+.exportBtn:hover:not(:disabled) { background: var(--neutral-dark); }
+.exportBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── Search ─────────────────────────────────────────────────────── */
+.searchBox {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: #fff;
+  border: 1px solid rgba(38, 34, 98, 0.12);
+  border-radius: 10px;
+  padding: 0.65rem 0.9rem;
+  min-width: 280px;
+  color: var(--neutral-mid);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.searchBox:focus-within {
+  border-color: var(--brand-orange);
+  box-shadow: 0 0 0 3px rgba(247, 148, 30, 0.12);
+}
+.searchBox input {
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--brand-navy);
+  width: 100%;
+}
+.searchBox input::placeholder { color: var(--neutral-mid); }
+
+/* ── Table ──────────────────────────────────────────────────────── */
+.tableCard {
+  background: #fff;
+  border: 1px solid rgba(38, 34, 98, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(38, 34, 98, 0.06);
+  overflow: hidden;
+}
+.tableScroll { overflow-x: auto; }
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+.table thead th {
+  position: sticky;
+  top: 0;
+  text-align: left;
+  padding: 0.95rem 1.1rem;
+  background: #FAFAFD;
+  border-bottom: 1px solid rgba(38, 34, 98, 0.1);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-on-section-muted);
+  white-space: nowrap;
+}
+.table tbody td {
+  padding: 0.9rem 1.1rem;
+  border-bottom: 1px solid rgba(38, 34, 98, 0.05);
+  color: var(--brand-navy);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.table tbody tr:last-child td { border-bottom: 0; }
+.table tbody tr:hover td { background: rgba(247, 148, 30, 0.04); }
+
+.colNum {
+  width: 48px;
+  color: var(--neutral-mid);
+  font-variant-numeric: tabular-nums;
+}
+.cellName { font-weight: 600; }
+.cellDate {
+  color: var(--text-on-section-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.phoneLink {
+  color: var(--brand-navy);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.phoneLink:hover {
+  color: var(--brand-orange);
+  border-bottom-color: var(--brand-orange);
+}
+
+.pill {
+  display: inline-block;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(38, 34, 98, 0.06);
+  border: 1px solid rgba(38, 34, 98, 0.1);
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--brand-navy);
+}
+
+/* ── Pagination ─────────────────────────────────────────────────── */
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1.25rem;
+}
+.pagerInfo {
+  font-size: 0.85rem;
+  color: var(--text-on-section-muted);
+  font-variant-numeric: tabular-nums;
+}
+.pagerBtns {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.pagerPage {
+  font-size: 0.82rem;
+  color: var(--text-on-section-muted);
+  font-variant-numeric: tabular-nums;
+}
+.pagerBtn {
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.55rem 1.1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(38, 34, 98, 0.15);
+  background: #fff;
+  color: var(--brand-navy);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+}
+.pagerBtn:hover:not(:disabled) {
+  border-color: var(--brand-orange);
+  background: rgba(247, 148, 30, 0.06);
+}
+.pagerBtn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ── States (error / empty) ─────────────────────────────────────── */
+.stateCard {
+  background: #fff;
+  border: 1px solid rgba(38, 34, 98, 0.08);
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  text-align: center;
+  box-shadow: 0 6px 24px rgba(38, 34, 98, 0.06);
+}
+.stateTitle {
+  margin: 0 0 0.4rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--brand-navy);
+}
+.stateText {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-on-section-muted);
+}
+.retryBtn {
+  margin-top: 1.25rem;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.6rem 1.4rem;
+  border-radius: 8px;
+  border: 0;
+  background: var(--brand-navy);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.retryBtn:hover { background: var(--neutral-dark); }
+
+/* ── Loading skeleton ───────────────────────────────────────────── */
+.skeletonHead,
+.skeletonRow {
+  height: 52px;
+  background: linear-gradient(90deg, #F2F2F7 25%, #E9E9F1 37%, #F2F2F7 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+  border-bottom: 1px solid rgba(38, 34, 98, 0.05);
+}
+.skeletonHead { height: 46px; }
+
+@keyframes shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeletonHead,
+  .skeletonRow { animation: none; }
+}
+
+/* ── Responsive ─────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .searchBox { min-width: 100%; }
+}

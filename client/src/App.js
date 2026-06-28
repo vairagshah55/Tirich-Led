@@ -18,6 +18,7 @@ const ProductsPage      = lazy(() => import('./pages/ProductsPage/ProductsPage')
 const ProductDetailPage = lazy(() => import('./pages/ProductDetailPage/ProductDetailPage'));
 const ContactPage       = lazy(() => import('./pages/ContactPage/ContactPage'));
 const SmartLightingPage = lazy(() => import('./pages/SmartLightingPage/SmartLightingPage'));
+const LeadListPage      = lazy(() => import('./pages/LeadListPage/LeadListPage'));
 
 const PAGE_TITLES = {
   '/':           'Tirich LED — Precision LED Lighting',
@@ -28,6 +29,7 @@ const PAGE_TITLES = {
   '/login':      'Partner Login | Tirich LED',
   '/dashboard':  'Dashboard | Tirich LED',
   '/ai-studio':  'AI Studio | Tirich LED',
+  '/leads-f98f30a4-b2e4-4cef-9787-20668cf00005': 'Leads | Tirich LED',
 };
 
 function App() {
@@ -149,6 +151,12 @@ function App() {
                   <Navigate to="/login" replace />
                 )
               }
+            />
+            {/* Unguessable secret URL — leads are viewable by anyone with the
+                link, so keep this path private. No nav link points to it. */}
+            <Route
+              path="/leads-f98f30a4-b2e4-4cef-9787-20668cf00005"
+              element={<LeadListPage />}
             />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/products" element={<ProductsPage />} />
