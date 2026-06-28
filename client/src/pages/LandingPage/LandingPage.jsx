@@ -38,6 +38,9 @@ import LivingGallery from '../../components/LivingGallery/LivingGallery';
 import AmbientSection from '../../components/AmbientSection/AmbientSection';
 import SmartLightingSection from '../../components/SmartLightingSection/SmartLightingSection';
 import Footer from '../../components/Footer/Footer';
+import LeadCaptureModal, { hasLeadData } from '../../components/LeadCaptureModal/LeadCaptureModal';
+
+const CATALOGUE_PDF = '/Tirich-LED-Catalogue-2026.pdf';
 
 // ── Living Gallery items ──────────────────────────────────────────
 const LIVING_GALLERY = [
@@ -157,6 +160,31 @@ export default function LandingPage() {
   const [activeVidIdx, setActiveVidIdx] = useState(0);  // slide index (kept name for compat)
   const [displaySlide, setDisplaySlide] = useState(0);
   const [textVisible, setTextVisible] = useState(true);
+  const [showCatalogueModal, setShowCatalogueModal] = useState(false);
+
+  // Trigger the catalogue PDF download
+  const downloadCatalogue = useCallback(() => {
+    const a = document.createElement('a');
+    a.href = CATALOGUE_PDF;
+    a.download = 'Tirich-LED-Catalogue-2026.pdf';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }, []);
+
+  // Gate the download behind lead capture (same flow as viewing products)
+  const handleCatalogueClick = useCallback(() => {
+    if (hasLeadData()) {
+      downloadCatalogue();
+    } else {
+      setShowCatalogueModal(true);
+    }
+  }, [downloadCatalogue]);
+
+  const handleCatalogueLeadSuccess = useCallback(() => {
+    setShowCatalogueModal(false);
+    downloadCatalogue();
+  }, [downloadCatalogue]);
 
   // ── 1. Blur-to-Focus Reveal ──────────────────────────────────
   useEffect(() => {
@@ -420,12 +448,12 @@ export default function LandingPage() {
             <h3 className={styles.catalogueCtaTitle}>Get the full product catalogue</h3>
             <p className={styles.catalogueCtaSub}>Specifications, dimensions, and technical data for every Tirich LED product.</p>
           </div>
-          <motion.a href="#" download className={styles.catalogueCtaBtn} {...mag} whileHover={buttonHover} whileTap={buttonTap}>
+          <motion.button type="button" onClick={handleCatalogueClick} className={styles.catalogueCtaBtn} {...mag} whileHover={buttonHover} whileTap={buttonTap}>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
             </svg>
             Download Catalogue
-          </motion.a>
+          </motion.button>
         </div>
       </section>
 
@@ -640,6 +668,12 @@ export default function LandingPage() {
       )}
 
       <Footer />
+
+      <LeadCaptureModal
+        open={showCatalogueModal}
+        onClose={() => setShowCatalogueModal(false)}
+        onSuccess={handleCatalogueLeadSuccess}
+      />
 
     </div>
   );
