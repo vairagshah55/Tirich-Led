@@ -283,6 +283,7 @@
   width: 100%;
   height: 240px;
   object-fit: cover;
+  object-position: center top; /* favor the top so portrait faces aren't cropped off */
   display: block;
 }
 

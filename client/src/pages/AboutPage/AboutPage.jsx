@@ -5,6 +5,7 @@ import Navbar from '../../components/Navbar/Navbar';
 import styles from './AboutPage.module.css';
 import Footer from '../../components/Footer/Footer';
 import brandFilm from '../../assets/videos/Tirich Brand Film.mp4';
+import rinkeshJain from '../../assets/director-rinkesh-jain.jpeg';
 
 const EASE = [0.22, 1, 0.36, 1];
 const QUART_OUT = [0.25, 1, 0.5, 1];
@@ -14,19 +15,20 @@ const JOURNEY = [
   {
     year: '2020',
     title: 'Lighting the Way',
-    body: 'Tirich LED founded with a precise focus on commercial-grade panel lighting for the Indian market — built on a commitment to photometric accuracy from day one.',
+    body: 'Founded by Pramod Jain, Tirich LED began with a precise focus on commercial-grade panel lighting for the Indian market. His vision — built on a commitment to photometric accuracy and honest engineering from day one — set the standard for every fixture the company makes, laying the foundation for a brand trusted by architects and contractors nationwide.',
     type: 'director',
-    name: 'Prataprai Manshani',
-    role: 'Founder & Chairman',
+    name: 'Pramod Jain',
+    role: 'Founder',
     image: 'https://images.pexels.com/photos/28426637/pexels-photo-28426637.jpeg?auto=compress&cs=tinysrgb&w=600',
   },
   {
     year: '2021',
-    title: 'Expanding the Range',
-    body: 'Grew from a single category to a comprehensive portfolio — industrial high-bay fixtures, strip LEDs, and custom CCT solutions serving architects and contractors nationwide.',
-    type: 'company',
-    image: 'https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=600',
-    caption: 'R&D and product engineering team',
+    title: 'Leadership & Vision',
+    body: 'Under the direction of Rinkesh Jain, Tirich LED sharpened its focus on photometric precision and reliable engineering. His leadership drove the expansion from a single category into a comprehensive portfolio — from panel and high-bay fixtures to custom CCT solutions — while building the partnerships with architects and contractors that define the brand today.',
+    type: 'director',
+    name: 'Rinkesh Jain',
+    role: 'Director',
+    image: rinkeshJain,
   },
   {
     year: '2022',
@@ -510,9 +512,6 @@ export default function AboutPage() {
                       viewport={REVEAL}
                       transition={{ duration: 0.6, delay: 0.08, ease: QUART_OUT }}
                     >
-                      <motion.span className={styles.entryYear} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={REVEAL} transition={{ duration: 0.6, delay: 0.15, ease: QUART_OUT }}>
-                        {item.year}
-                      </motion.span>
                       <motion.h3 className={styles.entryTitle} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={REVEAL} transition={{ duration: 0.6, delay: 0.2, ease: QUART_OUT }}>
                         {item.title}
                       </motion.h3>
@@ -616,9 +615,6 @@ export default function AboutPage() {
                       viewport={REVEAL}
                       transition={{ duration: 0.6, delay: 0.08, ease: QUART_OUT }}
                     >
-                      <motion.span className={styles.entryYear} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={REVEAL} transition={{ duration: 0.6, delay: 0.15, ease: QUART_OUT }}>
-                        {item.year}
-                      </motion.span>
                       <motion.h3 className={styles.entryTitle} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={REVEAL} transition={{ duration: 0.6, delay: 0.2, ease: QUART_OUT }}>
                         {item.title}
                       </motion.h3>
