@@ -237,7 +237,11 @@ export default function ProductDetailPage() {
                   <div className={styles.diagramLeft}>
                     <p className={styles.diagramSub}>{product.name} — {product.tagline}</p>
                     <div className={styles.diagramWrap}>
-                      <LineDiagram product={product} />
+                      {product.diagram ? (
+                        <img src={product.diagram} alt={`${product.name} technical drawing`} className={styles.diagramImg} loading="lazy" decoding="async" />
+                      ) : (
+                        <LineDiagram product={product} />
+                      )}
                     </div>
                   </div>
                   {/* Right — specs */}

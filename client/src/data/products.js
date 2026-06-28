@@ -1,14 +1,11 @@
 // ── Existing product images ─────────────────────────────────────
 import product1     from '../assets/TLC-101.webp';
-import product2     from '../assets/TLC-105.webp';
-import product5     from '../assets/TLC-112.webp';
 import product8     from '../assets/TLC-129.webp';
 import stripLed     from '../assets/STRIP-LED-POST.webp';
 import hangingOld   from '../assets/hanging-230.webp';
 
 // ── HD Product images ───────────────────────────────────────────
 import hdTLC108     from '../assets/HD PHOTO/png/png/TLC-108.webp';
-import hdTLC111     from '../assets/HD PHOTO/png/png/TLC-111.webp';
 import hdTLC114     from '../assets/HD PHOTO/png/png/TLC-114.webp';
 import hdTLC118     from '../assets/HD PHOTO/TLC-118.webp';
 import hdTLC121     from '../assets/HD PHOTO/TLC-121.webp';
@@ -29,11 +26,42 @@ import hdPRO130     from '../assets/HD PHOTO/PRO+130.webp';
 import hdPRO131     from '../assets/HD PHOTO/PRO+131.webp';
 import hdPRO132     from '../assets/HD PHOTO/PRO+132.webp';
 import hdPRO133     from '../assets/HD PHOTO/PRO+133.webp';
+import hdPRO116     from '../assets/HD PHOTO/PRO-116.webp';
 import hdPRO120     from '../assets/HD PHOTO/PRO-120.webp';
 import hdPRO125     from '../assets/HD PHOTO/PRO-125.webp';
 import hdPRO140     from '../assets/HD PHOTO/PRO-140.webp';
+import hdPRO126     from '../assets/HD PHOTO/PRO-126.webp';
+import hdPRO115     from '../assets/HD PHOTO/PRO-115.webp';
+import hdTLC109     from '../assets/HD PHOTO/TLC-109.webp';
+import hdTLC111new  from '../assets/HD PHOTO/TLC-111.webp';
+import hdTLC107     from '../assets/HD PHOTO/TLC-107.webp';
+import hdTLC103     from '../assets/HD PHOTO/TLC-103.webp';
+import hdTLC105new  from '../assets/HD PHOTO/TLC-105.webp';
+import hdTLC112new  from '../assets/HD PHOTO/TLC-112.webp';
+import hdTLC159     from '../assets/HD PHOTO/TLC-159.webp';
+import hdTLC102     from '../assets/HD PHOTO/TLC-102.webp';
+import hdTLC119     from '../assets/HD PHOTO/TLC-119.webp';
 
-export const PRODUCTS = [
+// ── Technical drawing diagrams ──────────────────────────────────
+import diaPRO116    from '../assets/diagrams/PRO-116-diagram.webp';
+import diaPRO120    from '../assets/diagrams/PRO-120-diagram.webp';
+import diaPRO125    from '../assets/diagrams/PRO-125-diagram.webp';
+import diaPRO126    from '../assets/diagrams/PRO-126-diagram.webp';
+import diaPRO115    from '../assets/diagrams/PRO-115-diagram.webp';
+import diaPRO140    from '../assets/diagrams/PRO-140-diagram.webp';
+import diaTLC109    from '../assets/diagrams/TLC-109-diagram.webp';
+import diaTLC111    from '../assets/diagrams/TLC-111-diagram.webp';
+import diaTLC107    from '../assets/diagrams/TLC-107-diagram.webp';
+import diaTLC103    from '../assets/diagrams/TLC-103-diagram.webp';
+import diaTLC118    from '../assets/diagrams/TLC-118-diagram.webp';
+import diaTLC105    from '../assets/diagrams/TLC-105-diagram.webp';
+import diaTLC159    from '../assets/diagrams/TLC-159-diagram.webp';
+import diaTLC102    from '../assets/diagrams/TLC-102-diagram.webp';
+import diaTLC112    from '../assets/diagrams/TLC-112-diagram.webp';
+import diaTLC335    from '../assets/diagrams/TLC-335-diagram.webp';
+import diaTLC119    from '../assets/diagrams/TLC-119-diagram.webp';
+
+const ALL_PRODUCTS = [
   // ── PANEL LIGHTS ─────────────────────────────────────────────
   {
     slug: 'tlc-101',
@@ -53,17 +81,27 @@ export const PRODUCTS = [
   {
     slug: 'tlc-105',
     name: 'TLC-105',
-    category: 'Panel Lights',
-    categorySlug: 'panel-lights',
-    tagline: 'Edge-Lit Commercial Panel',
-    image: product2,
-    wattage: '36W / 48W',
-    cri: '95+',
-    cct: '4000K / 5000K',
-    ip: 'IP40',
+    category: 'Downlights',
+    categorySlug: 'downlights',
+    tagline: 'Mini Recessed COB Downlight',
+    image: hdTLC105new,
+    diagram: diaTLC105,
+    wattage: '5W',
+    cri: '80 / 90',
+    cct: '3000K / 4000K',
+    ip: 'IP20',
     lifespan: '50,000 hrs',
-    description: 'Edge-lit technology for shadow-free uniformity across the full panel face. The TLC-105 is engineered for large commercial spaces where consistent colour rendering is non-negotiable.',
-    features: ['Edge-lit technology', '120° beam angle', 'PF > 0.9', 'CE & RoHS certified', 'Thin bezel design'],
+    description: 'The TLC-105 is a compact 5W mini recessed COB downlight on a Bridgelux LED engine with a Philips driver. Its tiny Ø33mm cutout and Chuangxin reflector make it ideal for accent lighting, niches, and tight ceiling details.',
+    features: [
+      'Bridgelux LED engine',
+      'Philips driver',
+      '120–130 LM/W efficacy',
+      'Beam angle 38°',
+      'Chuangxin reflector',
+      'White / Black body',
+      'Power factor > 0.90 · 150–240V AC',
+      'Ø33mm cutout · 40×43mm body',
+    ],
   },
   {
     slug: 'tlc-114',
@@ -83,17 +121,27 @@ export const PRODUCTS = [
   {
     slug: 'tlc-118',
     name: 'TLC-118',
-    category: 'Panel Lights',
-    categorySlug: 'panel-lights',
-    tagline: 'Premium Backlit Panel',
+    category: 'Downlights',
+    categorySlug: 'downlights',
+    tagline: 'Trimless-Ready COB Downlight',
     image: hdTLC118,
-    wattage: '40W / 60W',
-    cri: '95+',
-    cct: '4000K / 5000K',
-    ip: 'IP40',
+    diagram: diaTLC118,
+    wattage: '7W / 12W',
+    cri: '80 / 90',
+    cct: '3000K / 4000K / 5000K / 6000K / 3-in-1 Tunable',
+    ip: 'IP20',
     lifespan: '50,000 hrs',
-    description: 'High-performance backlit panel for corporate, healthcare, and education environments. Superior luminous uniformity with HF flicker-free driver for extended occupant comfort.',
-    features: ['HF flicker-free 50kHz', 'High uniformity >0.85', 'DALI dimmable option', 'Recessed or surface', 'EN 12464-1 compliant'],
+    description: 'The TLC-118 is a recessed COB downlight on a Bridgelux / CREE LED engine with premium Philips, Fulham, or Osram drivers. Offered in standard and trimless versions, its optics deliver clean, even light for residential and commercial ceilings.',
+    features: [
+      'Bridgelux / CREE COB engine',
+      'Driver: Philips / Fulham / Osram',
+      '130–140 LM/W efficacy',
+      'Beam angle 38° / 50°',
+      'Standard & trimless versions',
+      'White / Black body',
+      'Power factor > 0.90 · 150–240V AC',
+      'Cutout 50 / 72mm · Dimmable · DALI',
+    ],
   },
   {
     slug: 'tlc-121',
@@ -248,52 +296,307 @@ export const PRODUCTS = [
     features: ['Matte black finish', 'Deep anti-glare recess', 'Dimmable', 'IP44 rated', 'Tilt-adjustable'],
   },
   {
+    slug: 'pro-116',
+    name: 'PRO-116',
+    category: 'Downlights',
+    categorySlug: 'downlights',
+    tagline: 'Anti-Glare COB Recessed Downlight',
+    image: hdPRO116,
+    diagram: diaPRO116,
+    wattage: '10W / 15W',
+    cri: '80 / 90',
+    cct: '3000K / 4000K / 5000K / 6000K / 3-in-1 Tunable',
+    ip: 'IP20',
+    lifespan: '50,000 hrs',
+    description: 'The PRO-116 is a deep anti-glare recessed COB downlight built on a CREE LED engine with premium Philips, Fulham, or Osram drivers. Its aluminium die-cast body delivers excellent thermal performance, available in 10W and 15W, in white or black, with selectable beam angles and full tunable CCT options.',
+    features: [
+      'CREE COB LED engine',
+      'Driver: Philips / Fulham / Osram',
+      '130–140 LM/W efficacy',
+      'Beam angle 24° / 36° / 60°',
+      'Aluminium die-cast body',
+      'Shinland anti-glare lens',
+      'Power factor > 0.90 · 150–240V AC',
+      'White / Black · Dimmable · DALI',
+    ],
+  },
+  {
     slug: 'pro-120',
     name: 'PRO-120',
     category: 'Downlights',
     categorySlug: 'downlights',
-    tagline: 'COB LED Recessed Downlight',
+    tagline: 'Adjustable COB Recessed Spotlight',
     image: hdPRO120,
-    wattage: '15W / 20W / 30W',
-    cri: '95+',
-    cct: '2700K / 3000K / 4000K',
-    ip: 'IP44',
+    diagram: diaPRO120,
+    wattage: '12W',
+    cri: '80 / 90',
+    cct: '3000K / 4000K / 5000K / 6000K / 3-in-1 Tunable',
+    ip: 'IP20',
     lifespan: '50,000 hrs',
-    description: 'High-power COB recessed downlight for retail accent lighting, hospitality feature lighting, and architectural highlighting where a tight, precise beam is required.',
-    features: ['COB LED chip', 'Tight beam control', 'Anti-glare louvre', 'Dimmable', 'Tilt 30° adjustable'],
+    description: 'The PRO-120 is a fully adjustable recessed COB spotlight built on a CREE LED engine with premium Philips, Fulham, or Osram drivers. Its tiltable head and GR precision optics make it ideal for accent lighting of artwork, retail displays, and architectural features.',
+    features: [
+      'CREE COB LED engine',
+      'Driver: Philips / Fulham / Osram',
+      '130–140 LM/W efficacy',
+      'Beam angle 24° / 36°',
+      'GR precision optics',
+      'Aluminium die-cast body',
+      'Power factor > 0.90 · 150–240V AC',
+      'White / Black · Ø40mm cutout · Dimmable · DALI',
+    ],
   },
   {
     slug: 'pro-125',
     name: 'PRO-125',
     category: 'Downlights',
     categorySlug: 'downlights',
-    tagline: 'Adjustable Accent Downlight',
+    tagline: 'Surface-Mount COB Downlight',
     image: hdPRO125,
-    wattage: '10W / 15W',
-    cri: '95+',
-    cct: '2700K / 3000K',
+    diagram: diaPRO125,
+    wattage: '7W / 12W',
+    cri: '80 / 90',
+    cct: '3000K / 4000K / 5000K / 6000K / 3-in-1 Tunable',
     ip: 'IP20',
     lifespan: '50,000 hrs',
-    description: 'Fully adjustable accent downlight for gallery, museum, and retail display lighting. Precision optics allow targeted illumination of artwork and merchandise.',
-    features: ['360° rotation, 30° tilt', 'Precision beam optics', 'Low glare design', 'Dimmable driver', 'Gallery-grade CRI 95+'],
+    description: 'The PRO-125 is a surface-mounted cylindrical COB downlight on a Bridgelux / CREE LED engine. Its compact aluminium die-cast body and Shinland anti-glare lens deliver clean accent light without recessing, available in white or gun black.',
+    features: [
+      'Bridgelux / CREE COB engine',
+      '130–140 LM/W efficacy',
+      'Beam angle 15° / 24° / 36°',
+      'Shinland / Darkoo lens',
+      'Aluminium die-cast body',
+      'Power factor > 0.90 · 150–240V AC',
+      'White / Gun Black · Surface mount',
+      'Ø40–50mm cutout · Dimmable · DALI',
+    ],
   },
-
-  // ── FIXTURES ─────────────────────────────────────────────────
+  {
+    slug: 'pro-126',
+    name: 'PRO-126',
+    category: 'Downlights',
+    categorySlug: 'downlights',
+    tagline: 'COB Recessed Downlight',
+    image: hdPRO126,
+    diagram: diaPRO126,
+    wattage: '10W / 15W / 20W / 30W',
+    cri: '80 / 90',
+    cct: '3000K / 4000K / 5000K / 6000K / 3-in-1 Tunable',
+    ip: 'IP20',
+    lifespan: '50,000 hrs',
+    description: 'The PRO-126 is a recessed COB downlight available across four power levels on a CREE LED engine with premium Philips, Fulham, or Osram drivers. Its Herculux optics and white/black body-and-reflector options make it a versatile choice for commercial and residential ceilings.',
+    features: [
+      'CREE COB LED engine',
+      'Driver: Philips / Fulham / Osram',
+      '130–140 LM/W efficacy',
+      'Beam angle 24° / 36° / 50°',
+      'Herculux optics',
+      'White / Black body & reflector',
+      'Power factor > 0.90 · 150–240V AC',
+      'Cutout 54–115mm · Dimmable · DALI',
+    ],
+  },
+  {
+    slug: 'pro-115',
+    name: 'PRO-115',
+    category: 'Downlights',
+    categorySlug: 'downlights',
+    tagline: 'IP65 Anti-Glare COB Downlight',
+    image: hdPRO115,
+    diagram: diaPRO115,
+    wattage: '12W / 18W',
+    cri: '80 / 90',
+    cct: '3000K / 4000K / 5000K / 6000K',
+    ip: 'IP65',
+    lifespan: '50,000 hrs',
+    description: 'The PRO-115 is an IP65 wet-rated recessed COB downlight on a Bridgelux / CREE LED engine. Built for bathrooms, kitchens, and covered outdoor areas, its deep anti-glare Herculux optic and die-cast aluminium body deliver durable, moisture-resistant accent light.',
+    features: [
+      'IP65 moisture-rated',
+      'Bridgelux / CREE COB engine',
+      'Driver: Philips / Fulham',
+      '130–140 LM/W efficacy',
+      'Beam angle 38°',
+      'Herculux anti-glare optic',
+      'White / Black body · Black reflector',
+      'Cutout 75 / 95mm · Dimmable',
+    ],
+  },
+  {
+    slug: 'tlc-109',
+    name: 'TLC-109',
+    category: 'Downlights',
+    categorySlug: 'downlights',
+    tagline: 'Deep Anti-Glare COB Downlight',
+    image: hdTLC109,
+    diagram: diaTLC109,
+    wattage: '10W / 15W / 20W',
+    cri: '80 / 90',
+    cct: '3000K / 4000K / 5000K / 6000K / 3-in-1 Tunable',
+    ip: 'IP20',
+    lifespan: '50,000 hrs',
+    description: 'The TLC-109 is a deep-recessed anti-glare COB downlight on a CREE LED engine with premium Philips, Fulham, or Osram drivers. Its Shinland reflector and trimless aesthetic suit hospitality, retail, and high-end residential ceilings.',
+    features: [
+      'CREE COB LED engine',
+      'Driver: Philips / Fulham / Osram',
+      '130–140 LM/W efficacy',
+      'Beam angle 38°',
+      'Shinland deep reflector',
+      'White / Black body',
+      'Power factor > 0.90 · 150–240V AC',
+      'Cutout 60–85mm · Dimmable · DALI',
+    ],
+  },
   {
     slug: 'tlc-111',
     name: 'TLC-111',
-    category: 'Fixtures',
-    categorySlug: 'fixtures',
-    tagline: 'High-Bay Industrial Fixture',
-    image: hdTLC111,
-    wattage: '100W / 150W / 200W',
-    cri: '80+',
-    cct: '4000K / 5000K',
-    ip: 'IP65',
+    category: 'Downlights',
+    categorySlug: 'downlights',
+    tagline: 'Wide-Beam Recessed Downlight',
+    image: hdTLC111new,
+    diagram: diaTLC111,
+    wattage: '7W / 12W / 18W',
+    cri: '80 / 90',
+    cct: '3000K / 4000K / 5000K / 6000K / 3-in-1 Tunable',
+    ip: 'IP20',
     lifespan: '50,000 hrs',
-    description: 'Heavy-duty high-bay fixture engineered for warehouses, manufacturing facilities, and large open spaces. IP65 rated for demanding industrial environments.',
-    features: ['IP65 weather rated', 'Wide 120° beam', 'Surge protection 4kV', 'Die-cast aluminium housing', 'Motion sensor optional'],
+    description: 'The TLC-111 is a wide-beam recessed downlight on a Bridgelux / CREE LED engine with premium Philips, Fulham, or Osram drivers. Its 80° GR optics and black or rose-gold reflector options deliver broad, even general illumination with a refined finish.',
+    features: [
+      'Bridgelux / CREE COB engine',
+      'Driver: Philips / Fulham / Osram',
+      '130–140 LM/W efficacy',
+      'Wide 80° beam angle',
+      'GR optics · Black / Rose gold reflector',
+      'White / Black body',
+      'Power factor > 0.90 · 150–240V AC',
+      'Cutout 60–90mm · Dimmable · DALI',
+    ],
   },
+  {
+    slug: 'tlc-107',
+    name: 'TLC-107',
+    category: 'Downlights',
+    categorySlug: 'downlights',
+    tagline: 'Anti-Glare COB Downlight',
+    image: hdTLC107,
+    diagram: diaTLC107,
+    wattage: '7W / 12W / 18W',
+    cri: '80 / 90',
+    cct: '3000K / 4000K / 5000K / 6000K / 3-in-1 Tunable',
+    ip: 'IP20',
+    lifespan: '50,000 hrs',
+    description: 'The TLC-107 is an anti-glare recessed COB downlight on a Bridgelux / CREE engine with Philips, Fulham, Osram, or Tirich drivers. Its Chuangxin reflector is offered in white, black, or rose gold to match any interior palette.',
+    features: [
+      'Bridgelux / CREE COB engine',
+      'Driver: Philips / Fulham / Osram / Tirich',
+      '120–135 LM/W efficacy',
+      'Beam angle 38°',
+      'Chuangxin reflector · White / Black / Rose gold',
+      'White / Black body',
+      'Power factor > 0.90 · 150–240V AC',
+      'Cutout 60–85mm · Dimmable · DALI',
+    ],
+  },
+  {
+    slug: 'tlc-103',
+    name: 'TLC-103',
+    category: 'Downlights',
+    categorySlug: 'downlights',
+    tagline: 'Compact Deep COB Downlight',
+    image: hdTLC103,
+    diagram: diaTLC103,
+    wattage: '7W / 12W',
+    cri: '80 / 90',
+    cct: '3000K / 4000K / 5000K / 6000K / 3-in-1 Tunable',
+    ip: 'IP20',
+    lifespan: '50,000 hrs',
+    description: 'The TLC-103 is a compact, deep-recessed COB downlight on a Bridgelux / CREE LED engine with premium Philips, Fulham, or Osram drivers. Its small cutout and Shinland reflector make it ideal for tight ceiling plenums and accent applications.',
+    features: [
+      'Bridgelux / CREE COB engine',
+      'Driver: Philips / Fulham / Osram',
+      '130–140 LM/W efficacy',
+      'Beam angle 24° / 38°',
+      'Shinland deep reflector',
+      'White / Black body',
+      'Power factor > 0.90 · 150–240V AC',
+      'Cutout 53 / 62mm · Dimmable · DALI',
+    ],
+  },
+  {
+    slug: 'tlc-159',
+    name: 'TLC-159',
+    category: 'Downlights',
+    categorySlug: 'downlights',
+    tagline: 'Mini Recessed COB Spot',
+    image: hdTLC159,
+    diagram: diaTLC159,
+    wattage: '3W',
+    cri: '80 / 90',
+    cct: '3000K / 4000K',
+    ip: 'IP20',
+    lifespan: '50,000 hrs',
+    description: 'The TLC-159 is an ultra-compact 3W mini recessed COB spot on a Bridgelux LED engine with a Tirich driver. With a Ø30mm cutout and white, black, or rose-gold reflector, it is built for fine accent lighting and detail work.',
+    features: [
+      'Bridgelux LED engine',
+      'Tirich driver',
+      '110–120 LM/W efficacy',
+      'Beam angle 38°',
+      'Shinland reflector',
+      'White / Black / Rose gold',
+      'Power factor > 0.90 · 150–240V AC',
+      'Ø30mm cutout · 37×29mm body',
+    ],
+  },
+  {
+    slug: 'tlc-102',
+    name: 'TLC-102',
+    category: 'Downlights',
+    categorySlug: 'downlights',
+    tagline: 'Multi-Beam COB Downlight',
+    image: hdTLC102,
+    diagram: diaTLC102,
+    wattage: '7W / 12W / 18W',
+    cri: '80 / 90',
+    cct: '3000K / 4000K / 5000K / 6000K / 3-in-1 Tunable',
+    ip: 'IP20',
+    lifespan: '50,000 hrs',
+    description: 'The TLC-102 is a recessed COB downlight on a Bridgelux / CREE engine with Philips, Fulham, Osram, or Tirich drivers. Four selectable beam angles and a Shinland reflector make it a flexible choice for accent through to general lighting.',
+    features: [
+      'Bridgelux / CREE COB engine',
+      'Driver: Philips / Fulham / Osram / Tirich',
+      '120–140 LM/W efficacy',
+      'Beam angle 15° / 24° / 36° / 60°',
+      'Shinland reflector',
+      'White / Black body',
+      'Power factor > 0.90 · 150–240V AC',
+      'Cutout 64–85mm · Dimmable · DALI',
+    ],
+  },
+  {
+    slug: 'tlc-119',
+    name: 'TLC-119',
+    category: 'Downlights',
+    categorySlug: 'downlights',
+    tagline: 'High-Lumen COB Downlight',
+    image: hdTLC119,
+    diagram: diaTLC119,
+    wattage: '50W',
+    cri: '80 / 90',
+    cct: '3000K / 4000K / 5000K / 6000K',
+    ip: 'IP20',
+    lifespan: '50,000 hrs',
+    description: 'The TLC-119 is a high-lumen 50W recessed COB downlight on a Bridgelux / CREE engine with premium Philips, Fulham, or Osram drivers. Its large 145mm cutout and Shinland reflector deliver powerful, even illumination for large commercial spaces.',
+    features: [
+      'Bridgelux / CREE COB engine',
+      'Driver: Philips / Fulham / Osram',
+      '130–140 LM/W efficacy',
+      'Beam angle 38° / 50°',
+      'Shinland reflector',
+      'White body',
+      'Power factor > 0.90 · 150–240V AC',
+      'Ø145mm cutout · 155×82mm body · Dimmable · DALI',
+    ],
+  },
+
+  // ── FIXTURES ─────────────────────────────────────────────────
   {
     slug: 'tlc-151',
     name: 'TLC-151',
@@ -342,17 +645,27 @@ export const PRODUCTS = [
   {
     slug: 'tlc-335',
     name: 'TLC-335',
-    category: 'Fixtures',
-    categorySlug: 'fixtures',
-    tagline: 'Slim UFO High-Bay',
+    category: 'Downlights',
+    categorySlug: 'downlights',
+    tagline: 'Multi-Power COB Downlight',
     image: hdTLC335,
-    wattage: '100W / 150W',
-    cri: '80+',
-    cct: '4000K / 5000K',
-    ip: 'IP65',
+    diagram: diaTLC335,
+    wattage: '6W / 12W / 18W / 30W',
+    cri: '80 / 90',
+    cct: '3000K / 4000K / 5000K / 6000K / 3-in-1 Tunable',
+    ip: 'IP20',
     lifespan: '50,000 hrs',
-    description: 'Slim-profile UFO high-bay with superior thermal management. Ideal for logistics centres, sports halls, and manufacturing facilities.',
-    features: ['Slim low-profile design', 'IP65 rated', 'Surge protection 4kV', '120° beam angle', 'Easy chain mount'],
+    description: 'The TLC-335 is a recessed COB downlight spanning four power levels on a Bridgelux / CREE engine with Philips, Fulham, Osram, or Tirich drivers. Its Chuangxin reflector and broad size range suit everything from accent niches to general ceiling illumination.',
+    features: [
+      'Bridgelux / CREE COB engine',
+      'Driver: Philips / Fulham / Osram / Tirich',
+      '120–140 LM/W efficacy',
+      'Beam angle 38° / 50°',
+      'Chuangxin reflector',
+      'White / Black body',
+      'Power factor > 0.90 · 150–240V AC',
+      'Cutout 65–135mm · Dimmable · DALI',
+    ],
   },
   {
     slug: 'tlc-338',
@@ -372,34 +685,54 @@ export const PRODUCTS = [
   {
     slug: 'pro-140',
     name: 'PRO-140',
-    category: 'Fixtures',
-    categorySlug: 'fixtures',
-    tagline: 'Surface-Mount LED Fitting',
+    category: 'Downlights',
+    categorySlug: 'downlights',
+    tagline: 'Recessed Adjustable Spotlight',
     image: hdPRO140,
-    wattage: '20W / 30W / 40W',
-    cri: '90+',
-    cct: '3000K / 4000K',
-    ip: 'IP44',
+    diagram: diaPRO140,
+    wattage: '7W / 14W (2 × 7W)',
+    cri: '80 / 90',
+    cct: '3000K / 4000K / 5000K / 6000K',
+    ip: 'IP20',
     lifespan: '50,000 hrs',
-    description: 'Versatile surface-mount fixture for corridors, stairwells, and utility spaces. Clean rectangular profile with diffused output for uniform, shadow-free illumination.',
-    features: ['Surface mount design', 'Diffused output', 'IP44 rated', 'Slim rectangular body', 'CE & RoHS certified'],
+    description: 'The PRO-140 is a recessed, fully adjustable spotlight on a Bridgelux LED engine with Tirich or Philips drivers. Available as a single head or a twin-head trimless frame, its tilt-and-rotate optics make it ideal for highlighting artwork, niches, and architectural details.',
+    features: [
+      'Bridgelux LED engine',
+      'Driver: Tirich / Philips',
+      '130–140 LM/W efficacy',
+      'Beam angle 24° / 36°',
+      'Single or twin-head frame',
+      'Tilt & rotate adjustable optics',
+      'White / Black · Power factor > 0.90',
+      'Cutout Ø45mm / 92×40mm · Dimmable · DALI',
+    ],
   },
 
   // ── STRIP LEDs ───────────────────────────────────────────────
   {
     slug: 'tlc-112',
     name: 'TLC-112',
-    category: 'Strip LEDs',
-    categorySlug: 'strip-leds',
-    tagline: 'Flexible LED Strip Panel',
-    image: product5,
-    wattage: '14.4W/m',
-    cri: '90+',
-    cct: '2700K / 4000K / 6500K',
-    ip: 'IP20 / IP65',
+    category: 'Downlights',
+    categorySlug: 'downlights',
+    tagline: 'High-Power COB Downlight',
+    image: hdTLC112new,
+    diagram: diaTLC112,
+    wattage: '12W / 24W / 36W',
+    cri: '80 / 90',
+    cct: '3000K / 4000K / 5000K / 6000K / 3-in-1 Tunable',
+    ip: 'IP20',
     lifespan: '50,000 hrs',
-    description: 'High-density SMD 2835 strip LED for architectural cove lighting, under-cabinet illumination, and decorative applications.',
-    features: ['Cut every 50mm', 'Self-adhesive backing', 'Custom lengths available', 'CCT selectable', 'Low heat output'],
+    description: 'The TLC-112 is a high-power recessed COB downlight on a CREE LED engine with premium Philips, Fulham, or Osram drivers. Its Shinland reflector and larger apertures deliver strong, even output for retail, hospitality, and commercial ceilings.',
+    features: [
+      'CREE COB LED engine',
+      'Driver: Philips / Fulham / Osram',
+      '130–140 LM/W efficacy',
+      'Beam angle 38°',
+      'Shinland reflector',
+      'White body',
+      'Power factor > 0.90 · 150–240V AC',
+      'Cutout 75–130mm · Dimmable · DALI',
+    ],
   },
   {
     slug: 'strip-led-pro',
@@ -512,7 +845,33 @@ export const PRODUCTS = [
   },
 ];
 
-export const CATEGORIES = [
+// Published catalogue: PRO-116 plus the products extracted from the PDF
+// (pages 15–21, 23, 28, 50). To restore the full catalogue, change this
+// back to `export const PRODUCTS = ALL_PRODUCTS;`
+const PUBLISHED_SLUGS = [
+  'pro-116', // p15
+  'pro-125', // p16
+  'pro-120', // p17
+  'pro-126', // p18
+  'tlc-109', // p19
+  'tlc-111', // p20
+  'pro-115', // p21
+  'tlc-107', // p23
+  'tlc-118', // p24
+  'tlc-105', // p25
+  'tlc-159', // p26
+  'tlc-102', // p27
+  'tlc-103', // p28
+  'tlc-112', // p31
+  'tlc-335', // p32
+  'tlc-119', // p33
+  'pro-140', // p50
+];
+export const PRODUCTS = PUBLISHED_SLUGS
+  .map((slug) => ALL_PRODUCTS.find((p) => p.slug === slug))
+  .filter(Boolean);
+
+const ALL_CATEGORIES = [
   {
     slug: 'panel-lights',
     label: 'Panel Lights',
@@ -550,3 +909,8 @@ export const CATEGORIES = [
     cover: stripLed,
   },
 ];
+
+// Only show categories that have at least one published product.
+export const CATEGORIES = ALL_CATEGORIES.filter((c) =>
+  PRODUCTS.some((p) => p.categorySlug === c.slug)
+);

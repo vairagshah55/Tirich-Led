@@ -273,6 +273,7 @@
   background: #F5F5F9;
 }
 .diagram { width: 100%; height: auto; display: block; }
+.diagramImg { width: 100%; height: auto; display: block; border-radius: 8px; background: #fff; }
 
 /* Right specs panel */
 .diagramRight {}
