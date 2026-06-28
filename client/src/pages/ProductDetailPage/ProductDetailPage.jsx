@@ -11,11 +11,11 @@ const EASE = [0.25, 1, 0.5, 1];
 const REVEAL = { once: true, amount: 0.15 };
 
 const SPECS_MAP = [
-  { key: 'Wattage', field: 'wattage', icon: <polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/> },
-  { key: 'CRI', field: 'cri', icon: <><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></> },
-  { key: 'CCT', field: 'cct', icon: <><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></> },
-  { key: 'IP Rating', field: 'ip', icon: <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/> },
-  { key: 'Rated Life', field: 'lifespan', icon: <><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></> },
+  { key: 'Wattage', field: 'wattage', icon: <polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /> },
+  { key: 'CRI', field: 'cri', icon: <><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" /></> },
+  { key: 'CCT', field: 'cct', icon: <><circle cx="12" cy="12" r="5" /><line x1="12" y1="1" x2="12" y2="3" /><line x1="12" y1="21" x2="12" y2="23" /><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" /><line x1="1" y1="12" x2="3" y2="12" /><line x1="21" y1="12" x2="23" y2="12" /></> },
+  { key: 'IP Rating', field: 'ip', icon: <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /> },
+  { key: 'Rated Life', field: 'lifespan', icon: <><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></> },
 ];
 
 const INFO_TABS = [
@@ -160,29 +160,33 @@ export default function ProductDetailPage() {
             <h1 className={styles.prodName}>{product.name}</h1>
             <p className={styles.prodTag}>{product.tagline}</p>
 
-            {/* Inline specs strip */}
-            <div className={styles.inlineSpecs}>
+            <p className={styles.prodDesc}>{product.description}</p>
+
+            {/* Inline specs strip — quick-glance cards shown after the description,
+                listing the three headline specs (Wattage, CRI, CCT) with their icons.
+                Reuses the diagramSpec row styling so each spec is a full-width
+                stacked card. Renders the first 3 entries of SPECS_MAP; each value
+                is read from the product via the entry's `field`. */}
+            <div className={styles.diagramSpecs}>
               {SPECS_MAP.slice(0, 3).map((s) => (
-                <div key={s.key} className={styles.inlineSpec}>
-                  <span className={styles.inlineSpecIcon}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">{s.icon}</svg>
+                <div key={s.key} className={styles.diagramSpecRow}>
+                  <span className={styles.diagramSpecIcon}>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{s.icon}</svg>
                   </span>
-                  <div>
-                    <span className={styles.inlineSpecLabel}>{s.key}</span>
-                    <span className={styles.inlineSpecVal}>{product[s.field]}</span>
+                  <div className={styles.diagramSpecText}>
+                    <span className={styles.diagramSpecLabel}>{s.key}</span>
+                    <span className={styles.diagramSpecVal}>{product[s.field]}</span>
                   </div>
                 </div>
               ))}
             </div>
-
-            <p className={styles.prodDesc}>{product.description}</p>
 
             <div className={styles.ctaRow}>
               <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.97 }}>
                 <Link to="/contact" className={styles.btnPrimary}>
                   Request a Quote
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                    <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
                   </svg>
                 </Link>
               </motion.div>
@@ -221,7 +225,7 @@ export default function ProductDetailPage() {
                   {product.features.map((f, i) => (
                     <motion.li key={f} className={styles.featItem} initial={{ opacity: 0, x: 14 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.35, delay: i * 0.05, ease: EASE }}>
                       <motion.span className={styles.featCheck} initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 15, delay: i * 0.05 }}>
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
                       </motion.span>
                       {f}
                     </motion.li>
@@ -248,7 +252,9 @@ export default function ProductDetailPage() {
                   <div className={styles.diagramRight}>
                     <h3 className={styles.diagramSpecsTitle}>Specifications</h3>
                     <div className={styles.diagramSpecs}>
-                      {SPECS_MAP.map((s, i) => (
+                      {/* Skip the first 3 (Wattage, CRI, CCT) — shown in the strip
+                          under the product name; here show only IP Rating & Rated Life. */}
+                      {SPECS_MAP.slice(3).map((s, i) => (
                         <motion.div
                           key={s.key}
                           className={styles.diagramSpecRow}
@@ -282,7 +288,7 @@ export default function ProductDetailPage() {
               <h2 className={styles.relatedTitle}>Related Products</h2>
               <Link to={`/products?category=${product.categorySlug}`} className={styles.relatedLink}>
                 View All
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></svg>
               </Link>
             </motion.div>
             <motion.div className={styles.relatedGrid} initial="hidden" whileInView="visible" viewport={REVEAL} variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.07 } } }}>
