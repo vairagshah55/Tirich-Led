@@ -2,10 +2,14 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import styles from './LeadListPage.module.css';
 
-// Lead API is mounted under /api on the 57facets backend (same host the
-// LeadCaptureModal posts to). nginx only proxies /api/* to the Node app.
-const LEAD_API_BASE = 'https://57facets.in/api';
-// const LEAD_API_BASE = 'http://localhost:5000/api';
+// The lead API lives on the shared 57facets backend (Node + Postgres) — the
+// tirichled.com domain only serves this static frontend, so calls go to
+// 57facets.in in prod (CORS is allow-listed there for tirichled.com).
+// Auto-selects by host; override with REACT_APP_LEAD_API_BASE if needed.
+const IS_LOCAL = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+const LEAD_API_BASE =
+  process.env.REACT_APP_LEAD_API_BASE ||
+  (IS_LOCAL ? 'http://localhost:5000/api' : 'https://57facets.in/api');
 
 // Optional API key — set REACT_APP_TIRICH_LEADS_KEY to match TIRICH_LEADS_KEY
 // on the server. Sent as the x-api-key header when present.

@@ -10,8 +10,11 @@ const STORAGE_KEY = 'tirichLead';
 // Must be https on the live site (https://tirichled.com) — an http→https
 // redirect breaks the CORS preflight.
 // Lead API is mounted under /api (nginx only proxies /api/* to the Node app).
-const LEAD_API_BASE = 'https://57facets.in/api';
-// const LEAD_API_BASE = 'http://localhost:5000/api'
+// Auto-selects by host; override with REACT_APP_LEAD_API_BASE if needed.
+const IS_LOCAL = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+const LEAD_API_BASE =
+  process.env.REACT_APP_LEAD_API_BASE ||
+  (IS_LOCAL ? 'http://localhost:5000/api' : 'https://57facets.in/api');
 
 const BUSINESS_OPTIONS = [
   { value: '', label: 'Select business type' },
