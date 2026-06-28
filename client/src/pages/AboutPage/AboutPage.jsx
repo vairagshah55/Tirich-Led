@@ -6,6 +6,7 @@ import styles from './AboutPage.module.css';
 import Footer from '../../components/Footer/Footer';
 import brandFilm from '../../assets/videos/Tirich Brand Film.mp4';
 import rinkeshJain from '../../assets/director-rinkesh-jain.jpeg';
+import teamGroup from '../../assets/team-group.png';
 
 const EASE = [0.22, 1, 0.36, 1];
 const QUART_OUT = [0.25, 1, 0.5, 1];
@@ -19,7 +20,7 @@ const JOURNEY = [
     type: 'director',
     name: 'Pramod Jain',
     role: 'Founder',
-    image: 'https://images.pexels.com/photos/28426637/pexels-photo-28426637.jpeg?auto=compress&cs=tinysrgb&w=600',
+    image: rinkeshJain, // TODO: replace with founder's own photo when available
   },
   {
     year: '2021',
@@ -31,28 +32,11 @@ const JOURNEY = [
     image: rinkeshJain,
   },
   {
-    year: '2022',
-    title: 'Certified Excellence',
-    body: 'Achieved CE and RoHS international certifications. Launched the IP65-rated tri-proof and high-bay series for demanding industrial environments.',
-    type: 'company',
-    image: 'https://images.pexels.com/photos/3862130/pexels-photo-3862130.jpeg?auto=compress&cs=tinysrgb&w=600',
-    caption: 'Quality testing and certification lab',
-  },
-  {
-    year: '2023',
-    title: 'Architectural Vision',
-    body: 'Entered the architectural lighting segment with pendant and recessed downlight collections. Jitendra Manshani leads the expansion into hospitality and premium commercial interiors.',
-    type: 'director',
-    name: 'Jitendra Manshani',
-    role: 'Managing Director',
-    image: 'https://images.pexels.com/photos/8382594/pexels-photo-8382594.jpeg?auto=compress&cs=tinysrgb&w=600',
-  },
-  {
     year: '2024',
-    title: 'Complete Ecosystem',
-    body: 'Launched a 500+ SKU catalogue spanning every lighting application. Established pan-India distributor partnerships and a dedicated QA division.',
+    title: 'The Team Behind the Light',
+    body: 'Behind every Tirich LED fixture is a dedicated team spanning engineering, design, sales, and quality. United by a shared commitment to photometric precision and craftsmanship, they bring ideas to life — turning the founder’s vision into products trusted by architects, contractors, and partners across India.',
     type: 'team',
-    image: 'https://images.pexels.com/photos/9301252/pexels-photo-9301252.jpeg?auto=compress&cs=tinysrgb&w=600',
+    image: teamGroup,
     caption: 'The Tirich LED team — engineering, sales, and quality',
   },
 ];
@@ -61,7 +45,7 @@ const PANELS = [
   {
     id: 'quality',
     tab: 'Quality',
-    icon: <><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></>,
+    icon: <><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></>,
     eyebrow: 'Manufacturing Excellence',
     title: 'Every Unit Tested. Every Batch Certified.',
     body: 'Our quality process runs alongside every stage of manufacturing. Each production batch undergoes systematic verification — from component selection and assembly to photometric testing and certification.',
@@ -77,7 +61,7 @@ const PANELS = [
   {
     id: 'engineering',
     tab: 'Engineering',
-    icon: <><circle cx="12" cy="12" r="4"/><path d="M12 2L12 6M12 18L12 22M4.93 4.93L7.76 7.76M16.24 16.24L19.07 19.07M2 12L6 12M18 12L22 12"/></>,
+    icon: <><circle cx="12" cy="12" r="4" /><path d="M12 2L12 6M12 18L12 22M4.93 4.93L7.76 7.76M16.24 16.24L19.07 19.07M2 12L6 12M18 12L22 12" /></>,
     eyebrow: 'Precision Engineering',
     title: 'Designed for Performance. Built to Last.',
     body: 'Every component — from SMD chipsets to thermal substrates — is selected to strict tolerances. Our R&D team continuously refines optic designs, CCT options, and driver configurations.',
@@ -93,7 +77,7 @@ const PANELS = [
   {
     id: 'sustainability',
     tab: 'Sustainability',
-    icon: <><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M7 12l3 3 7-7"/></>,
+    icon: <><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" /><path d="M7 12l3 3 7-7" /></>,
     eyebrow: 'Responsible Manufacturing',
     title: 'Less Waste. Higher Standards.',
     body: 'We operate under an ISO-aligned quality framework, minimising production waste while meeting international RoHS and CE directives across every product line we manufacture.',
@@ -354,7 +338,7 @@ export default function AboutPage() {
                         transition={{ type: 'spring', stiffness: 400, damping: 18, delay: 0.12 + si * 0.07 }}
                       >
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="20 6 9 17 4 12"/>
+                          <polyline points="20 6 9 17 4 12" />
                         </svg>
                       </motion.span>
                       {spec}
@@ -367,7 +351,7 @@ export default function AboutPage() {
                     <Link to="/products" className={styles.btnPrimary}>
                       View Products
                       <motion.svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                        <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
                       </motion.svg>
                     </Link>
                   </motion.div>
@@ -402,7 +386,6 @@ export default function AboutPage() {
             />
             Our Journey
           </p>
-          <h2 className={styles.journeyTitle}>Five Years of Measured Progress</h2>
           <p className={styles.journeyLead}>
             From a single product line to a complete lighting ecosystem — built on precision, trust, and relentless quality.
           </p>
@@ -549,15 +532,15 @@ export default function AboutPage() {
                   >
                     {item.type === 'director' ? (
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
                       </svg>
                     ) : item.type === 'team' ? (
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" />
                       </svg>
                     ) : (
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                       </svg>
                     )}
                   </motion.div>
@@ -669,15 +652,15 @@ export default function AboutPage() {
             {
               label: 'Our Mission', title: 'Engineer with Purpose',
               body: 'To manufacture LED lighting solutions that professionals can specify with absolute confidence — delivering measurable, consistent performance on every project, at every scale.',
-              icon: <><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/></>,
-              ghostIcon: <><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></>,
+              icon: <><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="3" /><line x1="12" y1="2" x2="12" y2="5" /><line x1="12" y1="19" x2="12" y2="22" /><line x1="2" y1="12" x2="5" y2="12" /><line x1="19" y1="12" x2="22" y2="12" /></>,
+              ghostIcon: <><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="3" /></>,
               dir: -50,
             },
             {
               label: 'Our Vision', title: 'Define the Standard',
               body: "To become India's most trusted LED manufacturer by setting the industry benchmark for photometric precision, sustainable production, and uncompromising technical excellence.",
-              icon: <><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14z"/></>,
-              ghostIcon: <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14z"/>,
+              icon: <><line x1="9" y1="18" x2="15" y2="18" /><line x1="10" y1="22" x2="14" y2="22" /><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14z" /></>,
+              ghostIcon: <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14z" />,
               dir: 50,
             },
           ].map((card, ci) => (
@@ -765,12 +748,12 @@ export default function AboutPage() {
           variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.07 } } }}
         >
           {[
-            { icon: <><circle cx="12" cy="12" r="4"/><path d="M12 2L12 6M12 18L12 22M4.93 4.93L7.76 7.76M16.24 16.24L19.07 19.07M2 12L6 12M18 12L22 12"/></>, title: 'Precision Engineering', body: 'Every component to strict tolerances — nothing ships without photometric and electrical verification.' },
-            { icon: <><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></>, title: 'Sustainable Manufacturing', body: 'ISO-aligned framework, minimising waste across RoHS and CE compliant product lines.' },
-            { icon: <><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></>, title: 'Client Partnership', body: 'Direct collaboration with architects, contractors, and facility managers end-to-end.' },
-            { icon: <><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></>, title: 'Continuous Innovation', body: 'R&D continuously refining CCT, optics, and driver specs to stay ahead.' },
-            { icon: <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>, title: 'Integrity First', body: 'Real data, verified ratings, third-party certificates — no inflated specs.' },
-            { icon: <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>, title: 'Technical Excellence', body: 'CRI 95+, L80 50K hrs, IP65 — measured, documented, certified outcomes.' },
+            { icon: <><circle cx="12" cy="12" r="4" /><path d="M12 2L12 6M12 18L12 22M4.93 4.93L7.76 7.76M16.24 16.24L19.07 19.07M2 12L6 12M18 12L22 12" /></>, title: 'Precision Engineering', body: 'Every component to strict tolerances — nothing ships without photometric and electrical verification.' },
+            { icon: <><circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" /></>, title: 'Sustainable Manufacturing', body: 'ISO-aligned framework, minimising waste across RoHS and CE compliant product lines.' },
+            { icon: <><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /></>, title: 'Client Partnership', body: 'Direct collaboration with architects, contractors, and facility managers end-to-end.' },
+            { icon: <><polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" /></>, title: 'Continuous Innovation', body: 'R&D continuously refining CCT, optics, and driver specs to stay ahead.' },
+            { icon: <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />, title: 'Integrity First', body: 'Real data, verified ratings, third-party certificates — no inflated specs.' },
+            { icon: <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />, title: 'Technical Excellence', body: 'CRI 95+, L80 50K hrs, IP65 — measured, documented, certified outcomes.' },
           ].map((v, i) => (
             <motion.article
               key={v.title}
@@ -830,12 +813,12 @@ export default function AboutPage() {
           variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.06 } } }}
         >
           {[
-            { code: 'BIS', name: 'Bureau of Indian Standards', icon: <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/> },
-            { code: 'CE', name: 'European Conformity', icon: <><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></> },
-            { code: 'RoHS', name: 'Hazardous Substance Free', icon: <><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M8 12l3 3 5-5"/></> },
-            { code: 'IP65', name: 'Ingress Protection', icon: <><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></> },
-            { code: 'IEC', name: 'Electrotechnical Commission', icon: <><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></> },
-            { code: 'ISO', name: 'Quality Management', icon: <><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></> },
+            { code: 'BIS', name: 'Bureau of Indian Standards', icon: <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /> },
+            { code: 'CE', name: 'European Conformity', icon: <><circle cx="12" cy="12" r="10" /><polyline points="9 12 11 14 15 10" /></> },
+            { code: 'RoHS', name: 'Hazardous Substance Free', icon: <><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" /><path d="M8 12l3 3 5-5" /></> },
+            { code: 'IP65', name: 'Ingress Protection', icon: <><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></> },
+            { code: 'IEC', name: 'Electrotechnical Commission', icon: <><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /></> },
+            { code: 'ISO', name: 'Quality Management', icon: <><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></> },
           ].map((cert) => (
             <motion.div
               key={cert.code}
@@ -906,9 +889,9 @@ export default function AboutPage() {
           transition={{ duration: 0.6, delay: 0.15, ease: QUART_OUT }}
         >
           <Link to="/contact" className={styles.btnPrimary}>
-            Request Certificates
+            Contact Us
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
             </svg>
           </Link>
           <Link to="/products" className={styles.btnGhost}>View Products</Link>
