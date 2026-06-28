@@ -13,12 +13,19 @@ import lgTLC112 from '../../assets/TLC-112.webp';         // 116 KB
 import lgStrip from '../../assets/STRIP-LED-POST.webp';  // 124 KB
 import lgTLC101 from '../../assets/TLC-101.webp';         // 156 KB
 import lgHanging from '../../assets/hanging-230.webp';     // 372 KB
-import lgTLC129 from '../../assets/TLC-129.webp';         // 448 KB
 import lgTLC111 from '../../assets/TLC-111.webp';         // 468 KB
 
-// ── Videos (gallery only) ──────────────────────────────────────────
-import proVid1 from '../../assets/grok-video-083a2972-e0c2-44a4-b856-38ebb91513b1.mp4';  // 932 KB
-import proVid2 from '../../assets/grok-video-1d4fef8d-119d-4f9f-8d71-650ca413f8be.mp4'; // 1.1 MB
+// ── Living Gallery — installation photos (compressed webp, ≤134 KB) ──
+import gallery1 from '../../assets/gallery/gallery1.webp';
+import gallery2 from '../../assets/gallery/gallery2.webp';
+import gallery3 from '../../assets/gallery/gallery3.webp';
+import gallery4 from '../../assets/gallery/gallery4.webp';
+import gallery5 from '../../assets/gallery/gallery5.webp';
+import gallery7 from '../../assets/gallery/gallery7.webp';
+import gallery8 from '../../assets/gallery/gallery8.webp';
+import gallery9 from '../../assets/gallery/gallery9.webp';
+import gallery10 from '../../assets/gallery/gallery10.webp';
+import gallery11 from '../../assets/gallery/gallery11.webp';
 
 // ── Hero products (optimized transparent cutouts — webp, ~30 KB each) ──
 import HERO_IMG_1 from '../../assets/hero/slide-1.webp';
@@ -37,13 +44,21 @@ const LIVING_GALLERY = [
   { label: 'TLC-105 Downlight', eyebrow: 'Downlight Series', type: 'image', src: lgTLC105 },
   { label: 'TLC-112 Panel Light', eyebrow: 'Panel Series', type: 'image', src: lgTLC112 },
   { label: 'LED Strip Installation', eyebrow: 'Strip Series', type: 'image', src: lgStrip },
-  { label: 'LED Project Reel', eyebrow: 'Installation Reel', type: 'video', src: proVid1 },
   { label: 'TLC-101 Fixture', eyebrow: 'Commercial Series', type: 'image', src: lgTLC101 },
   { label: 'Hanging Pendant 230', eyebrow: 'Pendant Series', type: 'image', src: lgHanging },
-  { label: 'TLC-129 Track Light', eyebrow: 'Track Series', type: 'image', src: lgTLC129 },
   { label: 'TLC-151 Surface Panel', eyebrow: 'Panel Series', type: 'image', src: lgTLC151 },
-  { label: 'LED Campaign', eyebrow: 'Commercial Install', type: 'video', src: proVid2 },
   { label: 'TLC-111 Ceiling Light', eyebrow: 'Ceiling Series', type: 'image', src: lgTLC111 },
+  // ── New installation photos ──
+  { label: 'Living Space Install', eyebrow: 'Project Gallery', type: 'image', src: gallery1 },
+  { label: 'Ambient Interior', eyebrow: 'Project Gallery', type: 'image', src: gallery2 },
+  { label: 'Cove Lighting', eyebrow: 'Project Gallery', type: 'image', src: gallery3 },
+  { label: 'Accent Detail', eyebrow: 'Project Gallery', type: 'image', src: gallery4 },
+  { label: 'Modern Interior', eyebrow: 'Project Gallery', type: 'image', src: gallery5 },
+  { label: 'Warm Ambience', eyebrow: 'Project Gallery', type: 'image', src: gallery7 },
+  { label: 'Architectural Light', eyebrow: 'Project Gallery', type: 'image', src: gallery8 },
+  { label: 'Premium Finish', eyebrow: 'Project Gallery', type: 'image', src: gallery9 },
+  { label: 'Designer Setup', eyebrow: 'Project Gallery', type: 'image', src: gallery10 },
+  { label: 'Signature Install', eyebrow: 'Project Gallery', type: 'image', src: gallery11 },
 ];
 
 

@@ -66,12 +66,6 @@ const GalleryCard = memo(function GalleryCard({
           />
         </picture>
       ))}
-
-      <div className={styles.caption}>
-        <p className={styles.captionEyebrow}>{item.eyebrow}</p>
-        <p className={styles.captionLabel}>{item.label}</p>
-        <p className={styles.aiBadge}>Tirich LED &middot; Precision Lighting</p>
-      </div>
     </article>
   );
 });
