@@ -172,7 +172,7 @@ export default function AboutPage() {
           Built on Precision. <span className={styles.heroIntroAccent}>Driven by Light.</span>
         </h1>
         <p className={styles.heroIntroLead}>
-          Since 2020, Tirich LED has been manufacturing industrial-grade LED lighting
+          Since 2021, Tirich LED has been manufacturing industrial-grade LED lighting
           solutions for commercial, residential, and architectural applications —
           engineered for performance, longevity, and reliability.
         </p>
