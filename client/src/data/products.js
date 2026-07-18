@@ -2910,6 +2910,24 @@ const ALL_PRODUCTS = [
   },
 ];
 
+// ── Split magnetic-track fittings out of "Track Lights" ─────────────
+// These 48V magnetic-track products were historically grouped under
+// Track Lights; they now live in their own "Magnetic Track" category.
+// (tlc-121/123/124 and cylinder-track stay under Track Lights — they are
+// surface/universal-track spotlights, not magnetic.)
+const MAGNETIC_SLUGS = new Set([
+  'magnetic-cob', '10z-caset-lazer', '10z-lazer',
+  'mag-lazer', 'mag-moveable', 'track-spot', 'caset-lazer',
+  'profile', 'wall-washer', 'cylinder',
+  '10z-caset', '10z-pfl', '10z-lzr', '10z-track',
+]);
+for (const _p of ALL_PRODUCTS) {
+  if (MAGNETIC_SLUGS.has(_p.slug)) {
+    _p.category = 'Magnetic Track';
+    _p.categorySlug = 'magnetic-track';
+  }
+}
+
 // Published catalogue: PRO-116 plus the products extracted from the PDF
 // (pages 15–21, 23, 28, 50). To restore the full catalogue, change this
 // back to `export const PRODUCTS = ALL_PRODUCTS;`
@@ -3031,7 +3049,13 @@ const ALL_CATEGORIES = [
   {
     slug: 'track-lights',
     label: 'Track Lights',
-    desc: 'Magnetic and surface-mount track spotlights',
+    desc: 'Surface-mount & universal-track COB spotlights',
+    cover: imgTLC121,
+  },
+  {
+    slug: 'magnetic-track',
+    label: 'Magnetic Track',
+    desc: 'Slim 48V magnetic-track spots, lazers, profiles & washers',
     cover: hdMagCOB,
   },
   {
