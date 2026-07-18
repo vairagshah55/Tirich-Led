@@ -61,11 +61,11 @@ const GALLERY = {
     { url: mallSaucer,     title: 'Central Atrium',        tag: 'Layered Cove LED'     },
   ],
   Showroom: [
-    { url: showPendants,  title: 'Lighting Showroom',       tag: 'Designer Pendant LED'  },
-    { url: showFurniture, title: 'Furniture Gallery',       tag: 'Track Spot Downlights' },
-    { url: showJewelry,   title: 'Luxury Jewelry Showroom', tag: 'Pendant Downlights'    },
-    { url: showBeauty,    title: 'Beauty Retail',           tag: 'Recessed LED Downlights' },
-    { url: showFixtures,  title: 'Fixture Display Wall',    tag: 'Wall-Light LED Series'  },
+    { url: showPendants,  title: 'Tiles Showroom',     tag: 'Track & Downlights'    },
+    { url: showFurniture, title: 'Tiles Showroom',     tag: 'Display Spotlights'    },
+    { url: showJewelry,   title: 'Furniture Showroom', tag: 'Track Spot Downlights' },
+    { url: showBeauty,    title: 'Jewellery Showroom', tag: 'Accent Display LED'    },
+    { url: showFixtures,  title: 'Jewellery Showroom', tag: 'Cabinet & Spot LED'    },
   ],
 };
 
