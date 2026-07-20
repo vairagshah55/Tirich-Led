@@ -4,7 +4,7 @@ import { buttonHover, buttonTap, scaleIn } from '../../utils/motion';
 
 const MotionAnchor = motion.a;
 
-const PHONE = '919686556384'; // +91 country code + number
+const PHONE = '917383247625'; // +91 country code + number
 const MESSAGE = 'Hello! I am interested in Tirich LED products.';
 
 export default function WhatsAppButton() {
