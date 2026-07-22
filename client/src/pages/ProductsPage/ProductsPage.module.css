@@ -104,6 +104,27 @@
   border-bottom-color: var(--brand-orange);
 }
 
+/* Per-category product count badge on filter buttons */
+.filterBtnCount {
+  display: inline-block;
+  margin-left: 0.45rem;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: rgba(240, 241, 247, 0.55);
+  background: rgba(247, 148, 30, 0.12);
+  border: 1px solid rgba(247, 148, 30, 0.2);
+  border-radius: 10px;
+  padding: 0.08rem 0.42rem;
+  vertical-align: middle;
+  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+.filterBtnActive .filterBtnCount {
+  color: var(--brand-orange);
+  background: rgba(247, 148, 30, 0.16);
+  border-color: rgba(247, 148, 30, 0.4);
+}
+
 /* ══════════════════════════════════════════════════════════════════
    SEARCH (directly above the product list)
    ══════════════════════════════════════════════════════════════════ */

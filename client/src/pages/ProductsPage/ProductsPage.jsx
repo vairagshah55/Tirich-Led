@@ -58,6 +58,8 @@ export default function ProductsPage() {
     return () => observer.disconnect();
   }, [activeCategory, query]);
 
+  const countBySlug = (slug) => PRODUCTS.filter(p => p.categorySlug === slug).length;
+
   const q = query.trim().toLowerCase();
   const filtered = PRODUCTS.filter(p => {
     const matchesCategory = activeCategory === 'all' || p.categorySlug === activeCategory;
@@ -111,6 +113,7 @@ export default function ProductsPage() {
             whileTap={buttonTap}
           >
             All Products
+            <span className={styles.filterBtnCount}>{PRODUCTS.length}</span>
           </motion.button>
           <span className={styles.filterSep} aria-hidden="true" />
           {CATEGORIES.map(cat => (
@@ -122,6 +125,7 @@ export default function ProductsPage() {
               whileTap={buttonTap}
             >
               {cat.label}
+              <span className={styles.filterBtnCount}>{countBySlug(cat.slug)}</span>
             </motion.button>
           ))}
         </div>
