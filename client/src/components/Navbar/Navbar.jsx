@@ -34,6 +34,22 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileProdOpen, setMobileProdOpen] = useState(false);
 
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
+  const searchInputRef = useRef(null);
+
+  const submitSearch = (e) => {
+    if (e) e.preventDefault();
+    const term = searchValue.trim();
+    navigate(term ? `/products?search=${encodeURIComponent(term)}` : '/products');
+    setSearchOpen(false);
+    setMobileOpen(false);
+  };
+
+  useEffect(() => {
+    if (searchOpen) searchInputRef.current?.focus();
+  }, [searchOpen]);
+
   const [lead, setLead] = useState(() => hasLeadData() ? getLeadData() : null);
   const firstName = lead?.name?.split(' ')[0] || '';
 
@@ -117,6 +133,34 @@ export default function Navbar() {
               </button>
             </div>
           )}
+          <form
+            className={`${styles.navSearch} ${searchOpen ? styles.navSearchOpen : ''}`}
+            onSubmit={submitSearch}
+            role="search"
+          >
+            <input
+              ref={searchInputRef}
+              type="text"
+              className={styles.navSearchInput}
+              placeholder="Search products…"
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Escape') { setSearchOpen(false); setSearchValue(''); } }}
+              aria-label="Search products"
+              tabIndex={searchOpen ? 0 : -1}
+            />
+            <button
+              type="submit"
+              className={styles.navSearchBtn}
+              onClick={(e) => { if (!searchOpen) { e.preventDefault(); setSearchOpen(true); } }}
+              aria-label="Search"
+            >
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+            </button>
+          </form>
+
           <motion.button
             className={`${styles.hamburger} ${mobileOpen ? styles.hamburgerOpen : ''}`}
             onClick={() => setMobileOpen((open) => !open)}
@@ -205,6 +249,20 @@ export default function Navbar() {
                 </button>
               </div>
             )}
+            <form className={styles.mobileSearch} onSubmit={submitSearch} role="search">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+              <input
+                type="text"
+                className={styles.mobileSearchInput}
+                placeholder="Search products…"
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+                aria-label="Search products"
+              />
+            </form>
+
             <Link to="/" className={styles.mobileLink}>Home</Link>
 
             <motion.button

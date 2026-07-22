@@ -104,13 +104,71 @@
   border-bottom-color: var(--brand-orange);
 }
 
+/* ══════════════════════════════════════════════════════════════════
+   SEARCH (directly above the product list)
+   ══════════════════════════════════════════════════════════════════ */
+.searchBar {
+  max-width: 1200px;
+  margin: 0 auto 2rem;
+  display: flex;
+}
+
+.searchWrap {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  max-width: 480px;
+  background: var(--bg-card);
+  border: 1px solid var(--brand-orange);
+  border-radius: 8px;
+  padding: 0.75rem 1.05rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.searchWrap:focus-within {
+  border-color: var(--brand-orange);
+  box-shadow: 0 0 0 3px rgba(247, 148, 30, 0.13);
+}
+.searchIcon {
+  color: var(--text-body);
+  opacity: 0.4;
+  flex-shrink: 0;
+  display: flex;
+}
+.searchInput {
+  flex: 1;
+  min-width: 0;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--text-body);
+  font-family: inherit;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+}
+.searchInput::placeholder { color: var(--text-body); opacity: 0.45; }
+.searchClear {
+  background: none;
+  border: none;
+  color: var(--text-body);
+  opacity: 0.5;
+  cursor: pointer;
+  font-size: 1.25rem;
+  line-height: 1;
+  padding: 0 0 0.1rem;
+  flex-shrink: 0;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+.searchClear:hover { color: var(--brand-orange); opacity: 1; }
+
 .filterCount {
   font-size: 0.7rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: rgba(240, 241, 247, 0.3);
   flex-shrink: 0;
-  padding-left: 2rem;
+  padding-left: 1.5rem;
   white-space: nowrap;
 }
 
@@ -386,6 +444,7 @@
   .breadcrumb { padding: 0.85rem 1.5rem; }
   .filterBar { padding: 0 1.5rem; }
   .gridWrap { padding: 2rem 1.5rem 3rem; }
+  .searchBar { margin-bottom: 1.5rem; }
 }
 
 @media (max-width: 680px) {
@@ -395,7 +454,9 @@
 
 @media (max-width: 480px) {
   .breadcrumb { padding: 0.7rem 1.25rem; }
+  .searchBar { margin-bottom: 1.25rem; }
   .filterBar { padding: 0 1.25rem; }
+  .searchWrap { max-width: none; }
   .gridWrap { padding: 1.5rem 1.25rem 2.5rem; }
   .grid { gap: 1rem; }
   .filterBtn { padding: 0.9rem 0.75rem; font-size: 0.65rem; min-height: 44px; }

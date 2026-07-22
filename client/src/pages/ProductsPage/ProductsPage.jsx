@@ -19,6 +19,7 @@ export default function ProductsPage() {
   })();
   const initialCat = searchParams.get('category') || 'all';
   const [activeCategory, setActiveCategory] = useState(initialCat);
+  const [query, setQuery] = useState(searchParams.get('search') || '');
 
   const handleProductClick = (slug) => {
     if (hasLeadData()) {
@@ -37,10 +38,16 @@ export default function ProductsPage() {
   useEffect(() => {
     const cat = searchParams.get('category') || 'all';
     setActiveCategory(cat);
+    setQuery(searchParams.get('search') || '');
   }, [searchParams]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, []);
+
+  // Re-run the reveal observer whenever the visible product set changes, so
+  // cards re-added after a search is cleared/changed don't stay hidden.
+  useEffect(() => {
     const observer = new IntersectionObserver(
       entries => entries.forEach(e => {
         if (e.isIntersecting) { e.target.classList.add('js-revealed'); observer.unobserve(e.target); }
@@ -49,15 +56,27 @@ export default function ProductsPage() {
     );
     document.querySelectorAll('[data-reveal]').forEach(el => observer.observe(el));
     return () => observer.disconnect();
-  }, []);
+  }, [activeCategory, query]);
 
-  const filtered = activeCategory === 'all'
-    ? PRODUCTS
-    : PRODUCTS.filter(p => p.categorySlug === activeCategory);
+  const q = query.trim().toLowerCase();
+  const filtered = PRODUCTS.filter(p => {
+    const matchesCategory = activeCategory === 'all' || p.categorySlug === activeCategory;
+    if (!matchesCategory) return false;
+    if (!q) return true;
+    return (
+      p.name?.toLowerCase().includes(q) ||
+      p.tagline?.toLowerCase().includes(q) ||
+      p.category?.toLowerCase().includes(q) ||
+      p.description?.toLowerCase().includes(q)
+    );
+  });
 
   const setCategory = (slug) => {
     setActiveCategory(slug);
-    slug === 'all' ? setSearchParams({}) : setSearchParams({ category: slug });
+    const params = {};
+    if (slug !== 'all') params.category = slug;
+    if (query.trim()) params.search = query.trim();
+    setSearchParams(params);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -106,16 +125,45 @@ export default function ProductsPage() {
             </motion.button>
           ))}
         </div>
-        <motion.div className={styles.filterCount} key={activeCategory} {...fadeIn(0.12)}>
+        <motion.div className={styles.filterCount} key={`${activeCategory}-${filtered.length}`} {...fadeIn(0.12)}>
           {filtered.length} {filtered.length === 1 ? 'product' : 'products'}
         </motion.div>
       </motion.div>
 
       {/* ── PRODUCT GRID ── */}
       <div className={styles.gridWrap}>
+        {/* Search — directly above the product list */}
+        <motion.div className={styles.searchBar} {...fadeUp(0.08, 16)}>
+          <div className={styles.searchWrap}>
+            <svg className={styles.searchIcon} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <input
+              type="text"
+              className={styles.searchInput}
+              placeholder="Search products by name, category…"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              aria-label="Search products"
+            />
+            {query && (
+              <button
+                type="button"
+                className={styles.searchClear}
+                onClick={() => setQuery('')}
+                aria-label="Clear search"
+              >
+                ×
+              </button>
+            )}
+          </div>
+        </motion.div>
+
         <div className={styles.grid}>
           {filtered.length === 0 ? (
-            <div className={styles.empty}>No products found in this category.</div>
+            <div className={styles.empty}>
+              {q ? `No products match “${query.trim()}”.` : 'No products found in this category.'}
+            </div>
           ) : (
             filtered.map((product, i) => (
               <motion.div
