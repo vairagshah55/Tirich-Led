@@ -5,7 +5,7 @@ import Navbar from '../../components/Navbar/Navbar';
 import { PRODUCTS, CATEGORIES } from '../../data/products';
 import LeadCaptureModal, { hasLeadData } from '../../components/LeadCaptureModal/LeadCaptureModal';
 import styles from './ProductsPage.module.css';
-import { buttonHover, buttonTap, fadeIn, fadeUp } from '../../utils/motion';
+import { buttonHover, buttonTap, fadeUp } from '../../utils/motion';
 
 export default function ProductsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -129,9 +129,6 @@ export default function ProductsPage() {
             </motion.button>
           ))}
         </div>
-        <motion.div className={styles.filterCount} key={`${activeCategory}-${filtered.length}`} {...fadeIn(0.12)}>
-          {filtered.length} {filtered.length === 1 ? 'product' : 'products'}
-        </motion.div>
       </motion.div>
 
       {/* ── PRODUCT GRID ── */}

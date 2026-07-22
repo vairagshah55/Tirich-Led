@@ -183,16 +183,6 @@
 }
 .searchClear:hover { color: var(--brand-orange); opacity: 1; }
 
-.filterCount {
-  font-size: 0.7rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(240, 241, 247, 0.3);
-  flex-shrink: 0;
-  padding-left: 1.5rem;
-  white-space: nowrap;
-}
-
 /* ══════════════════════════════════════════════════════════════════
    GRID WRAPPER
    ══════════════════════════════════════════════════════════════════ */
@@ -470,7 +460,6 @@
 
 @media (max-width: 680px) {
   .grid { grid-template-columns: 1fr; gap: 1.25rem; }
-  .filterCount { display: none; }
 }
 
 @media (max-width: 480px) {
