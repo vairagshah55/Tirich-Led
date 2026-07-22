@@ -1511,8 +1511,8 @@ const ALL_PRODUCTS = [
   {
     slug: 'tlc-338',
     name: "TLC-338",
-    category: 'COB Lights',
-    categorySlug: 'cob-lights',
+    category: 'Downlights',
+    categorySlug: 'downlights',
     tagline: "Recessed Diffused Downlight",
     image: imgTLC338,
     diagram: diaTLC338,
@@ -1811,8 +1811,8 @@ const ALL_PRODUCTS = [
   {
     slug: 'tlc-151',
     name: "TLC-151 (Linea Lazer)",
-    category: 'COB Lights',
-    categorySlug: 'cob-lights',
+    category: 'Linear Lights',
+    categorySlug: 'linear-lights',
     tagline: "Linear Grille Downlight",
     image: imgTLC151,
     diagram: diaTLC151,
@@ -1836,8 +1836,8 @@ const ALL_PRODUCTS = [
   {
     slug: 'pro-014',
     name: "PRO-014",
-    category: 'COB Lights',
-    categorySlug: 'cob-lights',
+    category: 'Linear Lights',
+    categorySlug: 'linear-lights',
     tagline: "Linear Grille Downlight",
     image: imgPRO014,
     diagram: diaPRO014,
@@ -1861,8 +1861,8 @@ const ALL_PRODUCTS = [
   {
     slug: 'pro-054',
     name: "PRO-054",
-    category: 'COB Lights',
-    categorySlug: 'cob-lights',
+    category: 'Linear Lights',
+    categorySlug: 'linear-lights',
     tagline: "Linear Grille Downlight",
     image: imgPRO054,
     diagram: diaPRO054,
