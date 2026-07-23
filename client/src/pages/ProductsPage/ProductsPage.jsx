@@ -100,14 +100,14 @@ export default function ProductsPage() {
     '@type': 'CollectionPage',
     name: `${pageTitle} | Tirich LED`,
     description: pageDescription,
-    url: `${SITE_URL}${canonicalPath}`,
+    url: `${SITE_URL}${canonicalPath}/`,
     mainEntity: {
       '@type': 'ItemList',
       numberOfItems: collectionProducts.length,
       itemListElement: collectionProducts.slice(0, 30).map((p, i) => ({
         '@type': 'ListItem',
         position: i + 1,
-        url: `${SITE_URL}/products/${p.slug}`,
+        url: `${SITE_URL}/products/${p.slug}/`,
         name: p.name,
       })),
     },

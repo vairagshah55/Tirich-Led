@@ -33,7 +33,15 @@ export default function Seo({
   noindex = false,
   preloadImage,
 }) {
-  const url = `${SITE_URL}${path}`;
+  // Static hosting serves routes as directories, so the live URL always has a
+  // trailing slash (e.g. /products/pro-116/). Normalise canonical/OG URLs to
+  // match what's actually served — avoids redirect/canonical conflicts.
+  const cleanPath = (() => {
+    const base = (path || '/').split(/[?#]/)[0];
+    if (base === '/' || base === '') return '/';
+    return base.endsWith('/') ? base : `${base}/`;
+  })();
+  const url = `${SITE_URL}${cleanPath}`;
   const fullTitle = title ? `${title} | Tirich LED` : DEFAULT_TITLE;
   const absoluteImage = image?.startsWith('http') ? image : `${SITE_URL}${image}`;
   const blocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];

@@ -41,6 +41,12 @@ const esc = (s = '') =>
 const jsonLdTag = (obj) =>
   `<script type="application/ld+json">${JSON.stringify(obj).replace(/</g, '\\u003c')}</script>`;
 
+// Static hosts serve routes as directories, so the live URL has a trailing
+// slash. Keep every emitted URL (canonical, OG, sitemap, JSON-LD) consistent
+// with what's served to avoid 301 redirect / canonical conflicts.
+const withSlash = (p) => (!p || p === '/' ? '/' : p.endsWith('/') ? p : `${p}/`);
+const absUrl = (p) => `${SITE_URL}${withSlash(p)}`;
+
 /* ── map imported image vars → built /static/media URLs ──────────── */
 const importVarToBase = {};
 for (const m of source.matchAll(/import\s+(\w+)\s+from\s+['"]([^'"]+)['"]/g)) {
@@ -96,14 +102,14 @@ const collectionLd = (label, description, canonicalPath, items) => [
     '@type': 'CollectionPage',
     name: `${label} | Tirich LED`,
     description,
-    url: `${SITE_URL}${canonicalPath}`,
+    url: absUrl(canonicalPath),
     mainEntity: {
       '@type': 'ItemList',
       numberOfItems: items.length,
       itemListElement: items.slice(0, 30).map((p, i) => ({
         '@type': 'ListItem',
         position: i + 1,
-        url: `${SITE_URL}/products/${p.slug}`,
+        url: absUrl(`/products/${p.slug}`),
         name: p.name,
       })),
     },
@@ -191,9 +197,9 @@ for (const p of products) {
         '@type': 'BreadcrumbList',
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
-          { '@type': 'ListItem', position: 2, name: 'Products', item: `${SITE_URL}/products` },
-          { '@type': 'ListItem', position: 3, name: p.category, item: `${SITE_URL}/products/category/${p.categorySlug}` },
-          { '@type': 'ListItem', position: 4, name: p.name, item: `${SITE_URL}/products/${p.slug}` },
+          { '@type': 'ListItem', position: 2, name: 'Products', item: absUrl('/products') },
+          { '@type': 'ListItem', position: 3, name: p.category, item: absUrl(`/products/category/${p.categorySlug}`) },
+          { '@type': 'ListItem', position: 4, name: p.name, item: absUrl(`/products/${p.slug}`) },
         ],
       },
     ],
@@ -202,7 +208,7 @@ for (const p of products) {
 
 /* ── render one route's HTML from the shell ──────────────────────── */
 function buildHtml(route) {
-  const url = route.canonical || `${SITE_URL}${route.path}`;
+  const url = route.canonical || absUrl(route.path);
   const fullTitle = route.path === '/' ? route.title : `${route.title} | Tirich LED`;
   const image = route.image || DEFAULT_IMAGE;
   const type = route.type || 'website';
@@ -260,11 +266,11 @@ const categoryPaths = categoryOrder.map((s) => `/products/category/${s}`);
 
 const urlEntries = [];
 for (const p of [...staticPaths, ...categoryPaths]) {
-  urlEntries.push(`  <url><loc>${SITE_URL}${p}</loc><lastmod>${today}</lastmod></url>`);
+  urlEntries.push(`  <url><loc>${absUrl(p)}</loc><lastmod>${today}</lastmod></url>`);
 }
 for (const p of products) {
   urlEntries.push(
-    `  <url><loc>${SITE_URL}/products/${p.slug}</loc><lastmod>${today}</lastmod>` +
+    `  <url><loc>${absUrl(`/products/${p.slug}`)}</loc><lastmod>${today}</lastmod>` +
       `<image:image><image:loc>${esc(p.image)}</image:loc><image:title>${esc(p.name)}</image:title></image:image></url>`
   );
 }

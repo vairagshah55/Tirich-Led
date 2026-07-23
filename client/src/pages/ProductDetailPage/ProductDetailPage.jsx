@@ -144,9 +144,9 @@ export default function ProductDetailPage() {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
-      { '@type': 'ListItem', position: 2, name: 'Products', item: `${SITE_URL}/products` },
-      { '@type': 'ListItem', position: 3, name: product.category, item: `${SITE_URL}/products/category/${product.categorySlug}` },
-      { '@type': 'ListItem', position: 4, name: product.name, item: `${SITE_URL}/products/${product.slug}` },
+      { '@type': 'ListItem', position: 2, name: 'Products', item: `${SITE_URL}/products/` },
+      { '@type': 'ListItem', position: 3, name: product.category, item: `${SITE_URL}/products/category/${product.categorySlug}/` },
+      { '@type': 'ListItem', position: 4, name: product.name, item: `${SITE_URL}/products/${product.slug}/` },
     ],
   };
 

@@ -10,7 +10,10 @@ const fs = require('fs');
 const path = require('path');
 
 const SITE_URL = 'https://tirichled.com';
-const STATIC_ROUTES = ['/', '/products', '/about', '/contact', '/smart-lighting'];
+// Trailing slashes: static hosts serve routes as directories (…/index.html),
+// so the canonical live URL has a trailing slash. Keep sitemap URLs identical
+// to what's served to avoid 301 redirect / canonical conflicts.
+const STATIC_ROUTES = ['/', '/products/', '/about/', '/contact/', '/smart-lighting/'];
 
 const dataPath = path.join(__dirname, '..', 'src', 'data', 'products.js');
 const source = fs.readFileSync(dataPath, 'utf8');
@@ -26,9 +29,9 @@ const categorySlugs = [
   ...source.matchAll(/categorySlug:\s*['"]([^'"]+)['"]/g),
 ].map((m) => m[1]);
 
-const productUrls = [...new Set(productSlugs)].map((s) => `/products/${s}`);
+const productUrls = [...new Set(productSlugs)].map((s) => `/products/${s}/`);
 const categoryUrls = [...new Set(categorySlugs)].map(
-  (c) => `/products/category/${c}`
+  (c) => `/products/category/${c}/`
 );
 
 const routes = [...STATIC_ROUTES, ...categoryUrls, ...productUrls];
