@@ -192,7 +192,7 @@ export default function Navbar() {
                 {CATEGORIES.map((cat) => (
                   <Link
                     key={cat.slug}
-                    to={`/products?category=${cat.slug}`}
+                    to={`/products/category/${cat.slug}`}
                     className={styles.catCard}
                     onClick={() => setMegaOpen(false)}
                   >
@@ -293,7 +293,7 @@ export default function Navbar() {
                   <li><Link to="/products">All Products</Link></li>
                   {CATEGORIES.map((cat) => (
                     <li key={cat.slug}>
-                      <Link to={`/products?category=${cat.slug}`}>{cat.label}</Link>
+                      <Link to={`/products/category/${cat.slug}`}>{cat.label}</Link>
                     </li>
                   ))}
                 </motion.ul>

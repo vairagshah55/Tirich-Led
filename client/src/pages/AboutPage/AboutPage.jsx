@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import Navbar from '../../components/Navbar/Navbar';
+import Seo from '../../components/Seo/Seo';
 import styles from './AboutPage.module.css';
 import Footer from '../../components/Footer/Footer';
 import brandFilm from '../../assets/videos/Tirich Brand Film.mp4';
@@ -149,6 +150,11 @@ export default function AboutPage() {
 
   return (
     <div className={styles.page}>
+      <Seo
+        title="About Us"
+        path="/about"
+        description="Tirich LED designs and manufactures premium precision LED lighting — engineered for architects, designers and contractors across residential, commercial and hospitality projects."
+      />
       <Navbar />
 
       {/* ── HERO INTRO ──────────────────────────────────────────── */}

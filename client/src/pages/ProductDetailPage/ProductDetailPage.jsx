@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import Navbar from '../../components/Navbar/Navbar';
 import Footer from '../../components/Footer/Footer';
+import Seo, { SITE_URL } from '../../components/Seo/Seo';
 import { PRODUCTS } from '../../data/products';
 import LeadCaptureModal, { hasLeadData } from '../../components/LeadCaptureModal/LeadCaptureModal';
 import styles from './ProductDetailPage.module.css';
@@ -109,6 +110,7 @@ export default function ProductDetailPage() {
   if (!product) {
     return (
       <div className={styles.page}>
+        <Seo title="Product not found" path={`/products/${slug}`} noindex />
         <Navbar />
         <motion.div className={styles.notFound} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: EASE }}>
           <h2 className={styles.nfTitle}>Product not found</h2>
@@ -119,8 +121,45 @@ export default function ProductDetailPage() {
     );
   }
 
+  const productLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    description: product.description,
+    image: `${SITE_URL}${product.image}`,
+    sku: product.slug.toUpperCase(),
+    category: product.category,
+    brand: { '@type': 'Brand', name: 'Tirich LED' },
+    additionalProperty: [
+      product.wattage && { '@type': 'PropertyValue', name: 'Wattage', value: product.wattage },
+      product.cri && { '@type': 'PropertyValue', name: 'CRI', value: product.cri },
+      product.cct && { '@type': 'PropertyValue', name: 'CCT', value: product.cct },
+      product.ip && { '@type': 'PropertyValue', name: 'IP Rating', value: product.ip },
+      product.lifespan && { '@type': 'PropertyValue', name: 'Rated Life', value: product.lifespan },
+    ].filter(Boolean),
+  };
+
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
+      { '@type': 'ListItem', position: 2, name: 'Products', item: `${SITE_URL}/products` },
+      { '@type': 'ListItem', position: 3, name: product.category, item: `${SITE_URL}/products/category/${product.categorySlug}` },
+      { '@type': 'ListItem', position: 4, name: product.name, item: `${SITE_URL}/products/${product.slug}` },
+    ],
+  };
+
   return (
     <div className={styles.page}>
+      <Seo
+        title={product.name}
+        path={`/products/${product.slug}`}
+        description={product.tagline ? `${product.tagline} — ${product.description}` : product.description}
+        image={product.image}
+        type="product"
+        jsonLd={[productLd, breadcrumbLd]}
+      />
       <Navbar />
 
       {/* Breadcrumb */}
@@ -130,7 +169,7 @@ export default function ProductDetailPage() {
           <span className={styles.bcSep}>/</span>
           <Link to="/products" className={styles.bcLink}>Products</Link>
           <span className={styles.bcSep}>/</span>
-          <Link to={`/products?category=${product.categorySlug}`} className={styles.bcLink}>{product.category}</Link>
+          <Link to={`/products/category/${product.categorySlug}`} className={styles.bcLink}>{product.category}</Link>
           <span className={styles.bcSep}>/</span>
           <span className={styles.bcCurr}>{product.name}</span>
         </div>
@@ -286,7 +325,7 @@ export default function ProductDetailPage() {
           <div className={styles.relatedInner}>
             <motion.div className={styles.relatedHead} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={REVEAL} transition={{ duration: 0.5, ease: EASE }}>
               <h2 className={styles.relatedTitle}>Related Products</h2>
-              <Link to={`/products?category=${product.categorySlug}`} className={styles.relatedLink}>
+              <Link to={`/products/category/${product.categorySlug}`} className={styles.relatedLink}>
                 View All
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></svg>
               </Link>

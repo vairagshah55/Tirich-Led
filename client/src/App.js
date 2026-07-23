@@ -19,18 +19,7 @@ const ProductDetailPage = lazy(() => import('./pages/ProductDetailPage/ProductDe
 const ContactPage       = lazy(() => import('./pages/ContactPage/ContactPage'));
 const SmartLightingPage = lazy(() => import('./pages/SmartLightingPage/SmartLightingPage'));
 const LeadListPage      = lazy(() => import('./pages/LeadListPage/LeadListPage'));
-
-const PAGE_TITLES = {
-  '/':           'Tirich LED — Precision LED Lighting',
-  '/about':      'About Us | Tirich LED',
-  '/products':   'Products | Tirich LED',
-  '/contact':    'Contact Us | Tirich LED',
-  '/smart-lighting': 'Smart Lighting | Tirich LED',
-  '/login':      'Partner Login | Tirich LED',
-  '/dashboard':  'Dashboard | Tirich LED',
-  '/ai-studio':  'AI Studio | Tirich LED',
-  '/leads-f98f30a4-b2e4-4cef-9787-20668cf00005': 'Leads | Tirich LED',
-};
+const NotFoundPage      = lazy(() => import('./pages/NotFoundPage/NotFoundPage'));
 
 function App() {
   const location = useLocation();
@@ -95,18 +84,6 @@ function App() {
     return () => { cancelled = true; };
   }, [apiBase]);
 
-  useEffect(() => {
-    const path = location.pathname;
-    // Product detail: /products/:slug
-    if (path.startsWith('/products/')) {
-      const slug = path.replace('/products/', '').replace(/-/g, ' ');
-      const name = slug.replace(/\b\w/g, c => c.toUpperCase());
-      document.title = `${name} | Tirich LED`;
-    } else {
-      document.title = PAGE_TITLES[path] || 'Tirich LED — Precision LED Lighting';
-    }
-  }, [location.pathname]);
-
   return (
     <div className="App">
       <WhatsAppButton />
@@ -160,10 +137,11 @@ function App() {
             />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/products" element={<ProductsPage />} />
+            <Route path="/products/category/:categorySlug" element={<ProductsPage />} />
             <Route path="/products/:slug" element={<ProductDetailPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/smart-lighting" element={<SmartLightingPage />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
           </Suspense>
         </motion.div>

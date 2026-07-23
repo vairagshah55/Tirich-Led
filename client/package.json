@@ -13,6 +13,7 @@
     "motion": "^12.38.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-helmet-async": "^3.0.0",
     "react-router-dom": "^6.22.3",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
@@ -21,7 +22,9 @@
     "postinstall": "node ./scripts/patch-react-scripts-dev-server.js",
     "prestart": "node ./scripts/patch-react-scripts-dev-server.js",
     "start": "node --no-deprecation ./node_modules/react-scripts/bin/react-scripts.js start",
+    "prebuild": "node ./scripts/generate-sitemap.js",
     "build": "node --no-deprecation ./node_modules/react-scripts/bin/react-scripts.js build",
+    "postbuild": "node ./scripts/prerender-meta.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

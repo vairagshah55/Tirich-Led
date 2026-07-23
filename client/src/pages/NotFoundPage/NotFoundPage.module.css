@@ -1,0 +1,89 @@
+.page {
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg-page);
+  color: var(--text-body);
+  min-height: 100vh;
+  padding-top: 68px;
+}
+
+.wrap {
+  min-height: calc(100vh - 68px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem 5rem;
+}
+
+.inner {
+  max-width: 540px;
+  text-align: center;
+}
+
+.code {
+  font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  font-size: clamp(4rem, 16vw, 8rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  color: var(--brand-orange);
+  margin: 0;
+}
+
+.rule {
+  display: block;
+  width: 44px;
+  height: 2px;
+  background: var(--brand-orange);
+  margin: 1.5rem auto;
+  opacity: 0.7;
+}
+
+.title {
+  font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 500;
+  color: var(--text-on-section);
+  margin: 0 0 0.9rem;
+}
+
+.text {
+  font-size: 0.95rem;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--text-on-section-muted);
+  margin: 0 auto 2rem;
+  max-width: 420px;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btnPrimary,
+.btnGhost {
+  display: inline-block;
+  padding: 0.85rem 1.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 3px;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.btnPrimary {
+  background: var(--btn-solid-bg, var(--brand-orange));
+  color: var(--btn-solid-text, #fff);
+}
+.btnPrimary:hover { background: var(--brand-orange-hover, #e0850f); }
+
+.btnGhost {
+  background: transparent;
+  border: 1px solid rgba(128, 128, 150, 0.4);
+  color: var(--text-body);
+}
+.btnGhost:hover { border-color: var(--brand-orange); color: var(--brand-orange); }

@@ -1109,7 +1109,7 @@ const ALL_PRODUCTS = [
     ],
   },
   {
-    slug: 'pro-130',
+    slug: 'pro-130-cob',
     name: "PRO+130",
     category: 'COB Lights',
     categorySlug: 'cob-lights',
@@ -1159,7 +1159,7 @@ const ALL_PRODUCTS = [
     ],
   },
   {
-    slug: 'pro-133',
+    slug: 'pro-133-cob',
     name: "PRO+133",
     category: 'COB Lights',
     categorySlug: 'cob-lights',
@@ -1184,7 +1184,7 @@ const ALL_PRODUCTS = [
     ],
   },
   {
-    slug: 'pro-131',
+    slug: 'pro-131-cob',
     name: "PRO+131",
     category: 'COB Lights',
     categorySlug: 'cob-lights',
@@ -1209,7 +1209,7 @@ const ALL_PRODUCTS = [
     ],
   },
   {
-    slug: 'pro-132',
+    slug: 'pro-132-cob',
     name: "PRO+132",
     category: 'COB Lights',
     categorySlug: 'cob-lights',
@@ -1259,7 +1259,7 @@ const ALL_PRODUCTS = [
     ],
   },
   {
-    slug: 'tlc-108',
+    slug: 'tlc-108-deep',
     name: "TLC-108",
     category: 'COB Lights',
     categorySlug: 'cob-lights',
@@ -1284,7 +1284,7 @@ const ALL_PRODUCTS = [
     ],
   },
   {
-    slug: 'tlc-129',
+    slug: 'tlc-129-cob',
     name: "TLC-129",
     category: 'COB Lights',
     categorySlug: 'cob-lights',
@@ -1334,7 +1334,7 @@ const ALL_PRODUCTS = [
     ],
   },
   {
-    slug: 'tlc-101',
+    slug: 'tlc-101-cob',
     name: "TLC-101",
     category: 'COB Lights',
     categorySlug: 'cob-lights',
@@ -1509,7 +1509,7 @@ const ALL_PRODUCTS = [
     ],
   },
   {
-    slug: 'tlc-338',
+    slug: 'tlc-338-downlight',
     name: "TLC-338",
     category: 'Downlights',
     categorySlug: 'downlights',
@@ -1584,7 +1584,7 @@ const ALL_PRODUCTS = [
     ],
   },
   {
-    slug: 'tlc-333',
+    slug: 'tlc-333-downlight',
     name: "TLC-333",
     category: 'Downlights',
     categorySlug: 'downlights',
@@ -1784,7 +1784,7 @@ const ALL_PRODUCTS = [
     ],
   },
   {
-    slug: 'tlc-152',
+    slug: 'tlc-152-magik',
     name: "TLC-152 (Magik)",
     category: 'Linear Lights',
     categorySlug: 'linear-lights',
@@ -1809,7 +1809,7 @@ const ALL_PRODUCTS = [
     ],
   },
   {
-    slug: 'tlc-151',
+    slug: 'tlc-151-linea-lazer',
     name: "TLC-151 (Linea Lazer)",
     category: 'Linear Lights',
     categorySlug: 'linear-lights',
@@ -1934,7 +1934,7 @@ const ALL_PRODUCTS = [
     ],
   },
   {
-    slug: 'tlc-121',
+    slug: 'tlc-121-track',
     name: "TLC-121",
     category: 'Track Lights',
     categorySlug: 'track-lights',
@@ -2284,7 +2284,7 @@ const ALL_PRODUCTS = [
     ],
   },
   {
-    slug: 'tlc-226',
+    slug: 'tlc-226-surface',
     name: "TLC-226",
     category: 'Surface Lights',
     categorySlug: 'surface-lights',

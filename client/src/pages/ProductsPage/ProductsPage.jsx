@@ -1,24 +1,32 @@
 import { useState, useEffect } from 'react';
-import { Link, useSearchParams, useNavigate } from 'react-router-dom';
+import { Link, useSearchParams, useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'motion/react';
 import Navbar from '../../components/Navbar/Navbar';
+import Seo, { SITE_URL } from '../../components/Seo/Seo';
 import { PRODUCTS, CATEGORIES } from '../../data/products';
 import LeadCaptureModal, { hasLeadData } from '../../components/LeadCaptureModal/LeadCaptureModal';
 import styles from './ProductsPage.module.css';
 import { buttonHover, buttonTap, fadeUp } from '../../utils/motion';
 
 export default function ProductsPage() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const { categorySlug } = useParams();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [showLeadModal, setShowLeadModal] = useState(false);
   const [pendingSlug, setPendingSlug] = useState(null);
 
-  const activeCategoryLabel = (() => {
-    const cat = CATEGORIES.find(c => c.slug === (searchParams.get('category') || ''));
-    return cat ? cat.label : null;
-  })();
-  const initialCat = searchParams.get('category') || 'all';
-  const [activeCategory, setActiveCategory] = useState(initialCat);
+  // Category resolves from the clean path (/products/category/:slug) first,
+  // then the legacy ?category= query param, else "all".
+  const activeCategory = categorySlug || searchParams.get('category') || 'all';
+  const activeCat = CATEGORIES.find(c => c.slug === activeCategory) || null;
+  const activeCategoryLabel =
+    activeCat?.label ||
+    (activeCategory !== 'all'
+      ? PRODUCTS.find(p => p.categorySlug === activeCategory)?.category
+      : null) ||
+    null;
+  const activeCategoryDesc = activeCat?.desc || '';
+
   const [query, setQuery] = useState(searchParams.get('search') || '');
 
   const handleProductClick = (slug) => {
@@ -36,14 +44,12 @@ export default function ProductsPage() {
   };
 
   useEffect(() => {
-    const cat = searchParams.get('category') || 'all';
-    setActiveCategory(cat);
     setQuery(searchParams.get('search') || '');
   }, [searchParams]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+  }, [activeCategory]);
 
   // Re-run the reveal observer whenever the visible product set changes, so
   // cards re-added after a search is cleared/changed don't stay hidden.
@@ -74,16 +80,47 @@ export default function ProductsPage() {
   });
 
   const setCategory = (slug) => {
-    setActiveCategory(slug);
-    const params = {};
-    if (slug !== 'all') params.category = slug;
-    if (query.trim()) params.search = query.trim();
-    setSearchParams(params);
+    const qs = query.trim() ? `?search=${encodeURIComponent(query.trim())}` : '';
+    navigate(slug === 'all' ? `/products${qs}` : `/products/category/${slug}${qs}`);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const canonicalPath = activeCategory === 'all' ? '/products' : `/products/category/${activeCategory}`;
+  const collectionProducts =
+    activeCategory === 'all'
+      ? PRODUCTS
+      : PRODUCTS.filter(p => p.categorySlug === activeCategory);
+  const pageTitle = activeCategoryLabel || 'LED Lighting Products';
+  const pageDescription = activeCategoryLabel
+    ? `Explore Tirich LED ${activeCategoryLabel} — ${activeCategoryDesc || 'precision LED fixtures'} with specs, beam angles and finishes for residential, commercial and hospitality projects.`
+    : 'Browse the full Tirich LED catalogue — COB lights, downlights, linear, track, magnetic track, panels, fixtures and outdoor lighting.';
+
+  const collectionLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: `${pageTitle} | Tirich LED`,
+    description: pageDescription,
+    url: `${SITE_URL}${canonicalPath}`,
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: collectionProducts.length,
+      itemListElement: collectionProducts.slice(0, 30).map((p, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        url: `${SITE_URL}/products/${p.slug}`,
+        name: p.name,
+      })),
+    },
   };
 
   return (
     <div className={styles.page}>
+      <Seo
+        title={activeCategoryLabel || 'All Products'}
+        path={canonicalPath}
+        description={pageDescription}
+        jsonLd={collectionLd}
+      />
       <Navbar />
 
       {/* ── BREADCRUMB ── */}
@@ -133,6 +170,16 @@ export default function ProductsPage() {
 
       {/* ── PRODUCT GRID ── */}
       <div className={styles.gridWrap}>
+        {/* Page heading — one keyword-rich H1 per category for SEO */}
+        <motion.header className={styles.pageHead} {...fadeUp(0.06, 14)}>
+          <h1 className={styles.pageTitle}>{pageTitle}</h1>
+          <p className={styles.pageIntro}>
+            {activeCategoryLabel
+              ? `${activeCategoryDesc ? activeCategoryDesc + '. ' : ''}Browse ${collectionProducts.length} ${activeCategoryLabel} from Tirich LED — with wattage, CRI, beam angle and finish details for every fixture.`
+              : 'Precision LED lighting for residential, commercial and hospitality projects — explore downlights, COB spots, track, linear, magnetic, panels, fixtures and outdoor ranges.'}
+          </p>
+        </motion.header>
+
         {/* Search — directly above the product list */}
         <motion.div className={styles.searchBar} {...fadeUp(0.08, 16)}>
           <div className={styles.searchWrap}>
@@ -172,14 +219,19 @@ export default function ProductsPage() {
                 whileHover={{ y: -8, transition: { duration: 0.22 } }}
                 {...fadeUp(Math.min(i * 0.05, 0.3), 20)}
               >
-                <div
+                <Link
+                  to={`/products/${product.slug}`}
                   className={styles.card}
                   data-reveal
-                  style={{ transitionDelay: `${Math.min(i * 0.055, 0.44)}s`, cursor: 'pointer' }}
-                  onClick={() => handleProductClick(product.slug)}
-                  role="link"
-                  tabIndex={0}
-                  onKeyDown={(e) => { if (e.key === 'Enter') handleProductClick(product.slug); }}
+                  style={{ transitionDelay: `${Math.min(i * 0.055, 0.44)}s` }}
+                  onClick={(e) => {
+                    // Real crawlable href for search engines; visitors without
+                    // saved lead info are still routed through the capture modal.
+                    if (!hasLeadData()) {
+                      e.preventDefault();
+                      handleProductClick(product.slug);
+                    }
+                  }}
                 >
                 {/* Image */}
                 <div className={styles.cardMedia}>
@@ -228,7 +280,7 @@ export default function ProductsPage() {
 
                 {/* Hover glow halo */}
                   <div className={styles.cardGlow} aria-hidden="true" />
-                </div>
+                </Link>
               </motion.div>
             ))
           )}

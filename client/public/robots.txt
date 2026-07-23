@@ -1,3 +1,11 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Allow: /
+
+# Private / utility routes — not for indexing
+Disallow: /login
+Disallow: /dashboard
+Disallow: /ai-studio
+Disallow: /leads-f98f30a4-b2e4-4cef-9787-20668cf00005
+
+Sitemap: https://tirichled.com/sitemap.xml

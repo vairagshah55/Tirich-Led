@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Navbar from '../../components/Navbar/Navbar';
+import Seo from '../../components/Seo/Seo';
 import Footer from '../../components/Footer/Footer';
 import styles from './ContactPage.module.css';
 
@@ -43,6 +44,11 @@ export default function ContactPage() {
 
   return (
     <div className={styles.page}>
+      <Seo
+        title="Contact Us"
+        path="/contact"
+        description="Get in touch with Tirich LED for product enquiries, project quotes and lighting design support. Call, WhatsApp or send us a message."
+      />
       <Navbar />
 
       {/* ── Hero ── */}

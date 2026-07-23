@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import Navbar from '../../components/Navbar/Navbar';
+import Seo from '../../components/Seo/Seo';
 import styles from './SmartLightingPage.module.css';
 import {
   MOTION_EASE,
@@ -222,6 +223,11 @@ export default function SmartLightingPage() {
 
   return (
     <div className={styles.page} style={{ '--accent': method.accent, '--scene-color': scene.color }}>
+      <Seo
+        title="Smart Lighting"
+        path="/smart-lighting"
+        description="Tirich LED smart lighting — app and voice-controlled scenes, tunable white and dimming for modern homes, offices and hospitality spaces."
+      />
       <Navbar />
 
       <main className={styles.main}>
