@@ -7,6 +7,7 @@ import styles from './AboutPage.module.css';
 import Footer from '../../components/Footer/Footer';
 import brandFilm from '../../assets/videos/Tirich Brand Film.mp4';
 import rinkeshJain from '../../assets/director-rinkesh-jain.jpeg';
+import pramodJain from '../../assets/founder-pramod-jain.jpeg';
 import teamGroup from '../../assets/team-group.png';
 
 const EASE = [0.22, 1, 0.36, 1];
@@ -21,7 +22,8 @@ const JOURNEY = [
     type: 'director',
     name: 'Pramod Jain',
     role: 'Founder',
-    image: rinkeshJain, // TODO: replace with founder's own photo when available
+    image: pramodJain,
+    imagePosition: 'center 42%', // seated portrait — bias crop to his face, not the sign
   },
   {
     year: '2021',
@@ -465,6 +467,7 @@ export default function AboutPage() {
                         src={item.image}
                         alt={item.name || item.caption || item.title}
                         loading="lazy" decoding="async"
+                        style={item.imagePosition ? { objectPosition: item.imagePosition } : undefined}
                         whileHover={{ scale: 1.06 }}
                         transition={{ duration: 0.5, ease: QUART_OUT }}
                       />
@@ -568,6 +571,7 @@ export default function AboutPage() {
                         src={item.image}
                         alt={item.name || item.caption || item.title}
                         loading="lazy" decoding="async"
+                        style={item.imagePosition ? { objectPosition: item.imagePosition } : undefined}
                         whileHover={{ scale: 1.06 }}
                         transition={{ duration: 0.5, ease: QUART_OUT }}
                       />
