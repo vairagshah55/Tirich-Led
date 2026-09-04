@@ -75,7 +75,12 @@
   flex-shrink: 0;
 }
 
+/* Rendered as an <a> (crawlable category link) — restore the button-like box
+   and strip the default link underline/colour. */
 .filterBtn {
+  display: inline-block;
+  text-decoration: none;
+  text-align: center;
   padding: 0.95rem 1.25rem;
   font-size: 0.72rem;
   letter-spacing: 0.12em;

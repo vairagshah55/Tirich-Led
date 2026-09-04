@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import Navbar from '../../components/Navbar/Navbar';
+import Footer from '../../components/Footer/Footer';
 import Seo from '../../components/Seo/Seo';
 import styles from './SmartLightingPage.module.css';
 import {
@@ -596,6 +597,8 @@ export default function SmartLightingPage() {
           </motion.div>
         </section>
       </main>
+
+      <Footer />
     </div>
   );
 }

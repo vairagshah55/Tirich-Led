@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Navbar from '../../components/Navbar/Navbar';
 import Seo from '../../components/Seo/Seo';
+import { SITE_URL, breadcrumbLd } from '../../config/seo';
 import Footer from '../../components/Footer/Footer';
 import styles from './ContactPage.module.css';
 
@@ -48,8 +49,23 @@ export default function ContactPage() {
         title="Contact Us"
         path="/contact"
         description="Get in touch with Tirich LED for product enquiries, project quotes and lighting design support. Call, WhatsApp or send us a message."
+        jsonLd={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'ContactPage',
+            name: 'Contact Tirich LED',
+            url: `${SITE_URL}/contact/`,
+            mainEntity: { '@id': `${SITE_URL}/#organization` },
+          },
+          breadcrumbLd([
+            { name: 'Home', path: '/' },
+            { name: 'Contact Us', path: '/contact' },
+          ]),
+        ]}
       />
       <Navbar />
+
+      <main className="page-main">
 
       {/* ── Hero ── */}
       <motion.section
@@ -225,6 +241,8 @@ export default function ContactPage() {
           </motion.div>
         </div>
       </section>
+
+      </main>
 
       <Footer />
     </div>

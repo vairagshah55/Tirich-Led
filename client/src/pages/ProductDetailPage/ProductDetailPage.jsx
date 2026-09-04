@@ -3,10 +3,18 @@ import { Link, useParams } from 'react-router-dom';
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import Navbar from '../../components/Navbar/Navbar';
 import Footer from '../../components/Footer/Footer';
-import Seo, { SITE_URL } from '../../components/Seo/Seo';
+import Seo from '../../components/Seo/Seo';
+import {
+  SITE_URL,
+  breadcrumbLd,
+  productSeoTitles,
+} from '../../config/seo';
 import { PRODUCTS } from '../../data/products';
 import LeadCaptureModal, { hasLeadData } from '../../components/LeadCaptureModal/LeadCaptureModal';
 import styles from './ProductDetailPage.module.css';
+
+// The catalogue is static, so resolve every page's unique <title> once.
+const SEO_TITLES = productSeoTitles(PRODUCTS);
 
 const EASE = [0.25, 1, 0.5, 1];
 const REVEAL = { once: true, amount: 0.15 };
@@ -112,11 +120,13 @@ export default function ProductDetailPage() {
       <div className={styles.page}>
         <Seo title="Product not found" path={`/products/${slug}`} noindex />
         <Navbar />
-        <motion.div className={styles.notFound} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: EASE }}>
-          <h2 className={styles.nfTitle}>Product not found</h2>
-          <p className={styles.nfText}>The product you're looking for doesn't exist.</p>
-          <Link to="/products" className={styles.btnPrimary}>Browse All Products</Link>
-        </motion.div>
+        <main className="page-main">
+          <motion.div className={styles.notFound} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: EASE }}>
+            <h1 className={styles.nfTitle}>Product not found</h1>
+            <p className={styles.nfText}>The product you're looking for doesn't exist.</p>
+            <Link to="/products" className={styles.btnPrimary}>Browse All Products</Link>
+          </motion.div>
+        </main>
       </div>
     );
   }
@@ -139,31 +149,29 @@ export default function ProductDetailPage() {
     ].filter(Boolean),
   };
 
-  const breadcrumbLd = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
-      { '@type': 'ListItem', position: 2, name: 'Products', item: `${SITE_URL}/products/` },
-      { '@type': 'ListItem', position: 3, name: product.category, item: `${SITE_URL}/products/category/${product.categorySlug}/` },
-      { '@type': 'ListItem', position: 4, name: product.name, item: `${SITE_URL}/products/${product.slug}/` },
-    ],
-  };
+  const crumbs = [
+    { name: 'Home', path: '/' },
+    { name: 'Products', path: '/products' },
+    { name: product.category, path: `/products/category/${product.categorySlug}` },
+    { name: product.name, path: `/products/${product.slug}` },
+  ];
 
   return (
     <div className={styles.page}>
       <Seo
-        title={product.name}
+        title={SEO_TITLES.get(product.slug) || product.name}
         path={`/products/${product.slug}`}
         description={product.tagline ? `${product.tagline} — ${product.description}` : product.description}
         image={product.image}
         type="product"
-        jsonLd={[productLd, breadcrumbLd]}
+        jsonLd={[productLd, breadcrumbLd(crumbs)]}
       />
       <Navbar />
 
+      <main className="page-main">
+
       {/* Breadcrumb */}
-      <motion.div className={styles.bc} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
+      <motion.nav className={styles.bc} aria-label="Breadcrumb" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
         <div className={styles.bcInner}>
           <Link to="/" className={styles.bcLink}>Home</Link>
           <span className={styles.bcSep}>/</span>
@@ -173,7 +181,7 @@ export default function ProductDetailPage() {
           <span className={styles.bcSep}>/</span>
           <span className={styles.bcCurr}>{product.name}</span>
         </div>
-      </motion.div>
+      </motion.nav>
 
       {/* ── Hero ── */}
       <section ref={heroRef} className={styles.hero}>
@@ -334,7 +342,7 @@ export default function ProductDetailPage() {
               {related.map((p) => (
                 <motion.div key={p.slug} variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } } }} whileHover={{ y: -4, transition: { duration: 0.2 } }}>
                   <Link to={`/products/${p.slug}`} className={styles.relCard}>
-                    <div className={styles.relImgWrap}><img src={p.image} alt={p.name} className={styles.relImg} loading="lazy" decoding="async" /></div>
+                    <div className={styles.relImgWrap}><img src={p.image} alt={p.name} className={styles.relImg} width="800" height="600" loading="lazy" decoding="async" /></div>
                     <div className={styles.relBody}>
                       <span className={styles.relCat}>{p.category}</span>
                       <h3 className={styles.relName}>{p.name}</h3>
@@ -347,6 +355,8 @@ export default function ProductDetailPage() {
           </div>
         </section>
       )}
+
+      </main>
 
       <Footer />
 

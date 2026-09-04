@@ -2,7 +2,8 @@ import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'motion/react';
 import Navbar from '../../components/Navbar/Navbar';
-import Seo, { SITE_URL } from '../../components/Seo/Seo';
+import Seo from '../../components/Seo/Seo';
+import { organizationLd, webSiteLd } from '../../config/seo';
 import styles from './LandingPage.module.css';
 import { buttonHover, buttonTap, fadeUp } from '../../utils/motion';
 
@@ -450,35 +451,13 @@ export default function LandingPage() {
       <Seo
         path="/"
         preloadImage={HERO_IMG_1}
-        jsonLd={[
-          {
-            '@context': 'https://schema.org',
-            '@type': 'Organization',
-            name: 'Tirich LED',
-            url: SITE_URL,
-            logo: `${SITE_URL}/logo.png`,
-            contactPoint: {
-              '@type': 'ContactPoint',
-              telephone: '+91-73832-47625',
-              contactType: 'sales',
-            },
-          },
-          {
-            '@context': 'https://schema.org',
-            '@type': 'WebSite',
-            name: 'Tirich LED',
-            url: SITE_URL,
-            potentialAction: {
-              '@type': 'SearchAction',
-              target: `${SITE_URL}/products?search={query}`,
-              'query-input': 'required name=query',
-            },
-          },
-        ]}
+        jsonLd={[organizationLd, webSiteLd]}
       />
 
       {/* ── NAV ─────────────────────────────────────────────────── */}
       <Navbar />
+
+      <main className="page-main">
 
       {/* ══ HERO — white architectural studio ═════════════════════ */}
       <section
@@ -983,6 +962,8 @@ export default function LandingPage() {
           </motion.div>
         </motion.section>
       )}
+
+      </main>
 
       <Footer />
 

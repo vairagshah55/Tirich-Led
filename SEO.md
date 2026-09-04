@@ -39,7 +39,57 @@ Check off items as you go.
   previously-shadowed product a descriptive slug (e.g. `tlc-151-linea-lazer`,
   `pro-130-cob`, `tlc-121-track`). All 116 products now have a unique URL.
 
-**Frontend power-ups (this pass):**
+**Audit pass 2 — architecture hardening (this commit):**
+- **Category pages were orphans.** They shipped in the sitemap but had no
+  crawlable inbound link: the `/products` filter chips were `<button onClick>`,
+  and the mega-menu only mounts on hover. Chips are now `<Link>`s
+  (`motion.create(Link)`, hover/tap motion preserved), and the footer carries a
+  **Categories** column, so every category page is linked from every page.
+- **`/products` and `/smart-lighting` had no `<Footer />`** — the catalogue, the
+  single biggest hub, dead-ended. Both now render it.
+- **Private routes emitted no metadata at all.** `/login`, `/dashboard`,
+  `/ai-studio` and the lead inbox inherited the *previous* page's Helmet title
+  and canonical on client-side navigation. All four now send
+  `noindex,nofollow` via `<Seo>`.
+- **robots.txt was publishing the secret lead-inbox path.** robots.txt is world
+  readable, so `Disallow: /leads-<uuid>` advertised it. Removed — that page
+  relies on `noindex,nofollow` and having no inbound links. Also dropped the
+  proposed `Disallow` on `?search=` / `?category=`: blocking those would stop
+  crawlers reading the very canonical/noindex directives that consolidate them.
+- **404 canonicalised to the homepage.** `<Seo noindex />` with no `path` fell
+  back to `/`, telling Google every dead URL *was* the homepage. `<Seo>` and the
+  pre-renderer now emit no canonical at all when a page has no single URL.
+- **Duplicate `<title>`s.** The 13 slug collisions fixed earlier left two
+  distinct products sharing a name, so 12 titles were duplicated across
+  indexable pages. `productSeoTitles()` now escalates only as far as needed:
+  name → name + range → name + tagline. **131/131 unique.**
+- **Default OG image.** The fallback was the 452×230 logo, below the 1200×630
+  social minimum. `scripts/generate-og-image.js` renders a real
+  `public/og-default.jpg` share card (Phase 5 closed).
+- **Duplicate `<head>` tags.** `public/index.html` now ships fallback
+  canonical/robots/OG/Twitter tags for any route the pre-renderer misses, and
+  `prerender-meta.js` **strips them before injecting** per-route values — two
+  canonicals on one page is worse than none.
+- **One SEO config.** `src/config/seo.js` (runtime) + `scripts/seo-shared.js`
+  (build-time twin) hold the origin, business identity, Organization/WebSite
+  schema and the breadcrumb/title/description helpers. Sitemap, pre-renderer and
+  `<Seo>` can no longer disagree.
+- **Real `sameAs` + address.** Organization now carries the actual Instagram,
+  Facebook and JustDial profiles, plus locality (Udhna, Surat / Gujarat / IN),
+  email and phone. Footer social links point at the real profiles instead of `#`.
+- **Structured data coverage.** BreadcrumbList added to `/products` and every
+  category page; AboutPage and ContactPage schemas added. 256 JSON-LD blocks,
+  all parse, **no offers / ratings / reviews** anywhere (nothing fabricated).
+- **Semantic `<main>`** on every public page (`display: contents`, so layout is
+  byte-identical); product breadcrumb is now `<nav aria-label="Breadcrumb">`;
+  the product-not-found heading is an `<h1>`, not an `<h2>`.
+- **Description discipline.** Templates tightened and `clampDescription()` caps
+  every description at 160 chars on both render paths. 0 over-length, 131 unique.
+- **CLS/LCP.** `width`/`height` on the nav logo, footer logo, mega-menu thumbs,
+  product cards and related-product cards; `fetchpriority="high"` on the nav
+  logo. Unused `web-vitals` dependency removed; stale `client/robots.txt` deleted.
+
+**Frontend power-ups (earlier pass):**
 - **Clean category landing pages** — real `/products/category/:slug` routes
   (`App.js`), each with a keyword H1 + intro copy, `CollectionPage` + `ItemList`
   JSON-LD, canonical to the clean path, and a pre-rendered HTML file. Nav,

@@ -2,10 +2,20 @@
 User-agent: *
 Allow: /
 
-# Private / utility routes — not for indexing
+# Private / utility routes. Nothing links to them and they also emit
+# <meta name="robots" content="noindex,nofollow">.
 Disallow: /login
 Disallow: /dashboard
 Disallow: /ai-studio
-Disallow: /leads-f98f30a4-b2e4-4cef-9787-20668cf00005
+
+# Deliberately NOT disallowed:
+#   /products?search=…   — sends noindex,follow and canonicalises to /products/
+#   /products?category=… — canonicalises to /products/category/<slug>/
+# Blocking either would stop crawlers from ever reading those directives, so the
+# duplicates would stay in the index unconsolidated.
+#
+# The lead-inbox route is deliberately absent too: robots.txt is public, so
+# listing an unguessable path here would publish it. That page sends
+# noindex,nofollow and is linked from nowhere.
 
 Sitemap: https://tirichled.com/sitemap.xml

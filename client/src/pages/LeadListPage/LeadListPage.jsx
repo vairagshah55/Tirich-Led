@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import styles from './LeadListPage.module.css';
+import Seo from '../../components/Seo/Seo';
 
 // The lead API lives on the shared 57facets backend (Node + Postgres) — the
 // tirichled.com domain only serves this static frontend, so calls go to
@@ -157,6 +158,7 @@ export default function LeadListPage() {
 
   return (
     <div className={styles.page}>
+      <Seo title="Leads" noindex nofollow />
       <section className={styles.wrap}>
         {/* Toolbar — search + count, no page header */}
         <div className={styles.toolbar}>

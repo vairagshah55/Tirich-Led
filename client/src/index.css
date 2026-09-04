@@ -162,3 +162,11 @@ button {
   }
   .pageTransition { animation: none; }
 }
+
+/* ── Semantic landmark ──────────────────────────────────────────────
+   Wraps each page's primary content in a <main> for crawlers and screen
+   readers. display:contents keeps the element out of the layout entirely,
+   so the existing page structure renders exactly as before. */
+.page-main {
+  display: contents;
+}

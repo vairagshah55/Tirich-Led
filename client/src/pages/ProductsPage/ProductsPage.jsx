@@ -2,11 +2,19 @@ import { useState, useEffect } from 'react';
 import { Link, useSearchParams, useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'motion/react';
 import Navbar from '../../components/Navbar/Navbar';
-import Seo, { SITE_URL } from '../../components/Seo/Seo';
+import Footer from '../../components/Footer/Footer';
+import Seo from '../../components/Seo/Seo';
+import { SITE_URL, breadcrumbLd } from '../../config/seo';
 import { PRODUCTS, CATEGORIES } from '../../data/products';
 import LeadCaptureModal, { hasLeadData } from '../../components/LeadCaptureModal/LeadCaptureModal';
 import styles from './ProductsPage.module.css';
 import { buttonHover, buttonTap, fadeUp } from '../../utils/motion';
+
+// Animated router link — lets the category filters keep their hover/tap
+// motion while still being real, crawlable <a href> elements.
+const MotionLink = motion.create(Link);
+
+const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
 export default function ProductsPage() {
   const { categorySlug } = useParams();
@@ -79,10 +87,12 @@ export default function ProductsPage() {
     );
   });
 
-  const setCategory = (slug) => {
+  // Category chips are real <Link>s so crawlers can reach every category
+  // landing page (they used to be buttons, leaving those pages orphaned).
+  // The search term is carried across so filtering doesn't reset the query.
+  const categoryHref = (slug) => {
     const qs = query.trim() ? `?search=${encodeURIComponent(query.trim())}` : '';
-    navigate(slug === 'all' ? `/products${qs}` : `/products/category/${slug}${qs}`);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return slug === 'all' ? `/products${qs}` : `/products/category/${slug}${qs}`;
   };
 
   const canonicalPath = activeCategory === 'all' ? '/products' : `/products/category/${activeCategory}`;
@@ -92,8 +102,18 @@ export default function ProductsPage() {
       : PRODUCTS.filter(p => p.categorySlug === activeCategory);
   const pageTitle = activeCategoryLabel || 'LED Lighting Products';
   const pageDescription = activeCategoryLabel
-    ? `Explore Tirich LED ${activeCategoryLabel} — ${activeCategoryDesc || 'precision LED fixtures'} with specs, beam angles and finishes for residential, commercial and hospitality projects.`
+    ? `${activeCategoryLabel} from Tirich LED — ${activeCategoryDesc || 'precision LED fixtures'}. Full specs, beam angles and finishes for every fixture.`
     : 'Browse the full Tirich LED catalogue — COB lights, downlights, linear, track, magnetic track, panels, fixtures and outdoor lighting.';
+
+  // Search-result permutations are near-infinite and thin; keep them out of
+  // the index but let crawlers follow through to the product pages. The
+  // unfiltered catalogue and every category page stay fully indexable.
+  const isSearchResult = Boolean(q);
+
+  const crumbs = [{ name: 'Home', path: '/' }, { name: 'Products', path: '/products' }];
+  if (activeCategoryLabel) {
+    crumbs.push({ name: activeCategoryLabel, path: canonicalPath });
+  }
 
   const collectionLd = {
     '@context': 'https://schema.org',
@@ -119,7 +139,8 @@ export default function ProductsPage() {
         title={activeCategoryLabel || 'All Products'}
         path={canonicalPath}
         description={pageDescription}
-        jsonLd={collectionLd}
+        noindex={isSearchResult}
+        jsonLd={[collectionLd, breadcrumbLd(crumbs)]}
       />
       <Navbar />
 
@@ -143,33 +164,37 @@ export default function ProductsPage() {
       {/* ── FILTER BAR ── */}
       <motion.div className={styles.filterBar} {...fadeUp(0.1, 18)}>
         <div className={styles.filterInner}>
-          <motion.button
+          <MotionLink
+            to={categoryHref('all')}
             className={`${styles.filterBtn} ${activeCategory === 'all' ? styles.filterBtnActive : ''}`}
-            onClick={() => setCategory('all')}
+            aria-current={activeCategory === 'all' ? 'page' : undefined}
+            onClick={scrollToTop}
             whileHover={buttonHover}
             whileTap={buttonTap}
           >
             All Products
             <span className={styles.filterBtnCount}>{PRODUCTS.length}</span>
-          </motion.button>
+          </MotionLink>
           <span className={styles.filterSep} aria-hidden="true" />
           {CATEGORIES.map(cat => (
-            <motion.button
+            <MotionLink
               key={cat.slug}
+              to={categoryHref(cat.slug)}
               className={`${styles.filterBtn} ${activeCategory === cat.slug ? styles.filterBtnActive : ''}`}
-              onClick={() => setCategory(cat.slug)}
+              aria-current={activeCategory === cat.slug ? 'page' : undefined}
+              onClick={scrollToTop}
               whileHover={buttonHover}
               whileTap={buttonTap}
             >
               {cat.label}
               <span className={styles.filterBtnCount}>{countBySlug(cat.slug)}</span>
-            </motion.button>
+            </MotionLink>
           ))}
         </div>
       </motion.div>
 
       {/* ── PRODUCT GRID ── */}
-      <div className={styles.gridWrap}>
+      <main className={styles.gridWrap}>
         {/* Page heading — one keyword-rich H1 per category for SEO */}
         <motion.header className={styles.pageHead} {...fadeUp(0.06, 14)}>
           <h1 className={styles.pageTitle}>{pageTitle}</h1>
@@ -235,7 +260,7 @@ export default function ProductsPage() {
                 >
                 {/* Image */}
                 <div className={styles.cardMedia}>
-                  <img src={product.image} alt={product.name} className={styles.cardImg} loading="lazy" decoding="async" />
+                  <img src={product.image} alt={product.name} className={styles.cardImg} width="800" height="600" loading="lazy" decoding="async" />
 
                   {/* Hover overlay — progressive disclosure */}
                   <div className={styles.cardOverlay}>
@@ -285,7 +310,9 @@ export default function ProductsPage() {
             ))
           )}
         </div>
-      </div>
+      </main>
+
+      <Footer />
 
       <LeadCaptureModal
         open={showLeadModal}

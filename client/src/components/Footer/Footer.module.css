@@ -188,3 +188,10 @@
   .footerNavCol a,
   .footerPlaceholderLink { min-height: 36px; display: flex; align-items: center; }
 }
+
+/* Non-link contact line in the footer nav — matches the link rhythm. */
+.footerNavNote {
+  font-size: 0.78rem;
+  color: rgba(21, 21, 21, 0.45);
+  line-height: 1.5;
+}

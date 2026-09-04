@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styles from './AIStudioPage.module.css';
+import Seo from '../../components/Seo/Seo';
 
 const API = process.env.REACT_APP_API_BASE_URL;
 
@@ -216,6 +217,7 @@ export default function AIStudioPage({ user }) {
   // ── Render ────────────────────────────────────────────────────────
   return (
     <div className={styles.studio}>
+      <Seo title="AI Studio" path="/ai-studio" noindex nofollow />
       {/* ── Header ── */}
       <header className={styles.header}>
         <div>

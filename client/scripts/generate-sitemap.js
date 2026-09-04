@@ -3,13 +3,13 @@
  * Generates public/sitemap.xml from the product catalogue at build time so it
  * never drifts from the data. Runs automatically via the "prebuild" npm script.
  *
- * Update SITE_URL if the production domain changes (keep it in sync with
- * src/components/Seo/Seo.jsx → SITE_URL).
+ * The origin comes from scripts/seo-shared.js so the sitemap, the pre-rendered
+ * <head> tags and the runtime <Seo> component can never disagree about it.
  */
 const fs = require('fs');
 const path = require('path');
 
-const SITE_URL = 'https://tirichled.com';
+const { SITE_URL } = require('./seo-shared');
 // Trailing slashes: static hosts serve routes as directories (…/index.html),
 // so the canonical live URL has a trailing slash. Keep sitemap URLs identical
 // to what's served to avoid 301 redirect / canonical conflicts.

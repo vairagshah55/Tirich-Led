@@ -22,10 +22,19 @@
 const fs = require('fs');
 const path = require('path');
 
-const SITE_URL = 'https://tirichled.com'; // keep in sync with src/components/Seo/Seo.jsx
+const {
+  SITE_URL,
+  DEFAULT_IMAGE,
+  organizationLd,
+  webSiteLd,
+  breadcrumbLd,
+  absUrl,
+  productSeoTitles,
+  clampDescription,
+} = require('./seo-shared');
+
 const BUILD_DIR = path.join(__dirname, '..', 'build');
 const SRC_DATA = path.join(__dirname, '..', 'src', 'data', 'products.js');
-const DEFAULT_IMAGE = `${SITE_URL}/logo.png`;
 
 const source = fs.readFileSync(SRC_DATA, 'utf8');
 const shell = fs.readFileSync(path.join(BUILD_DIR, 'index.html'), 'utf8');
@@ -40,12 +49,6 @@ const esc = (s = '') =>
 
 const jsonLdTag = (obj) =>
   `<script type="application/ld+json">${JSON.stringify(obj).replace(/</g, '\\u003c')}</script>`;
-
-// Static hosts serve routes as directories, so the live URL has a trailing
-// slash. Keep every emitted URL (canonical, OG, sitemap, JSON-LD) consistent
-// with what's served to avoid 301 redirect / canonical conflicts.
-const withSlash = (p) => (!p || p === '/' ? '/' : p.endsWith('/') ? p : `${p}/`);
-const absUrl = (p) => `${SITE_URL}${withSlash(p)}`;
 
 /* ── map imported image vars → built /static/media URLs ──────────── */
 const importVarToBase = {};
@@ -96,7 +99,7 @@ const routes = [];
 const CATALOGUE_DESC =
   'Browse the full Tirich LED catalogue — COB lights, downlights, linear, track, magnetic track, panels, fixtures and outdoor lighting.';
 
-const collectionLd = (label, description, canonicalPath, items) => [
+const collectionLd = (label, description, canonicalPath, items, crumbs) => [
   {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
@@ -114,6 +117,7 @@ const collectionLd = (label, description, canonicalPath, items) => [
       })),
     },
   },
+  breadcrumbLd(crumbs),
 ];
 
 // Home
@@ -121,28 +125,8 @@ routes.push({
   path: '/',
   title: 'Tirich LED — Precision LED Lighting',
   description:
-    'Premium precision LED lighting for residential, commercial and hospitality spaces — COB downlights, track, linear, magnetic track, panels, fixtures and outdoor lighting.',
-  jsonLd: [
-    {
-      '@context': 'https://schema.org',
-      '@type': 'Organization',
-      name: 'Tirich LED',
-      url: SITE_URL,
-      logo: `${SITE_URL}/logo.png`,
-      contactPoint: { '@type': 'ContactPoint', telephone: '+91-73832-47625', contactType: 'sales' },
-    },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'WebSite',
-      name: 'Tirich LED',
-      url: SITE_URL,
-      potentialAction: {
-        '@type': 'SearchAction',
-        target: `${SITE_URL}/products?search={query}`,
-        'query-input': 'required name=query',
-      },
-    },
-  ],
+    'Premium precision LED lighting for homes, offices and hospitality — COB downlights, track, linear, magnetic, panels and outdoor fixtures.',
+  jsonLd: [organizationLd, webSiteLd],
 });
 
 // All products
@@ -150,11 +134,14 @@ routes.push({
   path: '/products',
   title: 'All Products',
   description: CATALOGUE_DESC,
-  jsonLd: collectionLd('LED Lighting Products', CATALOGUE_DESC, '/products', products),
+  jsonLd: collectionLd('LED Lighting Products', CATALOGUE_DESC, '/products', products, [
+    { name: 'Home', path: '/' },
+    { name: 'Products', path: '/products' },
+  ]),
 });
 
 // Static pages
-routes.push({ path: '/about', title: 'About Us', description: 'Tirich LED designs and manufactures premium precision LED lighting — engineered for architects, designers and contractors across residential, commercial and hospitality projects.' });
+routes.push({ path: '/about', title: 'About Us', description: 'Tirich LED designs and manufactures precision LED lighting — engineered for architects, designers and contractors across India.' });
 routes.push({ path: '/contact', title: 'Contact Us', description: 'Get in touch with Tirich LED for product enquiries, project quotes and lighting design support. Call, WhatsApp or send us a message.' });
 routes.push({ path: '/smart-lighting', title: 'Smart Lighting', description: 'Tirich LED smart lighting — app and voice-controlled scenes, tunable white and dimming for modern homes, offices and hospitality spaces.' });
 
@@ -162,22 +149,27 @@ routes.push({ path: '/smart-lighting', title: 'Smart Lighting', description: 'Ti
 for (const slug of categoryOrder) {
   const items = products.filter((p) => p.categorySlug === slug);
   const meta = categoryMeta[slug] || { label: items[0]?.category || slug, desc: '' };
-  const description = `Explore Tirich LED ${meta.label} — ${meta.desc || 'precision LED fixtures'} with specs, beam angles and finishes for residential, commercial and hospitality projects.`;
+  const description = `${meta.label} from Tirich LED — ${meta.desc || 'precision LED fixtures'}. Full specs, beam angles and finishes for every fixture.`;
   routes.push({
     path: `/products/category/${slug}`,
     title: meta.label,
     description,
     image: items[0]?.image,
-    jsonLd: collectionLd(meta.label, description, `/products/category/${slug}`, items),
+    jsonLd: collectionLd(meta.label, description, `/products/category/${slug}`, items, [
+      { name: 'Home', path: '/' },
+      { name: 'Products', path: '/products' },
+      { name: meta.label, path: `/products/category/${slug}` },
+    ]),
   });
 }
 
-// Product detail pages
+// Product detail pages — titles resolved so no two share a <title>.
+const seoTitles = productSeoTitles(products);
 for (const p of products) {
   const description = `${p.tagline}. ${p.name} — premium LED ${p.category.toLowerCase()} from Tirich LED.`;
   routes.push({
     path: `/products/${p.slug}`,
-    title: p.name,
+    title: seoTitles.get(p.slug),
     description,
     image: p.image,
     type: 'product',
@@ -192,49 +184,72 @@ for (const p of products) {
         category: p.category,
         brand: { '@type': 'Brand', name: 'Tirich LED' },
       },
-      {
-        '@context': 'https://schema.org',
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
-          { '@type': 'ListItem', position: 2, name: 'Products', item: absUrl('/products') },
-          { '@type': 'ListItem', position: 3, name: p.category, item: absUrl(`/products/category/${p.categorySlug}`) },
-          { '@type': 'ListItem', position: 4, name: p.name, item: absUrl(`/products/${p.slug}`) },
-        ],
-      },
+      breadcrumbLd([
+        { name: 'Home', path: '/' },
+        { name: 'Products', path: '/products' },
+        { name: p.category, path: `/products/category/${p.categorySlug}` },
+        { name: p.name, path: `/products/${p.slug}` },
+      ]),
     ],
   });
 }
 
-/* ── render one route's HTML from the shell ──────────────────────── */
+/* ── render one route's HTML from the shell ────────────────── */
+
+// public/index.html ships site-wide fallback tags (canonical, robots, og:*,
+// twitter:*) so that any route this script does not emit still gets a share
+// card. Per-route values must REPLACE them, not sit alongside them: two
+// canonicals or two og:titles on one page is worse than none, because the
+// crawler picks between them arbitrarily.
+const SHELL_DEFAULTS = new RegExp(
+  '[ \\t]*<(?:link rel="canonical"|meta (?:name="robots"|property="og:[^"]*"|' +
+    'name="twitter:[^"]*"))[^>]*>\\r?\\n?',
+  'g'
+);
+
 function buildHtml(route) {
-  const url = route.canonical || absUrl(route.path);
+  // canonical:false = this page answers for arbitrary URLs (the 404), so it
+  // must not claim one — a canonical would map every dead URL onto it.
+  const url = route.canonical === false ? null : route.canonical || absUrl(route.path);
   const fullTitle = route.path === '/' ? route.title : `${route.title} | Tirich LED`;
   const image = route.image || DEFAULT_IMAGE;
   const type = route.type || 'website';
+  // Only the generated share card has known dimensions; product photos vary.
+  const isDefaultImage = image === DEFAULT_IMAGE;
+  const robots = route.noindex
+    ? `noindex,${route.nofollow ? 'nofollow' : 'follow'}`
+    : 'index,follow,max-image-preview:large,max-snippet:-1';
 
   const head = [
-    `<link rel="canonical" href="${esc(url)}"/>`,
-    route.noindex ? `<meta name="robots" content="noindex,follow"/>` : '',
+    url ? `<link rel="canonical" href="${esc(url)}"/>` : '',
+    `<meta name="robots" content="${robots}"/>`,
     `<meta property="og:site_name" content="Tirich LED"/>`,
+    `<meta property="og:locale" content="en_IN"/>`,
     `<meta property="og:type" content="${esc(type)}"/>`,
     `<meta property="og:title" content="${esc(fullTitle)}"/>`,
-    `<meta property="og:description" content="${esc(route.description)}"/>`,
-    `<meta property="og:url" content="${esc(url)}"/>`,
+    `<meta property="og:description" content="${esc(clampDescription(route.description))}"/>`,
+    url ? `<meta property="og:url" content="${esc(url)}"/>` : '',
     `<meta property="og:image" content="${esc(image)}"/>`,
+    `<meta property="og:image:alt" content="${esc(fullTitle)}"/>`,
+    isDefaultImage ? '<meta property="og:image:width" content="1200"/>' : '',
+    isDefaultImage ? '<meta property="og:image:height" content="630"/>' : '',
     `<meta name="twitter:card" content="summary_large_image"/>`,
     `<meta name="twitter:title" content="${esc(fullTitle)}"/>`,
-    `<meta name="twitter:description" content="${esc(route.description)}"/>`,
+    `<meta name="twitter:description" content="${esc(clampDescription(route.description))}"/>`,
     `<meta name="twitter:image" content="${esc(image)}"/>`,
+    `<meta name="twitter:image:alt" content="${esc(fullTitle)}"/>`,
     ...(route.jsonLd ? route.jsonLd.map(jsonLdTag) : []),
-  ].join('');
+  ]
+    .filter(Boolean)
+    .join('');
 
   return shell
     .replace(/<title>[^<]*<\/title>/, `<title>${esc(fullTitle)}</title>`)
     .replace(
-      /<meta name="description" content="[^"]*"\/>/,
-      `<meta name="description" content="${esc(route.description)}"/>`
+      /<meta name="description" content="[^"]*"\s*\/?>/,
+      `<meta name="description" content="${esc(clampDescription(route.description))}"/>`
     )
+    .replace(SHELL_DEFAULTS, '')
     .replace('</head>', `${head}</head>`);
 }
 
@@ -254,7 +269,8 @@ fs.writeFileSync(
     title: 'Page not found',
     description: 'The page you are looking for could not be found. Browse the Tirich LED product range.',
     noindex: true,
-    canonical: `${SITE_URL}/404`,
+    nofollow: false,
+    canonical: false,
   }),
   'utf8'
 );

@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './DashboardPage.module.css';
+import Seo from '../../components/Seo/Seo';
 
 const DashboardPage = ({ onLogout, authUser, onAuthRefresh }) => {
   const navigate = useNavigate();
@@ -328,6 +329,7 @@ const DashboardPage = ({ onLogout, authUser, onAuthRefresh }) => {
 
   return (
     <div className={styles.container}>
+      <Seo title="Dashboard" path="/dashboard" noindex nofollow />
       <div className={styles.card}>
         <div className={styles.header}>
           <div>

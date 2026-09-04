@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import Navbar from '../../components/Navbar/Navbar';
 import Seo from '../../components/Seo/Seo';
+import { SITE_URL, breadcrumbLd } from '../../config/seo';
 import styles from './AboutPage.module.css';
 import Footer from '../../components/Footer/Footer';
 import brandFilm from '../../assets/videos/Tirich Brand Film.mp4';
@@ -155,9 +156,24 @@ export default function AboutPage() {
       <Seo
         title="About Us"
         path="/about"
-        description="Tirich LED designs and manufactures premium precision LED lighting — engineered for architects, designers and contractors across residential, commercial and hospitality projects."
+        description="Tirich LED designs and manufactures precision LED lighting — engineered for architects, designers and contractors across India."
+        jsonLd={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'AboutPage',
+            name: 'About Tirich LED',
+            url: `${SITE_URL}/about/`,
+            mainEntity: { '@id': `${SITE_URL}/#organization` },
+          },
+          breadcrumbLd([
+            { name: 'Home', path: '/' },
+            { name: 'About Us', path: '/about' },
+          ]),
+        ]}
       />
       <Navbar />
+
+      <main className="page-main">
 
       {/* ── HERO INTRO ──────────────────────────────────────────── */}
       <motion.section
@@ -907,6 +923,8 @@ export default function AboutPage() {
           <Link to="/products" className={styles.btnGhost}>View Products</Link>
         </motion.div>
       </section>
+
+      </main>
 
       <Footer />
     </div>
