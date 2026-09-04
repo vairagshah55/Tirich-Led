@@ -16,6 +16,8 @@ export const SITE_NAME = 'Tirich LED';
 export const BUSINESS = {
   name: SITE_NAME,
   legalName: 'Tirich Lighting Company',
+  // Real short forms people search for — no invented variants.
+  alternateName: ['Tirich', 'Tirich Lighting'],
   telephone: '+91-73832-47625',
   email: 'salestirichled@gmail.com',
   addressLocality: 'Udhna, Surat',
@@ -35,6 +37,7 @@ export const organizationLd = {
   '@id': `${SITE_URL}/#organization`,
   name: BUSINESS.name,
   legalName: BUSINESS.legalName,
+  alternateName: BUSINESS.alternateName,
   url: SITE_URL,
   logo: `${SITE_URL}/logo.png`,
   image: `${SITE_URL}/og-default.jpg`,
@@ -132,5 +135,5 @@ export const clampDescription = (text = '', max = 160) => {
   if (text.length <= max) return text;
   const cut = text.slice(0, max - 1);
   const lastSpace = cut.lastIndexOf(' ');
-  return `${(lastSpace > max * 0.6 ? cut.slice(0, lastSpace) : cut).replace(/[s.,;:—-]+$/, '')}…`;
+  return `${(lastSpace > max * 0.6 ? cut.slice(0, lastSpace) : cut).replace(/[\s.,;:—-]+$/, '')}…`;
 };

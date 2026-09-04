@@ -1,16 +1,56 @@
-# ── SPA fallback (the important bit) ────────────────────────────────
-# This is a single-page app: routes like /contact, /products/foo exist
-# only in the browser (React Router). Without this rule Apache returns a
-# 404 for a direct load or refresh of any route other than "/".
-# Serve index.html for anything that isn't a real file or directory and
-# let React Router resolve the route client-side.
+# ── Route serving: pre-rendered file first, then SPA, then a real 404 ──
+#
+# postbuild writes 131 route-specific HTML files (build/products/pro-116/
+# index.html, build/products/category/downlights/index.html, …), each with its
+# own title, description, canonical, OG tags and JSON-LD. A blanket
+# "everything -> /index.html" rewrite would shadow every one of them and hand
+# crawlers the generic shell instead, so the order below matters:
+#
+#   1. request maps to a real file or directory  -> serve it
+#      (this is the pre-rendered route HTML; mod_dir adds the trailing slash
+#       our canonicals use, so each route has exactly one 200 URL)
+#   2. request is a client-only app route        -> /index.html, React Router
+#      resolves it (these are the only routes with no pre-rendered file)
+#   3. anything else                             -> real HTTP 404 + /404.html
+#
+# Step 3 is why unknown URLs are not rewritten to /index.html: that answers a
+# dead URL with HTTP 200 and gets it indexed as a soft 404.
+#
+# The rules between the @generated markers are rewritten on every build by
+# scripts/prerender-meta.js from SPA_FALLBACK_PATTERNS in
+# scripts/seo-shared.js. Edit them there, not here.
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
+
   RewriteRule ^index\.html$ - [L]
+
+  # @generated:spa-fallback
+  # (populated at build time — a bare public/.htaccess falls back to serving
+  #  the shell for unknown routes, which is the pre-existing behaviour)
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule . /index.html [L]
+  # @end:spa-fallback
+</IfModule>
+
+# Serves the pre-rendered noindex 404 page with a real 404 status.
+ErrorDocument 404 /404.html
+
+# ── Private routes: noindex at the HTTP level ───────────────────────
+# The app-only routes above are answered with the SPA shell, whose static <head>
+# necessarily says index,follow (it is the homepage's shell). The runtime <Seo>
+# replaces that with noindex,nofollow, but only for crawlers that execute JS.
+# This header does not depend on JS and takes precedence, so a raw fetch of
+# /login or the lead inbox is never indexable.
+#
+# Rules between the markers are regenerated on every build from
+# SPA_FALLBACK_PATTERNS in scripts/seo-shared.js.
+<IfModule mod_headers.c>
+  # @generated:private-noindex
+  SetEnvIf Request_URI "^/(login|dashboard|ai-studio|leads-)" TIRICH_PRIVATE_ROUTE
+  # @end:private-noindex
+  Header set X-Robots-Tag "noindex, nofollow" env=TIRICH_PRIVATE_ROUTE
 </IfModule>
 
 # ── Caching (helps the slow-first-load work) ────────────────────────

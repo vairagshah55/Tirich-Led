@@ -533,7 +533,7 @@ Allow: /
 Disallow: /login
 Disallow: /dashboard
 Disallow: /ai-studio
-Disallow: /leads-f98f30a4-b2e4-4cef-9787-20668cf00005
+# (lead-inbox route deliberately NOT listed — robots.txt is public)
 
 Sitemap: https://tirichled.com/sitemap.xml
 ```
@@ -754,3 +754,122 @@ curl -s https://tirichled.com/products/category/cob-lights | grep -o 'rel="canon
 > `<link rel="canonical">`, `og:*` and the `application/ld+json` block are all
 > present and correct. If they're only visible in DevTools *Elements* (post-JS)
 > but not in View-Source, pre-rendering isn't being served (see Check 1).
+
+---
+
+## Hosting contract (Apache) — required for the pre-render to work
+
+The build emits **131 route-specific HTML files** plus `404.html`. The host must
+serve them in this order, and `client/public/.htaccess` now encodes exactly that:
+
+```
+/requested-route
+      |
+      +-- maps to a real file or directory?  -> serve it
+      |      (the pre-rendered route HTML; mod_dir adds the trailing slash our
+      |       canonicals use, so every route has exactly one 200 URL)
+      |
+      +-- a client-only app route?           -> /index.html (React Router)
+      |      (login, dashboard, ai-studio, leads-<uuid> — the only routes with
+      |       no pre-rendered file; list lives in scripts/seo-shared.js)
+      |
+      +-- anything else                      -> real HTTP 404 + /404.html
+```
+
+**The bug this replaced.** The previous `.htaccess` ended with:
+
+```apache
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.html [L]
+```
+
+A blanket catch-all. Two consequences, both confirmed against production:
+
+1. **Every unknown URL returned HTTP 200** with the SPA shell — a soft 404.
+   `curl -o /dev/null -w '%{http_code}' https://tirichled.com/random-non-existing-url`
+   returned `200`. Google indexes those as thin duplicates of the homepage.
+2. It only *happened* not to shadow the route files because `!-d` fails for a
+   real directory. That was luck, not design — any host whose rewrite ran before
+   the file check would have served the generic shell for all 131 routes.
+
+The generated block is rebuilt on every `npm run build` from
+`SPA_FALLBACK_PATTERNS`, so the allowlist cannot drift from the app's routes.
+`npm run seo:audit` parses the shipped `build/.htaccess` and resolves 16 URLs
+against the real build tree, failing CI if any status is wrong.
+
+> **If the site ever moves off Apache**, the same three-step order must be
+> reproduced. Nginx: `try_files $uri $uri/index.html @spa;` with a `location`
+> allowlist for the four app routes and `error_page 404 /404.html`. Netlify /
+> Vercel / Cloudflare: make the SPA rewrite a *fallback* (`status = 404` on the
+> catch-all, or omit it and rely on `404.html`), never a blanket
+> `/* -> /index.html` with status 200.
+
+---
+
+## Full-body pre-render / SSR — audit and recommendation
+
+**Current state.** Only `<head>` is pre-rendered. Verified live:
+
+```
+curl -s https://tirichled.com/ | grep -o '<div id="root"></div>'
+-> <div id="root"></div>
+```
+
+Per-route title, description, canonical, OG/Twitter and JSON-LD are all correct
+in the raw HTML, but **no visible copy reaches a non-JS crawler**. This is now
+the single largest remaining SEO limitation.
+
+**Node SSR (`renderToString`) is not viable without touching App.js.** Five
+module-scope browser accesses execute at import time, before any React lifecycle:
+
+| File | Line | Access |
+|---|---|---|
+| `components/LeadCaptureModal/LeadCaptureModal.jsx` | 14 | `window.location.hostname` |
+| `pages/LeadListPage/LeadListPage.jsx` | 10 | `window.location.hostname` |
+| `pages/LandingPage/LandingPage.jsx` | 151 | `window.matchMedia(...)` |
+| `pages/ProductsPage/ProductsPage.jsx` | 17 | `window.scrollTo` (in a closure — safe) |
+| `index.js` | 8 | `document.getElementById` |
+
+Plus `App.js:27` reads `localStorage` inside a `useState` initialiser, which runs
+**during render**. SSR would throw on the first request. Fixing it means guarding
+each site and moving the auth bootstrap into an effect — i.e. editing App.js and
+changing auth timing, which is outside the agreed scope.
+
+**Headless-Chrome pre-render (react-snap / Puppeteer) is the safe path**, because
+it renders in a real browser: every one of the accesses above works unchanged.
+Readiness:
+
+- `index.js` already calls `hydrateRoot` when `#root` has children — the app is
+  hydration-ready today, no change needed.
+- `react-helmet-async` and `motion/react` both support hydration.
+- Product cards, category chips and footer links are real `<a href>`s, so the
+  crawler can discover all 131 routes on its own.
+
+Four things to handle before enabling it:
+
+1. **The splash screen.** `#tirich-splash` is `position: fixed; inset: 0` and
+   would be captured in all 131 snapshots, covering the content until JS removes
+   it. Gate it on a `data-prerendered` flag, or strip it in a post-snapshot step.
+2. **Carousel state freezes** at whichever hero slide is active on snapshot —
+   acceptable (slide 1 is the LCP content), but the `<h1>` becomes whichever
+   headline was showing. See the H1 note below.
+3. **`localStorage`-gated UI** snapshots in its logged-out / no-lead state. That
+   is the correct default for a crawler, but confirm the lead-capture modal is
+   not baked open.
+4. **Build time**: 131 pages through headless Chrome adds minutes. Run it only
+   for production builds.
+
+**Recommendation:** react-snap, in that order, as a separate change with its own
+verification pass. Do **not** migrate to Next.js for this — it would rewrite
+routing, data loading and the build for a problem react-snap solves in the
+existing architecture.
+
+### Related content note — the homepage `<h1>`
+
+The homepage `<h1>` is the rotating hero headline (`Minimal Presence, Maximum
+Comfort`, etc.), so the page's primary heading changes with the carousel and
+targets no term. It costs nothing today because the body isn't pre-rendered and
+no crawler sees it — but it must be settled **before** full-body pre-render, or
+131 pages ship with an arbitrary H1. A stable, descriptive H1 with the rotating
+copy demoted to a `<p>`/`<h2>` is the fix; it is a copy decision, not a code one.

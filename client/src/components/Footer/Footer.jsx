@@ -88,10 +88,13 @@ export default function Footer() {
 
       <div className={styles.footerBottom}>
         <p>&copy; {new Date().getFullYear()} Tirich LED. All rights reserved.</p>
+        {/* Privacy Policy and Terms pages do not exist yet. Rendered as plain
+            text rather than buttons so nothing looks clickable that is not —
+            swap these for <Link>s once the real pages are written. */}
         <div className={styles.footerBottomLinks}>
-          <button type="button" className={styles.footerPlaceholderLink}>Privacy</button>
+          <span className={styles.footerLegalPending}>Privacy</span>
           <span className={styles.footerDivider} />
-          <button type="button" className={styles.footerPlaceholderLink}>Terms</button>
+          <span className={styles.footerLegalPending}>Terms</span>
         </div>
       </div>
     </footer>

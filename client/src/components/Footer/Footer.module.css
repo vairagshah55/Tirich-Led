@@ -111,21 +111,6 @@
 
 .footerNavCol a:hover { color: var(--brand-navy, #17164A); }
 
-.footerPlaceholderLink {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  font-family: inherit;
-  color: rgba(21, 21, 21, 0.55);
-  font-size: 0.82rem;
-  letter-spacing: 0.02em;
-  text-align: left;
-  transition: color 0.22s ease;
-}
-
-.footerPlaceholderLink:hover { color: var(--brand-navy, #17164A); }
-
 .footerBottom {
   display: flex;
   align-items: center;
@@ -154,13 +139,6 @@
 
 .footerBottomLinks a:hover { color: var(--brand-orange, #FF9D1C); }
 
-.footerBottomLinks .footerPlaceholderLink {
-  color: rgba(21, 21, 21, 0.3);
-  font-size: 0.72rem;
-}
-
-.footerBottomLinks .footerPlaceholderLink:hover { color: var(--brand-orange, #FF9D1C); }
-
 .footerDivider {
   width: 1px;
   height: 12px;
@@ -185,8 +163,7 @@
   .footerTop { padding: 2rem 1.25rem; }
   .footerBottom { padding: 1rem 1.25rem; }
   .footerSocialLink { width: 44px; height: 44px; }
-  .footerNavCol a,
-  .footerPlaceholderLink { min-height: 36px; display: flex; align-items: center; }
+  .footerNavCol a { min-height: 36px; display: flex; align-items: center; }
 }
 
 /* Non-link contact line in the footer nav — matches the link rhythm. */
@@ -194,4 +171,11 @@
   font-size: 0.78rem;
   color: rgba(21, 21, 21, 0.45);
   line-height: 1.5;
+}
+
+/* Legal links with no page behind them yet — same look as the nav text but no
+   pointer cursor or hover affordance, so nothing pretends to be a link. */
+.footerLegalPending {
+  color: rgba(21, 21, 21, 0.3);
+  font-size: 0.72rem;
 }

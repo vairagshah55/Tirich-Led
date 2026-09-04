@@ -25,7 +25,9 @@
     "build": "node --no-deprecation ./node_modules/react-scripts/bin/react-scripts.js build",
     "postbuild": "node ./scripts/prerender-meta.js",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "seo:audit": "node ./scripts/seo-audit.js",
+    "og:image": "node ./scripts/generate-og-image.js"
   },
   "eslintConfig": {
     "extends": [

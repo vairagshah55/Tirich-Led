@@ -11,7 +11,7 @@ export const SITE_URL = 'https://tirichled.com';
 const DEFAULT_IMAGE = `${SITE_URL}/og-default.jpg`;
 const DEFAULT_TITLE = 'Tirich LED — Precision LED Lighting';
 const DEFAULT_DESCRIPTION =
-  'Premium precision LED lighting for homes, offices and hospitality — COB downlights, track, linear, magnetic, panels and outdoor fixtures.';
+  'Tirich LED — precision LED lighting made in Surat. COB downlights, track, linear, magnetic, panels and outdoor fixtures for homes, offices and hospitality.';
 
 /**
  * Per-page SEO tags: title, description, canonical, Open Graph, Twitter card

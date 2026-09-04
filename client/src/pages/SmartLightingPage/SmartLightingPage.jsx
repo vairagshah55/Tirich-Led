@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import Navbar from '../../components/Navbar/Navbar';
 import Footer from '../../components/Footer/Footer';
 import Seo from '../../components/Seo/Seo';
+import { SITE_URL, breadcrumbLd } from '../../config/seo';
 import styles from './SmartLightingPage.module.css';
 import {
   MOTION_EASE,
@@ -228,6 +229,19 @@ export default function SmartLightingPage() {
         title="Smart Lighting"
         path="/smart-lighting"
         description="Tirich LED smart lighting — app and voice-controlled scenes, tunable white and dimming for modern homes, offices and hospitality spaces."
+        jsonLd={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'WebPage',
+            name: 'Tirich LED Smart Lighting',
+            url: `${SITE_URL}/smart-lighting/`,
+            mainEntity: { '@id': `${SITE_URL}/#organization` },
+          },
+          breadcrumbLd([
+            { name: 'Home', path: '/' },
+            { name: 'Smart Lighting', path: '/smart-lighting' },
+          ]),
+        ]}
       />
       <Navbar />
 

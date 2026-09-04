@@ -14,11 +14,13 @@ const SITE_NAME = 'Tirich LED';
 const DEFAULT_IMAGE = `${SITE_URL}/og-default.jpg`;
 
 const DEFAULT_DESCRIPTION =
-  'Premium precision LED lighting for homes, offices and hospitality — COB downlights, track, linear, magnetic, panels and outdoor fixtures.';
+  'Tirich LED — precision LED lighting made in Surat. COB downlights, track, linear, magnetic, panels and outdoor fixtures for homes, offices and hospitality.';
 
 const BUSINESS = {
   name: SITE_NAME,
   legalName: 'Tirich Lighting Company',
+  // Real short forms people search for — no invented variants.
+  alternateName: ['Tirich', 'Tirich Lighting'],
   telephone: '+91-73832-47625',
   email: 'salestirichled@gmail.com',
   addressLocality: 'Udhna, Surat',
@@ -37,6 +39,7 @@ const organizationLd = {
   '@id': `${SITE_URL}/#organization`,
   name: BUSINESS.name,
   legalName: BUSINESS.legalName,
+  alternateName: BUSINESS.alternateName,
   url: SITE_URL,
   logo: `${SITE_URL}/logo.png`,
   image: DEFAULT_IMAGE,
@@ -79,6 +82,23 @@ const webSiteLd = {
 /** Routes that exist in the app but must never be crawled or listed. */
 const PRIVATE_ROUTES = ['/login', '/dashboard', '/ai-studio'];
 
+/**
+ * Client-only routes that get NO pre-rendered HTML file, so the host must hand
+ * them to the SPA shell instead of 404ing. Every other route in the app IS
+ * pre-rendered — which is what lets unknown URLs return a real HTTP 404 rather
+ * than a soft-404 copy of the homepage.
+ *
+ * scripts/prerender-meta.js writes these into build/.htaccess. The patterns are
+ * Apache-flavoured and get anchored there; the lead inbox is matched by shape
+ * rather than by its literal path, so that path isn't copied into a new file.
+ */
+const SPA_FALLBACK_PATTERNS = [
+  'login',
+  'dashboard',
+  'ai-studio',
+  'leads-[0-9a-fA-F-]+',
+];
+
 const withSlash = (p) => (!p || p === '/' ? '/' : p.endsWith('/') ? p : `${p}/`);
 const absUrl = (p) => `${SITE_URL}${withSlash(p)}`;
 
@@ -100,6 +120,7 @@ module.exports = {
   DEFAULT_DESCRIPTION,
   BUSINESS,
   PRIVATE_ROUTES,
+  SPA_FALLBACK_PATTERNS,
   organizationLd,
   webSiteLd,
   breadcrumbLd,
@@ -150,7 +171,7 @@ const clampDescription = (text = '', max = 160) => {
   if (text.length <= max) return text;
   const cut = text.slice(0, max - 1);
   const lastSpace = cut.lastIndexOf(' ');
-  return `${(lastSpace > max * 0.6 ? cut.slice(0, lastSpace) : cut).replace(/[s.,;:—-]+$/, '')}…`;
+  return `${(lastSpace > max * 0.6 ? cut.slice(0, lastSpace) : cut).replace(/[\s.,;:—-]+$/, '')}…`;
 };
 
 module.exports.clampDescription = clampDescription;

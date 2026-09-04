@@ -31,6 +31,7 @@ const {
   absUrl,
   productSeoTitles,
   clampDescription,
+  SPA_FALLBACK_PATTERNS,
 } = require('./seo-shared');
 
 const BUILD_DIR = path.join(__dirname, '..', 'build');
@@ -125,7 +126,7 @@ routes.push({
   path: '/',
   title: 'Tirich LED — Precision LED Lighting',
   description:
-    'Premium precision LED lighting for homes, offices and hospitality — COB downlights, track, linear, magnetic, panels and outdoor fixtures.',
+    'Tirich LED — precision LED lighting made in Surat. COB downlights, track, linear, magnetic, panels and outdoor fixtures for homes, offices and hospitality.',
   jsonLd: [organizationLd, webSiteLd],
 });
 
@@ -140,10 +141,44 @@ routes.push({
   ]),
 });
 
-// Static pages
-routes.push({ path: '/about', title: 'About Us', description: 'Tirich LED designs and manufactures precision LED lighting — engineered for architects, designers and contractors across India.' });
-routes.push({ path: '/contact', title: 'Contact Us', description: 'Get in touch with Tirich LED for product enquiries, project quotes and lighting design support. Call, WhatsApp or send us a message.' });
-routes.push({ path: '/smart-lighting', title: 'Smart Lighting', description: 'Tirich LED smart lighting — app and voice-controlled scenes, tunable white and dimming for modern homes, offices and hospitality spaces.' });
+// Static pages. Each mirrors the JSON-LD its runtime <Seo> emits — without
+// these blocks a non-JS crawler saw the correct <head> tags but no structured
+// data at all on the three top-level pages.
+const staticPageLd = (type, name, routePath, crumbName) => [
+  {
+    '@context': 'https://schema.org',
+    '@type': type,
+    name,
+    url: absUrl(routePath),
+    mainEntity: { '@id': `${SITE_URL}/#organization` },
+  },
+  breadcrumbLd([
+    { name: 'Home', path: '/' },
+    { name: crumbName, path: routePath },
+  ]),
+];
+
+routes.push({
+  path: '/about',
+  title: 'About Us',
+  description:
+    'Tirich LED designs and manufactures precision LED lighting — engineered for architects, designers and contractors across India.',
+  jsonLd: staticPageLd('AboutPage', 'About Tirich LED', '/about', 'About Us'),
+});
+routes.push({
+  path: '/contact',
+  title: 'Contact Us',
+  description:
+    'Get in touch with Tirich LED for product enquiries, project quotes and lighting design support. Call, WhatsApp or send us a message.',
+  jsonLd: staticPageLd('ContactPage', 'Contact Tirich LED', '/contact', 'Contact Us'),
+});
+routes.push({
+  path: '/smart-lighting',
+  title: 'Smart Lighting',
+  description:
+    'Tirich LED smart lighting — app and voice-controlled scenes, tunable white and dimming for modern homes, offices and hospitality spaces.',
+  jsonLd: staticPageLd('WebPage', 'Tirich LED Smart Lighting', '/smart-lighting', 'Smart Lighting'),
+});
 
 // Category landing pages
 for (const slug of categoryOrder) {
@@ -296,6 +331,70 @@ const sitemap =
   urlEntries.join('\n') +
   `\n</urlset>\n`;
 fs.writeFileSync(path.join(BUILD_DIR, 'sitemap.xml'), sitemap, 'utf8');
+
+/* ── build/.htaccess: SPA fallback allowlist ─────────────────────── */
+//
+// Only the client-only routes below have no pre-rendered HTML file, so only
+// they may fall back to the shell. Everything else that isn't a real file or
+// directory is genuinely missing and must reach Apache's 404 handler
+// (ErrorDocument 404 /404.html) — rewriting it to /index.html would answer a
+// dead URL with HTTP 200 and get it indexed as a soft 404.
+const htaccessPath = path.join(BUILD_DIR, '.htaccess');
+if (fs.existsSync(htaccessPath)) {
+  const rules = [
+    '  # @generated:spa-fallback — written by scripts/prerender-meta.js',
+    ...SPA_FALLBACK_PATTERNS.flatMap((p) => [
+      '  RewriteCond %{REQUEST_FILENAME} !-f',
+      '  RewriteCond %{REQUEST_FILENAME} !-d',
+      `  RewriteRule ^(${p})/?$ /index.html [L]`,
+    ]),
+    '  # Everything else: no rewrite. Real files and directories are served as',
+    '  # they are (that is the pre-rendered route HTML); unknown paths fall',
+    '  # through to ErrorDocument 404 /404.html with a real 404 status.',
+    '  # @end:spa-fallback',
+  ].join('\n');
+
+  const src = fs.readFileSync(htaccessPath, 'utf8');
+  const start = src.indexOf('  # @generated:spa-fallback');
+  const endMark = '  # @end:spa-fallback';
+  const end = src.indexOf(endMark);
+  if (start < 0 || end < 0) {
+    console.warn('[prerender-meta] WARNING: .htaccess markers missing — SPA fallback not narrowed; unknown URLs will soft-404');
+  } else {
+    fs.writeFileSync(
+      htaccessPath,
+      src.slice(0, start) + rules + src.slice(end + endMark.length),
+      'utf8'
+    );
+    // Same allowlist drives the HTTP-level noindex for those routes: the SPA
+    // shell they are served with says index,follow in its static <head>, and
+    // only a JS-executing crawler sees the runtime <Seo noindex nofollow>.
+    let conf = fs.readFileSync(htaccessPath, 'utf8');
+    const nStart = conf.indexOf('  # @generated:private-noindex');
+    const nEnd = conf.indexOf('  # @end:private-noindex');
+    if (nStart >= 0 && nEnd >= 0) {
+      // Match on a literal prefix so the lead inbox's real path is never written
+      // here — the UUID body is irrelevant to the header.
+      const prefixes = SPA_FALLBACK_PATTERNS.map((p) => p.replace(/\[.*$/, '').replace(/\\.*$/, ''));
+      const line =
+        '  # @generated:private-noindex — written by scripts/prerender-meta.js\n' +
+        `  SetEnvIf Request_URI "^/(${prefixes.join('|')})" TIRICH_PRIVATE_ROUTE\n`;
+      conf = conf.slice(0, nStart) + line + conf.slice(nEnd);
+      fs.writeFileSync(htaccessPath, conf, 'utf8');
+      console.log(
+        `[prerender-meta] build/.htaccess: X-Robots-Tag noindex,nofollow for ${prefixes.join(', ')}`
+      );
+    } else {
+      console.warn('[prerender-meta] WARNING: private-noindex markers missing — private routes rely on JS-only noindex');
+    }
+
+    console.log(
+      `[prerender-meta] build/.htaccess: SPA fallback narrowed to ${SPA_FALLBACK_PATTERNS.length} client-only routes; unknown URLs now return a real 404`
+    );
+  }
+} else {
+  console.warn('[prerender-meta] WARNING: build/.htaccess missing — is public/.htaccess still present?');
+}
 
 console.log(
   `[prerender-meta] ${written} route files (${products.length} products, ${categoryOrder.length} categories, ${routes.length - products.length - categoryOrder.length} pages) + 404.html + image sitemap (${staticPaths.length + categoryPaths.length + products.length} URLs)`
