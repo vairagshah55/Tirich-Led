@@ -1,43 +1,68 @@
+/* ══════════════════════════════════════════════════════════════════════
+   Tirich LED — design tokens
+   White architectural-lighting system: near-white surfaces, charcoal type,
+   warm amber accent. Navy survives only as a small supporting brand colour.
+   ══════════════════════════════════════════════════════════════════════ */
 :root {
-  --brand-navy: #262262;
-  --brand-orange: #F7941E;
-  --brand-orange-hover: #FF9E2A;
-  --neutral-dark: #1A1740;
-  --neutral-mid: #7A7A9A;
-  --neutral-light: #F5F5F9;
+  /* ── Brand ──────────────────────────────────────────────────── */
+  --brand-navy: #17164A;          /* dark accent — supporting use only */
+  --brand-orange: #FF9D1C;        /* brand accent */
+  --brand-orange-hover: #FFAE3D;
+  --brand-orange-deep: #E8850A;
 
+  --neutral-dark: #151515;
+  --neutral-mid: #686868;
+  --neutral-light: #F7F7F5;
+
+  /* ── Surfaces ───────────────────────────────────────────────── */
   --bg-page: #FFFFFF;
-  --bg-section: #F5F5F9;
-  --bg-deep: #262262;
-  --bg-footer: #1A1740;
-  --bg-card: #ffffff;
-  --bg-light-section: #F5F5F9;
-  --marquee-bg: #EEEEF5;
+  --bg-section: #F7F7F5;
+  --bg-surface: #FAFAF8;
+  --bg-deep: #17164A;
+  --bg-footer: #121140;
+  --bg-card: #FFFFFF;
+  --bg-light-section: #FAFAF8;
+  --marquee-bg: #F1F0EC;
 
-  --nav-bg: rgba(255, 255, 255, 0.96);
-  --nav-text: #262262;
+  --nav-bg: rgba(255, 255, 255, 0.88);
+  --nav-text: #151515;
 
-  --text-body: #262262;
-  --text-on-section: #262262;
-  --text-on-section-muted: #4A4A6A;
-  --text-on-section-dim: rgba(38, 34, 98, 0.42);
-  --text-footer: rgba(240, 240, 250, 0.65);
+  /* ── Text ───────────────────────────────────────────────────── */
+  --text-body: #151515;
+  --text-on-section: #151515;
+  --text-on-section-muted: #686868;
+  --text-on-section-dim: rgba(21, 21, 21, 0.38);
+  --text-footer: rgba(240, 240, 250, 0.66);
 
-  --text-on-deep: #F0F0FA;
-  --text-on-deep-muted: #A8A8CC;
+  --text-on-deep: #F5F5FA;
+  --text-on-deep-muted: #AFAECF;
 
-  --clr-accent-text: #262262;
-  --clr-accent-hover: #1A1740;
-  --clr-accent-decoration: #F7941E;
+  /* ── Hairlines & elevation ──────────────────────────────────── */
+  --line-faint: rgba(21, 21, 21, 0.06);
+  --line-soft: rgba(21, 21, 21, 0.09);
+  --line: rgba(21, 21, 21, 0.14);
 
-  --btn-solid-bg: #F7941E;
+  --shadow-xs: 0 1px 2px rgba(21, 21, 21, 0.05);
+  --shadow-sm: 0 1px 2px rgba(21, 21, 21, 0.04), 0 6px 16px rgba(21, 21, 21, 0.05);
+  --shadow-md: 0 2px 4px rgba(21, 21, 21, 0.04), 0 14px 34px rgba(21, 21, 21, 0.07);
+  --shadow-lg: 0 4px 8px rgba(21, 21, 21, 0.04), 0 28px 60px rgba(21, 21, 21, 0.09);
+  --shadow-warm: 0 2px 6px rgba(21, 21, 21, 0.05), 0 16px 36px rgba(255, 157, 28, 0.16);
+
+  --clr-accent-text: #151515;
+  --clr-accent-hover: #17164A;
+  --clr-accent-decoration: #FF9D1C;
+
+  --btn-solid-bg: #FF9D1C;
   --btn-solid-text: #FFFFFF;
-  --btn-ghost-fg: #262262;
+  --btn-ghost-fg: #151515;
 
-  --step-card-bg: rgba(38, 34, 98, 0.04);
-  --step-card-hover: rgba(38, 34, 98, 0.08);
-  --stat-hover: rgba(247, 148, 30, 0.07);
-  --lifestyle-glass-bg: rgba(255, 255, 255, 0.90);
+  --step-card-bg: rgba(21, 21, 21, 0.035);
+  --step-card-hover: rgba(21, 21, 21, 0.06);
+  --stat-hover: rgba(255, 157, 28, 0.07);
+  --lifestyle-glass-bg: rgba(255, 255, 255, 0.92);
+
+  /* Shared easing — Apple-ish decelerate */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 body {
@@ -92,14 +117,14 @@ button {
 }
 
 .pageTransition {
-  animation: pageEnter 0.5s cubic-bezier(0.23, 1, 0.32, 1) both;
+  animation: pageEnter 0.5s var(--ease-out) both;
 }
 
 /* Section glow */
 @keyframes sectionGlow {
-  0%   { box-shadow: inset 0 0 0 2px rgba(247, 148, 30, 0.8); }
-  60%  { box-shadow: inset 0 0 0 2px rgba(247, 148, 30, 0.3); }
-  100% { box-shadow: inset 0 0 0 0 rgba(247, 148, 30, 0); }
+  0%   { box-shadow: inset 0 0 0 2px rgba(255, 157, 28, 0.7); }
+  60%  { box-shadow: inset 0 0 0 2px rgba(255, 157, 28, 0.25); }
+  100% { box-shadow: inset 0 0 0 0 rgba(255, 157, 28, 0); }
 }
 
 .js-section-glow {
@@ -114,11 +139,26 @@ button {
   transition:
     opacity 0.9s ease,
     filter 0.9s ease,
-    transform 0.9s cubic-bezier(0.23, 1, 0.32, 1);
+    transform 0.9s var(--ease-out);
 }
 
 .js-revealed[data-reveal] {
   opacity: 1;
   filter: blur(0);
   transform: translateY(0);
+}
+
+/* Staggered reveal — set --reveal-delay on the element */
+[data-reveal][style*='--reveal-delay'] {
+  transition-delay: var(--reveal-delay, 0s);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    filter: none;
+    transform: none;
+    transition: none;
+  }
+  .pageTransition { animation: none; }
 }

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback, useState } from 'react';
+import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'motion/react';
 import Navbar from '../../components/Navbar/Navbar';
@@ -35,6 +35,12 @@ import HERO_IMG_3 from '../../assets/hero/slide-3.webp';
 import HERO_IMG_4 from '../../assets/hero/slide-4.webp';
 import HERO_IMG_5 from '../../assets/hero/slide-5.webp';
 
+// ── Feature-card fixtures (transparent cutouts, ~22 – 39 KB each) ──
+import ENG_OPTICS from '../../assets/hero/magnetic-cob.webp';
+import ENG_CONTROL from '../../assets/hero/10z-lzr.webp';
+import ENG_COLOUR from '../../assets/hero/cylinder.webp';
+import ENG_DESIGN from '../../assets/hero/hanging-light.webp';
+
 import LivingGallery from '../../components/LivingGallery/LivingGallery';
 import AmbientSection from '../../components/AmbientSection/AmbientSection';
 import SmartLightingSection from '../../components/SmartLightingSection/SmartLightingSection';
@@ -68,10 +74,20 @@ const LIVING_GALLERY = [
 
 
 
-// ── Hero slides — each with its own image + copy ─────────────────
+// ── Hero slides ──────────────────────────────────────────────────
+//
+// `width` / `shadowW` / `shadowY` are measured, not guessed: each cutout is
+// a 1400x1400 frame with the fixture centred inside a different amount of
+// transparent padding. Scaling every frame so its longest edge lands at 72%
+// of the stage keeps a flat linear blade and a tall pendant reading at the
+// same size; shadowY then drops each one's contact shadow just below where
+// the fixture actually ends, so it reads as floating rather than resting.
 const HERO_SLIDES = [
   {
     image: HERO_IMG_1,
+    width: '122%',
+    shadowW: 0.70,
+    shadowY: 0.91,
     tag: 'Deep Recessed Anti-Glare COB',
     title: ['Minimal', 'Presence,', 'Maximum Comfort'],
     accent: 1,
@@ -80,6 +96,9 @@ const HERO_SLIDES = [
   },
   {
     image: HERO_IMG_2,
+    width: '120%',
+    shadowW: 0.79,
+    shadowY: 0.78,
     tag: 'Linear LED Modules',
     title: ['Crafted For', 'Modern', 'Spaces'],
     accent: 1,
@@ -88,6 +107,9 @@ const HERO_SLIDES = [
   },
   {
     image: HERO_IMG_3,
+    width: '132%',
+    shadowW: 0.79,
+    shadowY: 0.82,
     tag: 'Micro Recessed Pinhole COB',
     title: ['A Pinpoint of Light,', 'A World of', 'Detail'],
     accent: 2,
@@ -96,6 +118,9 @@ const HERO_SLIDES = [
   },
   {
     image: HERO_IMG_4,
+    width: '126%',
+    shadowW: 0.61,
+    shadowY: 0.91,
     tag: 'Trimless Deep Recessed COB',
     title: ['Where Light', 'Becomes', 'Architecture'],
     accent: 2,
@@ -104,6 +129,9 @@ const HERO_SLIDES = [
   },
   {
     image: HERO_IMG_5,
+    width: '138%',
+    shadowW: 0.75,
+    shadowY: 0.91,
     tag: 'Mini Recessed Spots',
     title: ['Minimal', 'Form,', 'Maximum Focus'],
     accent: 1,
@@ -112,18 +140,68 @@ const HERO_SLIDES = [
   },
 ];
 
-// ── Bokeh particle definitions ────────────────────────────────────
-const BOKEH = [
-  { speedX: 0.025, speedY: 0.018, w: 80, h: 80, l: '74%', t: '18%', blur: 25, op: 0.12 },
-  { speedX: 0.04, speedY: 0.03, w: 50, h: 50, l: '88%', t: '38%', blur: 18, op: 0.09 },
-  { speedX: 0.015, speedY: 0.022, w: 120, h: 120, l: '60%', t: '55%', blur: 35, op: 0.06 },
-  { speedX: 0.05, speedY: 0.04, w: 32, h: 32, l: '82%', t: '65%', blur: 12, op: 0.18 },
-  { speedX: 0.03, speedY: 0.025, w: 65, h: 65, l: '68%', t: '78%', blur: 22, op: 0.08 },
-  { speedX: 0.035, speedY: 0.02, w: 45, h: 45, l: '55%', t: '28%', blur: 16, op: 0.11 },
-  { speedX: 0.02, speedY: 0.035, w: 90, h: 90, l: '78%', t: '88%', blur: 30, op: 0.05 },
-  { speedX: 0.045, speedY: 0.022, w: 28, h: 28, l: '92%', t: '50%', blur: 10, op: 0.20 },
-  { speedX: 0.028, speedY: 0.038, w: 55, h: 55, l: '65%', t: '42%', blur: 20, op: 0.08 },
-  { speedX: 0.018, speedY: 0.012, w: 100, h: 100, l: '85%', t: '22%', blur: 32, op: 0.04 },
+// How long each hero slide holds. Must match the heroDotProgress keyframe
+// duration in LandingPage.module.css, or the progress line desyncs.
+const SLIDE_MS = 7000;
+
+const PREFERS_REDUCED_MOTION =
+  typeof window !== 'undefined' &&
+  typeof window.matchMedia === 'function' &&
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// ── Below the fold: four engineering claims, one fixture each ─────
+const ENGINEERED = [
+  {
+    num: '01',
+    title: 'Precision Optics',
+    img: ENG_OPTICS,
+    alt: 'Tirich LED adjustable magnetic COB spotlight',
+    desc:
+      'Deep-set reflectors and anti-glare apertures put light exactly where the ' +
+      'reflected-ceiling plan says it goes — and keep it out of everyone\u2019s eyes.',
+    spec: '10\u00B0 / 24\u00B0 / 38\u00B0 optics \u00B7 UGR < 19',
+    width: '112%',
+    footprint: '84%',
+  },
+  {
+    num: '02',
+    title: 'Smart Control',
+    img: ENG_CONTROL,
+    alt: 'Tirich LED linear magnetic laser blade fixture',
+    desc:
+      'Flicker-free drivers that dim smoothly and shift from 3000K to 6000K on ' +
+      'the same circuit, so one run of fixtures covers day, evening and display.',
+    spec: 'DALI dimming \u00B7 3-in-1 tunable CCT',
+    width: '106%',
+    nudge: { '--fit-dx': '1.6%', '--fit-dy': '-6.2%' },
+    footprint: '68%',
+  },
+  {
+    num: '03',
+    title: 'True Colour',
+    img: ENG_COLOUR,
+    alt: 'Tirich LED surface-mounted cylinder downlight',
+    desc:
+      'Tightly binned Bridgelux COB emitters, so timber reads as timber and ' +
+      'skin reads as skin — consistently, across a hundred-fixture install.',
+    spec: 'CRI 95+ \u00B7 Bridgelux COB',
+    width: '96%',
+    nudge: { '--fit-dy': '-3.9%' },
+    footprint: '86%',
+  },
+  {
+    num: '04',
+    title: 'Architectural Design',
+    img: ENG_DESIGN,
+    alt: 'Tirich LED minimal suspended pendant fixture',
+    desc:
+      'Machined aluminium bodies, trimless plaster-in frames and blacked-out ' +
+      'apertures. The fixture recedes into the ceiling; only the light stays.',
+    spec: 'Trimless \u00B7 Plaster-in \u00B7 Matte finish',
+    width: '70%',
+    fit: 'engCardImgTall',
+    suspended: true,
+  },
 ];
 
 // ── Scroll-to (no hash in URL, gold glow on section) ─────────────
@@ -154,14 +232,17 @@ export default function LandingPage() {
     }
   }, [search]);
 
-  // ── Refs ─────────────────────────────────────────────────────
-  const heroBgRef = useRef(null);
-  const heroContentRef = useRef(null);
-  const bokehRefs = useRef([]);
+  // ── Refs / state ─────────────────────────────────────────────
+  const heroRef = useRef(null);
   const [activeVidIdx, setActiveVidIdx] = useState(0);  // slide index (kept name for compat)
   const [displaySlide, setDisplaySlide] = useState(0);
   const [textVisible, setTextVisible] = useState(true);
   const [showCatalogueModal, setShowCatalogueModal] = useState(false);
+  // Only the first fixture ships with first paint; the rest warm up on idle.
+  const [mountedSlides, setMountedSlides] = useState(1);
+  // Is the hero on screen? Gates the carousel timer, the scroll listener
+  // and (via .heroIdle) every looping CSS animation inside it.
+  const [heroLive, setHeroLive] = useState(true);
 
   // Trigger the catalogue PDF download
   const downloadCatalogue = useCallback(() => {
@@ -202,22 +283,118 @@ export default function LandingPage() {
     return () => observer.disconnect();
   }, []);
 
-  // ── 2. Hero Parallax ─────────────────────────────────────────
-  useEffect(() => {
-    const onScroll = () => {
-      if (heroBgRef.current)
-        heroBgRef.current.style.transform = `scale(1.03) translateY(${window.scrollY * 0.12}px)`;
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+  // ── 2. Hero interaction — one rAF, three custom properties ────
+  //
+  // Pointer position and scroll progress are the only inputs the hero has.
+  // Both land on --mx / --my / --sy on the <section>, and CSS does the rest:
+  // parallax, tilt, glow offset, shadow drift and the scroll dissolve are
+  // all composited from those three numbers. A full mouse sweep therefore
+  // costs three style writes per frame instead of a dozen node transforms.
+  const heroVars = useRef({ mx: 0, my: 0, sy: 0, rect: null, raf: 0 });
+
+  const flushHeroVars = useCallback(() => {
+    heroVars.current.raf = 0;
+    const el = heroRef.current;
+    if (!el) return;
+    const { mx, my, sy } = heroVars.current;
+    el.style.setProperty('--mx', mx.toFixed(3));
+    el.style.setProperty('--my', my.toFixed(3));
+    el.style.setProperty('--sy', sy.toFixed(3));
   }, []);
 
-  // ── 3. Hero Video Auto-Advance ────────────────────────────────
+  const scheduleHeroVars = useCallback(() => {
+    if (heroVars.current.raf) return;
+    heroVars.current.raf = requestAnimationFrame(flushHeroVars);
+  }, [flushHeroVars]);
+
+  useEffect(() => () => {
+    if (heroVars.current.raf) cancelAnimationFrame(heroVars.current.raf);
+  }, []);
+
+  const onHeroPointerEnter = useCallback((e) => {
+    // Measure once per hover so pointermove never forces a layout.
+    heroVars.current.rect = e.currentTarget.getBoundingClientRect();
+  }, []);
+
+  const onHeroPointerMove = useCallback((e) => {
+    if (PREFERS_REDUCED_MOTION || e.pointerType === 'touch') return;
+    const v = heroVars.current;
+    const rect = v.rect || (v.rect = e.currentTarget.getBoundingClientRect());
+    const clamp = (n) => Math.max(-0.5, Math.min(0.5, n));
+    v.mx = clamp((e.clientX - rect.left) / rect.width - 0.5);
+    v.my = clamp((e.clientY - rect.top) / rect.height - 0.5);
+    scheduleHeroVars();
+  }, [scheduleHeroVars]);
+
+  const onHeroPointerLeave = useCallback(() => {
+    // Zero the inputs; the CSS transitions ease the fixture back to centre.
+    const v = heroVars.current;
+    v.mx = 0;
+    v.my = 0;
+    v.rect = null;
+    scheduleHeroVars();
+  }, [scheduleHeroVars]);
+
+  // Scroll dissolve — only bound while the hero is actually on screen.
   useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveVidIdx(prev => (prev + 1) % HERO_SLIDES.length);
-    }, 7000);
-    return () => clearInterval(timer);
+    if (!heroLive) return undefined;
+    let travel = (heroRef.current?.offsetHeight || window.innerHeight) * 0.9;
+    const measure = () => {
+      travel = (heroRef.current?.offsetHeight || window.innerHeight) * 0.9;
+    };
+    const onScroll = () => {
+      heroVars.current.sy = Math.min(1, window.scrollY / Math.max(1, travel));
+      scheduleHeroVars();
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', measure, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', measure);
+    };
+  }, [heroLive, scheduleHeroVars]);
+
+  // ── 3. Park the hero once it scrolls away ────────────────────
+  useEffect(() => {
+    const el = heroRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return undefined;
+    const io = new IntersectionObserver(
+      ([entry]) => setHeroLive(entry.isIntersecting),
+      { threshold: 0 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  // ── 4. Carousel auto-advance ─────────────────────────────────
+  // A timeout keyed on the active slide (rather than a standing interval)
+  // keeps the progress line and the slide change on the same clock.
+  useEffect(() => {
+    if (!heroLive || PREFERS_REDUCED_MOTION) return undefined;
+    const timer = setTimeout(() => {
+      setActiveVidIdx((prev) => (prev + 1) % HERO_SLIDES.length);
+    }, SLIDE_MS);
+    return () => clearTimeout(timer);
+  }, [activeVidIdx, heroLive]);
+
+  const stepSlide = useCallback((delta) => {
+    setActiveVidIdx((i) => (i + delta + HERO_SLIDES.length) % HERO_SLIDES.length);
+  }, []);
+
+  // Keep one fixture in the critical path and fetch the other four when the
+  // browser is idle — they aren't needed until the first slide change.
+  useEffect(() => {
+    if (mountedSlides >= HERO_SLIDES.length) return undefined;
+    const idle = typeof window.requestIdleCallback === 'function';
+    const id = idle
+      ? window.requestIdleCallback(() => setMountedSlides(HERO_SLIDES.length))
+      : window.setTimeout(() => setMountedSlides(HERO_SLIDES.length), 1400);
+    return () => (idle ? window.cancelIdleCallback(id) : window.clearTimeout(id));
+  }, [mountedSlides]);
+
+  useEffect(() => {
+    setMountedSlides((n) => Math.max(n, activeVidIdx + 1));
   }, [activeVidIdx]);
 
   // Text fade-out → swap content → fade-in on slide change
@@ -230,35 +407,22 @@ export default function LandingPage() {
     return () => clearTimeout(t);
   }, [activeVidIdx]);
 
-  // ── 4. Hero: 3D Tilt + Bokeh Mouse Parallax ─────────────────
-  const onHeroMouseMove = useCallback((e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const cx = (e.clientX - rect.left) / rect.width - 0.5;
-    const cy = (e.clientY - rect.top) / rect.height - 0.5;
-
-    if (heroContentRef.current) {
-      heroContentRef.current.style.transition = 'transform 0.08s ease';
-      heroContentRef.current.style.transform =
-        `perspective(900px) rotateX(${cy * -7}deg) rotateY(${cx * 7}deg)`;
-    }
-    bokehRefs.current.forEach((el, i) => {
-      if (!el) return;
-      const b = BOKEH[i];
-      el.style.transition = 'none';
-      el.style.transform = `translate(${cx * b.speedX * 120}px, ${cy * b.speedY * 120}px)`;
-    });
+  // ── 5. Feature-card tilt — same two-property trick, per card ──
+  const cardRect = useRef(null);
+  const onCardEnter = useCallback((e) => {
+    cardRect.current = e.currentTarget.getBoundingClientRect();
   }, []);
-
-  const onHeroMouseLeave = useCallback(() => {
-    if (heroContentRef.current) {
-      heroContentRef.current.style.transition = 'transform 0.65s ease';
-      heroContentRef.current.style.transform = 'perspective(900px) rotateX(0) rotateY(0)';
-    }
-    bokehRefs.current.forEach((el) => {
-      if (!el) return;
-      el.style.transition = 'transform 0.65s ease';
-      el.style.transform = 'translate(0, 0)';
-    });
+  const onCardMove = useCallback((e) => {
+    if (PREFERS_REDUCED_MOTION || e.pointerType === 'touch') return;
+    const rect = cardRect.current || e.currentTarget.getBoundingClientRect();
+    const el = e.currentTarget;
+    el.style.setProperty('--cx', ((e.clientX - rect.left) / rect.width - 0.5).toFixed(3));
+    el.style.setProperty('--cy', ((e.clientY - rect.top) / rect.height - 0.5).toFixed(3));
+  }, []);
+  const onCardLeave = useCallback((e) => {
+    cardRect.current = null;
+    e.currentTarget.style.setProperty('--cx', '0');
+    e.currentTarget.style.setProperty('--cy', '0');
   }, []);
 
   // ── 5. Magnetic buttons ───────────────────────────────────────
@@ -273,6 +437,12 @@ export default function LandingPage() {
     e.currentTarget.style.transform = '';
   }, []);
   const mag = { onMouseMove: onMagMove, onMouseEnter: onMagEnter, onMouseLeave: onMagLeave };
+
+  // The product leads the transition and the copy follows it, so the two
+  // read from different indices: `liveSlide` is the fixture currently
+  // cross-fading in, `copySlide` is the text mid-swap behind it.
+  const liveSlide = HERO_SLIDES[activeVidIdx];
+  const copySlide = HERO_SLIDES[displaySlide];
 
   return (
     <div className={styles.page}>
@@ -310,146 +480,261 @@ export default function LandingPage() {
       {/* ── NAV ─────────────────────────────────────────────────── */}
       <Navbar />
 
-      {/* ── HERO: VIDEO CAROUSEL + 3D TILT + BOKEH ──────────────── */}
+      {/* ══ HERO — white architectural studio ═════════════════════ */}
       <section
-        className={styles.hero}
+        className={`${styles.hero}${heroLive ? '' : ` ${styles.heroIdle}`}`}
         id="hero"
-        onMouseMove={onHeroMouseMove}
-        onMouseLeave={onHeroMouseLeave}
+        ref={heroRef}
+        onPointerEnter={onHeroPointerEnter}
+        onPointerMove={onHeroPointerMove}
+        onPointerLeave={onHeroPointerLeave}
       >
-        {/* ── Cinematic backdrop: grid + spotlight beam + glow ── */}
-        <div className={styles.heroGrid} />
-        <div className={styles.heroBeam} aria-hidden="true" />
-        <div className={styles.heroGlow} />
-        <div className={styles.heroDivider} aria-hidden="true" />
-
-        {/* ── Real product showcase (right), cross-fading ── */}
-        <div ref={heroBgRef} className={styles.heroProductStage}>
-          <div className={styles.heroPodium} aria-hidden="true" />
-          {HERO_SLIDES.map(({ image }, i) => (
-            <img
-              key={i}
-              className={`${styles.heroProduct}${i === activeVidIdx ? ` ${styles.heroProductActive}` : ''}`}
-              src={image}
-              alt={`${HERO_SLIDES[i].tag} — Tirich LED`}
-              loading="eager"
-              decoding="async"
-              fetchpriority={i === 0 ? 'high' : 'low'}
-            />
-          ))}
+        {/* The room — lit wall, construction grid, floor plane, overhead
+            beam, the pool of light where it lands, ambient occlusion. */}
+        <div className={styles.envWall} aria-hidden="true" />
+        <div className={styles.envGrid} aria-hidden="true" />
+        <div className={styles.envFloor} aria-hidden="true" />
+        <div className={styles.envShell} aria-hidden="true">
+          <div className={styles.envColumn}>
+            <div className={styles.envBeam} />
+            <div className={styles.envPool} />
+          </div>
         </div>
+        <div className={styles.envVignette} aria-hidden="true" />
 
-        {/* Floating frosted-glass spec chips (active slide) */}
-        <div className={styles.heroSpecs} aria-hidden="true">
-          {HERO_SLIDES[displaySlide].specs.map((s, i) => (
-            <span key={i} className={styles.heroSpecChip}>
-              <span className={styles.heroSpecDot} />
-              {s}
-            </span>
-          ))}
-        </div>
+        <div className={styles.heroInner}>
+          {/* One cell on desktop; `display: contents` on mobile splits these
+              two halves so the fixture can land between them. */}
+          <div className={styles.heroCopy}>
+            {/* ── Slide index · category · headline ── */}
+            <motion.div className={styles.heroCopyTop} {...fadeUp(0.1, 22)}>
+              <div className={`${styles.heroFade}${textVisible ? '' : ` ${styles.heroFadeOut}`}`}>
+                <div className={styles.heroMeta}>
+                  <span className={styles.heroSlideNum}>
+                    {String(displaySlide + 1).padStart(2, '0')}
+                    <span className={styles.heroSlideTotal}>
+                      {' / '}{String(HERO_SLIDES.length).padStart(2, '0')}
+                    </span>
+                  </span>
+                  <span className={styles.heroMetaRule} aria-hidden="true" />
+                </div>
 
+                <p className={styles.heroEyebrow}>
+                  <span className={styles.heroEyebrowDot} aria-hidden="true" />
+                  {copySlide.tag}
+                </p>
 
-        {/* Bokeh particles — depth parallax on mouse move */}
-        {BOKEH.map((b, i) => (
+                <h1 className={styles.heroTitle}>
+                  {copySlide.title.map((line, li) => (
+                    <span
+                      key={line}
+                      className={`${styles.heroTitleLine}${li === copySlide.accent ? ` ${styles.heroTitleAccent}` : ''}`}
+                    >
+                      {line}
+                    </span>
+                  ))}
+                </h1>
+
+                <div className={styles.heroRule} aria-hidden="true" />
+              </div>
+            </motion.div>
+
+            {/* ── Supporting line · CTAs ── */}
+            <motion.div className={styles.heroCopyBottom} {...fadeUp(0.18, 22)}>
+              <div className={`${styles.heroFade}${textVisible ? '' : ` ${styles.heroFadeOut}`}`}>
+                <p className={styles.heroSubtitle}>{copySlide.sub}</p>
+
+                <div className={styles.heroActions}>
+                  <motion.button
+                    type="button"
+                    className={styles.heroBtnPrimary}
+                    onClick={() => navigate('/products')}
+                    whileHover={buttonHover}
+                    whileTap={buttonTap}
+                  >
+                    Explore Products
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
+                    </svg>
+                  </motion.button>
+                  <motion.a
+                    href="#collections"
+                    className={styles.heroBtnGhost}
+                    onClick={scrollToSection('collections')}
+                    whileHover={buttonHover}
+                    whileTap={buttonTap}
+                  >
+                    View Catalogue
+                  </motion.a>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* ── Product stage ── */}
           <div
-            key={i}
-            ref={(el) => { bokehRefs.current[i] = el; }}
-            className={styles.bokeh}
-            style={{ width: b.w, height: b.h, left: b.l, top: b.t, filter: `blur(${b.blur}px)`, opacity: b.op }}
-          />
-        ))}
+            className={styles.heroStage}
+            style={{ '--shW': liveSlide.shadowW, '--shY': liveSlide.shadowY }}
+          >
+            {/* White core erases the wall's grey (reads as "lit"); the amber
+                ring on top of it warms that core to lamp colour. */}
+            <div className={styles.stageAura} aria-hidden="true" />
+            <div className={styles.stagePool} aria-hidden="true" />
+            <div className={styles.stageAuraWarm} aria-hidden="true" />
 
-        {/* ── Hero text content ── */}
-        <motion.div
-          ref={heroContentRef}
-          className={`${styles.heroContent} ${textVisible ? styles.heroTextIn : styles.heroTextOut}`}
-          {...fadeUp(0.12, 24)}
-        >
-          {/* Left accent bar */}
-          <div className={styles.heroBar} />
+            <div className={styles.stageScroll}>
+              <div className={styles.stageShadow} aria-hidden="true" />
+              <div className={styles.stageShadowCore} aria-hidden="true" />
 
-          <div className={styles.heroContentInner}>
-            {/* Slide number */}
-            <span className={styles.heroSlideNum}>
-              {String(displaySlide + 1).padStart(2, '0')}
-              <span className={styles.heroSlideTotal}> / {String(HERO_SLIDES.length).padStart(2, '0')}</span>
-            </span>
-
-            {/* Category tag */}
-            <p className={styles.heroEyebrow}>
-              <span className={styles.heroEyebrowDiamond}>◆</span>
-              {HERO_SLIDES[displaySlide].tag}
-            </p>
-
-            {/* Title — word-level accent */}
-            <h1 className={styles.heroTitle}>
-              {HERO_SLIDES[displaySlide].title.map((line, li) => (
-                <span
-                  key={li}
-                  className={`${styles.heroTitleLine} ${li === HERO_SLIDES[displaySlide].accent ? styles.heroTitleAccent : ''}`}
-                >
-                  {line}
-                  {li < HERO_SLIDES[displaySlide].title.length - 1 && <br />}
-                </span>
-              ))}
-            </h1>
-
-            {/* Gold rule */}
-            <div className={styles.heroRule} />
-
-            {/* Subtitle */}
-            <p className={styles.heroSubtitle}>{HERO_SLIDES[displaySlide].sub}</p>
-
-            {/* CTAs */}
-            <div className={styles.heroActions}>
-              <motion.button className={styles.heroBtnPrimary} onClick={() => navigate('/products')} {...mag} whileHover={buttonHover} whileTap={buttonTap}>
-                Explore Products
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
-                </svg>
-              </motion.button>
-              <motion.a href="#collections" className={styles.heroBtnGhost} onClick={scrollToSection('collections')} {...mag} whileHover={buttonHover} whileTap={buttonTap}>
-                View Catalogue
-              </motion.a>
+              <div className={styles.stageParallax}>
+                <div className={styles.stageTilt}>
+                  <div className={styles.stageFloat}>
+                    {HERO_SLIDES.slice(0, mountedSlides).map((slide, i) => (
+                      <img
+                        key={slide.image}
+                        className={`${styles.heroProduct}${i === activeVidIdx ? ` ${styles.heroProductActive}` : ''}`}
+                        style={{ width: slide.width }}
+                        src={slide.image}
+                        alt={`${slide.tag} — Tirich LED`}
+                        width="1400"
+                        height="1400"
+                        decoding="async"
+                        loading={i === 0 ? 'eager' : 'lazy'}
+                        fetchpriority={i === 0 ? 'high' : 'low'}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </motion.div>
 
-        {/* ── Prev / Next chevrons ── */}
-        <button
-          className={`${styles.heroArrow} ${styles.heroArrowLeft}`}
-          onClick={() => setActiveVidIdx(i => (i - 1 + HERO_SLIDES.length) % HERO_SLIDES.length)}
-          aria-label="Previous slide"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
-        </button>
-        <button
-          className={`${styles.heroArrow} ${styles.heroArrowRight}`}
-          onClick={() => setActiveVidIdx(i => (i + 1) % HERO_SLIDES.length)}
-          aria-label="Next slide"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
-        </button>
-
-        {/* ── Line indicators ── */}
-        <div className={styles.heroDots}>
-          {HERO_SLIDES.map((_, i) => (
-            <button
-              key={i}
-              className={`${styles.heroDot}${i === activeVidIdx ? ` ${styles.heroDotActive}` : ''}`}
-              onClick={() => setActiveVidIdx(i)}
-              aria-label={`Slide ${i + 1}`}
-            />
-          ))}
+          {/* ── Specification pills (re-keyed so they re-stagger per slide) ── */}
+          <div className={styles.heroSpecs} key={displaySlide}>
+            {copySlide.specs.map((spec, i) => (
+              <span
+                key={spec}
+                className={styles.heroSpecChip}
+                style={{ animationDelay: `${i * 70}ms` }}
+              >
+                <span className={styles.heroSpecDot} aria-hidden="true" />
+                {spec}
+              </span>
+            ))}
+          </div>
         </div>
 
-        {/* ── Progress bar ── */}
-        <div className={styles.heroProgressBar} key={activeVidIdx} />
+        {/* ── Scroll cue · slide index · arrows ── */}
+        <div className={styles.heroFooter}>
+          <div className={styles.heroScroll}>
+            <span>Scroll</span>
+            <span className={styles.heroScrollTrack} aria-hidden="true" />
+          </div>
 
-        <div className={styles.heroScroll}>
-          <span>Scroll</span>
-          <div className={styles.heroScrollLine} />
+          <div className={styles.heroNav}>
+            <button
+              type="button"
+              className={styles.heroArrow}
+              onClick={() => stepSlide(-1)}
+              aria-label="Previous product"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6" /></svg>
+            </button>
+
+            <div className={styles.heroDots} aria-label="Featured products">
+            {HERO_SLIDES.map((slide, i) => (
+              <Fragment key={slide.image}>
+                <button
+                  type="button"
+                  className={`${styles.heroDot}${i === activeVidIdx ? ` ${styles.heroDotActive}` : ''}`}
+                  aria-current={i === activeVidIdx ? 'true' : undefined}
+                  aria-label={`Show ${slide.tag}`}
+                  onClick={() => setActiveVidIdx(i)}
+                >
+                  {String(i + 1).padStart(2, '0')}
+                </button>
+                {i === activeVidIdx && (
+                  <span className={styles.heroDotTrack} aria-hidden="true">
+                    <span className={styles.heroDotFill} key={activeVidIdx} />
+                  </span>
+                )}
+              </Fragment>
+            ))}
+            </div>
+
+            <button
+              type="button"
+              className={styles.heroArrow}
+              onClick={() => stepSlide(1)}
+              aria-label="Next product"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6" /></svg>
+            </button>
+          </div>
+
+          <span aria-hidden="true" />
+        </div>
+      </section>
+
+      {/* ══ LIGHT, ENGINEERED DIFFERENTLY ═════════════════════════ */}
+      <section className={styles.engineered} id="engineered">
+        <div className={styles.engInner}>
+          <div className={styles.engHeader} data-reveal>
+            <div>
+              <p className={styles.engEyebrow}>
+                <span className={styles.engEyebrowDot} aria-hidden="true" />
+                Why Tirich
+              </p>
+              <h2 className={styles.engTitle}>
+                Light, engineered{' '}
+                <span className={styles.engTitleAccent}>differently.</span>
+              </h2>
+            </div>
+            <p className={styles.engLead}>
+              Precision lighting designed for spaces that demand more — specified
+              by architects, built to hold its colour and its beam for years.
+            </p>
+          </div>
+
+          <div className={styles.engGrid}>
+            {ENGINEERED.map((card, i) => (
+              <article
+                key={card.num}
+                className={`${styles.engCard}${card.suspended ? ` ${styles.engCardNoPlinth}` : ''}`}
+                data-reveal
+                style={{ '--reveal-delay': `${i * 90}ms`, '--fit-sy': card.footprint }}
+                onPointerEnter={onCardEnter}
+                onPointerMove={onCardMove}
+                onPointerLeave={onCardLeave}
+              >
+                <div className={styles.engCardMedia}>
+                  <span className={styles.engCardPlinth} aria-hidden="true" />
+                  <img
+                    className={`${styles.engCardImg}${card.fit ? ` ${styles[card.fit]}` : ''}`}
+                    style={{ '--fit-w': card.width, ...card.nudge }}
+                    src={card.img}
+                    alt={card.alt}
+                    width="1400"
+                    height="1400"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+                <div className={styles.engCardBody}>
+                  <div className={styles.engCardHead}>
+                    <span className={styles.engCardNum}>{card.num}</span>
+                    <span className={styles.engCardNumRule} aria-hidden="true" />
+                  </div>
+                  <h3 className={styles.engCardTitle}>{card.title}</h3>
+                  <p className={styles.engCardDesc}>{card.desc}</p>
+                  <p className={styles.engCardSpec}>
+                    <span className={styles.engCardSpecDot} aria-hidden="true" />
+                    {card.spec}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -548,7 +833,7 @@ export default function LandingPage() {
             <motion.div
               className={styles.launchCardFeat}
               variants={{ hidden: { opacity: 0, y: 30, scale: 0.97 }, visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } } }}
-              whileHover={{ y: -6, boxShadow: '0 24px 56px rgba(38,34,98,0.16)', transition: { duration: 0.3 } }}
+              whileHover={{ y: -6, boxShadow: '0 24px 56px rgba(21,21,21,0.16)', transition: { duration: 0.3 } }}
             >
               <div className={styles.launchCardFeatImg}>
                 <motion.img
@@ -628,7 +913,7 @@ export default function LandingPage() {
                 key={card.title}
                 className={styles.launchCard}
                 variants={{ hidden: { opacity: 0, y: 24, scale: 0.96 }, visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } } }}
-                whileHover={{ y: -5, boxShadow: '0 18px 42px rgba(247,148,30,0.12)', transition: { duration: 0.25 } }}
+                whileHover={{ y: -5, boxShadow: '0 18px 42px rgba(255,157,28,0.12)', transition: { duration: 0.25 } }}
                 whileTap={{ scale: 0.98 }}
               >
                 <div className={styles.launchCardImgWrap}>
@@ -644,7 +929,7 @@ export default function LandingPage() {
                   <div className={styles.launchCardImgOverlay} />
                   <motion.span
                     className={styles.launchBadge}
-                    animate={{ boxShadow: ['0 2px 10px rgba(247,148,30,0.35)', '0 2px 18px rgba(247,148,30,0.55)', '0 2px 10px rgba(247,148,30,0.35)'] }}
+                    animate={{ boxShadow: ['0 2px 10px rgba(255,157,28,0.35)', '0 2px 18px rgba(255,157,28,0.55)', '0 2px 10px rgba(255,157,28,0.35)'] }}
                     transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
                   >
                     New
@@ -682,7 +967,7 @@ export default function LandingPage() {
             <motion.button
               className={styles.launchesBtn}
               onClick={() => navigate('/products')}
-              whileHover={{ y: -3, boxShadow: '0 10px 28px rgba(38,34,98,0.28)' }}
+              whileHover={{ y: -3, boxShadow: '0 10px 28px rgba(21,21,21,0.28)' }}
               whileTap={{ scale: 0.96 }}
             >
               View All Products

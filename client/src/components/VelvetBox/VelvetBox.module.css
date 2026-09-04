@@ -67,9 +67,9 @@
   background: linear-gradient(
     to right,
     transparent,
-    rgba(247, 148, 30, 0.55),
-    #F7941E,
-    rgba(247, 148, 30, 0.55),
+    rgba(255, 157, 28, 0.55),
+    #FF9D1C,
+    rgba(255, 157, 28, 0.55),
     transparent
   );
 }
@@ -117,7 +117,7 @@
   object-fit: contain;
   z-index: 2;
   filter: drop-shadow(0 24px 48px rgba(0, 0, 0, 0.9))
-          drop-shadow(0 4px 12px rgba(247, 148, 30, 0.15));
+          drop-shadow(0 4px 12px rgba(255, 157, 28, 0.15));
   opacity: 0;
 }
 
@@ -131,7 +131,7 @@
   font-size: 0.72rem;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: rgba(247, 148, 30, 0.65);
+  color: rgba(255, 157, 28, 0.65);
   margin: 0 0 0.6rem;
   font-family: 'Inter', 'Helvetica Neue', sans-serif;
 }
@@ -148,7 +148,7 @@
   font-size: 0.72rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(247, 148, 30, 0.55);
+  color: rgba(255, 157, 28, 0.55);
   margin: 0;
   font-family: 'Inter', 'Helvetica Neue', sans-serif;
   display: flex;
@@ -163,8 +163,8 @@
   display: inline-block;
   width: 6px;
   height: 6px;
-  border-right: 1px solid rgba(247, 148, 30, 0.55);
-  border-bottom: 1px solid rgba(247, 148, 30, 0.55);
+  border-right: 1px solid rgba(255, 157, 28, 0.55);
+  border-bottom: 1px solid rgba(255, 157, 28, 0.55);
   transform: rotate(45deg);
   animation: arrowBounce 2.2s ease-in-out infinite;
 }

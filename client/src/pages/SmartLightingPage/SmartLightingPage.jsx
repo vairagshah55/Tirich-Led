@@ -24,7 +24,7 @@ const CONTROL_METHODS = [
     kicker: 'App control',
     title: 'Every scene, timer, and brightness level in one quiet app.',
     body: 'Perfect for premium homes, suites, and designer spaces that want invisible control with zero wall clutter.',
-    accent: '#F7941E',
+    accent: '#FF9D1C',
     image: PHONE_IMAGE,
     deviceTitle: 'Phone control',
     deviceBody: 'Launch scenes from anywhere in the room or before you walk in.',
@@ -36,7 +36,7 @@ const CONTROL_METHODS = [
     kicker: 'Wireless remote',
     title: 'Trigger dinner, work, cinema, or away mode in one tap.',
     body: 'Install cleaner walls and let guests or teams recall scenes instantly from handheld or wall-mounted remotes.',
-    accent: '#F7941E',
+    accent: '#FF9D1C',
     image: SWITCH_IMAGE,
     deviceTitle: 'Wireless scene button',
     deviceBody: 'Scene recall without rewiring traditional switch banks.',
@@ -48,7 +48,7 @@ const CONTROL_METHODS = [
     kicker: 'Schedules and voice',
     title: 'Let routines wake up the room, close it down, and keep it efficient.',
     body: 'Timers, occupancy logic, and voice-ready integrations make lighting feel automatic instead of manual.',
-    accent: '#F7941E',
+    accent: '#FF9D1C',
     image: DEVICE_IMAGE,
     deviceTitle: 'Smart home stack',
     deviceBody: 'Devices, sensors, and scenes work together behind the scenes.',
@@ -253,7 +253,7 @@ export default function SmartLightingPage() {
                     key={item.id}
                     type="button"
                     className={`${styles.methodBtn}${active ? ` ${styles.methodBtnActive}` : ''}`}
-                    style={active ? { borderColor: item.accent, color: '#262262' } : undefined}
+                    style={active ? { borderColor: item.accent, color: '#17164A' } : undefined}
                     onClick={() => setActiveMethod(item.id)}
                     whileHover={buttonHover}
                     whileTap={buttonTap}
@@ -287,7 +287,7 @@ export default function SmartLightingPage() {
               <motion.div className={styles.inlineStatus} whileHover={cardHover}>
                 <motion.span
                   className={styles.inlineDot}
-                  animate={{ background: anyOn ? scene.color : 'rgba(38,34,98,0.2)', boxShadow: anyOn ? `0 0 8px ${scene.color}` : 'none' }}
+                  animate={{ background: anyOn ? scene.color : 'rgba(21,21,21,0.2)', boxShadow: anyOn ? `0 0 8px ${scene.color}` : 'none' }}
                   transition={{ duration: 0.4 }}
                 />
                 <span>{anyOn ? `${activeZoneCount} zones active` : 'All lights off'}</span>
@@ -515,7 +515,7 @@ export default function SmartLightingPage() {
                           <span
                             className={styles.zoneIndicator}
                             style={{
-                              background: active ? scene.color : 'rgba(38,34,98,0.15)',
+                              background: active ? scene.color : 'rgba(21,21,21,0.15)',
                               boxShadow: active ? `0 0 14px ${scene.color}99` : 'none',
                             }}
                           />

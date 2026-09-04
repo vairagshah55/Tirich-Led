@@ -1,6 +1,6 @@
 /* ─────────────────────────────────────────
    SmartLightingSection — white bg, brand colors
-   Navy: #262262  Orange: #F7941E  Text: #262262
+   Navy: #17164A  Orange: #FF9D1C  Text: #17164A
 ───────────────────────────────────────── */
 .section {
   background: #FFFFFF;
@@ -17,7 +17,7 @@
   width: 520px;
   height: 520px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(247, 148, 30, 0.12) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 157, 28, 0.12) 0%, transparent 70%);
   top: -160px;
   right: -120px;
   pointer-events: none;
@@ -29,7 +29,7 @@
   width: 380px;
   height: 380px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(38, 34, 98, 0.06) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(21, 21, 21, 0.06) 0%, transparent 70%);
   bottom: -100px;
   left: -80px;
   pointer-events: none;
@@ -42,7 +42,7 @@
   inset: 0;
   background: radial-gradient(
     520px circle at var(--mx) var(--my),
-    rgba(247, 148, 30, 0.05),
+    rgba(255, 157, 28, 0.05),
     transparent 55%
   );
   pointer-events: none;
@@ -56,7 +56,7 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #F7941E 0%, rgba(247, 148, 30, 0.2) 60%, transparent 100%);
+  background: linear-gradient(90deg, #FF9D1C 0%, rgba(255, 157, 28, 0.2) 60%, transparent 100%);
   z-index: 2;
 }
 
@@ -78,7 +78,7 @@
   font-size: 7rem;
   font-weight: 900;
   line-height: 0.85;
-  color: rgba(38, 34, 98, 0.05);
+  color: rgba(21, 21, 21, 0.05);
   font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
   letter-spacing: -0.06em;
   user-select: none;
@@ -94,7 +94,7 @@
   font-size: 0.68rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #F7941E;
+  color: #FF9D1C;
   margin: 0 0 0.65rem;
   font-weight: 600;
 }
@@ -104,14 +104,14 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #F7941E;
+  background: #FF9D1C;
   flex-shrink: 0;
 }
 
 .title {
   font-size: clamp(2rem, 3.2vw, 3rem);
   font-weight: 800;
-  color: #262262;
+  color: #151515;
   margin: 0 0 0.75rem;
   font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
   letter-spacing: -0.03em;
@@ -120,7 +120,7 @@
 
 .lead {
   font-size: 0.9rem;
-  color: rgba(38, 34, 98, 0.5);
+  color: rgba(21, 21, 21, 0.5);
   margin: 0;
   max-width: 440px;
   line-height: 1.72;
@@ -139,7 +139,7 @@
   flex: 1;
   padding: 1rem 1.4rem;
   background: #F5F5F9;
-  border: 1px solid rgba(38, 34, 98, 0.08);
+  border: 1px solid rgba(21, 21, 21, 0.08);
   border-radius: 10px;
   cursor: default;
   transition: background 0.22s ease, border-color 0.22s ease;
@@ -147,7 +147,7 @@
 
 .statBox:hover {
   background: #fff;
-  border-color: rgba(247, 148, 30, 0.3);
+  border-color: rgba(255, 157, 28, 0.3);
 }
 
 .statsStrip .statBox + .statBox { margin-left: 8px; }
@@ -156,7 +156,7 @@
   display: block;
   font-size: 1.5rem;
   font-weight: 900;
-  color: #F7941E;
+  color: #FF9D1C;
   font-family: 'Space Grotesk', sans-serif;
   letter-spacing: -0.03em;
   line-height: 1;
@@ -167,7 +167,7 @@
   font-size: 0.62rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(38, 34, 98, 0.45);
+  color: rgba(21, 21, 21, 0.45);
   font-weight: 500;
 }
 
@@ -193,7 +193,7 @@
   position: relative;
   display: flex;
   background: #F5F5F9;
-  border: 1px solid rgba(38, 34, 98, 0.09);
+  border: 1px solid rgba(21, 21, 21, 0.09);
   border-radius: 12px;
   padding: 4px;
   gap: 2px;
@@ -207,7 +207,7 @@
   border-radius: 8px;
   pointer-events: none;
   width: calc(33.333% - 4px);
-  box-shadow: 0 2px 8px rgba(247, 148, 30, 0.3);
+  box-shadow: 0 2px 8px rgba(255, 157, 28, 0.3);
 }
 
 .segBtn {
@@ -220,7 +220,7 @@
   border-radius: 8px;
   font-size: 0.74rem;
   font-weight: 600;
-  color: rgba(38, 34, 98, 0.45);
+  color: rgba(21, 21, 21, 0.45);
   cursor: pointer;
   font-family: inherit;
   transition: color 0.22s ease;
@@ -234,17 +234,17 @@
 /* ── Mode copy panel ── */
 .modeCopy {
   background: #F5F5F9;
-  border: 1px solid rgba(38, 34, 98, 0.08);
+  border: 1px solid rgba(21, 21, 21, 0.08);
   border-radius: 14px;
   padding: 1.5rem 1.6rem;
-  border-left: 3px solid var(--mode-accent, #F7941E);
+  border-left: 3px solid var(--mode-accent, #FF9D1C);
 }
 
 .modeEyebrow {
   font-size: 0.6rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--mode-accent, #F7941E);
+  color: var(--mode-accent, #FF9D1C);
   margin: 0 0 0.5rem;
   font-weight: 600;
 }
@@ -252,7 +252,7 @@
 .modeTitle {
   font-size: clamp(1.4rem, 2.2vw, 1.9rem);
   font-weight: 800;
-  color: #262262;
+  color: #151515;
   margin: 0 0 0.6rem;
   font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
   letter-spacing: -0.025em;
@@ -265,7 +265,7 @@
 
 .modeBody {
   font-size: 0.84rem;
-  color: rgba(38, 34, 98, 0.52);
+  color: rgba(21, 21, 21, 0.52);
   line-height: 1.72;
   margin: 0 0 1.1rem;
 }
@@ -279,7 +279,7 @@
 
 .modeStat {
   background: #fff;
-  border: 1px solid rgba(38, 34, 98, 0.07);
+  border: 1px solid rgba(21, 21, 21, 0.07);
   border-radius: 8px;
   padding: 0.65rem 0.8rem;
 }
@@ -289,14 +289,14 @@
   font-size: 0.57rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(38, 34, 98, 0.35);
+  color: rgba(21, 21, 21, 0.35);
   margin-bottom: 0.28rem;
 }
 
 .modeStatVal {
   font-size: 0.84rem;
   font-weight: 700;
-  color: #262262;
+  color: #151515;
   font-family: 'Space Grotesk', sans-serif;
 }
 
@@ -312,9 +312,9 @@
   text-transform: uppercase;
   padding: 0.28rem 0.72rem;
   border-radius: 100px;
-  border: 1px solid rgba(247, 148, 30, 0.35);
+  border: 1px solid rgba(255, 157, 28, 0.35);
   font-weight: 600;
-  background: rgba(247, 148, 30, 0.06);
+  background: rgba(255, 157, 28, 0.06);
 }
 
 /* ── CTA row ── */
@@ -331,7 +331,7 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.78rem 1.6rem;
-  background: #262262;
+  background: #17164A;
   color: #fff;
   text-decoration: none;
   border-radius: 8px;
@@ -343,9 +343,9 @@
 }
 
 .ctaBtn:hover {
-  background: #1A1740;
+  background: #121140;
   transform: translateY(-2px);
-  box-shadow: 0 10px 28px rgba(38, 34, 98, 0.28);
+  box-shadow: 0 10px 28px rgba(21, 21, 21, 0.28);
 }
 
 /* Shimmer sweep on CTA */
@@ -373,7 +373,7 @@
 
 .ctaMeta {
   font-size: 0.72rem;
-  color: rgba(38, 34, 98, 0.38);
+  color: rgba(21, 21, 21, 0.38);
   margin: 0;
 }
 
@@ -389,10 +389,10 @@
   position: relative;
   overflow: hidden;
   border-radius: 18px;
-  border: 1px solid rgba(38, 34, 98, 0.1);
+  border: 1px solid rgba(21, 21, 21, 0.1);
   aspect-ratio: 16 / 10;
   cursor: pointer;
-  box-shadow: 0 16px 48px rgba(38, 34, 98, 0.12);
+  box-shadow: 0 16px 48px rgba(21, 21, 21, 0.12);
   transform-style: preserve-3d;
   will-change: transform;
 }
@@ -528,10 +528,10 @@
   position: relative;
   overflow: hidden;
   border-radius: 14px;
-  border: 1px solid rgba(38, 34, 98, 0.09);
+  border: 1px solid rgba(21, 21, 21, 0.09);
   background: #fff;
   cursor: pointer;
-  box-shadow: 0 4px 18px rgba(38, 34, 98, 0.07);
+  box-shadow: 0 4px 18px rgba(21, 21, 21, 0.07);
   transition: border-color 0.28s ease;
 }
 
@@ -565,7 +565,7 @@
   font-size: 0.56rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #F7941E;
+  color: #FF9D1C;
   display: block;
   margin-bottom: 0.28rem;
   font-weight: 600;
@@ -574,7 +574,7 @@
 .subCardTitle {
   font-size: 0.8rem;
   font-weight: 700;
-  color: #262262;
+  color: #151515;
   margin: 0;
   font-family: 'Space Grotesk', sans-serif;
   line-height: 1.35;
@@ -584,7 +584,7 @@
 .pulseRing {
   position: absolute;
   border-radius: 50%;
-  border: 1.5px solid rgba(247, 148, 30, 0.38);
+  border: 1.5px solid rgba(255, 157, 28, 0.38);
   pointer-events: none;
   z-index: 1;
 }
@@ -595,7 +595,7 @@
   align-items: center;
   justify-content: space-between;
   padding-top: 1.2rem;
-  border-top: 1px solid rgba(38, 34, 98, 0.08);
+  border-top: 1px solid rgba(21, 21, 21, 0.08);
   margin-top: 2.2rem;
   position: relative;
   z-index: 3;
@@ -608,14 +608,14 @@
   font-size: 0.64rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(38, 34, 98, 0.3);
+  color: rgba(21, 21, 21, 0.3);
 }
 
 .metaDot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #F7941E;
+  background: #FF9D1C;
   flex-shrink: 0;
   display: block;
 }
@@ -623,7 +623,7 @@
 .metaRight {
   font-size: 0.64rem;
   letter-spacing: 0.1em;
-  color: rgba(38, 34, 98, 0.2);
+  color: rgba(21, 21, 21, 0.2);
 }
 
 /* ── Responsive ── */

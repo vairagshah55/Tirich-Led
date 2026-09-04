@@ -22,7 +22,7 @@ const MODES = [
     eyebrow: 'Phone-first control',
     title: 'Every room.\nOne screen.',
     body: 'Dim, group, and scene your fittings from anywhere — without touching a wall plate. Full control lives in your pocket.',
-    accent: '#F7941E',
+    accent: '#FF9D1C',
     chips: ['Scene Control', 'Dimming', 'Schedules'],
     metric: 'iOS + Android',
     bestFor: 'Homes · Hospitality',
@@ -38,7 +38,7 @@ const MODES = [
     eyebrow: 'Scene recall in one tap',
     title: 'Cleaner walls.\nInstant scenes.',
     body: 'Hotel suites, living rooms, and retail spaces get premium ambience without a single visible switch on the wall.',
-    accent: '#F7941E',
+    accent: '#FF9D1C',
     chips: ['One Tap', 'Wireless', 'Instant'],
     metric: '3-zone recall',
     bestFor: 'Lounges · Retail',
@@ -54,7 +54,7 @@ const MODES = [
     eyebrow: 'Schedules & voice',
     title: 'Lights that\nthink ahead.',
     body: 'Time-based routines, occupancy triggers, and voice commands all run quietly. The room responds before you ask.',
-    accent: '#F7941E',
+    accent: '#FF9D1C',
     chips: ['Timers', 'Motion Sensing', 'Voice-ready'],
     metric: '24/7 routines',
     bestFor: 'Retail · Smart Homes',
@@ -391,7 +391,7 @@ export default function SmartLightingSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.22 + i * 0.08, ease: MOTION_EASE }}
-                whileHover={{ y: -5, boxShadow: '0 16px 40px rgba(247,148,30,0.16)', transition: { duration: 0.22 } }}
+                whileHover={{ y: -5, boxShadow: '0 16px 40px rgba(255,157,28,0.16)', transition: { duration: 0.22 } }}
               >
                 <div className={styles.subCardImgWrap}>
                   <AnimatePresence initial={false}>

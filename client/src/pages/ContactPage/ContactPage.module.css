@@ -4,7 +4,7 @@
 .page {
   font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
   background: #FFFFFF;
-  color: #262262;
+  color: #151515;
   overflow-x: hidden;
   padding-top: 64px;
 }
@@ -21,7 +21,7 @@
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 3px;
-  background: linear-gradient(90deg, transparent 20%, #F7941E 50%, transparent 80%);
+  background: linear-gradient(90deg, transparent 20%, #FF9D1C 50%, transparent 80%);
   z-index: 2;
 }
 
@@ -29,7 +29,7 @@
   position: absolute;
   width: 450px; height: 450px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(247,148,30,0.06) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 157, 28,0.06) 0%, transparent 70%);
   top: -140px; left: 50%;
   transform: translateX(-50%);
   pointer-events: none;
@@ -50,7 +50,7 @@
   font-size: 0.68rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #F7941E;
+  color: #FF9D1C;
   margin: 0 0 0.6rem;
   font-weight: 600;
 }
@@ -58,7 +58,7 @@
 .eyebrowDot {
   width: 6px; height: 6px;
   border-radius: 50%;
-  background: #F7941E;
+  background: #FF9D1C;
   flex-shrink: 0;
   display: block;
 }
@@ -67,17 +67,17 @@
   font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
   font-size: clamp(1.8rem, 3.5vw, 2.6rem);
   font-weight: 800;
-  color: #262262;
+  color: #151515;
   margin: 0 0 0.7rem;
   letter-spacing: -0.03em;
   line-height: 1.1;
 }
 
-.heroAccent { color: #F7941E; }
+.heroAccent { color: #FF9D1C; }
 
 .heroLead {
   font-size: 0.88rem;
-  color: rgba(38,34,98,0.5);
+  color: rgba(21, 21, 21,0.5);
   margin: 0;
   line-height: 1.72;
 }
@@ -103,13 +103,13 @@
   font-family: 'Space Grotesk', sans-serif;
   font-size: 1.1rem;
   font-weight: 800;
-  color: #262262;
+  color: #151515;
   margin: 0 0 0.4rem;
 }
 
 .infoLead {
   font-size: 0.82rem;
-  color: rgba(38,34,98,0.48);
+  color: rgba(21, 21, 21,0.48);
   margin: 0 0 1.5rem;
   line-height: 1.6;
 }
@@ -126,23 +126,23 @@
   gap: 0.8rem;
   padding: 0.85rem 1rem;
   border-radius: 12px;
-  border: 1px solid rgba(38,34,98,0.06);
+  border: 1px solid rgba(21, 21, 21,0.06);
   background: #F5F5F9;
   transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
 }
 
 .infoCard:hover {
   background: #FFFFFF;
-  box-shadow: 0 6px 18px rgba(38,34,98,0.05);
+  box-shadow: 0 6px 18px rgba(21, 21, 21,0.05);
 }
 
 .infoIcon {
   width: 36px; height: 36px;
   border-radius: 10px;
-  background: rgba(247,148,30,0.07);
-  border: 1px solid rgba(247,148,30,0.18);
+  background: rgba(255, 157, 28,0.07);
+  border: 1px solid rgba(255, 157, 28,0.18);
   display: flex; align-items: center; justify-content: center;
-  color: #F7941E;
+  color: #FF9D1C;
   flex-shrink: 0;
 }
 
@@ -151,7 +151,7 @@
   font-size: 0.6rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(38,34,98,0.4);
+  color: rgba(21, 21, 21,0.4);
   font-weight: 600;
   margin-bottom: 0.1rem;
 }
@@ -159,13 +159,13 @@
 .infoValue {
   font-size: 0.82rem;
   font-weight: 600;
-  color: #262262;
+  color: #151515;
   text-decoration: none;
   display: block;
   transition: color 0.2s;
 }
 
-a.infoValue:hover { color: #F7941E; }
+a.infoValue:hover { color: #FF9D1C; }
 
 /* ── Form column ── */
 .formCol {}
@@ -176,7 +176,7 @@ a.infoValue:hover { color: #F7941E; }
   gap: 1rem;
   padding: 2rem;
   border-radius: 18px;
-  border: 1px solid rgba(38,34,98,0.06);
+  border: 1px solid rgba(21, 21, 21,0.06);
   background: #F5F5F9;
 }
 
@@ -196,15 +196,15 @@ a.infoValue:hover { color: #F7941E; }
   font-size: 0.64rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(38,34,98,0.45);
+  color: rgba(21, 21, 21,0.45);
   font-weight: 600;
 }
 
 .input,
 .textarea {
   background: #FFFFFF;
-  border: 1px solid rgba(38,34,98,0.1);
-  color: #262262;
+  border: 1px solid rgba(21, 21, 21,0.1);
+  color: #151515;
   padding: 0.72rem 0.9rem;
   font-size: 0.84rem;
   font-family: inherit;
@@ -216,16 +216,16 @@ a.infoValue:hover { color: #F7941E; }
   transition: border-color 0.25s, box-shadow 0.25s;
 }
 
-.input:hover { border-color: rgba(38,34,98,0.2); }
+.input:hover { border-color: rgba(21, 21, 21,0.2); }
 .input:focus,
 .textarea:focus {
-  border-color: #F7941E;
-  box-shadow: 0 0 0 3px rgba(247,148,30,0.1);
+  border-color: #FF9D1C;
+  box-shadow: 0 0 0 3px rgba(255, 157, 28,0.1);
 }
 
 .input::placeholder,
 .textarea::placeholder {
-  color: rgba(38,34,98,0.3);
+  color: rgba(21, 21, 21,0.3);
 }
 
 .textarea {
@@ -245,7 +245,7 @@ select.input {
 .btnPrimary {
   display: inline-flex; align-items: center; gap: 0.5rem;
   padding: 0.72rem 1.5rem;
-  background: #262262; color: #fff;
+  background: #17164A; color: #fff;
   border: none; border-radius: 8px;
   font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em;
   cursor: pointer; font-family: inherit;
@@ -254,28 +254,28 @@ select.input {
 }
 
 .btnPrimary:hover {
-  background: #1A1740;
-  box-shadow: 0 8px 24px rgba(38,34,98,0.25);
+  background: #121140;
+  box-shadow: 0 8px 24px rgba(21, 21, 21,0.25);
 }
 
 .btnGhost {
   display: inline-flex; align-items: center;
   padding: 0.72rem 1.5rem;
   background: transparent;
-  border: 1px solid rgba(38,34,98,0.15); color: #262262;
+  border: 1px solid rgba(21, 21, 21,0.15); color: #151515;
   border-radius: 8px;
   font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em;
   cursor: pointer; font-family: inherit;
   transition: background 0.22s, border-color 0.22s;
 }
 
-.btnGhost:hover { background: rgba(38,34,98,0.04); border-color: rgba(38,34,98,0.25); }
+.btnGhost:hover { background: rgba(21, 21, 21,0.04); border-color: rgba(21, 21, 21,0.25); }
 
 /* Success state */
 .success {
   padding: 3rem 2.5rem;
   border-radius: 18px;
-  border: 1px solid rgba(38,34,98,0.06);
+  border: 1px solid rgba(21, 21, 21,0.06);
   background: #F5F5F9;
   display: flex;
   flex-direction: column;
@@ -287,10 +287,10 @@ select.input {
 .successIcon {
   width: 52px; height: 52px;
   border-radius: 50%;
-  background: rgba(247,148,30,0.08);
-  border: 2px solid #F7941E;
+  background: rgba(255, 157, 28,0.08);
+  border: 2px solid #FF9D1C;
   display: flex; align-items: center; justify-content: center;
-  color: #F7941E;
+  color: #FF9D1C;
   margin-bottom: 0.5rem;
 }
 
@@ -298,13 +298,13 @@ select.input {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 1.3rem;
   font-weight: 800;
-  color: #262262;
+  color: #151515;
   margin: 0;
 }
 
 .successBody {
   font-size: 0.84rem;
-  color: rgba(38,34,98,0.5);
+  color: rgba(21, 21, 21,0.5);
   margin: 0;
   max-width: 360px;
   line-height: 1.65;

@@ -4,7 +4,7 @@
   align-items: center;
   width: 100%;
   padding: 0.75rem 1rem;
-  background-color: #F7941E;
+  background-color: #FF9D1C;
   color: #FFFFFF;
   border: none;
   border-radius: 2px;
@@ -17,11 +17,11 @@
 }
 
 .button:hover:not(:disabled) {
-  background-color: #FF9E2A;
+  background-color: #FFAE3D;
 }
 
 .button:disabled {
-  background-color: rgba(247, 148, 30, 0.45);
+  background-color: rgba(255, 157, 28, 0.45);
   cursor: not-allowed;
 }
 

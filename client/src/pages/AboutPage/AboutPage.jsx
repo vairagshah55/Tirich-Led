@@ -404,10 +404,10 @@ export default function AboutPage() {
           <svg className={styles.timelineSvg} viewBox="0 0 60 1000" preserveAspectRatio="none" aria-hidden>
             <defs>
               <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#F7941E" stopOpacity="0" />
-                <stop offset="8%" stopColor="#F7941E" stopOpacity="1" />
-                <stop offset="92%" stopColor="#F7941E" stopOpacity="1" />
-                <stop offset="100%" stopColor="#F7941E" stopOpacity="0" />
+                <stop offset="0%" stopColor="#FF9D1C" stopOpacity="0" />
+                <stop offset="8%" stopColor="#FF9D1C" stopOpacity="1" />
+                <stop offset="92%" stopColor="#FF9D1C" stopOpacity="1" />
+                <stop offset="100%" stopColor="#FF9D1C" stopOpacity="0" />
               </linearGradient>
               <filter id="pathGlow">
                 <feGaussianBlur stdDeviation="4" result="blur" />
@@ -421,7 +421,7 @@ export default function AboutPage() {
             <path
               d="M30 0 C30 80, 30 120, 30 200 C30 280, 30 320, 30 400 C30 480, 30 520, 30 600 C30 680, 30 720, 30 800 C30 880, 30 920, 30 1000"
               fill="none"
-              stroke="rgba(38,34,98,0.06)"
+              stroke="rgba(21,21,21,0.06)"
               strokeWidth="2"
             />
             {/* Drawn path — pathLength controlled by scroll */}
@@ -438,7 +438,7 @@ export default function AboutPage() {
             <motion.path
               d="M30 0 C30 80, 30 120, 30 200 C30 280, 30 320, 30 400 C30 480, 30 520, 30 600 C30 680, 30 720, 30 800 C30 880, 30 920, 30 1000"
               fill="none"
-              stroke="rgba(247,148,30,0.15)"
+              stroke="rgba(255,157,28,0.15)"
               strokeWidth="8"
               strokeLinecap="round"
               style={{ pathLength: journeyProgress }}
@@ -461,7 +461,7 @@ export default function AboutPage() {
                       whileInView={{ opacity: 1, x: 0, y: 0 }}
                       viewport={REVEAL}
                       transition={{ duration: 0.6, ease: QUART_OUT }}
-                      whileHover={{ y: -4, boxShadow: '0 16px 40px rgba(38,34,98,0.1)', transition: { duration: 0.25 } }}
+                      whileHover={{ y: -4, boxShadow: '0 16px 40px rgba(21,21,21,0.1)', transition: { duration: 0.25 } }}
                     >
                       <motion.img
                         src={item.image}
@@ -565,7 +565,7 @@ export default function AboutPage() {
                       whileInView={{ opacity: 1, x: 0, y: 0 }}
                       viewport={REVEAL}
                       transition={{ duration: 0.6, ease: QUART_OUT }}
-                      whileHover={{ y: -4, boxShadow: '0 16px 40px rgba(38,34,98,0.1)', transition: { duration: 0.25 } }}
+                      whileHover={{ y: -4, boxShadow: '0 16px 40px rgba(21,21,21,0.1)', transition: { duration: 0.25 } }}
                     >
                       <motion.img
                         src={item.image}
@@ -772,7 +772,7 @@ export default function AboutPage() {
                 hidden: { opacity: 0, y: 30, scale: 0.95 },
                 visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.6, ease: QUART_OUT } },
               }}
-              whileHover={{ y: -5, borderColor: 'rgba(247,148,30,0.3)', transition: { duration: 0.22 } }}
+              whileHover={{ y: -5, borderColor: 'rgba(255,157,28,0.3)', transition: { duration: 0.22 } }}
               whileTap={{ scale: 0.98 }}
             >
               <motion.span

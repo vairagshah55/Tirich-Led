@@ -117,7 +117,7 @@ export default function ContactPage() {
                     hidden: { opacity: 0, y: 20 },
                     visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
                   }}
-                  whileHover={{ y: -3, borderColor: 'rgba(247,148,30,0.2)', transition: { duration: 0.2 } }}
+                  whileHover={{ y: -3, borderColor: 'rgba(255,157,28,0.2)', transition: { duration: 0.2 } }}
                 >
                   <span className={styles.infoIcon}>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{item.icon}</svg>

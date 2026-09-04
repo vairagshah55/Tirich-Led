@@ -1,10 +1,10 @@
 /* ── Footer — shared component, white theme ──────────────────── */
 .footer {
   background: var(--bg-page, #FFFFFF);
-  color: var(--text-body, #262262);
+  color: var(--text-body, #17164A);
   position: relative;
   overflow: hidden;
-  border-top: 1px solid rgba(38, 34, 98, 0.08);
+  border-top: 1px solid rgba(21, 21, 21, 0.08);
 }
 
 .footerOrb {
@@ -12,7 +12,7 @@
   width: 400px;
   height: 400px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(247, 148, 30, 0.07) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 157, 28, 0.07) 0%, transparent 70%);
   top: -120px;
   right: -80px;
   pointer-events: none;
@@ -23,7 +23,7 @@
   justify-content: space-between;
   align-items: flex-start;
   padding: 4rem;
-  border-bottom: 1px solid rgba(38, 34, 98, 0.08);
+  border-bottom: 1px solid rgba(21, 21, 21, 0.08);
   gap: 4rem;
   position: relative;
   z-index: 1;
@@ -50,7 +50,7 @@
 
 .footerTagline {
   font-size: 0.82rem;
-  color: rgba(38, 34, 98, 0.5);
+  color: rgba(21, 21, 21, 0.5);
   margin: 0;
   line-height: 1.65;
 }
@@ -68,17 +68,17 @@
   width: 36px;
   height: 36px;
   border-radius: 10px;
-  border: 1px solid rgba(38, 34, 98, 0.1);
+  border: 1px solid rgba(21, 21, 21, 0.1);
   background: var(--bg-section, #F5F5F9);
-  color: rgba(38, 34, 98, 0.45);
+  color: rgba(21, 21, 21, 0.45);
   text-decoration: none;
   transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease;
 }
 
 .footerSocialLink:hover {
-  border-color: rgba(247, 148, 30, 0.4);
-  color: var(--brand-orange, #F7941E);
-  background: rgba(247, 148, 30, 0.06);
+  border-color: rgba(255, 157, 28, 0.4);
+  color: var(--brand-orange, #FF9D1C);
+  background: rgba(255, 157, 28, 0.06);
 }
 
 .footerNav {
@@ -96,20 +96,20 @@
   font-size: 0.62rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--brand-orange, #F7941E);
+  color: var(--brand-orange, #FF9D1C);
   font-weight: 700;
   margin-bottom: 0.35rem;
 }
 
 .footerNavCol a {
-  color: rgba(38, 34, 98, 0.55);
+  color: rgba(21, 21, 21, 0.55);
   text-decoration: none;
   font-size: 0.82rem;
   letter-spacing: 0.02em;
   transition: color 0.22s ease;
 }
 
-.footerNavCol a:hover { color: var(--brand-navy, #262262); }
+.footerNavCol a:hover { color: var(--brand-navy, #17164A); }
 
 .footerPlaceholderLink {
   background: none;
@@ -117,14 +117,14 @@
   padding: 0;
   cursor: pointer;
   font-family: inherit;
-  color: rgba(38, 34, 98, 0.55);
+  color: rgba(21, 21, 21, 0.55);
   font-size: 0.82rem;
   letter-spacing: 0.02em;
   text-align: left;
   transition: color 0.22s ease;
 }
 
-.footerPlaceholderLink:hover { color: var(--brand-navy, #262262); }
+.footerPlaceholderLink:hover { color: var(--brand-navy, #17164A); }
 
 .footerBottom {
   display: flex;
@@ -132,7 +132,7 @@
   justify-content: space-between;
   padding: 1.3rem 4rem;
   font-size: 0.72rem;
-  color: rgba(38, 34, 98, 0.3);
+  color: rgba(21, 21, 21, 0.3);
   position: relative;
   z-index: 1;
 }
@@ -146,25 +146,25 @@
 }
 
 .footerBottomLinks a {
-  color: rgba(38, 34, 98, 0.3);
+  color: rgba(21, 21, 21, 0.3);
   text-decoration: none;
   font-size: 0.72rem;
   transition: color 0.22s ease;
 }
 
-.footerBottomLinks a:hover { color: var(--brand-orange, #F7941E); }
+.footerBottomLinks a:hover { color: var(--brand-orange, #FF9D1C); }
 
 .footerBottomLinks .footerPlaceholderLink {
-  color: rgba(38, 34, 98, 0.3);
+  color: rgba(21, 21, 21, 0.3);
   font-size: 0.72rem;
 }
 
-.footerBottomLinks .footerPlaceholderLink:hover { color: var(--brand-orange, #F7941E); }
+.footerBottomLinks .footerPlaceholderLink:hover { color: var(--brand-orange, #FF9D1C); }
 
 .footerDivider {
   width: 1px;
   height: 12px;
-  background: rgba(38, 34, 98, 0.12);
+  background: rgba(21, 21, 21, 0.12);
 }
 
 @media (max-width: 1100px) {

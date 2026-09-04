@@ -61,7 +61,7 @@
   align-items: center;
   gap: 0.6rem;
   background: #fff;
-  border: 1px solid rgba(38, 34, 98, 0.12);
+  border: 1px solid rgba(21, 21, 21, 0.12);
   border-radius: 10px;
   padding: 0.65rem 0.9rem;
   min-width: 280px;
@@ -70,7 +70,7 @@
 }
 .searchBox:focus-within {
   border-color: var(--brand-orange);
-  box-shadow: 0 0 0 3px rgba(247, 148, 30, 0.12);
+  box-shadow: 0 0 0 3px rgba(255, 157, 28, 0.12);
 }
 .searchBox input {
   border: 0;
@@ -86,9 +86,9 @@
 /* ── Table ──────────────────────────────────────────────────────── */
 .tableCard {
   background: #fff;
-  border: 1px solid rgba(38, 34, 98, 0.08);
+  border: 1px solid rgba(21, 21, 21, 0.08);
   border-radius: 16px;
-  box-shadow: 0 6px 24px rgba(38, 34, 98, 0.06);
+  box-shadow: 0 6px 24px rgba(21, 21, 21, 0.06);
   overflow: hidden;
 }
 .tableScroll { overflow-x: auto; }
@@ -104,7 +104,7 @@
   text-align: left;
   padding: 0.95rem 1.1rem;
   background: #FAFAFD;
-  border-bottom: 1px solid rgba(38, 34, 98, 0.1);
+  border-bottom: 1px solid rgba(21, 21, 21, 0.1);
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -114,13 +114,13 @@
 }
 .table tbody td {
   padding: 0.9rem 1.1rem;
-  border-bottom: 1px solid rgba(38, 34, 98, 0.05);
+  border-bottom: 1px solid rgba(21, 21, 21, 0.05);
   color: var(--brand-navy);
   vertical-align: middle;
   white-space: nowrap;
 }
 .table tbody tr:last-child td { border-bottom: 0; }
-.table tbody tr:hover td { background: rgba(247, 148, 30, 0.04); }
+.table tbody tr:hover td { background: rgba(255, 157, 28, 0.04); }
 
 .colNum {
   width: 48px;
@@ -148,8 +148,8 @@
   display: inline-block;
   padding: 0.25rem 0.7rem;
   border-radius: 999px;
-  background: rgba(38, 34, 98, 0.06);
-  border: 1px solid rgba(38, 34, 98, 0.1);
+  background: rgba(21, 21, 21, 0.06);
+  border: 1px solid rgba(21, 21, 21, 0.1);
   font-size: 0.76rem;
   font-weight: 600;
   color: var(--brand-navy);
@@ -185,7 +185,7 @@
   font-weight: 600;
   padding: 0.55rem 1.1rem;
   border-radius: 8px;
-  border: 1px solid rgba(38, 34, 98, 0.15);
+  border: 1px solid rgba(21, 21, 21, 0.15);
   background: #fff;
   color: var(--brand-navy);
   cursor: pointer;
@@ -193,18 +193,18 @@
 }
 .pagerBtn:hover:not(:disabled) {
   border-color: var(--brand-orange);
-  background: rgba(247, 148, 30, 0.06);
+  background: rgba(255, 157, 28, 0.06);
 }
 .pagerBtn:disabled { opacity: 0.4; cursor: not-allowed; }
 
 /* ── States (error / empty) ─────────────────────────────────────── */
 .stateCard {
   background: #fff;
-  border: 1px solid rgba(38, 34, 98, 0.08);
+  border: 1px solid rgba(21, 21, 21, 0.08);
   border-radius: 16px;
   padding: 3rem 2rem;
   text-align: center;
-  box-shadow: 0 6px 24px rgba(38, 34, 98, 0.06);
+  box-shadow: 0 6px 24px rgba(21, 21, 21, 0.06);
 }
 .stateTitle {
   margin: 0 0 0.4rem;
@@ -239,7 +239,7 @@
   background: linear-gradient(90deg, #F2F2F7 25%, #E9E9F1 37%, #F2F2F7 63%);
   background-size: 400% 100%;
   animation: shimmer 1.4s ease infinite;
-  border-bottom: 1px solid rgba(38, 34, 98, 0.05);
+  border-bottom: 1px solid rgba(21, 21, 21, 0.05);
 }
 .skeletonHead { height: 46px; }
 

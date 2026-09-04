@@ -1,6 +1,6 @@
 /* ─────────────────────────────────────────────
    AmbientSection — white bg, premium polish
-   Navy: #262262  Orange: #F7941E  Text: #262262
+   Navy: #17164A  Orange: #FF9D1C  Text: #17164A
 ───────────────────────────────────────────── */
 .section {
   background: #FFFFFF;
@@ -17,7 +17,7 @@
   width: 480px;
   height: 480px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(247, 148, 30, 0.1) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 157, 28, 0.1) 0%, transparent 70%);
   top: -140px;
   right: -100px;
   pointer-events: none;
@@ -29,7 +29,7 @@
   width: 360px;
   height: 360px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(38, 34, 98, 0.05) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(21, 21, 21, 0.05) 0%, transparent 70%);
   bottom: -80px;
   left: -60px;
   pointer-events: none;
@@ -42,7 +42,7 @@
   inset: 0;
   background: radial-gradient(
     520px circle at var(--mx) var(--my),
-    rgba(247, 148, 30, 0.04),
+    rgba(255, 157, 28, 0.04),
     transparent 55%
   );
   pointer-events: none;
@@ -56,7 +56,7 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #F7941E 0%, rgba(247, 148, 30, 0.2) 60%, transparent 100%);
+  background: linear-gradient(90deg, #FF9D1C 0%, rgba(255, 157, 28, 0.2) 60%, transparent 100%);
   z-index: 2;
 }
 
@@ -78,7 +78,7 @@
   font-size: 7rem;
   font-weight: 900;
   line-height: 0.85;
-  color: rgba(38, 34, 98, 0.05);
+  color: rgba(21, 21, 21, 0.05);
   font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
   letter-spacing: -0.06em;
   user-select: none;
@@ -94,7 +94,7 @@
   font-size: 0.68rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #F7941E;
+  color: #FF9D1C;
   margin: 0 0 0.65rem;
   font-weight: 600;
 }
@@ -104,14 +104,14 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #F7941E;
+  background: #FF9D1C;
   flex-shrink: 0;
 }
 
 .title {
   font-size: clamp(1.9rem, 3vw, 2.6rem);
   font-weight: 800;
-  color: #262262;
+  color: #151515;
   margin: 0 0 0.75rem;
   font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
   letter-spacing: -0.025em;
@@ -120,7 +120,7 @@
 
 .lead {
   font-size: 0.88rem;
-  color: rgba(38, 34, 98, 0.5);
+  color: rgba(21, 21, 21, 0.5);
   margin: 0;
   max-width: 500px;
   line-height: 1.7;
@@ -133,7 +133,7 @@
   align-items: center;
   gap: 4px;
   background: #F5F5F9;
-  border: 1px solid rgba(38, 34, 98, 0.07);
+  border: 1px solid rgba(21, 21, 21, 0.07);
   border-radius: 14px;
   padding: 4px;
   margin-bottom: 2.2rem;
@@ -147,9 +147,9 @@
   bottom: 4px;
   left: 4px;
   border-radius: 10px;
-  background: #F7941E;
+  background: #FF9D1C;
   pointer-events: none;
-  box-shadow: 0 2px 10px rgba(247, 148, 30, 0.3);
+  box-shadow: 0 2px 10px rgba(255, 157, 28, 0.3);
 }
 
 .tab {
@@ -162,13 +162,13 @@
   background: transparent;
   border: none;
   border-radius: 10px;
-  color: rgba(38, 34, 98, 0.55);
+  color: rgba(21, 21, 21, 0.55);
   cursor: pointer;
   font-family: inherit;
   transition: color 0.22s ease;
 }
 
-.tab:hover { color: rgba(38, 34, 98, 0.8); }
+.tab:hover { color: rgba(21, 21, 21, 0.8); }
 
 .tabActive { color: #fff; font-weight: 700; }
 
@@ -212,7 +212,7 @@
   inset: 0;
   background: radial-gradient(
     440px circle at var(--mx) var(--my),
-    rgba(247, 148, 30, 0.06),
+    rgba(255, 157, 28, 0.06),
     transparent 55%
   );
   pointer-events: none;
@@ -224,10 +224,10 @@
   position: relative;
   overflow: hidden;
   border-radius: 14px;
-  border: 1px solid rgba(38, 34, 98, 0.08);
+  border: 1px solid rgba(21, 21, 21, 0.08);
   background: #F5F5F9;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(38, 34, 98, 0.06);
+  box-shadow: 0 2px 8px rgba(21, 21, 21, 0.06);
   transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
               box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
               border-color 0.3s ease;
@@ -235,17 +235,17 @@
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 16px 40px rgba(38, 34, 98, 0.12);
-  border-color: rgba(247, 148, 30, 0.25);
+  box-shadow: 0 16px 40px rgba(21, 21, 21, 0.12);
+  border-color: rgba(255, 157, 28, 0.25);
 }
 
 .cardFeat {
   grid-row: span 2;
-  box-shadow: 0 8px 28px rgba(38, 34, 98, 0.1);
+  box-shadow: 0 8px 28px rgba(21, 21, 21, 0.1);
 }
 
 .cardFeat:hover {
-  box-shadow: 0 20px 52px rgba(38, 34, 98, 0.16);
+  box-shadow: 0 20px 52px rgba(21, 21, 21, 0.16);
 }
 
 .img {
@@ -300,7 +300,7 @@
   font-size: 0.58rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #F7941E;
+  color: #FF9D1C;
   margin-bottom: 0.3rem;
   font-weight: 600;
 }
@@ -333,7 +333,7 @@
   pointer-events: none;
   translate: -50% calc(-100% - 14px);
   background: rgba(255, 255, 255, 0.97);
-  border: 1px solid rgba(247, 148, 30, 0.3);
+  border: 1px solid rgba(255, 157, 28, 0.3);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-radius: 10px;
@@ -342,21 +342,21 @@
   flex-direction: column;
   gap: 0.15rem;
   min-width: 148px;
-  box-shadow: 0 8px 24px rgba(38, 34, 98, 0.12);
+  box-shadow: 0 8px 24px rgba(21, 21, 21, 0.12);
 }
 
 .floatingTag {
   font-size: 0.54rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #F7941E;
+  color: #FF9D1C;
   font-weight: 600;
 }
 
 .floatingTitle {
   font-size: 0.82rem;
   font-weight: 700;
-  color: #262262;
+  color: #151515;
   font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
 }
 
@@ -366,7 +366,7 @@
   align-items: center;
   justify-content: space-between;
   padding-top: 1.2rem;
-  border-top: 1px solid rgba(38, 34, 98, 0.08);
+  border-top: 1px solid rgba(21, 21, 21, 0.08);
   margin-top: 2rem;
   position: relative;
   z-index: 3;
@@ -379,21 +379,21 @@
   font-size: 0.64rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(38, 34, 98, 0.3);
+  color: rgba(21, 21, 21, 0.3);
 }
 
 .metaDot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #F7941E;
+  background: #FF9D1C;
   flex-shrink: 0;
 }
 
 .metaRight {
   font-size: 0.64rem;
   letter-spacing: 0.1em;
-  color: rgba(38, 34, 98, 0.2);
+  color: rgba(21, 21, 21, 0.2);
 }
 
 /* ── Responsive ────────────────────────────────────────────────── */

@@ -33,59 +33,59 @@ function LineDiagram({ product }) {
   return (
     <svg viewBox="0 0 400 280" fill="none" className={styles.diagram}>
       {[0, 1, 2, 3, 4, 5].map((i) => (
-        <motion.line key={`h${i}`} x1="30" y1={30 + i * 45} x2="370" y2={30 + i * 45} stroke="rgba(38,34,98,0.04)" strokeWidth="0.5"
+        <motion.line key={`h${i}`} x1="30" y1={30 + i * 45} x2="370" y2={30 + i * 45} stroke="rgba(21,21,21,0.04)" strokeWidth="0.5"
           initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={REVEAL} transition={{ duration: 0.4, delay: i * 0.03, ease: EASE }} />
       ))}
       {[0, 1, 2, 3, 4, 5, 6].map((i) => (
-        <motion.line key={`v${i}`} x1={30 + i * 56.7} y1="30" x2={30 + i * 56.7} y2="255" stroke="rgba(38,34,98,0.04)" strokeWidth="0.5"
+        <motion.line key={`v${i}`} x1={30 + i * 56.7} y1="30" x2={30 + i * 56.7} y2="255" stroke="rgba(21,21,21,0.04)" strokeWidth="0.5"
           initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={REVEAL} transition={{ duration: 0.4, delay: i * 0.03, ease: EASE }} />
       ))}
 
       {isPanel ? (
         <>
-          <motion.rect x="70" y="105" width="260" height="18" rx="3" stroke="#262262" strokeWidth="1.5" initial={{ pathLength: 0, opacity: 0 }} whileInView={{ pathLength: 1, opacity: 1 }} viewport={REVEAL} transition={{ duration: 0.8, delay: 0.15, ease: EASE }} />
-          <motion.rect x="76" y="123" width="248" height="5" rx="1.5" stroke="#F7941E" strokeWidth="0.8" strokeDasharray="4 3" initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={REVEAL} transition={{ duration: 0.6, delay: 0.4, ease: EASE }} />
-          <motion.line x1="70" y1="85" x2="330" y2="85" stroke="#F7941E" strokeWidth="0.7" markerEnd="url(#arr)" markerStart="url(#arr)" initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={REVEAL} transition={{ duration: 0.5, delay: 0.6, ease: EASE }} />
-          <motion.line x1="70" y1="85" x2="70" y2="100" stroke="#F7941E" strokeWidth="0.4" initial={{ opacity: 0 }} whileInView={{ opacity: 0.4 }} viewport={REVEAL} />
-          <motion.line x1="330" y1="85" x2="330" y2="100" stroke="#F7941E" strokeWidth="0.4" initial={{ opacity: 0 }} whileInView={{ opacity: 0.4 }} viewport={REVEAL} />
-          <motion.text x="200" y="80" textAnchor="middle" fontSize="9" fill="#F7941E" fontFamily="Space Grotesk" fontWeight="700" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={REVEAL} transition={{ delay: 0.8 }}>Width</motion.text>
-          <motion.line x1="350" y1="105" x2="350" y2="128" stroke="#F7941E" strokeWidth="0.7" markerEnd="url(#arr)" markerStart="url(#arr)" initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={REVEAL} transition={{ duration: 0.4, delay: 0.7, ease: EASE }} />
-          <motion.text x="368" y="120" fontSize="8" fill="#F7941E" fontFamily="Space Grotesk" fontWeight="600" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={REVEAL} transition={{ delay: 0.9 }}>10mm</motion.text>
-          <motion.text x="200" y="155" textAnchor="middle" fontSize="8" fill="rgba(38,34,98,0.35)" fontFamily="Inter" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={REVEAL} transition={{ delay: 1 }}>LED Driver Housing · Anti-Glare Diffuser</motion.text>
-          <motion.circle cx="100" cy="114" r="3" fill="rgba(247,148,30,0.2)" stroke="#F7941E" strokeWidth="0.6" initial={{ scale: 0 }} whileInView={{ scale: 1 }} viewport={REVEAL} transition={{ type: 'spring', delay: 0.5 }} />
-          <motion.circle cx="300" cy="114" r="3" fill="rgba(247,148,30,0.2)" stroke="#F7941E" strokeWidth="0.6" initial={{ scale: 0 }} whileInView={{ scale: 1 }} viewport={REVEAL} transition={{ type: 'spring', delay: 0.55 }} />
+          <motion.rect x="70" y="105" width="260" height="18" rx="3" stroke="#17164A" strokeWidth="1.5" initial={{ pathLength: 0, opacity: 0 }} whileInView={{ pathLength: 1, opacity: 1 }} viewport={REVEAL} transition={{ duration: 0.8, delay: 0.15, ease: EASE }} />
+          <motion.rect x="76" y="123" width="248" height="5" rx="1.5" stroke="#FF9D1C" strokeWidth="0.8" strokeDasharray="4 3" initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={REVEAL} transition={{ duration: 0.6, delay: 0.4, ease: EASE }} />
+          <motion.line x1="70" y1="85" x2="330" y2="85" stroke="#FF9D1C" strokeWidth="0.7" markerEnd="url(#arr)" markerStart="url(#arr)" initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={REVEAL} transition={{ duration: 0.5, delay: 0.6, ease: EASE }} />
+          <motion.line x1="70" y1="85" x2="70" y2="100" stroke="#FF9D1C" strokeWidth="0.4" initial={{ opacity: 0 }} whileInView={{ opacity: 0.4 }} viewport={REVEAL} />
+          <motion.line x1="330" y1="85" x2="330" y2="100" stroke="#FF9D1C" strokeWidth="0.4" initial={{ opacity: 0 }} whileInView={{ opacity: 0.4 }} viewport={REVEAL} />
+          <motion.text x="200" y="80" textAnchor="middle" fontSize="9" fill="#FF9D1C" fontFamily="Space Grotesk" fontWeight="700" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={REVEAL} transition={{ delay: 0.8 }}>Width</motion.text>
+          <motion.line x1="350" y1="105" x2="350" y2="128" stroke="#FF9D1C" strokeWidth="0.7" markerEnd="url(#arr)" markerStart="url(#arr)" initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={REVEAL} transition={{ duration: 0.4, delay: 0.7, ease: EASE }} />
+          <motion.text x="368" y="120" fontSize="8" fill="#FF9D1C" fontFamily="Space Grotesk" fontWeight="600" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={REVEAL} transition={{ delay: 0.9 }}>10mm</motion.text>
+          <motion.text x="200" y="155" textAnchor="middle" fontSize="8" fill="rgba(21,21,21,0.35)" fontFamily="Inter" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={REVEAL} transition={{ delay: 1 }}>LED Driver Housing · Anti-Glare Diffuser</motion.text>
+          <motion.circle cx="100" cy="114" r="3" fill="rgba(255,157,28,0.2)" stroke="#FF9D1C" strokeWidth="0.6" initial={{ scale: 0 }} whileInView={{ scale: 1 }} viewport={REVEAL} transition={{ type: 'spring', delay: 0.5 }} />
+          <motion.circle cx="300" cy="114" r="3" fill="rgba(255,157,28,0.2)" stroke="#FF9D1C" strokeWidth="0.6" initial={{ scale: 0 }} whileInView={{ scale: 1 }} viewport={REVEAL} transition={{ type: 'spring', delay: 0.55 }} />
         </>
       ) : isHanging ? (
         <>
-          <motion.rect x="185" y="50" width="30" height="8" rx="2" stroke="#262262" strokeWidth="1.5" initial={{ pathLength: 0, opacity: 0 }} whileInView={{ pathLength: 1, opacity: 1 }} viewport={REVEAL} transition={{ duration: 0.5, delay: 0.15, ease: EASE }} />
-          <motion.line x1="200" y1="58" x2="200" y2="115" stroke="#262262" strokeWidth="0.8" strokeDasharray="5 4" initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={REVEAL} transition={{ duration: 0.5, delay: 0.35, ease: EASE }} />
-          <motion.path d="M155 115 L245 115 L228 175 L172 175 Z" stroke="#262262" strokeWidth="1.5" initial={{ pathLength: 0, opacity: 0 }} whileInView={{ pathLength: 1, opacity: 1 }} viewport={REVEAL} transition={{ duration: 0.7, delay: 0.5, ease: EASE }} />
-          <motion.path d="M172 175 L145 230 M228 175 L255 230" stroke="#F7941E" strokeWidth="0.7" strokeDasharray="3 3" initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={REVEAL} transition={{ duration: 0.5, delay: 0.9, ease: EASE }} />
-          <motion.text x="270" y="85" fontSize="8" fill="#F7941E" fontFamily="Space Grotesk" fontWeight="600" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={REVEAL} transition={{ delay: 1 }}>Adjustable Cable</motion.text>
-          <motion.text x="268" y="150" fontSize="8" fill="rgba(38,34,98,0.35)" fontFamily="Inter" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={REVEAL} transition={{ delay: 1.1 }}>Aluminium Shade</motion.text>
-          <motion.text x="200" y="250" textAnchor="middle" fontSize="8" fill="rgba(247,148,30,0.4)" fontFamily="Inter" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={REVEAL} transition={{ delay: 1.2 }}>Light Cone Output</motion.text>
+          <motion.rect x="185" y="50" width="30" height="8" rx="2" stroke="#17164A" strokeWidth="1.5" initial={{ pathLength: 0, opacity: 0 }} whileInView={{ pathLength: 1, opacity: 1 }} viewport={REVEAL} transition={{ duration: 0.5, delay: 0.15, ease: EASE }} />
+          <motion.line x1="200" y1="58" x2="200" y2="115" stroke="#17164A" strokeWidth="0.8" strokeDasharray="5 4" initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={REVEAL} transition={{ duration: 0.5, delay: 0.35, ease: EASE }} />
+          <motion.path d="M155 115 L245 115 L228 175 L172 175 Z" stroke="#17164A" strokeWidth="1.5" initial={{ pathLength: 0, opacity: 0 }} whileInView={{ pathLength: 1, opacity: 1 }} viewport={REVEAL} transition={{ duration: 0.7, delay: 0.5, ease: EASE }} />
+          <motion.path d="M172 175 L145 230 M228 175 L255 230" stroke="#FF9D1C" strokeWidth="0.7" strokeDasharray="3 3" initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={REVEAL} transition={{ duration: 0.5, delay: 0.9, ease: EASE }} />
+          <motion.text x="270" y="85" fontSize="8" fill="#FF9D1C" fontFamily="Space Grotesk" fontWeight="600" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={REVEAL} transition={{ delay: 1 }}>Adjustable Cable</motion.text>
+          <motion.text x="268" y="150" fontSize="8" fill="rgba(21,21,21,0.35)" fontFamily="Inter" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={REVEAL} transition={{ delay: 1.1 }}>Aluminium Shade</motion.text>
+          <motion.text x="200" y="250" textAnchor="middle" fontSize="8" fill="rgba(255,157,28,0.4)" fontFamily="Inter" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={REVEAL} transition={{ delay: 1.2 }}>Light Cone Output</motion.text>
         </>
       ) : (isTrack || isCylinder) ? (
         <>
-          <motion.rect x="55" y="70" width="290" height="10" rx="3" stroke="#262262" strokeWidth="1.5" initial={{ pathLength: 0, opacity: 0 }} whileInView={{ pathLength: 1, opacity: 1 }} viewport={REVEAL} transition={{ duration: 0.6, delay: 0.15, ease: EASE }} />
-          <motion.rect x="160" y="80" width="80" height="55" rx="4" stroke="#262262" strokeWidth="1.5" initial={{ pathLength: 0, opacity: 0 }} whileInView={{ pathLength: 1, opacity: 1 }} viewport={REVEAL} transition={{ duration: 0.6, delay: 0.4, ease: EASE }} />
-          <motion.circle cx="200" cy="135" r="14" stroke="#F7941E" strokeWidth="1" initial={{ pathLength: 0, opacity: 0 }} whileInView={{ pathLength: 1, opacity: 1 }} viewport={REVEAL} transition={{ duration: 0.5, delay: 0.6, ease: EASE }} />
-          <motion.circle cx="200" cy="135" r="5" fill="rgba(247,148,30,0.15)" stroke="#F7941E" strokeWidth="0.7" initial={{ scale: 0 }} whileInView={{ scale: 1 }} viewport={REVEAL} transition={{ type: 'spring', stiffness: 200, delay: 0.8 }} />
-          <motion.path d="M186 149 L168 215 M214 149 L232 215" stroke="#F7941E" strokeWidth="0.7" strokeDasharray="3 3" initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={REVEAL} transition={{ duration: 0.5, delay: 0.9, ease: EASE }} />
-          <motion.text x="265" y="105" fontSize="8" fill="rgba(38,34,98,0.35)" fontFamily="Inter" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={REVEAL} transition={{ delay: 1 }}>Heat Sink</motion.text>
-          <motion.text x="235" y="140" fontSize="8" fill="#F7941E" fontFamily="Space Grotesk" fontWeight="600" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={REVEAL} transition={{ delay: 1.1 }}>COB LED</motion.text>
+          <motion.rect x="55" y="70" width="290" height="10" rx="3" stroke="#17164A" strokeWidth="1.5" initial={{ pathLength: 0, opacity: 0 }} whileInView={{ pathLength: 1, opacity: 1 }} viewport={REVEAL} transition={{ duration: 0.6, delay: 0.15, ease: EASE }} />
+          <motion.rect x="160" y="80" width="80" height="55" rx="4" stroke="#17164A" strokeWidth="1.5" initial={{ pathLength: 0, opacity: 0 }} whileInView={{ pathLength: 1, opacity: 1 }} viewport={REVEAL} transition={{ duration: 0.6, delay: 0.4, ease: EASE }} />
+          <motion.circle cx="200" cy="135" r="14" stroke="#FF9D1C" strokeWidth="1" initial={{ pathLength: 0, opacity: 0 }} whileInView={{ pathLength: 1, opacity: 1 }} viewport={REVEAL} transition={{ duration: 0.5, delay: 0.6, ease: EASE }} />
+          <motion.circle cx="200" cy="135" r="5" fill="rgba(255,157,28,0.15)" stroke="#FF9D1C" strokeWidth="0.7" initial={{ scale: 0 }} whileInView={{ scale: 1 }} viewport={REVEAL} transition={{ type: 'spring', stiffness: 200, delay: 0.8 }} />
+          <motion.path d="M186 149 L168 215 M214 149 L232 215" stroke="#FF9D1C" strokeWidth="0.7" strokeDasharray="3 3" initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={REVEAL} transition={{ duration: 0.5, delay: 0.9, ease: EASE }} />
+          <motion.text x="265" y="105" fontSize="8" fill="rgba(21,21,21,0.35)" fontFamily="Inter" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={REVEAL} transition={{ delay: 1 }}>Heat Sink</motion.text>
+          <motion.text x="235" y="140" fontSize="8" fill="#FF9D1C" fontFamily="Space Grotesk" fontWeight="600" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={REVEAL} transition={{ delay: 1.1 }}>COB LED</motion.text>
         </>
       ) : (
         <>
-          <motion.rect x="100" y="80" width="200" height="100" rx="8" stroke="#262262" strokeWidth="1.5" initial={{ pathLength: 0, opacity: 0 }} whileInView={{ pathLength: 1, opacity: 1 }} viewport={REVEAL} transition={{ duration: 0.8, delay: 0.15, ease: EASE }} />
-          <motion.circle cx="200" cy="130" r="22" stroke="#F7941E" strokeWidth="0.8" strokeDasharray="4 3" initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={REVEAL} transition={{ duration: 0.6, delay: 0.5, ease: EASE }} />
-          <motion.text x="200" y="210" textAnchor="middle" fontSize="9" fill="rgba(38,34,98,0.35)" fontFamily="Inter" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={REVEAL} transition={{ delay: 0.8 }}>{product.name} — Technical Drawing</motion.text>
+          <motion.rect x="100" y="80" width="200" height="100" rx="8" stroke="#17164A" strokeWidth="1.5" initial={{ pathLength: 0, opacity: 0 }} whileInView={{ pathLength: 1, opacity: 1 }} viewport={REVEAL} transition={{ duration: 0.8, delay: 0.15, ease: EASE }} />
+          <motion.circle cx="200" cy="130" r="22" stroke="#FF9D1C" strokeWidth="0.8" strokeDasharray="4 3" initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={REVEAL} transition={{ duration: 0.6, delay: 0.5, ease: EASE }} />
+          <motion.text x="200" y="210" textAnchor="middle" fontSize="9" fill="rgba(21,21,21,0.35)" fontFamily="Inter" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={REVEAL} transition={{ delay: 0.8 }}>{product.name} — Technical Drawing</motion.text>
         </>
       )}
 
       <defs>
         <marker id="arr" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto">
-          <path d="M0,0 L5,2.5 L0,5" fill="none" stroke="#F7941E" strokeWidth="0.8" />
+          <path d="M0,0 L5,2.5 L0,5" fill="none" stroke="#FF9D1C" strokeWidth="0.8" />
         </marker>
       </defs>
     </svg>
