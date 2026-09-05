@@ -7,6 +7,13 @@ export const pageTransition = {
     y: 0,
     filter: 'blur(0px)',
     transition: { duration: 0.5, ease: MOTION_EASE },
+    // Clear the filter once the transition finishes. `blur(0px)` looks like
+    // nothing, but any filter other than `none` makes this element the
+    // containing block for `position: fixed` descendants — which quietly broke
+    // the fixed Navbar on every page: it scrolled away with the content instead
+    // of staying put, leaving a 68px gap above the sticky filter bar.
+    // transitionEnd applies after the animation, so the blur-in still plays.
+    transitionEnd: { filter: 'none' },
   },
   exit: {
     opacity: 0,

@@ -18,7 +18,14 @@
   font-family: var(--font-sans);
   color: var(--text-body);
   background: var(--bg-page);
+  /* `hidden` makes this a scroll container, which silently breaks every
+     `position: sticky` descendant — the sticky filter bar was rendering 26px
+     below its own layout box and overlapping the content under it. `clip`
+     contains horizontal overflow the same way WITHOUT creating a scrollport.
+     The `hidden` line stays first as a fallback for older browsers, which
+     ignore the `clip` value they do not understand. */
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* ── Nav ────────────────────────────────────────────────────────── */
