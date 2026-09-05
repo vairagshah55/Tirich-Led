@@ -28,7 +28,8 @@
     "eject": "react-scripts eject",
     "seo:audit": "node ./scripts/seo-audit.js",
     "og:image": "node ./scripts/generate-og-image.js",
-    "prerender:body": "node ./scripts/prerender-body.js"
+    "prerender:body": "node ./scripts/prerender-body.js",
+    "favicons": "node ./scripts/generate-favicons.js"
   },
   "eslintConfig": {
     "extends": [

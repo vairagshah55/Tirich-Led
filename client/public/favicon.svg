@@ -1,9 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <!-- Background -->
-  <rect width="64" height="64" rx="10" fill="#2A2F63"/>
-  <!-- T lettermark -->
-  <text x="32" y="47" font-family="Georgia, serif" font-size="42" font-weight="400"
-        text-anchor="middle" fill="#ea7d1f">T</text>
-  <!-- Accent dot -->
-  <circle cx="46" cy="18" r="5" fill="#ea7d1f"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+       <rect width="64" height="64" rx="10" fill="#2A2F63"/>
+       <rect x="17" y="20" width="30" height="7" rx="1.5" fill="#ea7d1f"/>
+       <rect x="28.5" y="20" width="7" height="26" rx="1.5" fill="#ea7d1f"/>
+       <circle cx="47" cy="15" r="4.5" fill="#ea7d1f"/>
+     </svg>

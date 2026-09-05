@@ -2,8 +2,20 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <!--
+      Favicons. Google Search showed a generic globe because the .ico declared
+      here did not exist (404) and the SVG drew its letter with a <text> element
+      in Georgia — a font the crawler's rasteriser has no reason to have.
+      Regenerate with: npm run favicons
+      Order matters: .ico first for the widest compatibility, then PNGs (Google
+      wants a square icon, ideally a multiple of 48px), then the SVG for
+      browsers that prefer it.
+    -->
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="192x192" href="%PUBLIC_URL%/favicon-192.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="%PUBLIC_URL%/favicon-96.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="%PUBLIC_URL%/favicon-48.png" />
     <link rel="icon" type="image/svg+xml" href="%PUBLIC_URL%/favicon.svg" />
-    <link rel="alternate icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#FFFFFF" />
 
@@ -16,7 +28,7 @@
     -->
     <meta name="google-site-verification" content="VUCZvFW2UGIFmKf2p_VoOxdalSh-rDshQ1H9XOZWCT4" />
     <meta name="description" content="Tirich LED — Premium precision LED lighting solutions for residential, commercial, and hospitality spaces." />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/favicon-192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <title>Tirich LED — Precision Lighting</title>
 
