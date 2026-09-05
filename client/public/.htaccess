@@ -38,6 +38,22 @@
 
   RewriteRule ^index\.html$ - [L]
 
+  # ── Canonical URL form: no trailing slash ─────────────────────────
+  # Each route is a directory holding index.html, so mod_dir would normally
+  # 301 /about to /about/. DirectorySlash Off (below the rewrite block) stops
+  # that, these two rules invert it, and the result is one canonical form:
+  #
+  #   /about/  -> 301 -> /about        (the slashed form redirects away)
+  #   /about          -> served from /about/index.html, no redirect
+  #
+  # Internal links, canonicals, JSON-LD and the sitemap all emit the no-slash
+  # form, so nothing on the site triggers a redirect hop.
+  RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME}/index.html -f
+  RewriteRule ^(.*)$ /$1/index.html [L]
+
   # @generated:spa-fallback
   # (populated at build time. This bare default serves the empty app shell —
   #  never /index.html, which is the pre-rendered homepage: hydrating /login
@@ -47,6 +63,13 @@
   RewriteRule . /app-shell.html [L]
   # @end:spa-fallback
 </IfModule>
+
+# Required by the canonical-URL rules above: without this, mod_dir redirects
+# /about to /about/ before the rewrites ever run, and the no-slash form could
+# never be served. -Indexes is the safety pairing — with DirectorySlash off, a
+# directory lacking index.html must not fall back to a generated listing.
+DirectorySlash Off
+Options -Indexes
 
 # Serves the pre-rendered noindex 404 page with a real 404 status.
 ErrorDocument 404 /404.html

@@ -13,7 +13,7 @@ const { SITE_URL, parseCatalogue } = require('./seo-shared');
 // Trailing slashes: static hosts serve routes as directories (…/index.html),
 // so the canonical live URL has a trailing slash. Keep sitemap URLs identical
 // to what's served to avoid 301 redirect / canonical conflicts.
-const STATIC_ROUTES = ['/', '/products/', '/about/', '/contact/', '/smart-lighting/'];
+const STATIC_ROUTES = ['/', '/products', '/about', '/contact', '/smart-lighting'];
 
 const dataPath = path.join(__dirname, '..', 'src', 'data', 'products.js');
 const source = fs.readFileSync(dataPath, 'utf8');
@@ -23,8 +23,8 @@ const source = fs.readFileSync(dataPath, 'utf8');
 // URLs that actually resolve to a page.
 const { products, categoryOrder } = parseCatalogue(source);
 
-const productUrls = products.map((p) => `/products/${p.slug}/`);
-const categoryUrls = categoryOrder.map((c) => `/products/category/${c}/`);
+const productUrls = products.map((p) => `/products/${p.slug}`);
+const categoryUrls = categoryOrder.map((c) => `/products/category/${c}`);
 
 const routes = [...STATIC_ROUTES, ...categoryUrls, ...productUrls];
 const lastmod = new Date().toISOString().split('T')[0];

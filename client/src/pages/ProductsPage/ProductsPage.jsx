@@ -92,6 +92,8 @@ export default function ProductsPage() {
   // The search term is carried across so filtering doesn't reset the query.
   const categoryHref = (slug) => {
     const qs = query.trim() ? `?search=${encodeURIComponent(query.trim())}` : '';
+    // Trailing slash goes before the query string — that is the form Apache
+    // serves, so the link avoids a 301 hop.
     return slug === 'all' ? `/products${qs}` : `/products/category/${slug}${qs}`;
   };
 
@@ -120,14 +122,14 @@ export default function ProductsPage() {
     '@type': 'CollectionPage',
     name: `${pageTitle} | Tirich LED`,
     description: pageDescription,
-    url: `${SITE_URL}${canonicalPath}/`,
+    url: `${SITE_URL}${canonicalPath}`,
     mainEntity: {
       '@type': 'ItemList',
       numberOfItems: collectionProducts.length,
       itemListElement: collectionProducts.slice(0, 30).map((p, i) => ({
         '@type': 'ListItem',
         position: i + 1,
-        url: `${SITE_URL}/products/${p.slug}/`,
+        url: `${SITE_URL}/products/${p.slug}`,
         name: p.name,
       })),
     },

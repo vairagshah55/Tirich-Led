@@ -79,9 +79,8 @@ export const webSiteLd = {
 };
 
 /**
- * Builds a BreadcrumbList from [{ name, path }] crumbs. Paths get the trailing
- * slash the static host actually serves, so the schema URLs match the
- * canonicals exactly.
+ * Builds a BreadcrumbList from [{ name, path }] crumbs, normalised to the
+ * canonical no-trailing-slash form so the schema URLs match the canonicals.
  */
 export const breadcrumbLd = (crumbs) => ({
   '@context': 'https://schema.org',
@@ -90,7 +89,7 @@ export const breadcrumbLd = (crumbs) => ({
     '@type': 'ListItem',
     position: i + 1,
     name: c.name,
-    item: `${SITE_URL}${c.path === '/' || c.path.endsWith('/') ? c.path : `${c.path}/`}`,
+    item: `${SITE_URL}${c.path === '/' ? '/' : c.path.replace(/\/+$/, '')}`,
   })),
 });
 

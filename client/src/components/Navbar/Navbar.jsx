@@ -95,7 +95,7 @@ export default function Navbar() {
       <motion.nav className={`${styles.nav} ${scrolled ? styles.navScrolled : ''}`} {...fadeIn()}>
         <motion.div whileHover={{ scale: 1.03 }} whileTap={buttonTap}>
           <Link to="/" className={styles.navBrand}>
-            <img src={logo} alt="Tirich LED" className={styles.navLogo} width="452" height="233" fetchpriority="high" decoding="async" />
+            <img src={logo} alt="Tirich LED" className={styles.navLogo} width="368" height="161" fetchpriority="high" decoding="async" />
           </Link>
         </motion.div>
 

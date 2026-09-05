@@ -234,7 +234,7 @@ export default function SmartLightingPage() {
             '@context': 'https://schema.org',
             '@type': 'WebPage',
             name: 'Tirich LED Smart Lighting',
-            url: `${SITE_URL}/smart-lighting/`,
+            url: `${SITE_URL}/smart-lighting`,
             mainEntity: { '@id': `${SITE_URL}/#organization` },
           },
           breadcrumbLd([

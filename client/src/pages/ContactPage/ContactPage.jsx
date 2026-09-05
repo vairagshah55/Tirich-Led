@@ -54,7 +54,7 @@ export default function ContactPage() {
             '@context': 'https://schema.org',
             '@type': 'ContactPage',
             name: 'Contact Tirich LED',
-            url: `${SITE_URL}/contact/`,
+            url: `${SITE_URL}/contact`,
             mainEntity: { '@id': `${SITE_URL}/#organization` },
           },
           breadcrumbLd([

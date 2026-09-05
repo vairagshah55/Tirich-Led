@@ -99,8 +99,12 @@ const SPA_FALLBACK_PATTERNS = [
   'leads-[0-9a-fA-F-]+',
 ];
 
-const withSlash = (p) => (!p || p === '/' ? '/' : p.endsWith('/') ? p : `${p}/`);
-const absUrl = (p) => `${SITE_URL}${withSlash(p)}`;
+// Canonical URL form: no trailing slash, except the root.
+// Apache serves /about from /about/index.html without a redirect (see
+// public/.htaccess), and /about/ 301s here — so this is the single form that
+// canonicals, the sitemap, JSON-LD and internal links all use.
+const canonicalPath = (p) => (!p || p === '/' ? '/' : p.replace(/\/+$/, ''));
+const absUrl = (p) => `${SITE_URL}${canonicalPath(p)}`;
 
 const breadcrumbLd = (crumbs) => ({
   '@context': 'https://schema.org',
@@ -124,7 +128,7 @@ module.exports = {
   organizationLd,
   webSiteLd,
   breadcrumbLd,
-  withSlash,
+  canonicalPath,
   absUrl,
 };
 

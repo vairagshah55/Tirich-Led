@@ -91,7 +91,9 @@ const routes = [];
       const rel = path.relative(BUILD, path.dirname(p)).split(path.sep).join('/');
       routes.push({
         file: p,
-        urlPath: rel ? `/${rel}/` : '/',
+        // Directory on disk -> canonical URL. The files still live at
+        // about/index.html; the URL that serves them is /about.
+        urlPath: rel ? `/${rel}` : '/',
         html,
         title: meta(html, /<title>([^<]*)<\/title>/),
         description: meta(html, /<meta name="description" content="([^"]*)"/),
@@ -409,8 +411,14 @@ if (!fs.existsSync(htaccess)) {
   critical('no blanket catch-all rewrite',
     !/RewriteRule\s+\.\s+\/(index|app-shell)\.html/.test(conf),
     'a catch-all rewrite would shadow every pre-rendered route file');
+  // Only a rule whose target is literally /index.html is the dangerous one.
+  // The canonical-URL rewrite targets /$1/index.html (serving /about from
+  // about/index.html), which is correct and must not trip this check.
+  const badFallback = [...conf.matchAll(/RewriteRule\s+\S+\s+(\/\S*index\.html)\s+\[/g)]
+    .map((m) => m[1])
+    .filter((target) => target === '/index.html');
   critical('SPA fallback targets app-shell.html, not the pre-rendered homepage',
-    !/\/index\.html\s+\[L\]/.test(conf.replace(/\^index\\\.html\$[^\n]*/g, '')),
+    badFallback.length === 0,
     'falling back to /index.html serves the homepage body for /login');
   critical('ErrorDocument points at the pre-rendered 404',
     /ErrorDocument\s+404\s+\/404\.html/.test(conf), '');

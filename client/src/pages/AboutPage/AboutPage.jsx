@@ -162,7 +162,7 @@ export default function AboutPage() {
             '@context': 'https://schema.org',
             '@type': 'AboutPage',
             name: 'About Tirich LED',
-            url: `${SITE_URL}/about/`,
+            url: `${SITE_URL}/about`,
             mainEntity: { '@id': `${SITE_URL}/#organization` },
           },
           breadcrumbLd([

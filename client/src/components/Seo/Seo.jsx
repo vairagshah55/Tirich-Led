@@ -44,14 +44,16 @@ export default function Seo({
   imageAlt,
   preloadImage,
 }) {
-  // Static hosting serves routes as directories, so the live URL always has a
-  // trailing slash (e.g. /products/pro-116/). Normalise canonical/OG URLs to
-  // match what's actually served — avoids redirect/canonical conflicts.
+  // The canonical form is no trailing slash (/products/pro-116). Apache serves
+  // that directly and 301s the slashed variant, so canonical/OG URLs match what
+  // is actually returned and never point at a redirect.
   const cleanPath = (() => {
     if (!path) return null;
     const base = path.split(/[?#]/)[0];
     if (base === '/' || base === '') return '/';
-    return base.endsWith('/') ? base : `${base}/`;
+    // No trailing slash: /about, not /about/. Apache serves that form directly
+    // and 301s the slashed one, so this matches what is actually returned.
+    return base.replace(/\/+$/, '');
   })();
   const description = clampDescription(rawDescription);
   // A page with no canonical path of its own (the 404 catch-all, which answers
