@@ -935,3 +935,89 @@ filter exactly. **The real route count is 107** (94 products + 8 categories + 5
 static), not 131. The 22 URLs should be restored by adding their slugs to
 `PUBLISHED_SLUGS` — a catalogue decision, not an SEO one.
 
+---
+
+## Deploying — build off-host
+
+**The production host does not build the site.** It serves static files.
+
+The body pre-render needs headless Chrome, and Hostinger-style shared hosting
+cannot run it. Building on the host fails at exactly that step:
+
+```
+[prerender-body] Could not find Chrome (ver. 152.0.7977.75)
+  cache path: /home/uXXXXXXXX/.cache/puppeteer
+ERROR: Failed to build the application
+```
+
+Installing Chrome there is not worth attempting on shared hosting: even once the
+binary downloads, it usually cannot launch (no sandbox, missing `libnss3` /
+`libatk` / `libgbm`, and a memory ceiling well below what Chromium wants).
+
+### The pipeline
+
+```
+your machine / CI                          host (Apache)
+─────────────────                          ─────────────
+npm ci
+npm run build          ──►  build/  ──►    upload as-is
+npm run seo:audit                          serve statically
+   (must pass)
+```
+
+`build/` is a finished artifact — 107 pre-rendered HTML files, hashed assets,
+`sitemap.xml`, `robots.txt`, `404.html`, `app-shell.html`, `.htaccess`. There is
+nothing for the host to compile.
+
+**Upload the dotfiles.** `.htaccess` is easy to miss — many FTP clients hide
+dotfiles by default. Without it, every unknown URL becomes a soft 404 again and
+private routes lose their `X-Robots-Tag`.
+
+**Gate the upload on the audit.** `npm run seo:audit` fails on empty bodies, so
+it catches a degraded build before it ships:
+
+```
+✗ CRITICAL  no indexable route ships an empty #root
+```
+
+### If the host must run the build anyway
+
+`prerender-body.js` degrades instead of failing: no browser means a loud warning
+and exit 0, leaving the head-only HTML that `prerender-meta.js` wrote. That is
+the pre-existing behaviour — correct metadata, empty body — so the deploy is not
+blocked, but **the full-body benefit is lost**. It is not silent, and the audit
+still fails on it.
+
+To make it a hard error instead (recommended in CI):
+
+```bash
+PRERENDER_REQUIRED=1 npm run build
+```
+
+To skip it deliberately:
+
+```bash
+SKIP_PRERENDER_BODY=1 npm run build
+```
+
+To point at a Chrome you already have (VPS, or a CI image with one installed):
+
+```bash
+PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium npm run build
+```
+
+### GitHub Actions sketch
+
+Runners already have Chrome, so the standard workflow needs no extra setup:
+
+```yaml
+- uses: actions/setup-node@v4
+  with: { node-version: 22, cache: npm }
+- run: npm ci
+  working-directory: client
+- run: PRERENDER_REQUIRED=1 CI=true npm run build
+  working-directory: client
+- run: npm run seo:audit
+  working-directory: client
+# then rsync/FTP client/build/ to the host, dotfiles included
+```

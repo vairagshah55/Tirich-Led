@@ -70,13 +70,42 @@ if (process.env.SKIP_PRERENDER_BODY === '1') {
   process.exit(0);
 }
 
+/**
+ * Degrade instead of failing when no browser is available.
+ *
+ * This step needs headless Chrome. Shared hosting (Hostinger, cPanel and
+ * friends) generally cannot run it — Puppeteer installs, but the Chrome binary
+ * is missing or the libraries it needs are not on the box. Failing the build
+ * there would block a deploy over an optimisation, so the missing-browser case
+ * exits 0 and leaves the head-only HTML that prerender-meta.js already wrote:
+ * exactly the behaviour the site had before this step existed.
+ *
+ * It is loud rather than silent, and `npm run seo:audit` still fails on the
+ * resulting empty bodies, so a degraded build cannot be mistaken for a good
+ * one. Set PRERENDER_REQUIRED=1 in CI to make it a hard error.
+ */
+const REQUIRED = process.env.PRERENDER_REQUIRED === '1';
+
+function degrade(reason, hint) {
+  const level = REQUIRED ? console.error : console.warn;
+  level(`[prerender-body] SKIPPED — ${reason}`);
+  if (hint) level(`[prerender-body] ${hint}`);
+  level(
+    '[prerender-body] Route HTML keeps its correct <head> (title, canonical, OG, JSON-LD)\n' +
+      '[prerender-body] but ships an empty <body> — crawlers get metadata, not page content.\n' +
+      '[prerender-body] Build where a browser exists (locally or in CI) and deploy build/.'
+  );
+  process.exit(REQUIRED ? 1 : 0);
+}
+
 let puppeteer;
 try {
   puppeteer = require('puppeteer');
 } catch (e) {
-  console.error('[prerender-body] puppeteer is not installed — run `npm install`.');
-  console.error('[prerender-body] Set SKIP_PRERENDER_BODY=1 to build head-only HTML instead.');
-  process.exit(1);
+  degrade(
+    'puppeteer is not installed',
+    'It is a devDependency, so `npm ci --omit=dev` / NODE_ENV=production skips it.'
+  );
 }
 
 if (!fs.existsSync(MANIFEST)) {
@@ -236,6 +265,24 @@ function injectBody(routePath, bodyHtml) {
     server.on('error', reject);
   });
 
+  // Fail fast and clearly if the browser binary is absent, rather than letting
+  // the error surface as 107 route failures. executablePath() is sync in some
+  // Puppeteer versions and a promise in others, so await covers both; anything
+  // unexpected falls through to launch(), whose catch handles it.
+  try {
+    const exe = await puppeteer.executablePath();
+    if (typeof exe === 'string' && exe && !fs.existsSync(exe)) {
+      throw new Error(`Chrome binary not found at ${exe}`);
+    }
+  } catch (e) {
+    await new Promise((r) => server.close(r));
+    degrade(
+      `no Chrome binary available (${e.message.split('\n')[0]})`,
+      'Install it with `npx puppeteer browsers install chrome`, or set ' +
+        'PUPPETEER_EXECUTABLE_PATH to an existing Chrome/Chromium.'
+    );
+  }
+
   const browser = await puppeteer.launch({
     args: [
       '--no-sandbox',
@@ -355,6 +402,13 @@ function injectBody(routePath, bodyHtml) {
 
   fs.rmSync(MANIFEST, { force: true });
 })().catch((err) => {
-  console.error('[prerender-body] fatal:', err.message);
+  const msg = err.message || String(err);
+  // "Could not find Chrome", missing shared libraries, no sandbox available —
+  // all environment problems, not build problems. Degrade rather than block.
+  if (/Could not find (Chrome|Chromium)|Failed to launch|error while loading shared libraries|ENOENT.*chrome/i.test(msg)) {
+    degrade(`Chrome could not start (${msg.split('\n')[0]})`,
+      'Shared hosting usually cannot run headless Chrome at all.');
+  }
+  console.error('[prerender-body] fatal:', msg);
   process.exit(1);
 });
