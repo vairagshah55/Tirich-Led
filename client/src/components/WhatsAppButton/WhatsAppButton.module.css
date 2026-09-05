@@ -75,14 +75,25 @@
 
 /* Mobile — always show label */
 @media (max-width: 600px) {
+  /* "Chat with us" stays visible on phones — there is no hover on touch, so a
+     collapsed icon would never reveal what it does. It is made compact instead:
+     the pill was 147px wide and sat on top of the hero content in the
+     bottom-right. Tightening the padding, label size and gap brings it to
+     roughly 115px while keeping a 44px touch target. */
   .btn {
     max-width: 200px;
-    padding: 0.65rem 1.1rem 0.65rem 0.75rem;
-    bottom: 1.25rem;
-    right: 1.25rem;
+    padding: 0.55rem 0.85rem 0.55rem 0.6rem;
+    gap: 0.45rem;
+    bottom: 1rem;
+    right: 1rem;
   }
   .label {
     opacity: 1;
     transform: none;
+    font-size: 0.78rem;
+  }
+  .icon {
+    width: 24px;
+    height: 24px;
   }
 }
