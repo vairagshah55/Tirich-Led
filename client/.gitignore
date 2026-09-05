@@ -8,3 +8,7 @@ dist/
 .env.test.local
 .env.production.local
 coverage/
+
+# Build-time route manifest handed from prerender-meta.js to prerender-body.js
+.prerender-routes.json
+.prerender-shell.html

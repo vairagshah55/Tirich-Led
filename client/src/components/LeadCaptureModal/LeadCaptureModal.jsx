@@ -2,6 +2,12 @@ import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import styles from './LeadCaptureModal.module.css';
+import {
+  getStorageJson,
+  isLocalhost,
+  removeStorageItem,
+  setStorageJson,
+} from '../../utils/browser';
 
 const EASE = [0.25, 1, 0.5, 1];
 const STORAGE_KEY = 'tirichLead';
@@ -11,10 +17,9 @@ const STORAGE_KEY = 'tirichLead';
 // redirect breaks the CORS preflight.
 // Lead API is mounted under /api (nginx only proxies /api/* to the Node app).
 // Auto-selects by host; override with REACT_APP_LEAD_API_BASE if needed.
-const IS_LOCAL = ['localhost', '127.0.0.1'].includes(window.location.hostname);
 const LEAD_API_BASE =
   process.env.REACT_APP_LEAD_API_BASE ||
-  (IS_LOCAL ? 'http://localhost:5000/api' : 'https://57facets.in/api');
+  (isLocalhost() ? 'http://localhost:5000/api' : 'https://57facets.in/api');
 
 const BUSINESS_OPTIONS = [
   { value: '', label: 'Select business type' },
@@ -33,9 +38,8 @@ const DESIGNATION_OPTIONS = [
 
 export function hasLeadData() {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return false;
-    const data = JSON.parse(raw);
+    const data = getStorageJson(STORAGE_KEY);
+    if (!data) return false;
     // all required fields from the current form must exist
     return Boolean(
       data?.name && data?.phone && data?.city &&
@@ -47,15 +51,11 @@ export function hasLeadData() {
 }
 
 export function getLeadData() {
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY));
-  } catch {
-    return null;
-  }
+  return getStorageJson(STORAGE_KEY);
 }
 
 export function clearLeadData() {
-  localStorage.removeItem(STORAGE_KEY);
+  removeStorageItem(STORAGE_KEY);
 }
 
 
@@ -102,7 +102,7 @@ export default function LeadCaptureModal({ open, onClose, onSuccess, required = 
   };
 
   const saveLead = (lead) => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...lead, capturedAt: new Date().toISOString() }));
+    setStorageJson(STORAGE_KEY, { ...lead, capturedAt: new Date().toISOString() });
   };
 
   // ── Submit full form ──

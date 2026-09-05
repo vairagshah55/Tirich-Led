@@ -32,13 +32,40 @@ const {
   productSeoTitles,
   clampDescription,
   SPA_FALLBACK_PATTERNS,
+  parseCatalogue,
 } = require('./seo-shared');
 
 const BUILD_DIR = path.join(__dirname, '..', 'build');
 const SRC_DATA = path.join(__dirname, '..', 'src', 'data', 'products.js');
 
 const source = fs.readFileSync(SRC_DATA, 'utf8');
-const shell = fs.readFileSync(path.join(BUILD_DIR, 'index.html'), 'utf8');
+// build/index.html is BOTH the CRA shell and the homepage's route file, and
+// scripts/prerender-body.js injects the rendered homepage into it. Templating
+// 107 routes from that would copy the homepage body into every one of them on a
+// second postbuild run, so the pristine shell is snapshotted the first time it
+// is seen with an empty #root and reused afterwards. Kept outside build/ so it
+// never ships.
+const SHELL_SNAPSHOT = path.join(__dirname, '..', '.prerender-shell.html');
+const EMPTY_ROOT = /<div id="root">\s*<\/div>/;
+
+function loadShell() {
+  const built = fs.readFileSync(path.join(BUILD_DIR, 'index.html'), 'utf8');
+  if (EMPTY_ROOT.test(built)) {
+    // Fresh from react-scripts build — this is the canonical shell.
+    fs.writeFileSync(SHELL_SNAPSHOT, built, 'utf8');
+    return built;
+  }
+  if (fs.existsSync(SHELL_SNAPSHOT)) {
+    console.log('[prerender-meta] build/index.html already has a body — templating from .prerender-shell.html');
+    return fs.readFileSync(SHELL_SNAPSHOT, 'utf8');
+  }
+  throw new Error(
+    'build/index.html has no empty #root and no shell snapshot exists. ' +
+      'Run a clean npm build (react-scripts build must regenerate index.html).'
+  );
+}
+
+const shell = loadShell();
 
 /* ── helpers ─────────────────────────────────────────────────────── */
 const esc = (s = '') =>
@@ -65,33 +92,19 @@ function imageUrlForVar(varName) {
   return file ? `${SITE_URL}/static/media/${file}` : DEFAULT_IMAGE;
 }
 
-/* ── parse products ──────────────────────────────────────────────── */
-const products = [];
-const productRe =
-  /slug:\s*(['"])(.*?)\1,\s*\r?\n\s*name:\s*(['"])(.*?)\3,\s*\r?\n\s*category:\s*(['"])(.*?)\5,\s*\r?\n\s*categorySlug:\s*(['"])(.*?)\7,\s*\r?\n\s*tagline:\s*(['"])(.*?)\9,\s*\r?\n\s*image:\s*(\w+)/g;
-for (const m of source.matchAll(productRe)) {
-  products.push({
-    slug: m[2],
-    name: m[4],
-    category: m[6],
-    categorySlug: m[8],
-    tagline: m[10],
-    image: imageUrlForVar(m[11]),
-  });
-}
-
-/* ── parse ALL_CATEGORIES (slug → label/desc); commented entries skip ─ */
-const categoryMeta = {};
-const categoryRe =
-  /slug:\s*'([^']+)',\s*\r?\n\s*label:\s*'([^']+)',\s*\r?\n\s*desc:\s*'([^']*)'/g;
-for (const m of source.matchAll(categoryRe)) {
-  categoryMeta[m[1]] = { label: m[2], desc: m[3] };
-}
-
-// Categories that actually have products, in first-appearance order.
-const categoryOrder = [];
-for (const p of products) {
-  if (!categoryOrder.includes(p.categorySlug)) categoryOrder.push(p.categorySlug);
+/* ── parse the catalogue (shared with generate-sitemap.js) ────────── */
+// parseCatalogue applies the PUBLISHED_SLUGS filter the app itself applies, so
+// unpublished definitions never become routes. Without it 22 extra product URLs
+// are emitted whose pages render "Product not found" — indexable soft-404s,
+// listed in the sitemap.
+const { products, categoryOrder, categoryMeta, unpublished } = parseCatalogue(
+  source,
+  imageUrlForVar
+);
+if (unpublished.length) {
+  console.log(
+    `[prerender-meta] skipped ${unpublished.length} unpublished product definition(s) — not in PUBLISHED_SLUGS`
+  );
 }
 
 /* ── build routes ────────────────────────────────────────────────── */
@@ -296,6 +309,52 @@ for (const route of routes) {
   written++;
 }
 
+/* ── route manifest for the body pre-renderer ────────────────────── */
+//
+// This file owns route construction; scripts/prerender-body.js consumes the
+// list rather than re-deriving it, so there is exactly one place that decides
+// which 131 URLs exist. Written outside build/ so it never ships, and
+// deliberately carries only what the body pass needs (the path and whether the
+// route is indexable) — not the metadata, which is already baked into the HTML.
+fs.writeFileSync(
+  path.join(__dirname, '..', '.prerender-routes.json'),
+  JSON.stringify(
+    {
+      generatedAt: new Date().toISOString(),
+      routes: routes.map((r) => ({ path: r.path, noindex: Boolean(r.noindex) })),
+    },
+    null,
+    2
+  ),
+  'utf8'
+);
+
+/* ── app-shell.html — the SPA fallback target ────────────────────── */
+//
+// The four client-only routes (login / dashboard / ai-studio / lead inbox) are
+// answered with this file rather than /index.html. Two reasons:
+//
+//   - index.html is the homepage's pre-rendered route file. Serving it for
+//     /login would hand React a fully rendered homepage to hydrate a login
+//     page against — a guaranteed mismatch that throws the markup away.
+//   - This shell is noindex,nofollow in its own right, so those routes are
+//     protected by the HTML as well as by the X-Robots-Tag header.
+//
+// #root is deliberately left empty: these routes render client-side only.
+fs.writeFileSync(
+  path.join(BUILD_DIR, 'app-shell.html'),
+  buildHtml({
+    path: '/app-shell',
+    title: 'Tirich LED',
+    description:
+      'Tirich LED — precision LED lighting made in Surat. COB downlights, track, linear, magnetic, panels and outdoor fixtures for homes, offices and hospitality.',
+    noindex: true,
+    nofollow: true,
+    canonical: false,
+  }),
+  'utf8'
+);
+
 /* ── 404.html (noindex) — hosts that support it serve it for unknowns ─ */
 fs.writeFileSync(
   path.join(BUILD_DIR, '404.html'),
@@ -346,7 +405,7 @@ if (fs.existsSync(htaccessPath)) {
     ...SPA_FALLBACK_PATTERNS.flatMap((p) => [
       '  RewriteCond %{REQUEST_FILENAME} !-f',
       '  RewriteCond %{REQUEST_FILENAME} !-d',
-      `  RewriteRule ^(${p})/?$ /index.html [L]`,
+      `  RewriteRule ^(${p})/?$ /app-shell.html [L]`,
     ]),
     '  # Everything else: no rewrite. Real files and directories are served as',
     '  # they are (that is the pre-rendered route HTML); unknown paths fall',

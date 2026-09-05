@@ -175,3 +175,86 @@ const clampDescription = (text = '', max = 160) => {
 };
 
 module.exports.clampDescription = clampDescription;
+
+/**
+ * Parses src/data/products.js — the catalogue is a plain module with image
+ * imports, so the build scripts (CommonJS, outside the CRA/Babel pipeline)
+ * read it as text rather than importing it.
+ *
+ * CRITICAL: the app exports
+ *
+ *   export const PRODUCTS = PUBLISHED_SLUGS.map(s => _BY_SLUG.get(s)).filter(Boolean)
+ *
+ * so only slugs listed in PUBLISHED_SLUGS actually resolve to a page. Parsing
+ * every `slug:` in the file instead yields 22 extra URLs whose pages render
+ * "Product not found" — and putting those in the sitemap as indexable, with a
+ * self-canonical, advertises 22 soft-404s. So the published list is the
+ * filter, and _BY_SLUG's "last definition wins" is reproduced here.
+ *
+ * @param {string} source  contents of src/data/products.js
+ * @param {(varName: string) => string} [resolveImage]  maps an image import
+ *        identifier to a URL; defaults to the site's share image.
+ */
+const parseCatalogue = (source, resolveImage = () => DEFAULT_IMAGE) => {
+  // 1. the published allow-list, in display order
+  const listStart = source.indexOf('const PUBLISHED_SLUGS = [');
+  const listEnd = source.indexOf('const _BY_SLUG');
+  if (listStart < 0 || listEnd < 0) {
+    throw new Error(
+      'seo-shared: PUBLISHED_SLUGS / _BY_SLUG not found in products.js — the ' +
+        'catalogue export shape changed; update parseCatalogue before trusting the build.'
+    );
+  }
+  const publishedOrder = [
+    ...source.slice(listStart, listEnd).matchAll(/'([^']+)'/g),
+  ].map((m) => m[1]);
+
+  // 2. every product definition in the file
+  const productRe =
+    /slug:\s*(['"])(.*?)\1,\s*\r?\n\s*name:\s*(['"])(.*?)\3,\s*\r?\n\s*category:\s*(['"])(.*?)\5,\s*\r?\n\s*categorySlug:\s*(['"])(.*?)\7,\s*\r?\n\s*tagline:\s*(['"])(.*?)\9,\s*\r?\n\s*image:\s*(\w+)/g;
+  const bySlug = new Map();
+  for (const m of source.matchAll(productRe)) {
+    // last definition wins, matching _BY_SLUG in products.js
+    bySlug.set(m[2], {
+      slug: m[2],
+      name: m[4],
+      category: m[6],
+      categorySlug: m[8],
+      tagline: m[10],
+      image: resolveImage(m[11]),
+    });
+  }
+
+  // 3. published order, skipping anything the allow-list names but the file
+  //    does not define (mirrors .filter(Boolean))
+  const products = publishedOrder.map((slug) => bySlug.get(slug)).filter(Boolean);
+  const unpublished = [...bySlug.keys()].filter((s) => !publishedOrder.includes(s));
+  const unresolved = publishedOrder.filter((s) => !bySlug.has(s));
+
+  // 4. category label/desc from ALL_CATEGORIES (commented entries are skipped
+  //    naturally, since the regex needs slug/label/desc on consecutive lines)
+  const categoryMeta = {};
+  const categoryRe =
+    /slug:\s*'([^']+)',\s*\r?\n\s*label:\s*'([^']+)',\s*\r?\n\s*desc:\s*'([^']*)'/g;
+  for (const m of source.matchAll(categoryRe)) {
+    categoryMeta[m[1]] = { label: m[2], desc: m[3] };
+  }
+
+  // 5. Reproduce the app's CATEGORIES export exactly:
+  //
+  //      export const CATEGORIES = ALL_CATEGORIES.filter((c) =>
+  //        PRODUCTS.some((p) => p.categorySlug === c.slug));
+  //
+  //    i.e. an uncommented ALL_CATEGORIES entry that has >=1 published product.
+  //    Deriving the list from product.categorySlug instead would add pages the
+  //    app never links (products carry categorySlug 'panel-lights', but that
+  //    category is commented out of ALL_CATEGORIES, so nothing in the nav,
+  //    footer or filter chips points at it — an orphan by construction).
+  const categoryOrder = Object.keys(categoryMeta).filter((slug) =>
+    products.some((p) => p.categorySlug === slug)
+  );
+
+  return { products, categoryOrder, categoryMeta, unpublished, unresolved };
+};
+
+module.exports.parseCatalogue = parseCatalogue;

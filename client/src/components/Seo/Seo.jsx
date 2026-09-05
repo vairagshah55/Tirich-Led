@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { clampDescription } from '../../config/seo';
+import { isBrowser } from '../../utils/browser';
 
 /**
  * Central place for the production origin. Update here if the domain changes.
@@ -64,6 +66,22 @@ export default function Seo({
   const robots = noindex
     ? `noindex,${nofollow ? 'nofollow' : 'follow'}`
     : 'index,follow,max-image-preview:large,max-snippet:-1';
+
+  // Readiness signal for scripts/prerender-body.js.
+  //
+  // Every page renders <Seo>, and every page is a React.lazy chunk, so this
+  // effect firing means "the route's chunk resolved and its component
+  // committed" — the real async step, and a deterministic signal rather than a
+  // guessed delay. The rAF gives Helmet one frame to flush its head tags.
+  // Public page content comes from the bundled catalogue, not an API, so
+  // nothing further has to be awaited.
+  useEffect(() => {
+    if (!isBrowser || window.__PRERENDER__ !== true) return;
+    const id = requestAnimationFrame(() => {
+      window.__PRERENDER_READY__ = true;
+    });
+    return () => cancelAnimationFrame(id);
+  }, []);
 
   return (
     <Helmet prioritizeSeoTags>

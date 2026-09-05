@@ -18,14 +18,28 @@
  */
 const fs = require('fs');
 const path = require('path');
-const { SITE_URL, SPA_FALLBACK_PATTERNS, PRIVATE_ROUTES } = require('./seo-shared');
+const {
+  SITE_URL,
+  SPA_FALLBACK_PATTERNS,
+  PRIVATE_ROUTES,
+  parseCatalogue,
+} = require('./seo-shared');
 
 const BUILD = path.join(__dirname, '..', 'build');
 const SRC = path.join(__dirname, '..', 'src');
 
 const MAX_TITLE = 65;
 const MAX_DESC = 160;
-const EXPECTED_ROUTES = 131;
+
+// Derived from the catalogue, never hardcoded: the published product list is
+// the source of truth, so the expected count follows a data change instead of
+// silently disagreeing with it.
+const STATIC_ROUTE_COUNT = 5; // /  /products  /about  /contact  /smart-lighting
+const catalogue = parseCatalogue(
+  fs.readFileSync(path.join(SRC, 'data', 'products.js'), 'utf8')
+);
+const EXPECTED_ROUTES =
+  STATIC_ROUTE_COUNT + catalogue.categoryOrder.length + catalogue.products.length;
 
 /* ── result plumbing ─────────────────────────────────────────────── */
 const results = [];
@@ -42,6 +56,29 @@ if (!fs.existsSync(BUILD)) {
 
 /* ── collect every pre-rendered route ────────────────────────────── */
 const meta = (html, re) => (html.match(re) || [])[1];
+
+// Everything inside <div id="root">…</div> — what a crawler with no JS sees.
+const rootMarkup = (html) => {
+  const open = html.indexOf('<div id="root">');
+  if (open < 0) return { html: '', text: '', h1: 0, h2: 0, links: 0, imgs: 0, footer: false };
+  const inner = html.slice(open + '<div id="root">'.length, html.lastIndexOf('</div>'));
+  const text = inner
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&[a-z]+;|&#\d+;/gi, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  return {
+    html: inner,
+    text,
+    h1: (inner.match(/<h1[\s>]/gi) || []).length,
+    h2: (inner.match(/<h2[\s>]/gi) || []).length,
+    links: (inner.match(/<a\s[^>]*href=/gi) || []).length,
+    imgs: (inner.match(/<img[\s>]/gi) || []).length,
+    footer: /<footer[\s>]/i.test(inner),
+  };
+};
 const countOf = (html, re) => (html.match(re) || []).length;
 
 const routes = [];
@@ -69,6 +106,8 @@ const routes = [];
         nRobots: countOf(html, /name="robots"/g),
         nDesc: countOf(html, /name="description"/g),
         nMain: countOf(html, /<main[\s>]/g),
+        // Body pre-render metrics, read from the shipped HTML.
+        root: rootMarkup(html),
       });
     }
   }
@@ -367,9 +406,12 @@ if (!fs.existsSync(htaccess)) {
 } else {
   const conf = fs.readFileSync(htaccess, 'utf8');
   critical('build/.htaccess exists', true, '');
-  critical('no blanket "everything -> /index.html" rewrite',
-    !/RewriteRule\s+\.\s+\/index\.html/.test(conf),
-    'a catch-all rewrite would shadow all 131 pre-rendered route files');
+  critical('no blanket catch-all rewrite',
+    !/RewriteRule\s+\.\s+\/(index|app-shell)\.html/.test(conf),
+    'a catch-all rewrite would shadow every pre-rendered route file');
+  critical('SPA fallback targets app-shell.html, not the pre-rendered homepage',
+    !/\/index\.html\s+\[L\]/.test(conf.replace(/\^index\\\.html\$[^\n]*/g, '')),
+    'falling back to /index.html serves the homepage body for /login');
   critical('ErrorDocument points at the pre-rendered 404',
     /ErrorDocument\s+404\s+\/404\.html/.test(conf), '');
 
@@ -392,7 +434,9 @@ if (!fs.existsSync(htaccess)) {
   }
 
   // Parse the generated fallback allowlist straight out of the shipped file.
-  const allow = [...conf.matchAll(/RewriteRule\s+\^\(([^)]+)\)\/\?\$\s+\/index\.html/g)].map((m) => m[1]);
+  const allow = [
+    ...conf.matchAll(/RewriteRule\s+\^\(([^)]+)\)\/\?\$\s+\/app-shell\.html/g),
+  ].map((m) => m[1]);
   high('SPA fallback is an explicit allowlist, not a catch-all',
     allow.length === SPA_FALLBACK_PATTERNS.length,
     `found ${allow.length} rules: ${allow.join(', ')}`);
@@ -408,7 +452,9 @@ if (!fs.existsSync(htaccess)) {
         && fs.existsSync(path.join(asFile, 'index.html'))) {
       return { status: 200, served: `${clean}/index.html` };
     }
-    if (allow.some((p) => new RegExp(`^(${p})$`).test(clean))) return { status: 200, served: 'index.html (SPA)' };
+    if (allow.some((p) => new RegExp(`^(${p})$`).test(clean))) {
+      return { status: 200, served: 'app-shell.html (SPA)' };
+    }
     return { status: 404, served: '404.html' };
   };
 
@@ -432,8 +478,14 @@ if (!fs.existsSync(htaccess)) {
     failed.map(([u, w]) => `${u} want ${w} got ${resolve(u).status}`).join(', '));
 
   // The pre-rendered page must win over the shell for indexable routes.
+  // "shadowed" means the ROOT index.html or the SPA shell answered instead of
+  // the route's own file. products/pro-116/index.html is the correct answer, so
+  // match the exact bare filenames rather than any path ending in index.html.
   const shadowed = ['/products/pro-116', '/products/category/downlights', '/about']
-    .filter((u) => resolve(u).served === 'index.html' || resolve(u).served === 'index.html (SPA)');
+    .filter((u) => {
+      const served = resolve(u).served;
+      return served === 'index.html' || /\(SPA\)$/.test(served) || served === 'app-shell.html';
+    });
   critical('pre-rendered route HTML is served, not the generic shell',
     shadowed.length === 0, shadowed.join(', '));
 }
@@ -452,6 +504,99 @@ const unhandled = appRoutes.filter((r) => {
 critical('every route in App.js is pre-rendered or covered by the SPA allowlist',
   unhandled.length === 0,
   `${unhandled.join(', ')} would return a hard 404 — add a pre-render entry or an SPA_FALLBACK_PATTERNS entry`);
+
+/* ── 21. BODY PRE-RENDER: is there anything for a crawler to read? ─ */
+//
+// This is the whole point of the body pre-render: an indexable URL fetched
+// without JavaScript must return the actual page, not an empty mount point.
+const emptyRoot = routes.filter((r) => !r.root.html.trim());
+critical('no indexable route ships an empty #root', emptyRoot.length === 0,
+  `${emptyRoot.length} route(s): ${emptyRoot.slice(0, 5).map((r) => r.urlPath).join(', ')}`);
+
+// A splash/skeleton captured instead of the page is the classic failure mode,
+// and it looks like success unless the text is actually inspected.
+const LOADING_ONLY = /^(loading|please wait|tirich\s*led)?[\s.…]*$/i;
+const loadingOnly = routes.filter(
+  (r) => r.root.text.length < 200 || LOADING_ONLY.test(r.root.text)
+);
+critical('no indexable route ships only a loading/splash state', loadingOnly.length === 0,
+  loadingOnly.slice(0, 5).map((r) => `${r.urlPath} (${r.root.text.length} chars)`).join(', '));
+
+const noH1Body = routes.filter((r) => r.root.h1 !== 1);
+critical('every indexable route has exactly one <h1> in its pre-rendered body',
+  noH1Body.length === 0,
+  noH1Body.slice(0, 5).map((r) => `${r.urlPath} (${r.root.h1})`).join(', '));
+
+const noFooterBody = routes.filter((r) => !r.root.footer);
+high('every indexable route ships its <footer> (internal links without JS)',
+  noFooterBody.length === 0,
+  noFooterBody.slice(0, 5).map((r) => r.urlPath).join(', '));
+
+const fewLinks = routes.filter((r) => r.root.links < 10);
+high('every indexable route ships crawlable internal links', fewLinks.length === 0,
+  fewLinks.slice(0, 5).map((r) => `${r.urlPath} (${r.root.links})`).join(', '));
+
+const noMainBody = routes.filter((r) => !/<main[\s>]/i.test(r.root.html));
+medium('every indexable route ships a <main> landmark in its body',
+  noMainBody.length === 0, noMainBody.slice(0, 5).map((r) => r.urlPath).join(', '));
+
+const noH2 = routes.filter((r) => r.root.h2 === 0);
+medium('routes have a sub-heading hierarchy (h2)', noH2.length === 0,
+  `${noH2.length} route(s) with no <h2>: ${noH2.slice(0, 4).map((r) => r.urlPath).join(', ')}`);
+
+const noImgs = routes.filter((r) => r.root.imgs === 0);
+medium('routes ship <img> markup', noImgs.length === 0,
+  `${noImgs.length} route(s) with no images`);
+
+// The brand has to be readable without JS — it is what a brand query matches.
+const brandless = routes.filter((r) => !/tirich/i.test(r.root.text));
+high('brand name appears in every pre-rendered body', brandless.length === 0,
+  brandless.slice(0, 5).map((r) => r.urlPath).join(', '));
+
+const home = routes.find((r) => r.urlPath === '/');
+if (home) {
+  critical('homepage body names the brand in its <h1>',
+    /<h1[^>]*>[\s\S]{0,300}?Tirich/i.test(home.root.html),
+    home.root.html.match(/<h1[\s\S]{0,160}/i)?.[0]?.replace(/\s+/g, ' ') || 'no h1');
+}
+
+// A product page must carry its own product's name, not just chrome.
+const productRoutes = routes.filter((r) => /^\/products\/[^/]+\/$/.test(r.urlPath));
+// Compared against the catalogue's actual product name, not a guess derived
+// from the slug: slugs are hyphenated ("10z-caset") while names are not
+// ("10Z Casetlzr"), so slug-matching produces false failures.
+const productBySlug = new Map(catalogue.products.map((p) => [p.slug, p]));
+const thinProducts = productRoutes.filter((r) => {
+  const slug = r.urlPath.replace(/^\/products\//, '').replace(/\/$/, '');
+  const product = productBySlug.get(slug);
+  if (!product) return true; // a product route with no catalogue entry is worse
+  return !r.root.text.toLowerCase().includes(product.name.toLowerCase());
+});
+high('each product body contains its own product name', thinProducts.length === 0,
+  `${thinProducts.length}: ${thinProducts.slice(0, 5).map((r) => r.urlPath).join(', ')}`);
+
+const medianText = (() => {
+  const v = routes.map((r) => r.root.text.length).sort((a, b) => a - b);
+  return v.length ? v[Math.floor(v.length / 2)] : 0;
+})();
+
+/* ── 22. app-shell.html — the SPA fallback target ────────────────── */
+const shellPath = path.join(BUILD, 'app-shell.html');
+if (!fs.existsSync(shellPath)) {
+  critical('app-shell.html exists (SPA fallback target)', false,
+    'missing — private routes would fall back to the pre-rendered homepage');
+} else {
+  const shell = fs.readFileSync(shellPath, 'utf8');
+  critical('app-shell.html exists (SPA fallback target)', true, '');
+  critical('app-shell.html has an EMPTY #root',
+    /<div id="root">\s*<\/div>/.test(shell),
+    'a fallback with markup would make React hydrate /login against another page');
+  critical('app-shell.html is noindex,nofollow',
+    /content="noindex,nofollow"/.test(shell),
+    meta(shell, /<meta name="robots" content="([^"]*)"/) || 'no robots tag');
+  high('app-shell.html has no canonical',
+    (shell.match(/rel="canonical"/g) || []).length === 0, '');
+}
 
 /* ── report ──────────────────────────────────────────────────────── */
 const ORDER = { CRITICAL: 0, HIGH: 1, MEDIUM: 2, LOW: 3 };
@@ -475,6 +620,11 @@ console.log('  ' + '─'.repeat(72));
 console.log(`  routes ${routes.length} | unique titles ${new Set(titles).size} | unique descriptions ${new Set(descs).size} | unique canonicals ${new Set(canons).size}`);
 console.log(`  JSON-LD blocks ${ldBlocks} (${ldBad.length} invalid) | ${Object.entries(ldTypes).map(([k, v]) => `${k} ${v}`).join(' · ')}`);
 console.log(`  sitemap URLs ${sitemapUrls.length} | category pages ${categorySlugs.length}`);
+console.log(
+  `  pre-rendered bodies ${routes.length - emptyRoot.length}/${routes.length} | ` +
+    `median ${medianText} chars of text | ` +
+    `empty #root ${emptyRoot.length} | missing h1 ${noH1Body.length}`
+);
 console.log(`\n  ${results.filter((r) => r.ok).length}/${results.length} checks passed` +
   (failedCritical ? ` | ${failedCritical} CRITICAL` : '') +
   (failedHigh ? ` | ${failedHigh} HIGH` : '') +

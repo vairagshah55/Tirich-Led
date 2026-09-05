@@ -375,6 +375,23 @@
 }
 
 /* ── Copy ──────────────────────────────────────────────────────────── */
+/* The page's single stable H1 — brand + proposition. Sits above the rotating
+   headline and outside .heroFade, so it never flickers on a slide change and
+   the pre-rendered HTML always carries the same primary heading. */
+.heroBrand {
+  margin: 0 0 clamp(0.75rem, 1.8vh, 1.15rem);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--neutral-dark);
+}
+.heroBrandSep {
+  color: var(--brand-orange);
+  margin: 0 0.25em;
+}
+
 .heroMeta {
   display: flex;
   align-items: center;

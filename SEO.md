@@ -807,69 +807,131 @@ against the real build tree, failing CI if any status is wrong.
 
 ---
 
-## Full-body pre-render / SSR — audit and recommendation
+## Full-body pre-rendering — shipped
 
-**Current state.** Only `<head>` is pre-rendered. Verified live:
+Every indexable route now ships its rendered body. A crawler with JavaScript
+disabled gets the real page:
 
 ```
-curl -s https://tirichled.com/ | grep -o '<div id="root"></div>'
--> <div id="root"></div>
+curl -s https://tirichled.com/products/pro-116 | grep -c '<div id="root"></div>'
+0                       # no empty mount point
+
+<h1>PRO-116</h1>        # …and the actual product page, breadcrumb,
+                        #    specs, related products and footer
 ```
 
-Per-route title, description, canonical, OG/Twitter and JSON-LD are all correct
-in the raw HTML, but **no visible copy reaches a non-JS crawler**. This is now
-the single largest remaining SEO limitation.
+### Pipeline
 
-**Node SSR (`renderToString`) is not viable without touching App.js.** Five
-module-scope browser accesses execute at import time, before any React lifecycle:
+```
+npm run build
+  │
+  ├─ prebuild   generate-sitemap.js    public/sitemap.xml
+  │
+  ├─ build      react-scripts build    build/ (shell + hashed assets)
+  │
+  └─ postbuild
+       ├─ prerender-meta.js   one HTML file per route: <head> only
+       │                      + 404.html + app-shell.html + image sitemap
+       │                      + build/.htaccess rules
+       │                      + .prerender-routes.json  (route manifest)
+       │
+       └─ prerender-body.js   headless Chromium visits each route and injects
+                              the rendered #root into the file above
+```
 
-| File | Line | Access |
+The split matters: `prerender-meta.js` owns `<head>`, `prerender-body.js` owns
+`<body>`, and neither touches the other's output. The metadata that passes the
+audit is written once and never rewritten by the browser pass.
+
+### Why not react-snap
+
+It was evaluated first, and it does install and launch (its bundled Chromium 78
+runs). It was rejected on four specific grounds:
+
+| | |
+|---|---|
+| Rewrites `<head>` | `inlineCss`, `minimalcss`, `minifyHtml`, `removeStyleTags`, `preloadImages`. The head here is generated and audited (exactly one canonical / robots / OG set / JSON-LD block per route). Letting react-snap regenerate it means either duplicated tags — shell *and* Helmet — or losing the audited output. |
+| No readiness hook | Only a fixed `waitFor` delay. A guessed delay is not a correctness mechanism for 107 routes. |
+| Second route list | Discovers routes by crawling links or a hand-listed `include` array, competing with the list `prerender-meta.js` already derives from the catalogue. |
+| Unmaintained | `puppeteer ^1.8.0` (2018); npm flags it as no longer supported. |
+
+`prerender-body.js` drives Puppeteer directly instead — a devDependency, never
+shipped to the browser — and injects only `#root`.
+
+### Readiness is a signal, not a delay
+
+`<Seo>` sets `window.__PRERENDER_READY__` after its effect commits. Every page
+renders `<Seo>`, and every page is a `React.lazy` chunk, so the flag means "this
+route's chunk resolved and its component mounted" — the actual async step.
+Public page content comes from the bundled catalogue, not an API, so nothing
+else has to be awaited. The timeout is a failure path.
+
+`window.__PRERENDER__` is set before any app code runs, and is what freezes the
+hero carousel so the captured HTML is deterministic.
+
+### Two traps this pipeline avoids
+
+**`build/index.html` is two different things.** It is the CRA shell *and* the
+homepage's route file. Injecting the homepage body into it would mean the SPA
+fallback serves a rendered homepage for `/login` — React would hydrate a login
+page against homepage markup. So `prerender-meta.js` also emits
+**`app-shell.html`**: an empty-`#root`, `noindex,nofollow` shell, and the
+`.htaccess` fallback points at that instead. `prerender-meta.js` also snapshots
+the pristine shell to `.prerender-shell.html` so a second `postbuild` run does
+not template all 107 routes from an already-filled index.html.
+
+**The splash screen.** `#tirich-splash` is `position: fixed; inset: 0` over a
+white background. On a pre-rendered page there is nothing to cover — the content
+is already in the HTML — and for any client that doesn't run the JS that removes
+it, it is a full-viewport white layer over the content. `prerender-body.js`
+strips it from the 107 route files, which also takes it off the LCP path.
+`app-shell.html` keeps it, since those routes really do render client-side.
+
+### Browser-API work this required
+
+`src/utils/browser.js` centralises the guards. What changed and why:
+
+| Site | Problem | Fix |
 |---|---|---|
-| `components/LeadCaptureModal/LeadCaptureModal.jsx` | 14 | `window.location.hostname` |
-| `pages/LeadListPage/LeadListPage.jsx` | 10 | `window.location.hostname` |
-| `pages/LandingPage/LandingPage.jsx` | 151 | `window.matchMedia(...)` |
-| `pages/ProductsPage/ProductsPage.jsx` | 17 | `window.scrollTo` (in a closure — safe) |
-| `index.js` | 8 | `document.getElementById` |
+| `Navbar.jsx` | `useState(() => hasLeadData() ? getLeadData() : null)` read `localStorage` **during render**. The snapshot has no saved lead, so a returning visitor's first client render differed — a hydration mismatch on *every page*. | Starts `null`; read in `useEffect`. |
+| `LeadCaptureModal.jsx` | `window.location.hostname` at module scope; raw `localStorage` calls. | `isLocalhost()`, `getStorageJson`, `setStorageJson`, `removeStorageItem` — all try/catch, so private-mode storage errors no longer throw. |
+| `LeadListPage.jsx` | `window.location.hostname` at module scope. | `isLocalhost()`. |
+| `LandingPage.jsx` | Carousel advanced during capture; rotating `<h1>`. | Frozen under `isPrerendering()`; stable `<h1>` (below). |
 
-Plus `App.js:27` reads `localStorage` inside a `useState` initialiser, which runs
-**during render**. SSR would throw on the first request. Fixing it means guarding
-each site and moving the auth bootstrap into an effect — i.e. editing App.js and
-changing auth timing, which is outside the agreed scope.
+`App.js` was **not** modified. Its `localStorage` read in a `useState`
+initialiser is safe here because the pre-renderer is a real browser, and
+`authUser` only affects the private routes, which are never pre-rendered.
 
-**Headless-Chrome pre-render (react-snap / Puppeteer) is the safe path**, because
-it renders in a real browser: every one of the accesses above works unchanged.
-Readiness:
+### The homepage H1
 
-- `index.js` already calls `hydrateRoot` when `#root` has children — the app is
-  hydration-ready today, no change needed.
-- `react-helmet-async` and `motion/react` both support hydration.
-- Product cards, category chips and footer links are real `<a href>`s, so the
-  crawler can discover all 131 routes on its own.
+It was the rotating hero headline, so the primary heading changed with the
+carousel and targeted nothing. That headline is now an `<h2>` (same class, no
+visual change) and the `<h1>` is a stable line naming the business:
 
-Four things to handle before enabling it:
+```
+Tirich LED — Precision LED Lighting
+```
 
-1. **The splash screen.** `#tirich-splash` is `position: fixed; inset: 0` and
-   would be captured in all 131 snapshots, covering the content until JS removes
-   it. Gate it on a `data-prerendered` flag, or strip it in a post-snapshot step.
-2. **Carousel state freezes** at whichever hero slide is active on snapshot —
-   acceptable (slide 1 is the LCP content), but the `<h1>` becomes whichever
-   headline was showing. See the H1 note below.
-3. **`localStorage`-gated UI** snapshots in its logged-out / no-lead state. That
-   is the correct default for a crawler, but confirm the lead-capture modal is
-   not baked open.
-4. **Build time**: 131 pages through headless Chrome adds minutes. Run it only
-   for production builds.
+It sits outside `.heroFade` so it does not flicker on a slide change, and it is
+visible text, not a hidden SEO string.
 
-**Recommendation:** react-snap, in that order, as a separate change with its own
-verification pass. Do **not** migrate to Next.js for this — it would rewrite
-routing, data loading and the build for a problem react-snap solves in the
-existing architecture.
+### Catalogue bug this surfaced
 
-### Related content note — the homepage `<h1>`
+The pre-render revealed that 22 of the previous 131 routes rendered "Product not
+found". `products.js` exports
 
-The homepage `<h1>` is the rotating hero headline (`Minimal Presence, Maximum
-Comfort`, etc.), so the page's primary heading changes with the carousel and
-targets no term. It costs nothing today because the body isn't pre-rendered and
-no crawler sees it — but it must be settled **before** full-body pre-render, or
-131 pages ship with an arbitrary H1. A stable, descriptive H1 with the rotating
-copy demoted to a `<p>`/`<h2>` is the fix; it is a copy decision, not a code one.
+```js
+export const PRODUCTS = PUBLISHED_SLUGS.map((s) => _BY_SLUG.get(s)).filter(Boolean);
+```
+
+but the build scripts regex-parsed *every* `slug:` in the file. The 22 extras
+were the disambiguated slugs (`tlc-121-track`, `pro-130-cob`, …) that were never
+added to `PUBLISHED_SLUGS` — so they were advertised in the sitemap as
+indexable, with self-canonicals, and served a not-found page.
+
+`parseCatalogue()` in `scripts/seo-shared.js` is now the single parser for both
+build scripts, applies `PUBLISHED_SLUGS`, and rebuilds the app's `CATEGORIES`
+filter exactly. **The real route count is 107** (94 products + 8 categories + 5
+static), not 131. The 22 URLs should be restored by adding their slugs to
+`PUBLISHED_SLUGS` — a catalogue decision, not an SEO one.
+

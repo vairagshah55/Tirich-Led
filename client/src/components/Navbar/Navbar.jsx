@@ -50,8 +50,17 @@ export default function Navbar() {
     if (searchOpen) searchInputRef.current?.focus();
   }, [searchOpen]);
 
-  const [lead, setLead] = useState(() => hasLeadData() ? getLeadData() : null);
+  // Deliberately starts null rather than reading localStorage during render.
+  // The pre-rendered HTML is captured with no saved lead, so a returning
+  // visitor whose first client render showed "Hi, <name>" would be a hydration
+  // mismatch on every page. Read it once after mount instead — the greeting
+  // appears a tick later, which nobody notices.
+  const [lead, setLead] = useState(null);
   const firstName = lead?.name?.split(' ')[0] || '';
+
+  useEffect(() => {
+    if (hasLeadData()) setLead(getLeadData());
+  }, []);
 
   const handleLeadLogout = () => {
     clearLeadData();

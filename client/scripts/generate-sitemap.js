@@ -9,7 +9,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const { SITE_URL } = require('./seo-shared');
+const { SITE_URL, parseCatalogue } = require('./seo-shared');
 // Trailing slashes: static hosts serve routes as directories (…/index.html),
 // so the canonical live URL has a trailing slash. Keep sitemap URLs identical
 // to what's served to avoid 301 redirect / canonical conflicts.
@@ -18,21 +18,13 @@ const STATIC_ROUTES = ['/', '/products/', '/about/', '/contact/', '/smart-lighti
 const dataPath = path.join(__dirname, '..', 'src', 'data', 'products.js');
 const source = fs.readFileSync(dataPath, 'utf8');
 
-// Product slugs = a `slug:` line immediately followed by a `name:` line
-// (category definitions in ALL_CATEGORIES are followed by `label:`, so they
-// are naturally excluded).
-const productSlugs = [
-  ...source.matchAll(/slug:\s*['"]([^'"]+)['"]\s*,?\s*\r?\n\s*name:/g),
-].map((m) => m[1]);
+// One parser, shared with scripts/prerender-meta.js. It honours PUBLISHED_SLUGS
+// and rebuilds the app's CATEGORIES list, so the sitemap can only ever contain
+// URLs that actually resolve to a page.
+const { products, categoryOrder } = parseCatalogue(source);
 
-const categorySlugs = [
-  ...source.matchAll(/categorySlug:\s*['"]([^'"]+)['"]/g),
-].map((m) => m[1]);
-
-const productUrls = [...new Set(productSlugs)].map((s) => `/products/${s}/`);
-const categoryUrls = [...new Set(categorySlugs)].map(
-  (c) => `/products/category/${c}/`
-);
+const productUrls = products.map((p) => `/products/${p.slug}/`);
+const categoryUrls = categoryOrder.map((c) => `/products/category/${c}/`);
 
 const routes = [...STATIC_ROUTES, ...categoryUrls, ...productUrls];
 const lastmod = new Date().toISOString().split('T')[0];

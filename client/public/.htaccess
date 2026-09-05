@@ -26,11 +26,12 @@
   RewriteRule ^index\.html$ - [L]
 
   # @generated:spa-fallback
-  # (populated at build time — a bare public/.htaccess falls back to serving
-  #  the shell for unknown routes, which is the pre-existing behaviour)
+  # (populated at build time. This bare default serves the empty app shell —
+  #  never /index.html, which is the pre-rendered homepage: hydrating /login
+  #  against homepage markup would be a mismatch.)
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /index.html [L]
+  RewriteRule . /app-shell.html [L]
   # @end:spa-fallback
 </IfModule>
 

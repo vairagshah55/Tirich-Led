@@ -6,6 +6,7 @@ import Seo from '../../components/Seo/Seo';
 import { organizationLd, webSiteLd } from '../../config/seo';
 import styles from './LandingPage.module.css';
 import { buttonHover, buttonTap, fadeUp } from '../../utils/motion';
+import { isPrerendering, prefersReducedMotion } from '../../utils/browser';
 
 
 // ── Lightweight images — Living Gallery (84 – 700 KB each) ─────────
@@ -145,10 +146,7 @@ const HERO_SLIDES = [
 // duration in LandingPage.module.css, or the progress line desyncs.
 const SLIDE_MS = 7000;
 
-const PREFERS_REDUCED_MOTION =
-  typeof window !== 'undefined' &&
-  typeof window.matchMedia === 'function' &&
-  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const PREFERS_REDUCED_MOTION = prefersReducedMotion();
 
 // ── Below the fold: four engineering claims, one fixture each ─────
 const ENGINEERED = [
@@ -372,7 +370,9 @@ export default function LandingPage() {
   // A timeout keyed on the active slide (rather than a standing interval)
   // keeps the progress line and the slide change on the same clock.
   useEffect(() => {
-    if (!heroLive || PREFERS_REDUCED_MOTION) return undefined;
+    // Frozen during pre-render so the captured HTML is slide 0 — the same
+    // thing React renders first on the client, so hydration matches.
+    if (!heroLive || PREFERS_REDUCED_MOTION || isPrerendering()) return undefined;
     const timer = setTimeout(() => {
       setActiveVidIdx((prev) => (prev + 1) % HERO_SLIDES.length);
     }, SLIDE_MS);
@@ -487,6 +487,14 @@ export default function LandingPage() {
           <div className={styles.heroCopy}>
             {/* ── Slide index · category · headline ── */}
             <motion.div className={styles.heroCopyTop} {...fadeUp(0.1, 22)}>
+              {/* The page's one H1. Stable on purpose: the headline below it
+                  rotates with the carousel, so using that as the H1 gave every
+                  render a different primary heading and left the pre-rendered
+                  HTML with whichever slide happened to be showing. */}
+              <h1 className={styles.heroBrand}>
+                Tirich LED <span className={styles.heroBrandSep}>—</span> Precision LED Lighting
+              </h1>
+
               <div className={`${styles.heroFade}${textVisible ? '' : ` ${styles.heroFadeOut}`}`}>
                 <div className={styles.heroMeta}>
                   <span className={styles.heroSlideNum}>
@@ -503,7 +511,7 @@ export default function LandingPage() {
                   {copySlide.tag}
                 </p>
 
-                <h1 className={styles.heroTitle}>
+                <h2 className={styles.heroTitle}>
                   {copySlide.title.map((line, li) => (
                     <span
                       key={line}
@@ -512,7 +520,7 @@ export default function LandingPage() {
                       {line}
                     </span>
                   ))}
-                </h1>
+                </h2>
 
                 <div className={styles.heroRule} aria-hidden="true" />
               </div>
