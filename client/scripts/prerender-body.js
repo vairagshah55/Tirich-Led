@@ -86,35 +86,135 @@ if (process.env.SKIP_PRERENDER_BODY === '1') {
  */
 const REQUIRED = process.env.PRERENDER_REQUIRED === '1';
 
-function degrade(reason, hint) {
-  const level = REQUIRED ? console.error : console.warn;
-  level(`[prerender-body] SKIPPED — ${reason}`);
-  if (hint) level(`[prerender-body] ${hint}`);
-  level(
-    // No angle brackets: deploy-log viewers that render HTML swallow them, and
-    // this warning lost its two most important words that way.
-    '[prerender-body] Route HTML keeps its correct HEAD (title, canonical, OG, JSON-LD)\n' +
-      '[prerender-body] but ships an EMPTY BODY - crawlers get metadata, not page content.\n' +
-      '[prerender-body] Build where a browser exists (locally or in CI) and upload build/.'
-  );
-  process.exit(REQUIRED ? 1 : 0);
+/* ── committed body cache ────────────────────────────────────────── */
+/**
+ * prerender-cache/ holds the captured #root markup for every route, one file
+ * per route, and IS COMMITTED TO GIT.
+ *
+ * It exists so a host that cannot run Chrome still ships real page bodies.
+ * Capture happens wherever a browser is available (a developer machine or CI);
+ * the resulting markup is committed; the production build replays it.
+ *
+ * This is sound because a captured body references no bundle hashes — it is app
+ * markup, so a rebuild that changes main.<hash>.js does not invalidate it. It
+ * does reference hashed /static/media/ images, so every cached body is checked
+ * against the files actually present in build/ before it is used. A body whose
+ * images have been rebuilt is treated as stale and skipped rather than shipped
+ * with broken image URLs.
+ */
+const CACHE_DIR = path.join(__dirname, '..', 'prerender-cache');
+
+// "/" -> _root, "/products/pro-116" -> products__pro-116
+const cacheName = (routePath) =>
+  (routePath === '/' ? '_root' : routePath.replace(/^\/+|\/+$/g, '').replace(/\//g, '__')) + '.html';
+
+const cacheFile = (routePath) => path.join(CACHE_DIR, cacheName(routePath));
+
+function writeCache(routePath, bodyHtml) {
+  fs.mkdirSync(CACHE_DIR, { recursive: true });
+  fs.writeFileSync(cacheFile(routePath), bodyHtml, 'utf8');
 }
 
-let puppeteer;
-try {
-  puppeteer = require('puppeteer');
-} catch (e) {
-  degrade(
-    'puppeteer is not installed',
-    'It is a devDependency, so `npm ci --omit=dev` / NODE_ENV=production skips it.'
+/** Returns the cached body, or null if absent or stale. */
+function readCache(routePath) {
+  const file = cacheFile(routePath);
+  if (!fs.existsSync(file)) return null;
+  const body = fs.readFileSync(file, 'utf8');
+
+  // Staleness check: every hashed asset the body points at must exist in this
+  // build. Content-hashed filenames make this exact — if an image changed, its
+  // hash changed, and the cached markup would 404.
+  //
+  // Read out of the enclosing quotes rather than by scanning for a bare path:
+  // some assets have spaces in their names ("Tirich Brand Film.<hash>.mp4"), and
+  // a character-class match truncates at the space, then reports a perfectly
+  // good file as missing.
+  const refs = [
+    ...new Set(
+      [...body.matchAll(/["'(](\/static\/media\/[^"')]+)/g)].map((m) => m[1])
+    ),
+  ];
+  const missing = refs.filter(
+    (r) => !fs.existsSync(path.join(BUILD_DIR, decodeURIComponent(r).replace(/^\//, '')))
   );
+  if (missing.length) return { stale: true, missing };
+
+  return { stale: false, body };
 }
 
+/**
+ * No browser: replay the committed cache instead of shipping empty bodies.
+ * Falls back to head-only HTML for anything the cache cannot cover.
+ */
+function fallbackToCache(reason, hint) {
+  console.warn(`[prerender-body] no browser — ${reason}`);
+  if (hint) console.warn(`[prerender-body] ${hint}`);
+
+  if (!fs.existsSync(CACHE_DIR)) {
+    console.warn('[prerender-body] and no prerender-cache/ to fall back on.');
+    console.warn(
+      '[prerender-body] Route HTML keeps its correct HEAD (title, canonical, OG, JSON-LD)\n' +
+        '[prerender-body] but ships an EMPTY BODY - crawlers get metadata, not page content.\n' +
+        '[prerender-body] Fix: run this build where Chrome exists, commit prerender-cache/.'
+    );
+    process.exit(REQUIRED ? 1 : 0);
+  }
+
+  let injected = 0;
+  const stale = [];
+  const absent = [];
+  for (const route of routes) {
+    const hit = readCache(route.path);
+    if (!hit) {
+      absent.push(route.path);
+      continue;
+    }
+    if (hit.stale) {
+      stale.push(`${route.path} (${hit.missing[0]})`);
+      continue;
+    }
+    if (injectBody(route.path, hit.body).ok) injected++;
+    else absent.push(route.path);
+  }
+
+  console.log(
+    `[prerender-body] replayed ${injected}/${routes.length} bodies from committed prerender-cache/`
+  );
+  if (stale.length) {
+    console.warn(
+      `[prerender-body] ${stale.length} cached bodies are STALE (their images were rebuilt) and were skipped:`
+    );
+    stale.slice(0, 5).forEach((s) => console.warn(`[prerender-body]   ${s}`));
+    console.warn('[prerender-body] Re-run this build where Chrome exists and commit prerender-cache/.');
+  }
+  if (absent.length) {
+    console.warn(
+      `[prerender-body] ${absent.length} routes have no cached body (${absent.slice(0, 3).join(', ')})`
+    );
+  }
+
+  const shortfall = routes.length - injected;
+  process.exit(REQUIRED && shortfall ? 1 : 0);
+}
+
+// The route manifest is read BEFORE puppeteer is required: the cache fallback
+// iterates `routes`, and a missing browser must not trip over a temporal dead
+// zone on the way to handling itself.
 if (!fs.existsSync(MANIFEST)) {
   console.error('[prerender-body] .prerender-routes.json missing — prerender-meta.js must run first.');
   process.exit(1);
 }
 const { routes } = JSON.parse(fs.readFileSync(MANIFEST, 'utf8'));
+
+let puppeteer;
+try {
+  puppeteer = require('puppeteer');
+} catch (e) {
+  fallbackToCache(
+    'puppeteer is not installed',
+    'It is a devDependency, so `npm ci --omit=dev` / NODE_ENV=production skips it.'
+  );
+}
 
 /* ── static server over build/ (mirrors the .htaccess order) ─────── */
 const TYPES = {
@@ -278,7 +378,7 @@ function injectBody(routePath, bodyHtml) {
     }
   } catch (e) {
     await new Promise((r) => server.close(r));
-    degrade(
+    fallbackToCache(
       `no Chrome binary available (${e.message.split('\n')[0]})`,
       'Install it with `npx puppeteer browsers install chrome`, or set ' +
         'PUPPETEER_EXECUTABLE_PATH to an existing Chrome/Chromium.'
@@ -316,6 +416,9 @@ function injectBody(routePath, bodyHtml) {
   const record = (route, res) => {
     const injected = injectBody(route.path, res.html);
     if (!injected.ok) return injected.reason;
+    // Keep the committed cache in step with every successful capture, so a
+    // machine that has Chrome automatically refreshes what the host replays.
+    writeCache(route.path, res.html);
     succeeded.push(route.path);
     stats.push({
       path: route.path,
@@ -408,7 +511,7 @@ function injectBody(routePath, bodyHtml) {
   // "Could not find Chrome", missing shared libraries, no sandbox available —
   // all environment problems, not build problems. Degrade rather than block.
   if (/Could not find (Chrome|Chromium)|Failed to launch|error while loading shared libraries|ENOENT.*chrome/i.test(msg)) {
-    degrade(`Chrome could not start (${msg.split('\n')[0]})`,
+    fallbackToCache(`Chrome could not start (${msg.split('\n')[0]})`,
       'Shared hosting usually cannot run headless Chrome at all.');
   }
   console.error('[prerender-body] fatal:', msg);
