@@ -39,20 +39,30 @@
   RewriteRule ^index\.html$ - [L]
 
   # ── Canonical URL form: no trailing slash ─────────────────────────
-  # Each route is a directory holding index.html, so mod_dir would normally
-  # 301 /about to /about/. DirectorySlash Off (below the rewrite block) stops
-  # that, these two rules invert it, and the result is one canonical form:
+  # Each route is a directory holding index.html. DirectorySlash Off (below the
+  # rewrite block) stops mod_dir 301ing /about to /about/, and this rule serves
+  # /about straight out of about/index.html. So:
   #
-  #   /about/  -> 301 -> /about        (the slashed form redirects away)
-  #   /about          -> served from /about/index.html, no redirect
+  #   /about   -> 200, served from about/index.html
+  #   /about/  -> 200, the same file
   #
-  # Internal links, canonicals, JSON-LD and the sitemap all emit the no-slash
-  # form, so nothing on the site triggers a redirect hop.
-  RewriteRule ^(.+)/$ /$1 [R=301,L]
-
+  # BOTH forms answer 200 and NEITHER redirects. That is deliberate.
+  #
+  # There was a `RewriteRule ^(.+)/$ /$1 [R=301,L]` here to fold /about/ into
+  # /about. It caused ERR_TOO_MANY_REDIRECTS in real browsers, because a 301 is
+  # permanent and browsers cache it indefinitely: anyone who had visited while
+  # the site still 301'd /about -> /about/ had that stored, so the new reverse
+  # redirect completed a loop entirely inside their browser, with the server
+  # never involved. Purging the CDN cannot fix a redirect cached on a client.
+  #
+  # Serving both forms as 200 makes such a loop impossible in either direction,
+  # whatever any client has cached. The duplicate URL is handled the correct
+  # way instead — every page's <link rel="canonical"> names the no-slash form,
+  # and that is what the sitemap, JSON-LD and internal links all emit, so only
+  # one URL is ever advertised or indexed.
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME}/index.html -f
-  RewriteRule ^(.*)$ /$1/index.html [L]
+  RewriteRule ^(.*?)/?$ /$1/index.html [L]
 
   # @generated:spa-fallback
   # (populated at build time. This bare default serves the empty app shell —
