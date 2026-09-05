@@ -91,9 +91,11 @@ function degrade(reason, hint) {
   level(`[prerender-body] SKIPPED — ${reason}`);
   if (hint) level(`[prerender-body] ${hint}`);
   level(
-    '[prerender-body] Route HTML keeps its correct <head> (title, canonical, OG, JSON-LD)\n' +
-      '[prerender-body] but ships an empty <body> — crawlers get metadata, not page content.\n' +
-      '[prerender-body] Build where a browser exists (locally or in CI) and deploy build/.'
+    // No angle brackets: deploy-log viewers that render HTML swallow them, and
+    // this warning lost its two most important words that way.
+    '[prerender-body] Route HTML keeps its correct HEAD (title, canonical, OG, JSON-LD)\n' +
+      '[prerender-body] but ships an EMPTY BODY - crawlers get metadata, not page content.\n' +
+      '[prerender-body] Build where a browser exists (locally or in CI) and upload build/.'
   );
   process.exit(REQUIRED ? 1 : 0);
 }
