@@ -2792,7 +2792,12 @@
     overflow-x: visible;
     justify-content: flex-start;
     margin-inline: 0;
-    padding-inline: 0;
+    /* Reserved right gutter. Without it a chip is free to end one or two
+       pixels short of the container edge instead of wrapping — nothing is
+       truncated, but a pill flush against the edge of the column reads as
+       cut off. This makes the line wrap a little earlier so there is always
+       visible space after the last chip on a row. */
+    padding-inline: 0 1.25rem;
     scroll-snap-type: none;
   }
 
@@ -2805,6 +2810,9 @@
   .hero { --stage: min(86vw, 38vh, 300px); --gutter: 1.1rem; }
   .heroTitle { font-size: 1.85rem; letter-spacing: -0.025em; }
   .heroEyebrow { font-size: 0.62rem; letter-spacing: 0.2em; }
+  /* Two of the longer pairs ("Suspended" + "Slim Profile") only just fit on
+     one line down here; a size down buys them real slack. */
+  .heroSpecChip { font-size: 0.58rem; letter-spacing: 0.08em; padding: 0.4rem 0.68rem; }
   .heroDotTrack { width: 24px; }
   .engTitle { font-size: 1.75rem; }
 }
