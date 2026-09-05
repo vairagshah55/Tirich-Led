@@ -48,7 +48,12 @@ const path = require('path');
 const BUILD_DIR = path.join(__dirname, '..', 'build');
 const MANIFEST = path.join(__dirname, '..', '.prerender-routes.json');
 
-const PORT = Number(process.env.PRERENDER_PORT || 45678);
+// 0 = let the OS pick a free port. A fixed port meant a leftover process from
+// an interrupted build (or two builds running at once) failed the whole build
+// with EADDRINUSE — a local detail of this script taking the deploy down with
+// it. The real port is read back from the listening socket.
+// PRERENDER_PORT can still pin it for debugging.
+let PORT = Number(process.env.PRERENDER_PORT || 0);
 const NAV_TIMEOUT_MS = Number(process.env.PRERENDER_NAV_TIMEOUT || 30000);
 const READY_TIMEOUT_MS = Number(process.env.PRERENDER_READY_TIMEOUT || 60000);
 const CONCURRENCY = Number(process.env.PRERENDER_CONCURRENCY || 4);
@@ -362,10 +367,25 @@ function injectBody(routePath, bodyHtml) {
 /* ── run ─────────────────────────────────────────────────────────── */
 (async () => {
   const started = Date.now();
-  await new Promise((resolve, reject) => {
-    server.listen(PORT, '127.0.0.1', resolve);
-    server.on('error', reject);
-  });
+
+  // If the local server cannot start there is no way to capture anything — but
+  // that is an environment problem, not a broken build, so it degrades to the
+  // committed cache like a missing browser does instead of failing the deploy.
+  try {
+    await new Promise((resolve, reject) => {
+      server.once('error', reject);
+      server.listen(PORT, '127.0.0.1', () => {
+        server.removeListener('error', reject);
+        resolve();
+      });
+    });
+    PORT = server.address().port;
+  } catch (e) {
+    fallbackToCache(
+      `could not start the local server (${e.code || e.message})`,
+      'Another build may still be running, or the port is taken.'
+    );
+  }
 
   // Fail fast and clearly if the browser binary is absent, rather than letting
   // the error surface as 107 route failures. executablePath() is sync in some
@@ -513,6 +533,13 @@ function injectBody(routePath, bodyHtml) {
   if (/Could not find (Chrome|Chromium)|Failed to launch|error while loading shared libraries|ENOENT.*chrome/i.test(msg)) {
     fallbackToCache(`Chrome could not start (${msg.split('\n')[0]})`,
       'Shared hosting usually cannot run headless Chrome at all.');
+  }
+  // Socket/port problems are the build environment, not the site. EADDRINUSE
+  // once failed a production deploy outright, which is the wrong trade for an
+  // optimisation that has a committed cache to fall back on.
+  if (/EADDRINUSE|EACCES|EADDRNOTAVAIL|listen /i.test(msg)) {
+    fallbackToCache(`local server problem (${msg.split('\n')[0]})`,
+      'Another build may still be holding the port.');
   }
   console.error('[prerender-body] fatal:', msg);
   process.exit(1);
