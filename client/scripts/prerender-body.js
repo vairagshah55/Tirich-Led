@@ -115,6 +115,29 @@ const cacheName = (routePath) =>
 
 const cacheFile = (routePath) => path.join(CACHE_DIR, cacheName(routePath));
 
+/**
+ * All CSS this build emitted, concatenated once and reused.
+ *
+ * Backslashes are stripped: CSS Module hashes are base64, so they can contain
+ * "+" (and a leading digit), which a stylesheet escapes — `.Navbar_navCenter__1\+FRC`.
+ * The class attribute in the HTML carries the unescaped form, so the two only
+ * compare equal once the escapes are removed.
+ */
+let _css = null;
+const builtCss = () => {
+  if (_css !== null) return _css;
+  const dir = path.join(BUILD_DIR, 'static', 'css');
+  _css = fs.existsSync(dir)
+    ? fs
+        .readdirSync(dir)
+        .filter((f) => f.endsWith('.css'))
+        .map((f) => fs.readFileSync(path.join(dir, f), 'utf8'))
+        .join('\n')
+        .replace(/\\/g, '')
+    : '';
+  return _css;
+};
+
 function writeCache(routePath, bodyHtml) {
   fs.mkdirSync(CACHE_DIR, { recursive: true });
   fs.writeFileSync(cacheFile(routePath), bodyHtml, 'utf8');
@@ -139,6 +162,42 @@ function readCache(routePath) {
       [...body.matchAll(/["'(](\/static\/media\/[^"')]+)/g)].map((m) => m[1])
     ),
   ];
+  // Second staleness check: the CSS Module class names in the cached markup
+  // must exist in the CSS this build produced.
+  //
+  // A cached body captured on one machine once shipped class names the host's
+  // own CSS never defined (react-dev-utils hashed the module path, and Windows
+  // backslashes changed the hash — see scripts/patch-css-module-hash.js). Every
+  // page went out completely unstyled, and nothing caught it, because the
+  // markup and the asset URLs were all perfectly valid. Only the *pairing* was
+  // wrong. So the pairing is what gets verified.
+  const cssClasses = [
+    ...new Set(
+      [...body.matchAll(/class="([^"]+)"/g)]
+        .flatMap((m) => m[1].split(/\s+/))
+        .filter((c) => /^[A-Za-z][\w]*_[A-Za-z][\w]*__[\w+-]{4,8}$/.test(c))
+    ),
+  ].slice(0, 20); // a sample is enough; they all come from the same build
+  // Judged on the proportion that match, not on any single one.
+  //
+  // A few names legitimately have no CSS: an empty rule like `.infoCol {}`
+  // still produces a class name in the markup, but the minifier drops the rule.
+  // So "one is missing" means nothing. A hash mismatch is categorically
+  // different — essentially every name misses at once. Half is a wide margin
+  // between those two cases, and it does not depend on catching all of them.
+  if (cssClasses.length >= 4) {
+    const found = cssClasses.filter((c) => builtCss().includes(c)).length;
+    if (found / cssClasses.length < 0.5) {
+      return {
+        stale: true,
+        missing: [
+          `only ${found}/${cssClasses.length} CSS Module classes exist in this build's CSS ` +
+            `(e.g. ${cssClasses.find((c) => !builtCss().includes(c))}) — the cache was captured against different CSS`,
+        ],
+      };
+    }
+  }
+
   const missing = refs.filter(
     (r) => !fs.existsSync(path.join(BUILD_DIR, decodeURIComponent(r).replace(/^\//, '')))
   );

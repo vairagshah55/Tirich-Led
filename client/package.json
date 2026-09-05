@@ -18,10 +18,10 @@
     "react-scripts": "5.0.1"
   },
   "scripts": {
-    "postinstall": "node ./scripts/patch-react-scripts-dev-server.js",
-    "prestart": "node ./scripts/patch-react-scripts-dev-server.js",
+    "postinstall": "node ./scripts/patch-react-scripts-dev-server.js && node ./scripts/patch-css-module-hash.js",
+    "prestart": "node ./scripts/patch-react-scripts-dev-server.js && node ./scripts/patch-css-module-hash.js",
     "start": "node --no-deprecation ./node_modules/react-scripts/bin/react-scripts.js start",
-    "prebuild": "node ./scripts/generate-sitemap.js",
+    "prebuild": "node ./scripts/patch-css-module-hash.js && node ./scripts/generate-sitemap.js",
     "build": "node --no-deprecation ./node_modules/react-scripts/bin/react-scripts.js build",
     "postbuild": "node ./scripts/prerender-meta.js && node ./scripts/prerender-body.js",
     "test": "react-scripts test",
