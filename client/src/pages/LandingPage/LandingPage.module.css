@@ -874,6 +874,11 @@
   outline-offset: 3px;
 }
 
+/* Arrows beside the fixture — phone only; desktop keeps them in the controls
+   row and never renders these. */
+.stageArrowPrev,
+.stageArrowNext { display: none; }
+
 /* ── Motion budget ─────────────────────────────────────────────────── */
 /* Off-screen: park every looping animation instead of burning frames. */
 .heroIdle .stageFloat,
@@ -2700,6 +2705,35 @@
   }
   .heroCopyTop { grid-area: top; }
   .heroCopyBottom { grid-area: bottom; }
+
+  /* The controls row is a sibling of .heroInner, not one of its grid items,
+     so it can only ever land before or after the whole block — it cannot be
+     ordered between the specs and the CTAs while that grid exists. On one
+     column the grid is not doing anything a flex order cannot, so it is
+     dissolved here and .hero sequences the five blocks itself. The gutter
+     .heroInner was supplying moves up to .hero; the decorative layers are
+     absolutely positioned, which resolves against the padding box, so they
+     stay full-bleed. Desktop keeps the grid untouched. */
+  .heroInner { display: contents; }
+  .hero { padding-inline: var(--gutter); }
+
+  .heroCopyTop    { order: 1; }
+  .heroStage      { order: 2; }
+  .heroSpecs      { order: 3; }
+  .heroFooter     { order: 4; }
+  .heroCopyBottom { order: 5; }
+
+  /* .heroInner carried the width and the z-index above the room layers;
+     with no box of its own, its children carry them instead. */
+  .heroCopyTop,
+  .heroSpecs,
+  .heroFooter,
+  .heroCopyBottom {
+    align-self: stretch;
+    position: relative;
+    z-index: 2;
+  }
+  .heroStage { position: relative; z-index: 2; }
   .heroCopyBottom { padding-top: clamp(1.4rem, 4vw, 2rem); }
   .heroTitle { font-size: clamp(2.1rem, 7.4vw, 3rem); }
   .heroSubtitle { max-width: none; }
@@ -2739,7 +2773,9 @@
   .hero {
     flex-direction: column;
     justify-content: center;
-    padding-bottom: clamp(2.5rem, 6vh, 4rem);
+    /* At least the floating button's own footprint, so the row that ends this
+       section is never pressed up against it. */
+    padding-bottom: max(clamp(2.5rem, 6vh, 4rem), var(--wa-reserve, 70px));
   }
 
   /* .heroScroll is the grid's first item; with it hidden, .heroNav fell into
@@ -2751,6 +2787,7 @@
     grid-template-columns: 1fr;
     justify-items: center;
     margin-top: clamp(1.5rem, 5vw, 2.25rem);
+    padding-inline: 0;
     opacity: 1;
   }
 
@@ -2767,11 +2804,11 @@
   .heroMeta { gap: 0.85rem; margin-bottom: 1rem; }
   .heroTitle { font-size: clamp(1.95rem, 8.6vw, 2.6rem); }
   .heroRule { margin-top: 1.1rem; }
-  .heroSubtitle {
-    margin-bottom: 1.5rem;
-    font-size: 0.94rem;
-    line-height: 1.68;
-  }
+  /* The supporting line is dropped on phones: the eyebrow, the headline and
+     the spec pills already carry the slide's message, and removing it is what
+     brings the CTA up into the first screen. It stays in the markup (and so
+     in the prerendered HTML) — this is a viewport hide, not a content cut. */
+  .heroSubtitle { display: none; }
   .heroActions { flex-direction: column; align-items: stretch; width: 100%; }
   .heroBtnPrimary,
   .heroBtnGhost { width: 100%; padding: 1rem; }
@@ -2787,19 +2824,26 @@
      up at 960px has no visible affordance, so the last chip just looks cut in
      half at the screen edge — it reads as broken rather than scrollable.
      There are only four, and at this font size they fit two rows. */
+  /* Pills flow and wrap on their own content width, packed left with one
+     consistent gap. Two fixed columns were tried here to keep pill 3 out of
+     the bottom-right corner, but that is no longer the corner the WhatsApp
+     button shares with them — the arrows moved beside the fixture and the
+     numbers row is gone, so the strip now clears the button's band by 60px
+     or more — and equal columns left a dead gap between the two halves of
+     each row. */
   .heroSpecs {
     flex-wrap: wrap;
     overflow-x: visible;
     justify-content: flex-start;
     margin-inline: 0;
-    /* Reserved right gutter. Without it a chip is free to end one or two
-       pixels short of the container edge instead of wrapping — nothing is
-       truncated, but a pill flush against the edge of the column reads as
-       cut off. This makes the line wrap a little earlier so there is always
-       visible space after the last chip on a row. */
+    /* Reserved right gutter, so the last pill on a row can never end flush
+       against the column edge and read as cut off. */
     padding-inline: 0 1.25rem;
     scroll-snap-type: none;
   }
+  /* A value long enough to fill the row wraps inside its pill rather than
+     running past the edge. */
+  .heroSpecChip { white-space: normal; max-width: 100%; }
 
   .engCardBody { padding: 1.4rem 1.3rem 1.5rem; }
   .engCardMedia { aspect-ratio: 4 / 3; }
@@ -2815,6 +2859,190 @@
   .heroSpecChip { font-size: 0.58rem; letter-spacing: 0.08em; padding: 0.4rem 0.68rem; }
   .heroDotTrack { width: 24px; }
   .engTitle { font-size: 1.75rem; }
+}
+
+/* ── Phone: fit the hero to a real browser viewport ────────────────── */
+/* The breakpoints above are written against the full screen height, but a
+   real browser keeps an address bar: a 390x844 phone renders about 390x714.
+   At those heights the last thing in the hero landed on the band the fixed
+   WhatsApp button owns at the bottom of the viewport, so it sat behind the
+   button on first paint. Nothing here moves the button — it tightens the
+   hero's vertical rhythm and leans harder on the viewport-height term that
+   already sizes the fixture, so the headline, the product, the specs and the
+   slide controls fit one screen with the button clear below them. Declared
+   after the 380px block so its --stage does not win. */
+@media (max-width: 767px) {
+  .hero {
+    --stage: min(84vw, 34vh, 360px);
+    /* Clears the 68px navbar plus real breathing room — 0.75rem left the
+       brand line sitting on the navbar's bottom edge. */
+    padding-top: calc(68px + 1.5rem);
+  }
+  .heroMeta { gap: 0.6rem; margin-bottom: 0.55rem; }
+  .heroRule { margin-top: 0.7rem; }
+  .heroStage { margin: 0.7rem auto 0.3rem; }
+  .heroSpecs { padding-top: 0.4rem; }
+  .heroFooter { margin-top: clamp(0.75rem, 3vw, 1.25rem); }
+}
+
+@media (max-width: 380px) {
+  .hero { --stage: min(86vw, 32vh, 300px); }
+}
+
+/* ── Phone: the fixture slides, and the finger drives it ──────────────── */
+/*
+   Desktop cross-fades between fixtures because there is a pointer moving
+   over the stage the whole time — the carousel reads as something you are
+   already touching. A phone has neither, so the fixtures go on a horizontal
+   rail here and the swipe becomes the control: `--off` is each slide's
+   signed place on that rail (written per image in LandingPage.jsx) and
+   `--drag` the live finger offset (written on their shared parent), and the
+   one transform below composites them. Both are custom properties on
+   elements that are already composited, so a drag is one style write per
+   frame rather than a transform on every mounted slide.
+
+   The arrows this replaces stay in the markup. `.heroFooter` — which holds
+   the desktop pair — is `display: none` at this width, so deleting them
+   would leave a narrow window with no way to change slide at all; a swipe is
+   the one control a keyboard cannot perform. They are clipped out of sight
+   until focused, then land back in their old place beside the fixture:
+   `.heroStage` is the positioning context and is centred, so `50% - 50vw`
+   resolves to the viewport edge and they sit in the page gutters either
+   side of the product. Centring uses margin, not transform, so the hover
+   lift still works. */
+@media (max-width: 767px) {
+  /* Horizontal is ours, vertical stays the page's. */
+  .heroStage { touch-action: pan-y; }
+
+  .heroProduct {
+    transform:
+      translate(-50%, -50%)
+      translateX(calc(var(--off, 0) * var(--stage) * 0.92 + var(--drag, 0px)));
+    /* Quicker than the 1s cross-fade it replaces: a slide that outlasts the
+       gesture that started it feels detached from the finger. */
+    transition:
+      opacity 0.5s var(--ease-out),
+      transform 0.5s var(--ease-out);
+  }
+
+  /* Mid-drag the rail has to track the finger frame for frame, so the
+     transform loses its transition; only the neighbours' fade keeps one, and
+     a short one, so they arrive rather than pop. */
+  .stageDragging .heroProduct {
+    opacity: var(--near, 0);
+    transition: opacity 0.22s linear;
+  }
+
+  .stageArrowPrev,
+  .stageArrowNext {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    z-index: 3;
+
+    /* Out of sight, still in the tab order. */
+    clip-path: inset(50%);
+    opacity: 0;
+    pointer-events: none;
+
+    /* Flat white on a near-white wall gave them almost no edge. Frosted glass
+       is the language the navbar and the spec pills already use here: a
+       translucent disc that picks up the warm light behind it, a hairline
+       ring, a lifted shadow and an inner highlight along the top so it reads
+       as a physical object rather than a drawn circle. */
+    width: 46px;
+    height: 46px;
+    margin-top: -23px;
+    border: 0;
+    /* Lit from above like the fixture it sits beside: a top-to-bottom wash
+       from pure white into the wall's warm grey, over the blurred backdrop.
+       The edge comes from the shadow stack rather than a drawn border — a
+       1px hairline against a near-white wall just looked like a sticker. */
+    background:
+      linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.82) 100%);
+    -webkit-backdrop-filter: blur(16px) saturate(1.6);
+    backdrop-filter: blur(16px) saturate(1.6);
+    box-shadow:
+      0 0 0 1px rgba(21, 21, 21, 0.045),
+      0 2px 4px rgba(21, 21, 21, 0.05),
+      0 12px 30px -6px rgba(21, 21, 21, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 1),
+      inset 0 -1px 0 rgba(21, 21, 21, 0.03);
+    transition:
+      transform 0.2s var(--ease-out),
+      background 0.2s ease,
+      color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  /* The chevron carried a 16px/2px stroke tuned for the desktop controls row;
+     at this diameter it looked thin. */
+  .stageArrowPrev svg,
+  .stageArrowNext svg {
+    width: 18px;
+    height: 18px;
+    stroke-width: 2.2;
+  }
+  .stageArrowPrev:focus-visible,
+  .stageArrowNext:focus-visible {
+    clip-path: none;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  /* Reached by keyboard now rather than by finger, so this fires on the
+     Enter/Space press — it warms to the brand accent and dips, which is the
+     only confirmation the key registered. */
+  .stageArrowPrev:active,
+  .stageArrowNext:active {
+    transform: scale(0.9);
+    background: #FFFFFF;
+    color: var(--brand-orange);
+    box-shadow:
+      0 0 0 1px rgba(255, 157, 28, 0.35),
+      0 2px 4px rgba(21, 21, 21, 0.06),
+      0 6px 18px -2px rgba(255, 157, 28, 0.3);
+  }
+  .stageArrowPrev { left: calc(50% - 50vw + var(--gutter)); }
+  .stageArrowNext { right: calc(50% - 50vw + var(--gutter)); }
+
+  /* The controls row is the last thing in the hero, which puts it in the band
+     the fixed WhatsApp button owns at the bottom of the viewport — a 38px
+     circular control losing its right half there is a dead tap target. What
+     it carries is redundant here anyway: the swipe drives the carousel and
+     the "01 / 05" counter in the hero meta reports where it is. Dropping the
+     row also takes ~66px out of the hero, which is what lets the CTAs sit
+     clear of the button. 768-960px keeps it — the arrows still live there. */
+  .heroFooter { display: none; }
+}
+
+/* Reduced motion: the swipe still steps the carousel, but the rail collapses
+   back to a cross-fade in place. `--drag` keeps being written and is simply
+   not read, so the gesture needs no branch of its own. */
+@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+  .heroProduct,
+  .stageDragging .heroProduct {
+    transform: translate(-50%, -50%);
+    transition: opacity 0.5s var(--ease-out);
+  }
+  /* No rail means no neighbour to drag into view — and with every fixture
+     parked on the same centre, painting them would stack three on top of
+     each other. Only the active one shows, drag or no drag. */
+  .stageDragging .heroProduct { opacity: 0; }
+  .stageDragging .heroProductActive { opacity: 1; }
+}
+
+/* Short viewport (a 4.7in phone with its address bar is only ~660-750px tall):
+   the same rhythm, squeezed one more step. */
+@media (max-width: 767px) and (max-height: 760px) {
+  .hero {
+    --stage: min(84vw, 29vh, 360px);
+    padding-top: calc(68px + 1rem);
+  }
+  .heroMeta { margin-bottom: 0.35rem; }
+  .heroRule { margin-top: 0.4rem; }
+}
+
+@media (max-width: 380px) and (max-height: 760px) {
+  .hero { --stage: min(86vw, 27vh, 300px); }
 }
 
 /* Touch devices get no pointer parallax — park the transforms. */

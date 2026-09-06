@@ -449,5 +449,15 @@
   .cardTitle { font-size: 1.05rem; }
   .tabs { border-radius: 10px; }
   .tab { padding: 0.55rem 0.35rem; }
-  .tabLabel { font-size: 0.6rem; letter-spacing: 0.04em; }
+  .tabLabel { font-size: 0.72rem; letter-spacing: 0.03em; }
+}
+
+/* Readable floor on phones. These labels are set small on purpose — they are
+   uppercase, letter-spaced captions — but 0.52-0.58rem lands at 8.3-9.3px on
+   a phone, under the ~11px where letter-spaced caps stop being legible at
+   arm's length. Desktop keeps the original sizes. */
+@media (max-width: 700px) {
+  .tabNum { font-size: 0.68rem; }
+  .cardTag { font-size: 0.7rem; letter-spacing: 0.08em; }
+  .floatingTag { font-size: 0.68rem; letter-spacing: 0.08em; }
 }

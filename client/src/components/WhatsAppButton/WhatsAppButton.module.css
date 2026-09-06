@@ -1,8 +1,12 @@
 /* ── WhatsApp floating button ────────────────────────────────────── */
 .btn {
   position: fixed;
-  bottom: 1.75rem;
-  right: 1.75rem;
+  /* Geometry comes from the --wa-* tokens in index.css so content that has to
+     stay clear of this button can reserve exactly the right amount of space.
+     env() keeps it above the home indicator on notched phones; max() means it
+     never sits closer to the edge than the design inset elsewhere. */
+  bottom: max(var(--wa-inset, 1.75rem), env(safe-area-inset-bottom, 0px));
+  right: max(var(--wa-inset, 1.75rem), env(safe-area-inset-right, 0px));
   z-index: 999;
 
   display: flex;
@@ -28,8 +32,11 @@
 }
 
 /* Expand label on hover */
+/* A fixed element is not constrained by the viewport, so the expanded width is
+   capped against it — the pill can never reach past the opposite gutter and
+   introduce a horizontal scrollbar. The collapsed 52px above needs no cap. */
 .btn:hover {
-  max-width: 200px;
+  max-width: min(200px, calc(100vw - 2 * var(--wa-inset, 1.75rem)));
   padding: 0.7rem 1.25rem 0.7rem 0.85rem;
   box-shadow: 0 6px 28px rgba(37, 211, 102, 0.55);
   transform: translateY(-2px);
@@ -80,12 +87,11 @@
      the pill was 147px wide and sat on top of the hero content in the
      bottom-right. Tightening the padding, label size and gap brings it to
      roughly 115px while keeping a 44px touch target. */
-  .btn {
-    max-width: 200px;
+  .btn,
+  .btn:hover {
+    max-width: min(200px, calc(100vw - 2 * var(--wa-inset, 1rem)));
     padding: 0.55rem 0.85rem 0.55rem 0.6rem;
     gap: 0.45rem;
-    bottom: 1rem;
-    right: 1rem;
   }
   .label {
     opacity: 1;
@@ -96,4 +102,29 @@
     width: 24px;
     height: 24px;
   }
+}
+
+/* Very small phones: the pill was 135px of a 320px viewport — 42% of the
+   width for a secondary action. A step down in type and padding brings it to
+   about a third without dropping below the 44px touch target. */
+@media (max-width: 359px) {
+  .btn,
+  .btn:hover {
+    padding: 0.5rem 0.7rem 0.5rem 0.55rem;
+    gap: 0.35rem;
+  }
+  .label { font-size: 0.7rem; letter-spacing: 0.02em; }
+  .icon { width: 21px; height: 21px; }
+}
+
+/* The mobile nav drawer is a full-screen panel at z-index 180; this button
+   sits at 999, so it floated on top of the open menu. The navbar flags the
+   body while the drawer is open. */
+/* `visibility`, not `opacity`: motion/react writes opacity into the inline
+   style for the entry and float animations, and an inline style beats a
+   stylesheet rule. visibility also drops it out of the accessibility tree,
+   which is what we want while a modal drawer is up. */
+:global(body[data-nav-open]) .btn {
+  visibility: hidden;
+  pointer-events: none;
 }

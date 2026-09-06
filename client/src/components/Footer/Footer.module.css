@@ -162,6 +162,26 @@
 @media (max-width: 480px) {
   .footerTop { padding: 2rem 1.25rem; }
   .footerBottom { padding: 1rem 1.25rem; }
+}
+
+/* The floating WhatsApp button is `position: fixed`, so at the very bottom of
+   the document there is no scroll left to move content out from under it — it
+   was permanently covering the copyright line and the Terms link. This is the
+   last block on the page, so it is where the button's footprint is reserved.
+   --wa-reserve is derived from the button's own inset and height, not a
+   guessed pixel value. */
+@media (max-width: 600px) {
+  .footerBottom { padding-bottom: calc(1rem + var(--wa-reserve, 82px)); }
+}
+
+/* Same bug above 600px, where the button collapses to a 52px icon in the
+   corner. There it only needs clearing horizontally, which leaves the bar's
+   height — and so the look of the page — unchanged. */
+@media (min-width: 601px) {
+  .footerBottom { padding-right: calc(var(--wa-inset) + 52px + 1.5rem); }
+}
+
+@media (max-width: 480px) {
   .footerSocialLink { width: 44px; height: 44px; }
   .footerNavCol a { min-height: 36px; display: flex; align-items: center; }
 }
@@ -178,4 +198,10 @@
 .footerLegalPending {
   color: rgba(21, 21, 21, 0.3);
   font-size: 0.72rem;
+}
+
+/* Column headings resolved to 9.9px on a phone — under the readable floor for
+   letter-spaced caps. Desktop keeps its size. */
+@media (max-width: 700px) {
+  .footerNavHead { font-size: 0.7rem; letter-spacing: 0.1em; }
 }

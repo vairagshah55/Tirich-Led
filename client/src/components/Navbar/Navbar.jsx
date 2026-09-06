@@ -74,6 +74,30 @@ export default function Navbar() {
     setMobileProdOpen(false);
   }, [pathname]);
 
+  // The mobile drawer is a fixed, full-width panel, so without this the page
+  // behind it still scrolls under the finger — you close the menu and find
+  // yourself somewhere else on the page. Locking the body while it is open
+  // keeps the scroll position; the padding compensates for a scrollbar
+  // disappearing on the desktop widths where one exists.
+  useEffect(() => {
+    if (!mobileOpen || typeof document === 'undefined') return undefined;
+    const { body } = document;
+    const prevOverflow = body.style.overflow;
+    const prevPadding = body.style.paddingRight;
+    const gap = window.innerWidth - document.documentElement.clientWidth;
+    body.style.overflow = 'hidden';
+    if (gap > 0) body.style.paddingRight = `${gap}px`;
+    // Flag on the body so the floating WhatsApp button — a sibling of the
+    // navbar with a higher z-index, and no shared state with it — can take
+    // itself out of the way while the drawer is open.
+    body.dataset.navOpen = 'true';
+    return () => {
+      body.style.overflow = prevOverflow;
+      body.style.paddingRight = prevPadding;
+      delete body.dataset.navOpen;
+    };
+  }, [mobileOpen]);
+
   const goToSection = useCallback(
     (id) => (e) => {
       e.preventDefault();

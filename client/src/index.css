@@ -63,6 +63,24 @@
 
   /* Shared easing — Apple-ish decelerate */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* ── Floating WhatsApp button geometry ──────────────────────── */
+  /* The button is `position: fixed`, so it sits outside the flow and can
+     cover whatever happens to be at the bottom of the document. These
+     tokens are the single source of truth for its footprint: the button
+     positions itself from them, and content that must stay clear of it
+     reserves --wa-reserve rather than hard-coding a pixel guess.
+     Mobile values; the desktop step follows. */
+  --wa-inset: 1rem;
+  --wa-height: 42px;
+  --wa-reserve: calc(var(--wa-inset) + var(--wa-height) + 0.75rem);
+}
+
+@media (min-width: 601px) {
+  :root {
+    --wa-inset: 1.75rem;
+    --wa-height: 52px;
+  }
 }
 
 body {

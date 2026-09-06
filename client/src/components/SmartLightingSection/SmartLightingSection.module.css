@@ -707,11 +707,30 @@
   .section      { padding: 2.75rem 0.9rem 1.5rem; }
   .title        { font-size: 1.5rem; }
   .statVal      { font-size: 1rem; }
-  .statLabel    { font-size: 0.46rem; }
+  .statLabel    { font-size: 0.66rem; }
   .statBox      { padding: 0.62rem 0.3rem; }
   .segBtn       { font-size: 0.66rem; min-height: 46px; }
   .segPill      { border-radius: 9px; }
   .roomCard     { aspect-ratio: 4 / 3; }
   .subCardImgWrap { height: 92px; }
   .modeStats    { grid-template-columns: 1fr; }
+}
+
+/* Readable floor on phones. These captions are deliberately small — uppercase
+   and letter-spaced — but they were resolving to 8-9.6px here, under the
+   ~11px where letter-spaced caps stop being legible at arm's length. One of
+   them (.statLabel at the 400px step) was 7.4px. Desktop sizes are unchanged;
+   this block is last so it wins over the 700px and 400px steps above. */
+@media (max-width: 700px) {
+  .statLabel,
+  .modeChip,
+  .modeEyebrow,
+  .modeStatLabel,
+  .livePanelEye,
+  .livePanelChip,
+  .subCardTag,
+  .roomBadge {
+    font-size: 0.68rem;
+    letter-spacing: 0.07em;
+  }
 }

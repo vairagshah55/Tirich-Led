@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
+import { Fragment, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'motion/react';
 import Navbar from '../../components/Navbar/Navbar';
@@ -146,6 +146,18 @@ const HERO_SLIDES = [
 // duration in LandingPage.module.css, or the progress line desyncs.
 const SLIDE_MS = 7000;
 
+// Where slide `i` sits on the rail relative to the active one, wrapped the
+// short way round so 05 → 01 travels forward like every other step instead
+// of rewinding past the middle four.
+const slideOffset = (i, active, n) => {
+  const d = (((i - active) % n) + n) % n;
+  return d > n / 2 ? d - n : d;
+};
+
+// The swipe belongs to the phone layout only — at 768px and up the arrows
+// are back in the controls row and the fixtures cross-fade in place.
+const SWIPE_QUERY = '(max-width: 767px)';
+
 const PREFERS_REDUCED_MOTION = prefersReducedMotion();
 
 // ── Below the fold: four engineering claims, one fixture each ─────
@@ -242,6 +254,11 @@ export default function LandingPage() {
   // Is the hero on screen? Gates the carousel timer, the scroll listener
   // and (via .heroIdle) every looping CSS animation inside it.
   const [heroLive, setHeroLive] = useState(true);
+  // Phone swipe — see "4b. Phone: swipe the stage" below. Declared up here
+  // because the carousel timer holds while `dragging` is true.
+  const stageFloatRef = useRef(null);
+  const dragRef = useRef({ id: null, x0: 0, y0: 0, axis: null, dx: 0 });
+  const [dragging, setDragging] = useState(false);
 
   // Trigger the catalogue PDF download
   const downloadCatalogue = useCallback(() => {
@@ -372,16 +389,84 @@ export default function LandingPage() {
   useEffect(() => {
     // Frozen during pre-render so the captured HTML is slide 0 — the same
     // thing React renders first on the client, so hydration matches.
-    if (!heroLive || PREFERS_REDUCED_MOTION || isPrerendering()) return undefined;
+    // Held during a swipe too — a slide that advances under the finger
+    // moves the rail out from under the drag it is already tracking.
+    if (!heroLive || dragging || PREFERS_REDUCED_MOTION || isPrerendering()) return undefined;
     const timer = setTimeout(() => {
       setActiveVidIdx((prev) => (prev + 1) % HERO_SLIDES.length);
     }, SLIDE_MS);
     return () => clearTimeout(timer);
-  }, [activeVidIdx, heroLive]);
+  }, [activeVidIdx, heroLive, dragging]);
 
   const stepSlide = useCallback((delta) => {
     setActiveVidIdx((i) => (i + delta + HERO_SLIDES.length) % HERO_SLIDES.length);
   }, []);
+
+  // ── 4b. Phone: swipe the stage ───────────────────────────────
+  //
+  // A phone has no pointer to steer the fixture with, so on that layout the
+  // drag itself becomes the control and the arrows step aside. The fixtures
+  // are laid out on a horizontal rail: `--off` is each slide's place on it
+  // (written per image) and `--drag` the live finger offset (written here,
+  // on their shared parent). CSS composites the two into one transform, so a
+  // drag costs a single style write per frame no matter how many slides are
+  // mounted.
+  const setDragVar = useCallback((px) => {
+    stageFloatRef.current?.style.setProperty('--drag', `${px}px`);
+  }, []);
+
+  const onStagePointerDown = useCallback((e) => {
+    if (e.pointerType !== 'touch' || !window.matchMedia(SWIPE_QUERY).matches) return;
+    dragRef.current = { id: e.pointerId, x0: e.clientX, y0: e.clientY, axis: null, dx: 0 };
+  }, []);
+
+  const onStagePointerMove = useCallback((e) => {
+    const d = dragRef.current;
+    if (d.id !== e.pointerId) return;
+
+    const dx = e.clientX - d.x0;
+    const dy = e.clientY - d.y0;
+
+    // Lock the axis on the first 10px and never revisit it. Ties go to the
+    // page: a missed swipe costs one more try, a hero that swallows vertical
+    // scroll strands the visitor on the first screen.
+    if (!d.axis) {
+      if (Math.abs(dx) < 10 && Math.abs(dy) < 10) return;
+      if (Math.abs(dx) <= Math.abs(dy)) {
+        d.id = null;
+        return;
+      }
+      d.axis = 'x';
+      e.currentTarget.setPointerCapture?.(e.pointerId);
+      setDragging(true);
+    }
+
+    // Past one stage width there is nothing further to reveal, and a fixture
+    // pulled off screen reads as broken rather than draggable.
+    const span = e.currentTarget.offsetWidth || 320;
+    d.dx = Math.max(-span, Math.min(span, dx));
+    setDragVar(d.dx);
+  }, [setDragVar]);
+
+  const onStagePointerUp = useCallback((e) => {
+    const d = dragRef.current;
+    if (d.id !== e.pointerId) return;
+
+    const { axis, dx } = d;
+    dragRef.current = { id: null, x0: 0, y0: 0, axis: null, dx: 0 };
+    if (axis !== 'x') return;
+
+    // Both of these land in one commit, and the layout effect below clears
+    // --drag inside it — so the fixture makes a single continuous move to
+    // its new place instead of springing back and then stepping.
+    setDragging(false);
+    const span = e.currentTarget.offsetWidth || 320;
+    if (Math.abs(dx) > Math.min(72, span * 0.2)) stepSlide(dx < 0 ? 1 : -1);
+  }, [stepSlide]);
+
+  useLayoutEffect(() => {
+    if (!dragging) setDragVar(0);
+  }, [dragging, activeVidIdx, setDragVar]);
 
   // Keep one fixture in the critical path and fetch the other four when the
   // browser is idle — they aren't needed until the first slide change.
@@ -442,8 +527,24 @@ export default function LandingPage() {
   // The product leads the transition and the copy follows it, so the two
   // read from different indices: `liveSlide` is the fixture currently
   // cross-fading in, `copySlide` is the text mid-swap behind it.
+  // One chevron definition shared by the two arrow slots below (beside the
+  // fixture on a phone, in the controls row on desktop). Only one slot is
+  // ever rendered — the other is display:none, so it is out of the
+  // accessibility tree and cannot be focused.
+  const chevron = (dir) => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <polyline points={dir < 0 ? '15 18 9 12 15 6' : '9 18 15 12 9 6'} />
+    </svg>
+  );
+
   const liveSlide = HERO_SLIDES[activeVidIdx];
   const copySlide = HERO_SLIDES[displaySlide];
+
+  // Chips are driven by the slide's `specs`; tolerate a slide carrying none,
+  // a short list, a long one, or blank entries rather than assuming four.
+  const copySpecs = Array.isArray(copySlide.specs)
+    ? copySlide.specs.filter((v) => typeof v === 'string' && v.trim())
+    : [];
 
   return (
     <div className={styles.page}>
@@ -562,6 +663,10 @@ export default function LandingPage() {
           <div
             className={styles.heroStage}
             style={{ '--shW': liveSlide.shadowW, '--shY': liveSlide.shadowY }}
+            onPointerDown={onStagePointerDown}
+            onPointerMove={onStagePointerMove}
+            onPointerUp={onStagePointerUp}
+            onPointerCancel={onStagePointerUp}
           >
             {/* White core erases the wall's grey (reads as "lit"); the amber
                 ring on top of it warms that core to lamp colour. */}
@@ -569,27 +674,53 @@ export default function LandingPage() {
             <div className={styles.stagePool} aria-hidden="true" />
             <div className={styles.stageAuraWarm} aria-hidden="true" />
 
+            <button
+              type="button"
+              className={`${styles.heroArrow} ${styles.stageArrowPrev}`}
+              onClick={() => stepSlide(-1)}
+              aria-label="Previous product"
+            >
+              {chevron(-1)}
+            </button>
+            <button
+              type="button"
+              className={`${styles.heroArrow} ${styles.stageArrowNext}`}
+              onClick={() => stepSlide(1)}
+              aria-label="Next product"
+            >
+              {chevron(1)}
+            </button>
+
             <div className={styles.stageScroll}>
               <div className={styles.stageShadow} aria-hidden="true" />
               <div className={styles.stageShadowCore} aria-hidden="true" />
 
               <div className={styles.stageParallax}>
                 <div className={styles.stageTilt}>
-                  <div className={styles.stageFloat}>
-                    {HERO_SLIDES.slice(0, mountedSlides).map((slide, i) => (
-                      <img
-                        key={slide.image}
-                        className={`${styles.heroProduct}${i === activeVidIdx ? ` ${styles.heroProductActive}` : ''}`}
-                        style={{ width: slide.width }}
-                        src={slide.image}
-                        alt={`${slide.tag} — Tirich LED`}
-                        width="1400"
-                        height="1400"
-                        decoding="async"
-                        loading={i === 0 ? 'eager' : 'lazy'}
-                        fetchpriority={i === 0 ? 'high' : 'low'}
-                      />
-                    ))}
+                  <div
+                    ref={stageFloatRef}
+                    className={`${styles.stageFloat}${dragging ? ` ${styles.stageDragging}` : ''}`}
+                  >
+                    {HERO_SLIDES.slice(0, mountedSlides).map((slide, i) => {
+                      const off = slideOffset(i, activeVidIdx, HERO_SLIDES.length);
+                      return (
+                        <img
+                          key={slide.image}
+                          className={`${styles.heroProduct}${i === activeVidIdx ? ` ${styles.heroProductActive}` : ''}`}
+                          /* --near keeps the two neighbours paintable while a
+                             drag is in flight; anything further out stays at
+                             zero so it cannot flash across the hero. */
+                          style={{ width: slide.width, '--off': off, '--near': Math.abs(off) <= 1 ? 1 : 0 }}
+                          src={slide.image}
+                          alt={`${slide.tag} — Tirich LED`}
+                          width="1400"
+                          height="1400"
+                          decoding="async"
+                          loading={i === 0 ? 'eager' : 'lazy'}
+                          fetchpriority={i === 0 ? 'high' : 'low'}
+                        />
+                      );
+                    })}
                   </div>
                 </div>
               </div>
@@ -597,8 +728,8 @@ export default function LandingPage() {
           </div>
 
           {/* ── Specification pills (re-keyed so they re-stagger per slide) ── */}
-          <div className={styles.heroSpecs} key={displaySlide}>
-            {copySlide.specs.map((spec, i) => (
+          <div className={styles.heroSpecs} key={displaySlide} hidden={!copySpecs.length}>
+            {copySpecs.map((spec, i) => (
               <span
                 key={spec}
                 className={styles.heroSpecChip}
@@ -625,7 +756,7 @@ export default function LandingPage() {
               onClick={() => stepSlide(-1)}
               aria-label="Previous product"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6" /></svg>
+              {chevron(-1)}
             </button>
 
             <div className={styles.heroDots} aria-label="Featured products">
@@ -655,7 +786,7 @@ export default function LandingPage() {
               onClick={() => stepSlide(1)}
               aria-label="Next product"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6" /></svg>
+              {chevron(1)}
             </button>
           </div>
 

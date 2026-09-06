@@ -286,9 +286,9 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  background: rgba(255, 157, 28, 0.06);
-  border: 1px solid rgba(255, 157, 28, 0.2);
-  border-radius: 5px;
+  background: rgba(21, 21, 21, 0.035);
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
   padding: 0.75rem 0.9rem;
   margin-bottom: 1rem;
   color: var(--nav-text);
@@ -641,9 +641,15 @@
   right: 0;
   bottom: 0;
   z-index: 180;
-  background: var(--nav-bg);
-  backdrop-filter: blur(28px) saturate(1.5);
-  -webkit-backdrop-filter: blur(28px) saturate(1.5);
+  /* Was --nav-bg (white at 0.88) over a 28px backdrop blur. The panel covers
+     the whole viewport below the navbar, so there is nothing worth showing
+     through it — and the hero product behind it came through as a grey smudge
+     under the menu items. Opaque, with a hairline seam under the navbar and a
+     soft cast so it still reads as a layer above the page. */
+  background: #FFFFFF;
+  box-shadow:
+    inset 0 1px 0 var(--line-faint),
+    0 24px 60px -24px rgba(21, 21, 21, 0.2);
   overflow-y: auto;
   padding: 1.75rem 1.75rem 3rem;
   display: flex;
@@ -660,7 +666,7 @@
   letter-spacing: 0.07em;
   text-transform: uppercase;
   padding: 1rem 0;
-  border-bottom: 1px solid rgba(255, 157, 28, 0.1);
+  border-bottom: 1px solid var(--line-faint);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -675,6 +681,9 @@
   text-align: left;
 }
 
+/* The last item in the list had a rule under it separating it from nothing. */
+.mobileLink:last-of-type { border-bottom: none; }
+
 .mobileLink:hover {
   color: var(--clr-accent-text);
   padding-left: 0.5rem;
@@ -686,7 +695,7 @@
   margin: 0.25rem 0 0.75rem 0;
   padding: 0;
   list-style: none;
-  border-left: 1.5px solid rgba(255, 157, 28, 0.2);
+  border-left: 1.5px solid var(--line-soft);
   margin-left: 0.5rem;
 }
 
@@ -711,7 +720,7 @@
   align-items: center;
   gap: 0.55rem;
   padding: 0.8rem 0 1rem;
-  border-bottom: 1px solid rgba(255, 157, 28, 0.15);
+  border-bottom: 1px solid var(--line-soft);
   margin-bottom: 0.25rem;
 }
 
@@ -723,7 +732,7 @@
 
 .mobileDivider {
   height: 1px;
-  background: rgba(255, 157, 28, 0.1);
+  background: var(--line-faint);
   margin: 0.75rem 0;
 }
 
