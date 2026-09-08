@@ -154,9 +154,9 @@ export default function AboutPage() {
   return (
     <div className={styles.page}>
       <Seo
-        title="About Us"
+        title="About Us — LED Light Manufacturer in Surat"
         path="/about"
-        description="Tirich LED designs and manufactures precision LED lighting — engineered for architects, designers and contractors across India."
+        description="Tirich LED is an LED light manufacturer in Surat, Gujarat, building precision LED fixtures for architects, designers and contractors across India."
         jsonLd={[
           {
             '@context': 'https://schema.org',

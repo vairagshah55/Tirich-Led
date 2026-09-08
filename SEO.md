@@ -89,6 +89,102 @@ Check off items as you go.
   product cards and related-product cards; `fetchpriority="high"` on the nav
   logo. Unused `web-vitals` dependency removed; stale `client/robots.txt` deleted.
 
+**Audit pass 3 — keyword targeting for "LED light manufacturer in Surat / India" (this commit):**
+- **The homepage was not aimed at the query it needs to win.** Title and H1 were
+  both "Tirich LED — Precision LED Lighting": no *manufacturer*, no *Surat*, no
+  *India*. A page cannot rank for a phrase it never uses. Now:
+  - `<title>` → **"LED Light Manufacturer in Surat, India | Tirich LED"** (51 chars,
+    phrase first, brand last).
+  - `<h1>` → **"Tirich LED — LED Light Manufacturer in Surat, India"**. The H1 is
+    the deliberately *stable* line (the rotating carousel headline is an `<h2>`),
+    which is exactly why it is the right place for the phrase. Costs one extra
+    wrapped line (+19px) on phones; the CTA still lands in the first screen at
+    390×844 and 360×740, and 320px viewports were already two lines.
+  - Meta description leads with "an LED light manufacturer in Surat, India".
+- **`HOME_TITLE` / `HOME_DESCRIPTION` are now single-sourced** in
+  `src/config/seo.js` + `scripts/seo-shared.js`. Three places had to agree —
+  `<Seo>`'s defaults, the pre-rendered `<head>`, and the fallback tags in
+  `public/index.html` — and previously all three held their own copy of the
+  string.
+- **Second and third pages now target the phrase too**, so the site does not
+  rest on one URL: `/about` → "About Us — LED Light Manufacturer in Surat",
+  `/products` → "All LED Lights & Fixtures" (was "All Products", which named
+  neither a product nor a category).
+- **Every product page now asserts who manufactures it.** `Product.manufacturer`
+  added on both render paths (94 pre-rendered product pages + runtime), written
+  as a full Organization node rather than a bare `@id`, since the Organization
+  node itself is only emitted on the homepage.
+- **Organization schema fleshed out** for entity understanding: `description`,
+  `foundingDate: 2021` (from the About page's own copy), `areaServed: India`,
+  and `knowsAbout` for the seven product families. Still no invented facts.
+- **Duplicate `<head>` tags after hydration — FIXED (pre-existing bug, found
+  while verifying the above).** The pre-rendered `<head>` was correct in the
+  shipped bytes (one canonical, one description per file, which is all the
+  audit checked), but `prerender-meta.js` never marked its tags with `data-rh`.
+  react-helmet-async only reconciles tags carrying that attribute, so on
+  hydration it left the pre-rendered ones in place and appended its own:
+  **every route served a JS-executing crawler two canonicals, two descriptions
+  and a duplicate set of og:/twitter:/JSON-LD tags.** Google executes JS, so
+  this was undercutting the canonical consolidation the rest of the file is
+  built around. The pre-renderer now marks exactly the tags `<Seo>` re-emits —
+  `og:image:width`/`height` stay unmarked, since a marked tag Helmet does not
+  render is deleted on hydration with nothing put back. Verified in headless
+  Chrome across `/`, `/about`, `/products`, a product page and a category page:
+  1 canonical and 1 description each before *and* after hydration, JSON-LD
+  steady at 2 (was 2 → 4).
+- `scripts/seo-audit.js` keys on tag shape, so its extractors now tolerate the
+  new attribute — without that it reported "unique canonicals 1" for the whole
+  site, a broken matcher rather than a broken site.
+
+**Audit pass 4 — every-page 404, and two render paths that disagreed:**
+
+Found by diffing the pre-rendered `<head>` against the same page *after*
+hydration, across every route type. Each file passed every per-file check on its
+own; the bugs were all in the gap between the two render paths, which nothing
+was comparing.
+
+- **`/products/category/magnetic-track` was linked from all 107 pages and
+  answered 404.** `src/data/products.js` re-files 14 magnetic fittings out of
+  Track Lights *after* the array literal (`MAGNETIC_SLUGS`), so their own
+  `category:` / `categorySlug:` lines still read "Track Lights".
+  `parseCatalogue()` in `scripts/seo-shared.js` reads the file as text and never
+  reproduced that pass, so the build did not know the category existed: **no
+  pre-rendered file, no sitemap entry** — while the footer of every page, the
+  `/products` filter chips and 14 product breadcrumbs all linked to it, and the
+  SPA-fallback allowlist covers only the four client-only routes. Fixed in
+  `parseCatalogue`, which now applies the split and reads the replacement
+  label/slug back out of the loop so a rename cannot desync it again. The build
+  goes 107 → **108 routes, 9 categories**; those 14 products' `Product.category`
+  and breadcrumbs now match the app, and the track-lights `ItemList` no longer
+  claims 14 products its own visible body never listed.
+- **`/products/category/panel-lights` answered 404 too, from 18 pages.**
+  `panel-lights` is commented out of `ALL_CATEGORIES` but nine published
+  products are still filed under it. `parseCatalogue`'s own comment asserted
+  "nothing in the nav, footer or filter chips points at it — an orphan by
+  construction"; that was true of those three, and missed
+  `ProductDetailPage`, which built both the breadcrumb and the "View All"
+  related-products link from `product.categorySlug` unconditionally. Both now
+  fall back to `/products` when the category is not served, on the runtime and
+  pre-rendered paths alike, so the trail reads Home / Products / PRO-130 rather
+  than linking a dead category.
+- **94 product pages shipped two different meta descriptions.** The
+  pre-renderer built "`<tagline>`. `<name>` — premium LED `<category>` from
+  Tirich LED."; `ProductDetailPage` built "`<tagline>` — `<description>`",
+  which clamping then cut mid-word. Non-JS crawlers got the tidy one, Google's
+  renderer replaced it with the truncation. Now one `productSeoDescription()`
+  in `src/config/seo.js` + `scripts/seo-shared.js`, imported by both.
+- **All 8 category pages disagreed on `og:image`** — the pre-renderer used the
+  category's first fixture, `<Seo>` fell back to the generic share card.
+  `ProductsPage` now passes the same image.
+- **New audit check: "every internal link in a pre-rendered body resolves to a
+  served route."** The bodies are captured from the running app, so this is the
+  one check that spans both paths — it is what caught both 404s, and it would
+  have caught them years earlier. File-backed hrefs (the catalogue PDF) and the
+  SPA-fallback routes are allowed.
+- Audit: **75/77 passing**, 108 unique titles / descriptions / canonicals,
+  216 JSON-LD blocks, 0 invalid. Verified in headless Chrome: no static/hydrated
+  head differences across 14 routes covering every page type.
+
 **Frontend power-ups (earlier pass):**
 - **Clean category landing pages** — real `/products/category/:slug` routes
   (`App.js`), each with a keyword H1 + intro copy, `CollectionPage` + `ItemList`
@@ -115,7 +211,16 @@ Check off items as you go.
 - Phase 5 — Create a real `1200×630` `public/og-default.jpg` and point `<Seo>` at
   it (currently the non-product fallback is `logo.png`).
 - Phase 7 — Google Search Console / Bing / GA4 / Google Business Profile.
-- `LocalBusiness` / geo schema — deferred (needs showroom address, hours, socials).
+- **`LocalBusiness` / geo schema — still the biggest missing on-page lever for
+  "in Surat" queries.** Blocked on facts that must not be invented: street
+  address, pincode, opening hours, and the Google Maps place URL. Once supplied,
+  `organizationLd` becomes `@type: ['Organization', 'LocalBusiness']` with a full
+  `PostalAddress` + `geo` + `openingHoursSpecification` + `hasMap`.
+- **Off-page is what actually decides local ranking** and none of it is code: a
+  verified Google Business Profile at the Udhna address (primary category
+  "LED light manufacturer"), review volume, and consistent name/address/phone
+  citations on IndiaMART, JustDial and TradeIndia. On-page work above makes the
+  site *eligible*; these are what move it up.
 - Phase 9/10 — Content, keyword mapping, ongoing measurement.
 - Optional: full-body pre-render (react-snap / SSR / Next.js) if you later want the
   visible copy — not just meta — in the initial HTML. See Phase 2.2/2.5 below.

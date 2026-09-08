@@ -13,8 +13,15 @@ const SITE_URL = 'https://tirichled.com';
 const SITE_NAME = 'Tirich LED';
 const DEFAULT_IMAGE = `${SITE_URL}/og-default.jpg`;
 
-const DEFAULT_DESCRIPTION =
-  'Tirich LED — precision LED lighting made in Surat. COB downlights, track, linear, magnetic, panels and outdoor fixtures for homes, offices and hospitality.';
+// Homepage title and description — the two strings the "led light manufacturer
+// in surat / in india" queries are aimed at, so they lead with that phrase
+// rather than with the brand. Three places have to agree: <Seo>'s defaults,
+// the pre-rendered <head>, and the fallback tags in public/index.html.
+const HOME_TITLE = 'LED Light Manufacturer in Surat, India | Tirich LED';
+const HOME_DESCRIPTION =
+  'Tirich LED is an LED light manufacturer in Surat, India — COB downlights, track, linear, magnetic, panel and outdoor LED fixtures for homes and offices.';
+// Site-wide fallback for any route without its own description.
+const DEFAULT_DESCRIPTION = HOME_DESCRIPTION;
 
 const BUSINESS = {
   name: SITE_NAME,
@@ -41,6 +48,20 @@ const organizationLd = {
   legalName: BUSINESS.legalName,
   alternateName: BUSINESS.alternateName,
   url: SITE_URL,
+  description:
+    'LED light manufacturer in Surat, Gujarat — COB downlights, track, linear, '
+    + 'magnetic, panel and outdoor LED fixtures supplied across India.',
+  foundingDate: '2021',
+  areaServed: { '@type': 'Country', name: 'India' },
+  knowsAbout: [
+    'LED lighting manufacturing',
+    'COB downlights',
+    'LED track lights',
+    'Linear LED modules',
+    'Magnetic track lighting',
+    'LED panel lights',
+    'Outdoor and facade LED lighting',
+  ],
   logo: `${SITE_URL}/logo.png`,
   image: DEFAULT_IMAGE,
   email: BUSINESS.email,
@@ -60,6 +81,17 @@ const organizationLd = {
     areaServed: 'IN',
     availableLanguage: ['en', 'hi', 'gu'],
   },
+};
+
+// The `manufacturer` node every Product page carries. Written out in full
+// rather than as a bare `@id` reference: the Organization node itself is only
+// emitted on the homepage, so on a product page a lone reference would dangle.
+// The `@id` still ties it to that node for crawlers that follow it.
+const manufacturerLd = {
+  '@type': 'Organization',
+  '@id': `${SITE_URL}/#organization`,
+  name: BUSINESS.name,
+  url: SITE_URL,
 };
 
 const webSiteLd = {
@@ -122,10 +154,13 @@ module.exports = {
   SITE_NAME,
   DEFAULT_IMAGE,
   DEFAULT_DESCRIPTION,
+  HOME_TITLE,
+  HOME_DESCRIPTION,
   BUSINESS,
   PRIVATE_ROUTES,
   SPA_FALLBACK_PATTERNS,
   organizationLd,
+  manufacturerLd,
   webSiteLd,
   breadcrumbLd,
   canonicalPath,
@@ -181,6 +216,24 @@ const clampDescription = (text = '', max = 160) => {
 module.exports.clampDescription = clampDescription;
 
 /**
+ * A product page's meta description.
+ *
+ * Lived in two places and had drifted: scripts/prerender-meta.js built
+ * "<tagline>. <name> — premium LED <category> from Tirich LED." while
+ * ProductDetailPage sent "<tagline> — <description>", which clamping then cut
+ * mid-word. Same URL, two different descriptions — the static file got the
+ * tidy one and Google's renderer replaced it with the truncated one. One
+ * function now, imported by both paths.
+ */
+const productSeoDescription = (p) => {
+  const lead = (p.tagline || '').trim().replace(/[.\s]+$/, '');
+  const body = `${p.name} — premium LED ${(p.category || 'lighting').toLowerCase()} from Tirich LED.`;
+  return clampDescription(lead ? `${lead}. ${body}` : body);
+};
+
+module.exports.productSeoDescription = productSeoDescription;
+
+/**
  * Parses src/data/products.js — the catalogue is a plain module with image
  * imports, so the build scripts (CommonJS, outside the CRA/Babel pipeline)
  * read it as text rather than importing it.
@@ -227,6 +280,49 @@ const parseCatalogue = (source, resolveImage = () => DEFAULT_IMAGE) => {
       tagline: m[10],
       image: resolveImage(m[11]),
     });
+  }
+
+  // 2b. Reproduce the magnetic-track split.
+  //
+  //      const MAGNETIC_SLUGS = new Set([...14 slugs...]);
+  //      for (const _p of ALL_PRODUCTS) if (MAGNETIC_SLUGS.has(_p.slug)) {
+  //        _p.category = 'Magnetic Track'; _p.categorySlug = 'magnetic-track'; }
+  //
+  //    products.js re-files 14 fittings out of Track Lights *after* the array
+  //    literal, so their own `category:` / `categorySlug:` lines still read
+  //    "Track Lights". Parsing only those lines put every one of them in the
+  //    wrong category and left the app with a category page the build did not
+  //    know existed: no pre-rendered file and no sitemap entry, while the
+  //    footer of all 107 pages, the /products filter chips and 14 product
+  //    breadcrumbs linked to it — and the SPA-fallback allowlist covers four
+  //    client-only routes, so it answered with a real 404. The track-lights
+  //    ItemList also claimed 14 products its own visible body never listed.
+  //
+  //    The replacement values are read back out of the loop rather than
+  //    hard-coded here, so renaming the category in products.js cannot put
+  //    this file out of step again.
+  const magStart = source.indexOf('const MAGNETIC_SLUGS = new Set([');
+  if (magStart >= 0) {
+    const magBlock = source.slice(magStart);
+    const magnetic = new Set(
+      [...source.slice(magStart, source.indexOf(']', magStart)).matchAll(/'([^']+)'/g)]
+        .map((m) => m[1])
+    );
+    const label = /_p\.category\s*=\s*'([^']+)'/.exec(magBlock);
+    const slug = /_p\.categorySlug\s*=\s*'([^']+)'/.exec(magBlock);
+    if (!label || !slug) {
+      throw new Error(
+        'seo-shared: MAGNETIC_SLUGS is present in products.js but the category ' +
+          'it re-files into could not be read; update parseCatalogue before ' +
+          'trusting the build.'
+      );
+    }
+    for (const prod of bySlug.values()) {
+      if (magnetic.has(prod.slug)) {
+        prod.category = label[1];
+        prod.categorySlug = slug[1];
+      }
+    }
   }
 
   // 3. published order, skipping anything the allow-list names but the file

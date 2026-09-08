@@ -105,7 +105,7 @@ export default function ProductsPage() {
   const pageTitle = activeCategoryLabel || 'LED Lighting Products';
   const pageDescription = activeCategoryLabel
     ? `${activeCategoryLabel} from Tirich LED — ${activeCategoryDesc || 'precision LED fixtures'}. Full specs, beam angles and finishes for every fixture.`
-    : 'Browse the full Tirich LED catalogue — COB lights, downlights, linear, track, magnetic track, panels, fixtures and outdoor lighting.';
+    : 'Browse the full catalogue from Tirich LED, an LED light manufacturer in Surat — COB, downlights, linear, track, magnetic, panels and outdoor lighting.';
 
   // Search-result permutations are near-infinite and thin; keep them out of
   // the index but let crawlers follow through to the product pages. The
@@ -138,9 +138,16 @@ export default function ProductsPage() {
   return (
     <div className={styles.page}>
       <Seo
-        title={activeCategoryLabel || 'All Products'}
+        title={activeCategoryLabel || 'All LED Lights & Fixtures'}
         path={canonicalPath}
         description={pageDescription}
+        /* A category page's share card is its first fixture, which is what the
+           pre-renderer already emitted. Leaving this off meant the static file
+           advertised the product photo and the hydrated page swapped in the
+           generic card. `collectionProducts` is filtered exactly as the
+           pre-renderer filters it, so [0] is the same fixture. The full
+           catalogue keeps the default card, as it does there too. */
+        image={activeCategoryLabel ? collectionProducts[0]?.image : undefined}
         noindex={isSearchResult}
         jsonLd={[collectionLd, breadcrumbLd(crumbs)]}
       />

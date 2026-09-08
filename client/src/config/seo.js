@@ -13,6 +13,17 @@
 export const SITE_URL = 'https://tirichled.com';
 export const SITE_NAME = 'Tirich LED';
 
+/**
+ * Homepage title and description — the two strings the "led light manufacturer
+ * in surat / in india" queries are aimed at, so they lead with that phrase
+ * rather than with the brand. Exported (rather than inlined in <Seo>) because
+ * three places have to agree: <Seo>'s defaults, the pre-rendered <head>, and
+ * the fallback tags in public/index.html.
+ */
+export const HOME_TITLE = 'LED Light Manufacturer in Surat, India | Tirich LED';
+export const HOME_DESCRIPTION =
+  'Tirich LED is an LED light manufacturer in Surat, India — COB downlights, track, linear, magnetic, panel and outdoor LED fixtures for homes and offices.';
+
 export const BUSINESS = {
   name: SITE_NAME,
   legalName: 'Tirich Lighting Company',
@@ -39,6 +50,20 @@ export const organizationLd = {
   legalName: BUSINESS.legalName,
   alternateName: BUSINESS.alternateName,
   url: SITE_URL,
+  description:
+    'LED light manufacturer in Surat, Gujarat — COB downlights, track, linear, '
+    + 'magnetic, panel and outdoor LED fixtures supplied across India.',
+  foundingDate: '2021',
+  areaServed: { '@type': 'Country', name: 'India' },
+  knowsAbout: [
+    'LED lighting manufacturing',
+    'COB downlights',
+    'LED track lights',
+    'Linear LED modules',
+    'Magnetic track lighting',
+    'LED panel lights',
+    'Outdoor and facade LED lighting',
+  ],
   logo: `${SITE_URL}/logo.png`,
   image: `${SITE_URL}/og-default.jpg`,
   email: BUSINESS.email,
@@ -58,6 +83,19 @@ export const organizationLd = {
     areaServed: 'IN',
     availableLanguage: ['en', 'hi', 'gu'],
   },
+};
+
+/**
+ * The `manufacturer` node every Product page carries. Written out in full
+ * rather than as a bare `@id` reference: the Organization node itself is only
+ * emitted on the homepage, so on a product page a lone reference would dangle.
+ * The `@id` still ties it to that node for crawlers that follow it.
+ */
+export const manufacturerLd = {
+  '@type': 'Organization',
+  '@id': `${SITE_URL}/#organization`,
+  name: BUSINESS.name,
+  url: SITE_URL,
 };
 
 /** WebSite — enables the sitelinks search box. */
@@ -136,3 +174,20 @@ export const clampDescription = (text = '', max = 160) => {
   const lastSpace = cut.lastIndexOf(' ');
   return `${(lastSpace > max * 0.6 ? cut.slice(0, lastSpace) : cut).replace(/[\s.,;:—-]+$/, '')}…`;
 };
+
+/**
+ * A product page's meta description.
+ *
+ * Lived in two places and had drifted: scripts/prerender-meta.js built
+ * "<tagline>. <name> — premium LED <category> from Tirich LED." while
+ * ProductDetailPage sent "<tagline> — <description>", which clamping then cut
+ * mid-word. Same URL, two different descriptions — the static file got the
+ * tidy one and Google's renderer replaced it with the truncated one. One
+ * function now, imported by both paths.
+ */
+export const productSeoDescription = (p) => {
+  const lead = (p.tagline || '').trim().replace(/[.\s]+$/, '');
+  const body = `${p.name} — premium LED ${(p.category || 'lighting').toLowerCase()} from Tirich LED.`;
+  return clampDescription(lead ? `${lead}. ${body}` : body);
+};
+

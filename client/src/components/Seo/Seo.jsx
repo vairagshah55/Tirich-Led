@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { clampDescription } from '../../config/seo';
+import { clampDescription, HOME_TITLE, HOME_DESCRIPTION } from '../../config/seo';
 import { isBrowser } from '../../utils/browser';
 
 /**
@@ -11,9 +11,11 @@ export const SITE_URL = 'https://tirichled.com';
 // 1200×630 landscape share card. Social scrapers reject or badly crop the
 // 452×233 brand logo. Regenerate with: node scripts/generate-og-image.js
 const DEFAULT_IMAGE = `${SITE_URL}/og-default.jpg`;
-const DEFAULT_TITLE = 'Tirich LED — Precision LED Lighting';
-const DEFAULT_DESCRIPTION =
-  'Tirich LED — precision LED lighting made in Surat. COB downlights, track, linear, magnetic, panels and outdoor fixtures for homes, offices and hospitality.';
+// The homepage is the only page that renders <Seo> without a `title`, so these
+// two are its tags. Kept in src/config/seo.js because the pre-renderer and the
+// fallback tags in public/index.html have to carry the same strings.
+const DEFAULT_TITLE = HOME_TITLE;
+const DEFAULT_DESCRIPTION = HOME_DESCRIPTION;
 
 /**
  * Per-page SEO tags: title, description, canonical, Open Graph, Twitter card

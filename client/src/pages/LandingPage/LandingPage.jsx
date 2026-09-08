@@ -591,9 +591,12 @@ export default function LandingPage() {
               {/* The page's one H1. Stable on purpose: the headline below it
                   rotates with the carousel, so using that as the H1 gave every
                   render a different primary heading and left the pre-rendered
-                  HTML with whichever slide happened to be showing. */}
+                  HTML with whichever slide happened to be showing. Being the
+                  stable one is also why it carries the phrase the homepage is
+                  aimed at — "LED light manufacturer in Surat" — instead of a
+                  slogan that says nothing a search could match. */}
               <h1 className={styles.heroBrand}>
-                Tirich LED <span className={styles.heroBrandSep}>—</span> Precision LED Lighting
+                Tirich LED <span className={styles.heroBrandSep}>—</span> LED Light Manufacturer in Surat, India
               </h1>
 
               <div className={`${styles.heroFade}${textVisible ? '' : ` ${styles.heroFadeOut}`}`}>

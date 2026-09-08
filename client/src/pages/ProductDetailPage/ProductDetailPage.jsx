@@ -7,9 +7,11 @@ import Seo from '../../components/Seo/Seo';
 import {
   SITE_URL,
   breadcrumbLd,
+  manufacturerLd,
+  productSeoDescription,
   productSeoTitles,
 } from '../../config/seo';
-import { PRODUCTS } from '../../data/products';
+import { PRODUCTS, CATEGORIES } from '../../data/products';
 import LeadCaptureModal, { hasLeadData } from '../../components/LeadCaptureModal/LeadCaptureModal';
 import styles from './ProductDetailPage.module.css';
 
@@ -140,6 +142,7 @@ export default function ProductDetailPage() {
     sku: product.slug.toUpperCase(),
     category: product.category,
     brand: { '@type': 'Brand', name: 'Tirich LED' },
+    manufacturer: manufacturerLd,
     additionalProperty: [
       product.wattage && { '@type': 'PropertyValue', name: 'Wattage', value: product.wattage },
       product.cri && { '@type': 'PropertyValue', name: 'CRI', value: product.cri },
@@ -149,10 +152,19 @@ export default function ProductDetailPage() {
     ].filter(Boolean),
   };
 
+  // A product can carry a categorySlug that ALL_CATEGORIES no longer exposes —
+  // 'panel-lights' is commented out there, but nine published products are
+  // still filed under it. Linking the crumb anyway pointed those pages at
+  // /products/category/panel-lights, which has no category page behind it and
+  // answers 404. Drop the crumb rather than the product: /products still
+  // carries the crawl path, and the visible trail stays truthful.
+  const categoryIsServed = CATEGORIES.some((c) => c.slug === product.categorySlug);
   const crumbs = [
     { name: 'Home', path: '/' },
     { name: 'Products', path: '/products' },
-    { name: product.category, path: `/products/category/${product.categorySlug}` },
+    ...(categoryIsServed
+      ? [{ name: product.category, path: `/products/category/${product.categorySlug}` }]
+      : []),
     { name: product.name, path: `/products/${product.slug}` },
   ];
 
@@ -161,7 +173,10 @@ export default function ProductDetailPage() {
       <Seo
         title={SEO_TITLES.get(product.slug) || product.name}
         path={`/products/${product.slug}`}
-        description={product.tagline ? `${product.tagline} — ${product.description}` : product.description}
+        /* Same helper the pre-renderer uses. This used to build its own
+           string, so the static file and the hydrated page advertised two
+           different descriptions for one URL. */
+        description={productSeoDescription(product)}
         image={product.image}
         type="product"
         jsonLd={[productLd, breadcrumbLd(crumbs)]}
@@ -177,8 +192,12 @@ export default function ProductDetailPage() {
           <span className={styles.bcSep}>/</span>
           <Link to="/products" className={styles.bcLink}>Products</Link>
           <span className={styles.bcSep}>/</span>
-          <Link to={`/products/category/${product.categorySlug}`} className={styles.bcLink}>{product.category}</Link>
-          <span className={styles.bcSep}>/</span>
+          {categoryIsServed && (
+            <>
+              <Link to={`/products/category/${product.categorySlug}`} className={styles.bcLink}>{product.category}</Link>
+              <span className={styles.bcSep}>/</span>
+            </>
+          )}
           <span className={styles.bcCurr}>{product.name}</span>
         </div>
       </motion.nav>
@@ -333,7 +352,12 @@ export default function ProductDetailPage() {
           <div className={styles.relatedInner}>
             <motion.div className={styles.relatedHead} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={REVEAL} transition={{ duration: 0.5, ease: EASE }}>
               <h2 className={styles.relatedTitle}>Related Products</h2>
-              <Link to={`/products/category/${product.categorySlug}`} className={styles.relatedLink}>
+              {/* Same unserved-category guard as the breadcrumb above: fall
+                  back to the full catalogue rather than link a 404. */}
+              <Link
+                to={categoryIsServed ? `/products/category/${product.categorySlug}` : '/products'}
+                className={styles.relatedLink}
+              >
                 View All
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></svg>
               </Link>

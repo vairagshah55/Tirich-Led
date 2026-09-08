@@ -55,6 +55,18 @@ if (!fs.existsSync(BUILD)) {
 }
 
 /* ── collect every pre-rendered route ────────────────────────────── */
+/**
+ * The pre-renderer marks every head tag react-helmet-async owns with
+ * `data-rh="true"`, so that Helmet adopts the tag on hydration instead of
+ * appending a second copy of it (see the `rh` note in prerender-meta.js). That
+ * attribute sits between the tag name and the attribute these matchers key on,
+ * so each one has to allow for it — a matcher that does not silently finds
+ * nothing, and this audit then reports a site with no canonicals at all rather
+ * than a broken matcher.
+ */
+const RH = '(?: data-rh="true")?';
+const headRe = (pattern) => new RegExp(`<${pattern.replace('%', RH)}`);
+
 const meta = (html, re) => (html.match(re) || [])[1];
 
 // Everything inside <div id="root">…</div> — what a crawler with no JS sees.
@@ -75,6 +87,8 @@ const rootMarkup = (html) => {
     h1: (inner.match(/<h1[\s>]/gi) || []).length,
     h2: (inner.match(/<h2[\s>]/gi) || []).length,
     links: (inner.match(/<a\s[^>]*href=/gi) || []).length,
+    // Root-relative hrefs, for the dead-internal-link check below.
+    hrefs: [...inner.matchAll(/<a\s[^>]*href="(\/[^"#?]*)"/gi)].map((m) => m[1]),
     imgs: (inner.match(/<img[\s>]/gi) || []).length,
     footer: /<footer[\s>]/i.test(inner),
   };
@@ -96,13 +110,13 @@ const routes = [];
         urlPath: rel ? `/${rel}` : '/',
         html,
         title: meta(html, /<title>([^<]*)<\/title>/),
-        description: meta(html, /<meta name="description" content="([^"]*)"/),
-        canonical: meta(html, /<link rel="canonical" href="([^"]*)"/),
-        robots: meta(html, /<meta name="robots" content="([^"]*)"/),
-        ogImage: meta(html, /<meta property="og:image" content="([^"]*)"/),
-        ogTitle: meta(html, /<meta property="og:title" content="([^"]*)"/),
-        ogUrl: meta(html, /<meta property="og:url" content="([^"]*)"/),
-        twitterCard: meta(html, /<meta name="twitter:card" content="([^"]*)"/),
+        description: meta(html, headRe('meta% name="description" content="([^"]*)"')),
+        canonical: meta(html, headRe('link% rel="canonical" href="([^"]*)"')),
+        robots: meta(html, headRe('meta% name="robots" content="([^"]*)"')),
+        ogImage: meta(html, headRe('meta% property="og:image" content="([^"]*)"')),
+        ogTitle: meta(html, headRe('meta% property="og:title" content="([^"]*)"')),
+        ogUrl: meta(html, headRe('meta% property="og:url" content="([^"]*)"')),
+        twitterCard: meta(html, headRe('meta% name="twitter:card" content="([^"]*)"')),
         nCanonical: countOf(html, /rel="canonical"/g),
         nOgTitle: countOf(html, /property="og:title"/g),
         nRobots: countOf(html, /name="robots"/g),
@@ -165,7 +179,7 @@ if (!fs.existsSync(p404)) {
 } else {
   const h = fs.readFileSync(p404, 'utf8');
   critical('404.html exists', true, '');
-  const robots404 = meta(h, /<meta name="robots" content="([^"]*)"/) || '';
+  const robots404 = meta(h, headRe('meta% name="robots" content="([^"]*)"')) || '';
   critical('404 is noindex', /^noindex\b/.test(robots404), `robots="${robots404}"`);
   critical('404 has NO canonical', countOf(h, /rel="canonical"/g) === 0, `found ${countOf(h, /rel="canonical"/g)}`);
   critical('404 has NO og:url', countOf(h, /property="og:url"/g) === 0, '');
@@ -256,7 +270,7 @@ if (!fs.existsSync(ogDefault)) {
 let ldBlocks = 0, ldBad = [];
 const ldTypes = {};
 for (const r of routes) {
-  for (const m of r.html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+  for (const m of r.html.matchAll(/<script(?: data-rh="true")? type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
     ldBlocks++;
     try {
       const o = JSON.parse(m[1].replace(/\\u003c/g, '<'));
@@ -544,6 +558,39 @@ const fewLinks = routes.filter((r) => r.root.links < 10);
 high('every indexable route ships crawlable internal links', fewLinks.length === 0,
   fewLinks.slice(0, 5).map((r) => `${r.urlPath} (${r.root.links})`).join(', '));
 
+// Every internal link in a pre-rendered body has to land somewhere real.
+//
+// The bodies are captured from the running app, so this compares what the app
+// actually links against what the build actually emits — the one check that
+// spans both. It exists because it did not: products.js re-files 14 fittings
+// into a "Magnetic Track" category after the array literal, the build-time
+// parser in seo-shared.js did not reproduce that, and so
+// /products/category/magnetic-track was linked from the footer of all 107
+// pages while having no pre-rendered file and no sitemap entry. The
+// SPA-fallback allowlist covers four client-only routes, so it answered 404.
+// Nothing flagged it: every per-file check passed, because each file was
+// individually fine.
+const servedPaths = new Set(routes.map((r) => r.urlPath));
+for (const pattern of SPA_FALLBACK_PATTERNS) servedPaths.add(`/${pattern}`);
+const deadLinks = new Map();
+for (const r of routes) {
+  for (const href of r.root.hrefs) {
+    const target = href === '/' ? '/' : href.replace(/\/+$/, '');
+    if (servedPaths.has(target)) continue;
+    // A literal SPA-fallback pattern is a regex fragment (the lead inbox is
+    // matched by shape), so fall back to testing it as one.
+    if (SPA_FALLBACK_PATTERNS.some((x) => new RegExp(`^/${x}$`).test(target))) continue;
+    // Not every root-relative href is a route — the catalogue PDF and other
+    // public/ assets are files. Anything that exists on disk is served.
+    if (fs.existsSync(path.join(BUILD, target.replace(/^\//, '')))) continue;
+    if (!deadLinks.has(target)) deadLinks.set(target, []);
+    deadLinks.get(target).push(r.urlPath);
+  }
+}
+critical('every internal link in a pre-rendered body resolves to a served route',
+  deadLinks.size === 0,
+  [...deadLinks].slice(0, 4).map(([t, from]) => `${t} (linked from ${from.length} page(s))`).join(', '));
+
 const noMainBody = routes.filter((r) => !/<main[\s>]/i.test(r.root.html));
 medium('every indexable route ships a <main> landmark in its body',
   noMainBody.length === 0, noMainBody.slice(0, 5).map((r) => r.urlPath).join(', '));
@@ -601,7 +648,7 @@ if (!fs.existsSync(shellPath)) {
     'a fallback with markup would make React hydrate /login against another page');
   critical('app-shell.html is noindex,nofollow',
     /content="noindex,nofollow"/.test(shell),
-    meta(shell, /<meta name="robots" content="([^"]*)"/) || 'no robots tag');
+    meta(shell, headRe('meta% name="robots" content="([^"]*)"')) || 'no robots tag');
   high('app-shell.html has no canonical',
     (shell.match(/rel="canonical"/g) || []).length === 0, '');
 }

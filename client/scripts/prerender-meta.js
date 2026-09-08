@@ -33,6 +33,10 @@ const {
   clampDescription,
   SPA_FALLBACK_PATTERNS,
   parseCatalogue,
+  HOME_TITLE,
+  HOME_DESCRIPTION,
+  manufacturerLd,
+  productSeoDescription,
 } = require('./seo-shared');
 
 const BUILD_DIR = path.join(__dirname, '..', 'build');
@@ -111,7 +115,7 @@ if (unpublished.length) {
 const routes = [];
 
 const CATALOGUE_DESC =
-  'Browse the full Tirich LED catalogue — COB lights, downlights, linear, track, magnetic track, panels, fixtures and outdoor lighting.';
+  'Browse the full catalogue from Tirich LED, an LED light manufacturer in Surat — COB, downlights, linear, track, magnetic, panels and outdoor lighting.';
 
 const collectionLd = (label, description, canonicalPath, items, crumbs) => [
   {
@@ -137,16 +141,15 @@ const collectionLd = (label, description, canonicalPath, items, crumbs) => [
 // Home
 routes.push({
   path: '/',
-  title: 'Tirich LED — Precision LED Lighting',
-  description:
-    'Tirich LED — precision LED lighting made in Surat. COB downlights, track, linear, magnetic, panels and outdoor fixtures for homes, offices and hospitality.',
+  title: HOME_TITLE,
+  description: HOME_DESCRIPTION,
   jsonLd: [organizationLd, webSiteLd],
 });
 
 // All products
 routes.push({
   path: '/products',
-  title: 'All Products',
+  title: 'All LED Lights & Fixtures',
   description: CATALOGUE_DESC,
   jsonLd: collectionLd('LED Lighting Products', CATALOGUE_DESC, '/products', products, [
     { name: 'Home', path: '/' },
@@ -173,9 +176,9 @@ const staticPageLd = (type, name, routePath, crumbName) => [
 
 routes.push({
   path: '/about',
-  title: 'About Us',
+  title: 'About Us — LED Light Manufacturer in Surat',
   description:
-    'Tirich LED designs and manufactures precision LED lighting — engineered for architects, designers and contractors across India.',
+    'Tirich LED is an LED light manufacturer in Surat, Gujarat, building precision LED fixtures for architects, designers and contractors across India.',
   jsonLd: staticPageLd('AboutPage', 'About Tirich LED', '/about', 'About Us'),
 });
 routes.push({
@@ -214,7 +217,7 @@ for (const slug of categoryOrder) {
 // Product detail pages — titles resolved so no two share a <title>.
 const seoTitles = productSeoTitles(products);
 for (const p of products) {
-  const description = `${p.tagline}. ${p.name} — premium LED ${p.category.toLowerCase()} from Tirich LED.`;
+  const description = productSeoDescription(p);
   routes.push({
     path: `/products/${p.slug}`,
     title: seoTitles.get(p.slug),
@@ -231,11 +234,17 @@ for (const p of products) {
         sku: p.slug.toUpperCase(),
         category: p.category,
         brand: { '@type': 'Brand', name: 'Tirich LED' },
+        manufacturer: manufacturerLd,
       },
+      // Same guard as ProductDetailPage: a product filed under a category
+      // ALL_CATEGORIES no longer exposes gets no category crumb, so the
+      // schema never advertises a URL the build does not emit.
       breadcrumbLd([
         { name: 'Home', path: '/' },
         { name: 'Products', path: '/products' },
-        { name: p.category, path: `/products/category/${p.categorySlug}` },
+        ...(categoryOrder.includes(p.categorySlug)
+          ? [{ name: p.category, path: `/products/category/${p.categorySlug}` }]
+          : []),
         { name: p.name, path: `/products/${p.slug}` },
       ]),
     ],
@@ -255,6 +264,21 @@ const SHELL_DEFAULTS = new RegExp(
   'g'
 );
 
+// react-helmet-async marks every head tag it owns with `data-rh`. On hydration
+// it collects the existing `<meta data-rh>` / `<link data-rh>` / `<script
+// data-rh>` nodes, keeps the ones that match what it is about to render and
+// removes the rest (see updateTags in the package). Tags WITHOUT the attribute
+// are invisible to that pass — so the pre-rendered head used to survive
+// untouched and Helmet appended its own copy on top, leaving every route with
+// two canonicals, two descriptions and a second set of og:/twitter:/JSON-LD
+// tags the moment the bundle booted. Marking the tags <Seo> also emits makes
+// Helmet adopt them instead.
+//
+// Only mark what <Seo> re-emits. A marked tag that Helmet does not render is
+// DELETED on hydration with nothing put back, which is why og:image:width and
+// og:image:height below stay unmarked — <Seo> does not emit them.
+const rh = (tag) => tag.replace(/^<(\w+)/, '<$1 data-rh="true"');
+
 function buildHtml(route) {
   // canonical:false = this page answers for arbitrary URLs (the 404), so it
   // must not claim one — a canonical would map every dead URL onto it.
@@ -269,24 +293,26 @@ function buildHtml(route) {
     : 'index,follow,max-image-preview:large,max-snippet:-1';
 
   const head = [
-    url ? `<link rel="canonical" href="${esc(url)}"/>` : '',
-    `<meta name="robots" content="${robots}"/>`,
-    `<meta property="og:site_name" content="Tirich LED"/>`,
-    `<meta property="og:locale" content="en_IN"/>`,
-    `<meta property="og:type" content="${esc(type)}"/>`,
-    `<meta property="og:title" content="${esc(fullTitle)}"/>`,
-    `<meta property="og:description" content="${esc(clampDescription(route.description))}"/>`,
-    url ? `<meta property="og:url" content="${esc(url)}"/>` : '',
-    `<meta property="og:image" content="${esc(image)}"/>`,
-    `<meta property="og:image:alt" content="${esc(fullTitle)}"/>`,
+    url ? rh(`<link rel="canonical" href="${esc(url)}"/>`) : '',
+    rh(`<meta name="robots" content="${robots}"/>`),
+    rh(`<meta property="og:site_name" content="Tirich LED"/>`),
+    rh(`<meta property="og:locale" content="en_IN"/>`),
+    rh(`<meta property="og:type" content="${esc(type)}"/>`),
+    rh(`<meta property="og:title" content="${esc(fullTitle)}"/>`),
+    rh(`<meta property="og:description" content="${esc(clampDescription(route.description))}"/>`),
+    url ? rh(`<meta property="og:url" content="${esc(url)}"/>`) : '',
+    rh(`<meta property="og:image" content="${esc(image)}"/>`),
+    rh(`<meta property="og:image:alt" content="${esc(fullTitle)}"/>`),
+    // Unmarked on purpose — <Seo> does not emit these two, so marking them
+    // would have Helmet strip them on hydration and put nothing back.
     isDefaultImage ? '<meta property="og:image:width" content="1200"/>' : '',
     isDefaultImage ? '<meta property="og:image:height" content="630"/>' : '',
-    `<meta name="twitter:card" content="summary_large_image"/>`,
-    `<meta name="twitter:title" content="${esc(fullTitle)}"/>`,
-    `<meta name="twitter:description" content="${esc(clampDescription(route.description))}"/>`,
-    `<meta name="twitter:image" content="${esc(image)}"/>`,
-    `<meta name="twitter:image:alt" content="${esc(fullTitle)}"/>`,
-    ...(route.jsonLd ? route.jsonLd.map(jsonLdTag) : []),
+    rh(`<meta name="twitter:card" content="summary_large_image"/>`),
+    rh(`<meta name="twitter:title" content="${esc(fullTitle)}"/>`),
+    rh(`<meta name="twitter:description" content="${esc(clampDescription(route.description))}"/>`),
+    rh(`<meta name="twitter:image" content="${esc(image)}"/>`),
+    rh(`<meta name="twitter:image:alt" content="${esc(fullTitle)}"/>`),
+    ...(route.jsonLd ? route.jsonLd.map((b) => rh(jsonLdTag(b))) : []),
   ]
     .filter(Boolean)
     .join('');
@@ -295,7 +321,7 @@ function buildHtml(route) {
     .replace(/<title>[^<]*<\/title>/, `<title>${esc(fullTitle)}</title>`)
     .replace(
       /<meta name="description" content="[^"]*"\s*\/?>/,
-      `<meta name="description" content="${esc(clampDescription(route.description))}"/>`
+      rh(`<meta name="description" content="${esc(clampDescription(route.description))}"/>`)
     )
     .replace(SHELL_DEFAULTS, '')
     .replace('</head>', `${head}</head>`);
