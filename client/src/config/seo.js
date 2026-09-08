@@ -131,6 +131,56 @@ export const breadcrumbLd = (crumbs) => ({
   })),
 });
 
+
+/** "Panel Lights" -> "Panel Light": reads naturally in a title. */
+const singular = (c = '') => c.replace(/s$/, '');
+
+/**
+ * Lower-case a label's ordinary words and leave its acronyms alone:
+ * "COB Lights" -> "COB lights", never "cob lights". A word is ordinary if it
+ * is one capital followed by lower-case letters.
+ */
+const decap = (str = '') => str.replace(/\b[A-Z][a-z]+\b/g, (w) => w.toLowerCase());
+
+/** Lower-case just the first letter, for a sentence that continues after a dash. */
+const lower1 = (str = '') => (/^[A-Z][a-z]/.test(str) ? str[0].toLowerCase() + str.slice(1) : str);
+
+/** The search phrase a category page is built to rank for. */
+export const CATEGORY_SEO = {
+  // Buyers search for a product type + "manufacturer in India"; the bare
+  // category labels ("COB Lights") never said either. One phrase per category,
+  // each a real product-type query this range can answer. The generic head
+  // term ("LED light manufacturer in India") is a list-intent query that goes
+  // to directories — these product-level forms are the ones a single
+  // manufacturer's page can actually win.
+  'cob-lights':     'COB Light Manufacturer in India',
+  'downlights':     'LED Downlight Manufacturer in India',
+  'linear-lights':  'Linear LED Light Manufacturer in India',
+  'track-lights':   'LED Track Light Manufacturer in India',
+  'magnetic-track': 'Magnetic Track Light Manufacturer in India',
+  'fixtures':       'Industrial LED Fixture Manufacturer in India',
+  'pendant-lights': 'LED Pendant Light Manufacturer in India',
+  'surface-lights': 'Surface Mounted LED Light Manufacturer in India',
+  'outdoor-lights': 'Outdoor LED Light Manufacturer in India',
+};
+
+export const categorySeoTitle = (slug, label = '') =>
+  CATEGORY_SEO[slug] || `${singular(label)} Manufacturer in India`;
+
+/**
+ * Category meta description: who makes it, where, then the range's own line.
+ * Kept under 160 by dropping the closing sentence before it would clip.
+ */
+export const categorySeoDescription = (slug, meta = {}) => {
+  const what = decap(meta.label || slug);
+  const lead = `Tirich LED manufactures ${what} in Surat, India — ${lower1(meta.desc) || 'precision LED fixtures'}.`;
+  const tail = ' Full specs, beam angles and finishes for every fixture.';
+  // 155, not 160: the audit measures the escaped attribute, where a range
+  // line's "&" is five characters, and the tail is filler — cheaper to drop
+  // than to let one ampersand push a page over.
+  return clampDescription(lead.length + tail.length <= 155 ? lead + tail : lead);
+};
+
 /**
  * Builds a slug → <title> map for the whole catalogue.
  *
@@ -147,18 +197,27 @@ export const productSeoTitles = (products) => {
     return counts;
   };
 
-  // "Panel Lights" → "Panel Light": reads naturally appended to a SKU.
-  const singular = (c = '') => c.replace(/s$/, '');
+  // The tagline is the searchable part — "Anti-Glare COB Recessed Downlight"
+  // is what a buyer types; "PRO-116" is not. So it leads. The suffix
+  // " | Tirich LED" adds 13, and titles are kept at 65 or under, so anything
+  // past 52 here falls back to SKU + range rather than clipping in the SERP.
+  const TITLE_BUDGET = 52;
+  const withTagline = (p) => `${p.name} — ${p.tagline}`;
   const withRange = (p) => `${p.name} ${singular(p.category)}`;
+  const base = (p) => (p.tagline && withTagline(p).length <= TITLE_BUDGET ? withTagline(p) : withRange(p));
 
-  const byName = tally((p) => p.name);
-  const byRange = tally(withRange);
+  // Two ranges can share a tagline word-for-word, so the ladder still has to
+  // escalate: base -> base + range -> base + range + SKU is unique by
+  // construction, since slugs are.
+  const byBase = tally(base);
+  const withBaseRange = (p) => `${base(p)} · ${singular(p.category)}`;
+  const byBaseRange = tally(withBaseRange);
 
   const titles = new Map();
   for (const p of products) {
-    if (byName.get(p.name) === 1) titles.set(p.slug, p.name);
-    else if (byRange.get(withRange(p)) === 1) titles.set(p.slug, withRange(p));
-    else titles.set(p.slug, `${p.name} — ${p.tagline}`);
+    if (byBase.get(base(p)) === 1) titles.set(p.slug, base(p));
+    else if (byBaseRange.get(withBaseRange(p)) === 1) titles.set(p.slug, withBaseRange(p));
+    else titles.set(p.slug, `${withBaseRange(p)} · ${p.slug.toUpperCase()}`);
   }
   return titles;
 };
@@ -187,7 +246,8 @@ export const clampDescription = (text = '', max = 160) => {
  */
 export const productSeoDescription = (p) => {
   const lead = (p.tagline || '').trim().replace(/[.\s]+$/, '');
-  const body = `${p.name} — premium LED ${(p.category || 'lighting').toLowerCase()} from Tirich LED.`;
+  const type = decap(singular(p.category || 'LED light'));
+  const body = `${p.name} ${type} manufactured in Surat, India by Tirich LED — full specs, beam angle and finish.`;
   return clampDescription(lead ? `${lead}. ${body}` : body);
 };
 

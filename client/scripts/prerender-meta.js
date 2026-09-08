@@ -37,6 +37,8 @@ const {
   HOME_DESCRIPTION,
   manufacturerLd,
   productSeoDescription,
+  categorySeoTitle,
+  categorySeoDescription,
 } = require('./seo-shared');
 
 const BUILD_DIR = path.join(__dirname, '..', 'build');
@@ -200,13 +202,17 @@ routes.push({
 for (const slug of categoryOrder) {
   const items = products.filter((p) => p.categorySlug === slug);
   const meta = categoryMeta[slug] || { label: items[0]?.category || slug, desc: '' };
-  const description = `${meta.label} from Tirich LED — ${meta.desc || 'precision LED fixtures'}. Full specs, beam angles and finishes for every fixture.`;
+  // The category page's title is the product-type query it is built to rank
+  // for ("COB Light Manufacturer in India"), not the bare range label — see
+  // CATEGORY_SEO in seo-shared.js. ProductsPage renders the same strings.
+  const title = categorySeoTitle(slug, meta.label);
+  const description = categorySeoDescription(slug, meta);
   routes.push({
     path: `/products/category/${slug}`,
-    title: meta.label,
+    title,
     description,
     image: items[0]?.image,
-    jsonLd: collectionLd(meta.label, description, `/products/category/${slug}`, items, [
+    jsonLd: collectionLd(title, description, `/products/category/${slug}`, items, [
       { name: 'Home', path: '/' },
       { name: 'Products', path: '/products' },
       { name: meta.label, path: `/products/category/${slug}` },

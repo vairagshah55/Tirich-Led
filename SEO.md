@@ -136,6 +136,45 @@ Check off items as you go.
   new attribute — without that it reported "unique canonicals 1" for the whole
   site, a broken matcher rather than a broken site.
 
+**Audit pass 5 — product-level keyword targeting (this commit):**
+
+The generic head term ("LED light manufacturer in India") is a list-intent
+query: Google answers it with directories and "top 10" articles, and a single
+manufacturer's homepage is the wrong *page type* regardless of authority. The
+product-level form of the same query — "COB light manufacturer in India",
+"magnetic track light manufacturer in India" — has identical buyer intent, a
+fraction of the competition, and a specific answer a manufacturer page can give.
+So the site is now aimed there, one phrase per range.
+
+- **Category pages own the "[product] manufacturer in India" phrases.**
+  `CATEGORY_SEO` in `src/config/seo.js` + `scripts/seo-shared.js` maps each slug
+  to its target ("COB Light Manufacturer in India", "Magnetic Track Light
+  Manufacturer in India", "Industrial LED Fixture Manufacturer in India", …).
+  `categorySeoTitle()` / `categorySeoDescription()` feed the `<title>`, the H1,
+  the meta description and the `CollectionPage.name` on both render paths —
+  bare range labels ("COB Lights") said neither *manufacturer* nor *India*.
+  All 9 titles ≤ 60 chars with suffix.
+- **Product titles lead with the tagline, not the SKU.** "PRO-116" is not a
+  search; "Anti-Glare COB Recessed Downlight" is. `productSeoTitles()` now
+  builds `<SKU> — <tagline>` (92 of 94), falls back to `<SKU> <range>` when that
+  would exceed the 65-char budget with suffix (2 of 94), and still escalates
+  through range and slug on a collision (0 needed). 94/94 unique, max 63.
+- **Product descriptions name the type and the origin**: "…PRO-116 COB light
+  manufactured in Surat, India by Tirich LED…". 94/94 unique, none clipped.
+- **Deliberately *not* done:** "manufacturer in India" on all 94 product
+  pages. That is keyword stuffing, and it would set every product page
+  competing with its own category page for the same phrase. The category page
+  is the hub for the phrase; product pages catch the spec-level long tail.
+- **Acronym-safe casing.** `decap()` lower-cases a label's ordinary words and
+  leaves acronyms alone ("COB lights", never "cob lights"); hoisted beside
+  `singular()` and used by both description helpers.
+- Category description tail is dropped at 155 rather than 160: the audit
+  measures the HTML-escaped attribute, where one "&" in a range line is
+  `&amp;`, and the tail is filler.
+- Audit: **75/77 passing**, 108 unique titles / descriptions / canonicals,
+  216 JSON-LD blocks, 0 invalid. Headless Chrome: no static/hydrated head
+  differences across 14 real routes.
+
 **Audit pass 4 — every-page 404, and two render paths that disagreed:**
 
 Found by diffing the pre-rendered `<head>` against the same page *after*

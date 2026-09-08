@@ -4,7 +4,7 @@ import { motion } from 'motion/react';
 import Navbar from '../../components/Navbar/Navbar';
 import Footer from '../../components/Footer/Footer';
 import Seo from '../../components/Seo/Seo';
-import { SITE_URL, breadcrumbLd } from '../../config/seo';
+import { SITE_URL, breadcrumbLd, categorySeoDescription, categorySeoTitle } from '../../config/seo';
 import { PRODUCTS, CATEGORIES } from '../../data/products';
 import LeadCaptureModal, { hasLeadData } from '../../components/LeadCaptureModal/LeadCaptureModal';
 import styles from './ProductsPage.module.css';
@@ -102,9 +102,15 @@ export default function ProductsPage() {
     activeCategory === 'all'
       ? PRODUCTS
       : PRODUCTS.filter(p => p.categorySlug === activeCategory);
-  const pageTitle = activeCategoryLabel || 'LED Lighting Products';
-  const pageDescription = activeCategoryLabel
-    ? `${activeCategoryLabel} from Tirich LED — ${activeCategoryDesc || 'precision LED fixtures'}. Full specs, beam angles and finishes for every fixture.`
+  // A category page's <title>, H1 and description are the product-type query
+  // it is built to rank for ("COB Light Manufacturer in India"), from the same
+  // helpers the pre-renderer uses, so the static file and the hydrated page
+  // cannot disagree. The full catalogue keeps its own copy.
+  const pageTitle = activeCat
+    ? categorySeoTitle(activeCat.slug, activeCat.label)
+    : 'LED Lighting Products';
+  const pageDescription = activeCat
+    ? categorySeoDescription(activeCat.slug, activeCat)
     : 'Browse the full catalogue from Tirich LED, an LED light manufacturer in Surat — COB, downlights, linear, track, magnetic, panels and outdoor lighting.';
 
   // Search-result permutations are near-infinite and thin; keep them out of
@@ -138,7 +144,7 @@ export default function ProductsPage() {
   return (
     <div className={styles.page}>
       <Seo
-        title={activeCategoryLabel || 'All LED Lights & Fixtures'}
+        title={activeCat ? pageTitle : 'All LED Lights & Fixtures'}
         path={canonicalPath}
         description={pageDescription}
         /* A category page's share card is its first fixture, which is what the
