@@ -136,6 +136,58 @@ Check off items as you go.
   new attribute — without that it reported "unique canonicals 1" for the whole
   site, a broken matcher rather than a broken site.
 
+**Audit pass 7 — LocalBusiness switched on:**
+
+- **The gate from pass 6 is now live.** `streetAddress` ("JEET INDUSTRIES, Plot
+  88/89, near Raika Circle, Laxmi Nagar, Majura") and `postalCode` ("394210")
+  are filled from the Google Business Profile panel and confirmed by the owner,
+  so `organizationLd['@type']` is `['Organization', 'LocalBusiness']` with a
+  complete `PostalAddress`. No code change was needed to flip it.
+- **`addressLocality` is now "Udhana, Surat", not "Udhna".** The Business
+  Profile is what feeds the local pack, so its spelling is the one to match.
+- **Second phone line published.** The Business Profile carries
+  +91-90334-38967 while the site only ever published +91-73832-47625. Both are
+  real, separate lines; a number Google associates with the business that the
+  site never mentions reads as a NAP mismatch. `contactPoint` is now an array
+  and the second entry is conditional on `BUSINESS.telephoneAlt`.
+- **Still gated off:** `geo`, `hasMap`, `openingHours` — the readiness warning
+  now names exactly those three, and nothing empty or guessed is published.
+- Audit: **75/78 passing**, 3 warnings.
+
+> **Business Profile status (checked against a live SERP):** the profile
+> EXISTS but is UNCLAIMED — Google shows "Do you own this business?". Category
+> reads "lighting manufacturer"; 4.0 stars from 4 reviews. Claiming it, setting
+> the primary category to "LED Light Manufacturer" and growing the review count
+> outrank every on-page change in this file for "LED light manufacturer in
+> Surat". Also confirmed: tirichled.com ranks #1 for the brand query, and the
+> SERP still shows the pre-deploy title — stale index, not a deploy problem
+> (verified by curling the live `<head>`).
+
+**Audit pass 6 — LocalBusiness, gated on real data (this commit):**
+
+- **The schema now upgrades itself.** `BUSINESS` in `src/config/seo.js` +
+  `scripts/seo-shared.js` gained `streetAddress`, `postalCode`, `latitude`,
+  `longitude`, `hasMap` and `openingHours`, all empty. Fill `streetAddress` and
+  `postalCode` and `organizationLd['@type']` becomes
+  `['Organization', 'LocalBusiness']` with a full `PostalAddress`; `geo`,
+  `hasMap` and `openingHoursSpecification` each switch on independently as
+  their fields are filled. Blank stays a plain `Organization` — verified: the
+  shipped homepage schema is byte-identical to before, with no empty or
+  placeholder keys.
+- **Why gated rather than filled with an approximation.** Google cross-checks a
+  LocalBusiness address against the Business Profile at the same location. A
+  guessed street or PIN is a NAP mismatch, which costs the local pack the block
+  exists to win — strictly worse than publishing nothing.
+- **Scoped to `organizationLd`.** `manufacturerLd` carries a byte-identical
+  `'@type': 'Organization'` / `'@id'` pair and stays a plain Organization: it is
+  a reference node on 94 product pages, not a second claim to be a place. The
+  first attempt at this edit matched both and was caught by a count assertion.
+- **`seo-audit.js` now reports readiness** as a standing MEDIUM warning naming
+  the fields still blank, so the pending state is visible on every run rather
+  than remembered. A warning, not a failure — the correct state today is "not
+  yet claimed".
+- Audit: **75/78 passing**, 3 warnings (this one plus two pre-existing).
+
 **Audit pass 5 — product-level keyword targeting (this commit):**
 
 The generic head term ("LED light manufacturer in India") is a list-intent

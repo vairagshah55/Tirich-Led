@@ -29,10 +29,44 @@ const BUSINESS = {
   // Real short forms people search for — no invented variants.
   alternateName: ['Tirich', 'Tirich Lighting'],
   telephone: '+91-73832-47625',
+  // A second real line, not a duplicate of the one above. It is the number
+  // the Google Business Profile carries, so it is published too rather than
+  // silently dropped — a number Google associates with the business but the
+  // site never mentions reads as a name/address/phone mismatch.
+  telephoneAlt: '+91-90334-38967',
   email: 'salestirichled@gmail.com',
-  addressLocality: 'Udhna, Surat',
+  // Spelt as the Google Business Profile spells it ('Udhana', not 'Udhna'):
+  // the profile is what feeds the local pack, so it is the spelling to match.
+  addressLocality: 'Udhana, Surat',
   addressRegion: 'Gujarat',
   addressCountry: 'IN',
+
+  /* ── Local-pack fields ────────────────────────────────────────────────
+     Fill streetAddress + postalCode and the homepage schema upgrades itself
+     from Organization to ['Organization', 'LocalBusiness'] — see
+     organizationLd below. Leave either blank and it stays a plain
+     Organization, which is the correct thing to publish.
+
+     These are deliberately empty rather than approximated. Google
+     cross-checks a LocalBusiness address against the Google Business Profile
+     at the same location; a guessed street or PIN is a mismatch, and a
+     mismatch costs the local pack this block exists to win. Each field is
+     additive on its own — geo, hasMap and openingHours switch on
+     independently, so partial information is still worth filling in. */
+
+  // The street line only — building/plot, road, area. Locality, region and
+  // country are already set above, so do not repeat them here.
+  streetAddress: 'JEET INDUSTRIES, Plot 88/89, near Raika Circle, Laxmi Nagar, Majura',
+  // The 6-digit PIN, as a string.
+  postalCode: '394210',
+  // Numbers, not strings. Google Maps -> right-click the building -> click the
+  // coordinates to copy; or read them out of the URL's .../@<lat>,<lng>,17z
+  latitude: null,
+  longitude: null,
+  // The Google Maps place URL itself
+  hasMap: '',
+  // [{ days: ['Mo','Tu','We','Th','Fr','Sa'], opens: '10:00', closes: '19:00' }]
+  openingHours: [],
   sameAs: [
     'https://www.instagram.com/tirich_led/',
     'https://www.facebook.com/tirichledlighting',
@@ -40,9 +74,39 @@ const BUSINESS = {
   ],
 };
 
+
+/**
+ * Is there enough real address detail to claim LocalBusiness?
+ *
+ * A street and a PIN are the minimum Google treats as a resolvable location;
+ * a locality alone ("Udhna, Surat") describes an organisation, not a place
+ * you can visit. Claiming LocalBusiness without them invites a mismatch
+ * against the Business Profile rather than reinforcing it.
+ */
+const hasStreetAddress = Boolean(BUSINESS.streetAddress && BUSINESS.postalCode);
+const hasGeo = Number.isFinite(BUSINESS.latitude) && Number.isFinite(BUSINESS.longitude);
+
+/** Whichever local fields are populated, and nothing that is not. */
+const localBusinessLd = {
+  ...(hasGeo
+    ? { geo: { '@type': 'GeoCoordinates', latitude: BUSINESS.latitude, longitude: BUSINESS.longitude } }
+    : {}),
+  ...(BUSINESS.hasMap ? { hasMap: BUSINESS.hasMap } : {}),
+  ...(BUSINESS.openingHours && BUSINESS.openingHours.length
+    ? {
+        openingHoursSpecification: BUSINESS.openingHours.map((h) => ({
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: h.days,
+          opens: h.opens,
+          closes: h.closes,
+        })),
+      }
+    : {}),
+};
+
 const organizationLd = {
   '@context': 'https://schema.org',
-  '@type': 'Organization',
+  '@type': hasStreetAddress ? ['Organization', 'LocalBusiness'] : 'Organization',
   '@id': `${SITE_URL}/#organization`,
   name: BUSINESS.name,
   legalName: BUSINESS.legalName,
@@ -68,19 +132,33 @@ const organizationLd = {
   telephone: BUSINESS.telephone,
   address: {
     '@type': 'PostalAddress',
+    ...(BUSINESS.streetAddress ? { streetAddress: BUSINESS.streetAddress } : {}),
     addressLocality: BUSINESS.addressLocality,
     addressRegion: BUSINESS.addressRegion,
+    ...(BUSINESS.postalCode ? { postalCode: BUSINESS.postalCode } : {}),
     addressCountry: BUSINESS.addressCountry,
   },
+  ...localBusinessLd,
   sameAs: BUSINESS.sameAs,
-  contactPoint: {
-    '@type': 'ContactPoint',
-    telephone: BUSINESS.telephone,
-    email: BUSINESS.email,
-    contactType: 'sales',
-    areaServed: 'IN',
-    availableLanguage: ['en', 'hi', 'gu'],
-  },
+  contactPoint: [
+    {
+      '@type': 'ContactPoint',
+      telephone: BUSINESS.telephone,
+      email: BUSINESS.email,
+      contactType: 'sales',
+      areaServed: 'IN',
+      availableLanguage: ['en', 'hi', 'gu'],
+    },
+    ...(BUSINESS.telephoneAlt
+      ? [{
+          '@type': 'ContactPoint',
+          telephone: BUSINESS.telephoneAlt,
+          contactType: 'sales',
+          areaServed: 'IN',
+          availableLanguage: ['en', 'hi', 'gu'],
+        }]
+      : []),
+  ],
 };
 
 // The `manufacturer` node every Product page carries. Written out in full

@@ -23,6 +23,7 @@ const {
   SPA_FALLBACK_PATTERNS,
   PRIVATE_ROUTES,
   parseCatalogue,
+  BUSINESS,
 } = require('./seo-shared');
 
 const BUILD = path.join(__dirname, '..', 'build');
@@ -264,6 +265,26 @@ if (!fs.existsSync(ogDefault)) {
     i += 2 + len;
   }
   high('default og image is 1200x630', w === 1200 && h === 630, `${w}x${h}`);
+}
+
+/* ── 11b. local-pack readiness ───────────────────────────────────── */
+// Not a defect — a standing reminder with a real cost attached. The homepage
+// only claims LocalBusiness once BUSINESS.streetAddress and .postalCode are
+// filled in (see seo-shared.js); until then it is an Organization, and the
+// "<product> manufacturer in Surat" queries are contested without the schema
+// that feeds the local pack. Deliberately a warning, not a failure: shipping
+// a guessed address would be worse than shipping none.
+{
+  const missing = [
+    !BUSINESS.streetAddress && 'streetAddress',
+    !BUSINESS.postalCode && 'postalCode',
+    !(Number.isFinite(BUSINESS.latitude) && Number.isFinite(BUSINESS.longitude)) && 'geo',
+    !BUSINESS.hasMap && 'hasMap',
+    !(BUSINESS.openingHours || []).length && 'openingHours',
+  ].filter(Boolean);
+  medium('homepage ships LocalBusiness schema (local-pack eligibility)',
+    missing.length === 0,
+    missing.length ? `still blank in BUSINESS: ${missing.join(', ')}` : '');
 }
 
 /* ── 12. structured data ─────────────────────────────────────────── */
