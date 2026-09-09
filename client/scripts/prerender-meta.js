@@ -235,12 +235,25 @@ for (const p of products) {
         '@context': 'https://schema.org',
         '@type': 'Product',
         name: p.name,
-        description,
+        // The product's own description, not the SEO one above. The meta tag
+        // is capped at 160 and written to fit a SERP; Product.description has
+        // no such limit and is better as the full copy, which is also what
+        // ProductDetailPage emits. These two disagreed until now: a non-JS
+        // crawler got the short form and Google's renderer replaced it.
+        description: p.description || description,
         image: p.image,
         sku: p.slug.toUpperCase(),
         category: p.category,
         brand: { '@type': 'Brand', name: 'Tirich LED' },
         manufacturer: manufacturerLd,
+        // Same five specs, same order, as ProductDetailPage's runtime block.
+        additionalProperty: [
+          p.wattage && { '@type': 'PropertyValue', name: 'Wattage', value: p.wattage },
+          p.cri && { '@type': 'PropertyValue', name: 'CRI', value: p.cri },
+          p.cct && { '@type': 'PropertyValue', name: 'CCT', value: p.cct },
+          p.ip && { '@type': 'PropertyValue', name: 'IP Rating', value: p.ip },
+          p.lifespan && { '@type': 'PropertyValue', name: 'Rated Life', value: p.lifespan },
+        ].filter(Boolean),
       },
       // Same guard as ProductDetailPage: a product filed under a category
       // ALL_CATEGORIES no longer exposes gets no category crumb, so the

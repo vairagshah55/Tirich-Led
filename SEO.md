@@ -136,6 +136,39 @@ Check off items as you go.
   new attribute — without that it reported "unique canonicals 1" for the whole
   site, a broken matcher rather than a broken site.
 
+**Audit pass 8 — Product schema, the two paths reconciled:**
+
+Found by a new test that parses the JSON-LD out of the pre-rendered HTML and
+again out of the live DOM after hydration, and compares them as an unordered
+set. Every earlier check passed these pages, because each path was internally
+valid — they were just not the same.
+
+- **94 product pages shipped a Product node with no specs to non-JS crawlers.**
+  `ProductDetailPage` emits `additionalProperty` (Wattage, CRI, CCT, IP Rating,
+  Rated Life); the pre-renderer could not, because `parseCatalogue()` never read
+  those fields. Google's renderer saw the rich node, everything else saw the
+  thin one. Now 94/94 pre-rendered pages carry the same five properties in the
+  same order.
+- **`Product.description` disagreed too** — the pre-renderer reused the 160-char
+  meta description, the runtime used the product's full copy. `Product.description`
+  has no length limit and reads better as the full text, so both now use it. The
+  `<meta name="description">` is untouched and still the short SEO form
+  (134 chars on PRO-116 vs 301 in the schema).
+- **`parseCatalogue()` now extracts `wattage`, `cri`, `cct`, `ip`, `lifespan`
+  and `description`.** These sit past optional keys (`diagram` is present on
+  some products only), so they are read per-product from that object's own
+  slice rather than by extending the head regex with more consecutive lines.
+- **The field reader is a line scanner with no literal backslash in it.** The
+  first two attempts expressed the pattern through shell, Python and JS string
+  escaping in turn; each layer ate one level until `'\s'` had degraded to a
+  plain `'s'` that silently matched nothing and returned 94 blank fields.
+  `String.fromCharCode` for NEWLINE/BACKSLASH makes that class of bug
+  impossible to reintroduce.
+- Verified: 216 JSON-LD blocks parse, **0 invalid, 0 empty/null values, 0
+  placeholder leakage**; LocalBusiness passes all 7 of Google's required
+  properties; and the schema is byte-identical before and after hydration on
+  all 8 route types tested. Audit **75/78**.
+
 **Audit pass 7 — LocalBusiness switched on:**
 
 - **The gate from pass 6 is now live.** `streetAddress` ("JEET INDUSTRIES, Plot

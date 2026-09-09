@@ -410,8 +410,52 @@ const parseCatalogue = (source, resolveImage = () => DEFAULT_IMAGE) => {
   // 2. every product definition in the file
   const productRe =
     /slug:\s*(['"])(.*?)\1,\s*\r?\n\s*name:\s*(['"])(.*?)\3,\s*\r?\n\s*category:\s*(['"])(.*?)\5,\s*\r?\n\s*categorySlug:\s*(['"])(.*?)\7,\s*\r?\n\s*tagline:\s*(['"])(.*?)\9,\s*\r?\n\s*image:\s*(\w+)/g;
+  // Spec fields and the long description sit further down each object literal,
+  // past optional keys (`diagram` is present on some products and not others),
+  // so they are read per-product from that object's own slice rather than
+  // bolted onto the head regex as more consecutive lines.
+  //
+  // They are needed because the runtime Product JSON-LD carries
+  // `additionalProperty` (wattage, CRI, CCT, IP, rated life) and the full
+  // `description`, and the pre-rendered one did not: a non-JS crawler got a
+  // Product node with no specs and a different description than Google's
+  // renderer saw for the same URL.
+  // Reads `key: '...'` (or "..." / `...`) out of one product's object literal.
+  //
+  // Line-scanned rather than regex-matched, and written without a single
+  // literal backslash: earlier attempts here expressed the pattern through
+  // shell, Python and JS string escaping in turn, and each layer quietly ate
+  // one level until '\s' had degraded to a plain 's' that matched nothing.
+  // NEWLINE/BACKSLASH via fromCharCode keeps that class of bug impossible.
+  const NEWLINE = String.fromCharCode(10);
+  const BACKSLASH = String.fromCharCode(92);
+  const field = (chunk, key) => {
+    for (const line of chunk.split(NEWLINE)) {
+      const trimmed = line.trim();
+      if (!trimmed.startsWith(key + ':')) continue;
+      let i = trimmed.indexOf(':') + 1;
+      while (i < trimmed.length && trimmed[i] === ' ') i += 1;
+      const quote = trimmed[i];
+      if (quote !== "'" && quote !== '"' && quote !== '`') return '';
+      let out = '';
+      for (i += 1; i < trimmed.length; i += 1) {
+        const ch = trimmed[i];
+        if (ch === BACKSLASH) { i += 1; out += trimmed[i] || ''; continue; }
+        if (ch === quote) break;
+        out += ch;
+      }
+      return out;
+    }
+    return '';
+  };
+
   const bySlug = new Map();
   for (const m of source.matchAll(productRe)) {
+    const rest = source.slice(m.index);
+    // The object literal this match opened, up to the next entry's closing
+    // brace at the array's indent level.
+    const closeAt = rest.indexOf(String.fromCharCode(10) + '  },');
+    const chunk = closeAt < 0 ? rest : rest.slice(0, closeAt);
     // last definition wins, matching _BY_SLUG in products.js
     bySlug.set(m[2], {
       slug: m[2],
@@ -420,6 +464,12 @@ const parseCatalogue = (source, resolveImage = () => DEFAULT_IMAGE) => {
       categorySlug: m[8],
       tagline: m[10],
       image: resolveImage(m[11]),
+      wattage: field(chunk, 'wattage'),
+      cri: field(chunk, 'cri'),
+      cct: field(chunk, 'cct'),
+      ip: field(chunk, 'ip'),
+      lifespan: field(chunk, 'lifespan'),
+      description: field(chunk, 'description'),
     });
   }
 
