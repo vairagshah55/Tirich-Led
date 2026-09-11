@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import styles from './Footer.module.css';
-import footerLogo from '../../assets/new-log.webp';
+import footerLogo from '../../assets/logo-r.webp';
 import { BUSINESS } from '../../config/seo';
 import { CATEGORIES } from '../../data/products';
 
@@ -33,7 +33,7 @@ export default function Footer() {
       >
         <div className={styles.footerBrand}>
           <div className={styles.footerLogoRow}>
-            <img src={footerLogo} alt="Tirich LED" className={styles.footerLogo} width="368" height="161" loading="lazy" decoding="async" />
+            <img src={footerLogo} alt="Tirich LED" className={styles.footerLogo} width="325" height="160" loading="lazy" decoding="async" />
           </div>
           <p className={styles.footerTagline}>
             Premium LED lighting solutions — engineered for commercial, residential, and architectural spaces.

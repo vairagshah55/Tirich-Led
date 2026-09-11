@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import styles from './WhatsAppQuoteModal.module.css';
+import { BUSINESS } from '../../config/seo';
 
 const EASE = [0.25, 1, 0.5, 1];
-const PHONE = '919586556384';
+const PHONE = BUSINESS.whatsapp;
 
 export default function WhatsAppQuoteModal({ open, onClose, product }) {
   const [form, setForm] = useState({ name: '', phone: '', message: '' });

@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
-import logo from '../../assets/new-log.webp';
+import logo from '../../assets/logo-r.webp';
 import styles from './Navbar.module.css';
 import { CATEGORIES, PRODUCTS } from '../../data/products';
 import { buttonHover, buttonTap, fadeIn, fadeUp, presenceFade } from '../../utils/motion';
@@ -119,7 +119,7 @@ export default function Navbar() {
       <motion.nav className={`${styles.nav} ${scrolled ? styles.navScrolled : ''}`} {...fadeIn()}>
         <motion.div whileHover={{ scale: 1.03 }} whileTap={buttonTap}>
           <Link to="/" className={styles.navBrand}>
-            <img src={logo} alt="Tirich LED" className={styles.navLogo} width="368" height="161" fetchpriority="high" decoding="async" />
+            <img src={logo} alt="Tirich LED" className={styles.navLogo} width="325" height="160" fetchpriority="high" decoding="async" />
           </Link>
         </motion.div>
 

@@ -34,6 +34,11 @@ const BUSINESS = {
   // silently dropped — a number Google associates with the business but the
   // site never mentions reads as a name/address/phone mismatch.
   telephoneAlt: '+91-90334-38967',
+  // The WhatsApp line, in wa.me's format: country code, no +, no spaces.
+  // Kept here because the floating button and the quote modal had drifted to
+  // two different numbers (917383247625 and 919586556384) — a visitor got a
+  // different destination depending on which one they tapped.
+  whatsapp: '919033438967',
   email: 'salestirichled@gmail.com',
   // Spelt as the Google Business Profile spells it ('Udhana', not 'Udhna'):
   // the profile is what feeds the local pack, so it is the spelling to match.

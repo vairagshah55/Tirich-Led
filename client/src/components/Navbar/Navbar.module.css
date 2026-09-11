@@ -55,8 +55,6 @@
   width: auto;
   display: block;
   object-fit: contain;
-  /* Removes the white PNG background on light nav */
-  mix-blend-mode: multiply;
 }
 
 /* Dark mode: multiply kills logo colours on dark bg — use a ghost pill instead */

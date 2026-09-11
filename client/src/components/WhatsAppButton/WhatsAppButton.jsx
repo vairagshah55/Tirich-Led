@@ -1,10 +1,11 @@
 import { motion } from 'motion/react';
 import styles from './WhatsAppButton.module.css';
 import { buttonHover, buttonTap, scaleIn } from '../../utils/motion';
+import { BUSINESS } from '../../config/seo';
 
 const MotionAnchor = motion.a;
 
-const PHONE = '917383247625'; // +91 country code + number
+const PHONE = BUSINESS.whatsapp;
 const MESSAGE = 'Hello! I am interested in Tirich LED products.';
 
 export default function WhatsAppButton() {
