@@ -191,6 +191,9 @@
   font-size: 0.78rem;
   color: rgba(21, 21, 21, 0.45);
   line-height: 1.5;
+  /* This is an <address>, which browsers italicise by default. Nothing else in
+     the column is italic, and a postal address is not an aside. */
+  font-style: normal;
 }
 
 /* Legal links with no page behind them yet — same look as the nav text but no

@@ -123,7 +123,13 @@ export const organizationLd = {
     'LED light manufacturer in Surat, Gujarat — COB downlights, track, linear, '
     + 'magnetic, panel and outdoor LED fixtures supplied across India.',
   foundingDate: '2021',
-  areaServed: { '@type': 'Country', name: 'India' },
+  // Surat and Gujarat named explicitly alongside the country. "Serves India"
+  // says nothing about which city a local query should match.
+  areaServed: [
+    { '@type': 'City', name: 'Surat' },
+    { '@type': 'State', name: 'Gujarat' },
+    { '@type': 'Country', name: 'India' },
+  ],
   knowsAbout: [
     'LED lighting manufacturing',
     'COB downlights',

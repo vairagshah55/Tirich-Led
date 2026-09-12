@@ -185,9 +185,9 @@ routes.push({
 });
 routes.push({
   path: '/contact',
-  title: 'Contact Us',
+  title: 'Contact Us — LED Manufacturer in Surat',
   description:
-    'Get in touch with Tirich LED for product enquiries, project quotes and lighting design support. Call, WhatsApp or send us a message.',
+    'Contact Tirich LED, an LED light manufacturer in Udhana, Surat — call, WhatsApp or email for product enquiries, project quotes and lighting design support.',
   jsonLd: staticPageLd('ContactPage', 'Contact Tirich LED', '/contact', 'Contact Us'),
 });
 routes.push({

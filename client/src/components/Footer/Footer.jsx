@@ -78,10 +78,17 @@ export default function Footer() {
             <span className={styles.footerNavHead}>Company</span>
             <Link to="/contact">Contact</Link>
             <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a>
-            <a href={`tel:${BUSINESS.telephone.replace(/[^+\d]/g, '')}`}>{BUSINESS.telephone}</a>
-            <span className={styles.footerNavNote}>
+            <a href={`tel:${BUSINESS.telephone.replace(/[^+\d]/g, '')}`}>{BUSINESS.telephone.replace(/-/g, ' ')}</a>
+            {/* The full postal address, spelt exactly as the Google Business
+                Profile spells it. A visible address that matches the profile
+                is one of the few on-page local signals that actually counts;
+                locality alone ("Udhana, Surat") is not an address anyone can
+                match against. <address> because that is what it is. */}
+            <address className={styles.footerNavNote}>
+              {BUSINESS.streetAddress && <>{BUSINESS.streetAddress}<br /></>}
               {BUSINESS.addressLocality}, {BUSINESS.addressRegion}
-            </span>
+              {BUSINESS.postalCode ? ` ${BUSINESS.postalCode}` : ''}
+            </address>
           </div>
         </nav>
       </motion.div>

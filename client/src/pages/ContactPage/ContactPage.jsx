@@ -13,7 +13,10 @@ const CONTACT_INFO = [
   {
     icon: <><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></>,
     label: 'Office',
-    value: 'Surat, Gujarat, India',
+    // Assembled from BUSINESS so the address on this page, in the footer and
+    // in the LocalBusiness schema are one string with one source.
+    value: [BUSINESS.streetAddress, `${BUSINESS.addressLocality}, ${BUSINESS.addressRegion} ${BUSINESS.postalCode}`.trim()]
+      .filter(Boolean).join(', '),
   },
   {
     icon: <><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></>,
@@ -58,9 +61,9 @@ export default function ContactPage() {
   return (
     <div className={styles.page}>
       <Seo
-        title="Contact Us"
+        title="Contact Us — LED Manufacturer in Surat"
         path="/contact"
-        description="Get in touch with Tirich LED for product enquiries, project quotes and lighting design support. Call, WhatsApp or send us a message."
+        description="Contact Tirich LED, an LED light manufacturer in Udhana, Surat — call, WhatsApp or email for product enquiries, project quotes and lighting design support."
         jsonLd={[
           {
             '@context': 'https://schema.org',
