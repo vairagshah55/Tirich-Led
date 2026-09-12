@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Navbar from '../../components/Navbar/Navbar';
 import Seo from '../../components/Seo/Seo';
-import { SITE_URL, breadcrumbLd } from '../../config/seo';
+import { SITE_URL, BUSINESS, breadcrumbLd } from '../../config/seo';
 import Footer from '../../components/Footer/Footer';
 import styles from './ContactPage.module.css';
 
@@ -26,6 +26,18 @@ const CONTACT_INFO = [
     label: 'Phone',
     value: '+91 73832 47625',
     href: 'tel:+917383247625',
+  },
+  {
+    // Feather's message-circle, to match the outline style of the icons above.
+    icon: <><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></>,
+    // The second line, which is also the WhatsApp number and the one on the
+    // Google Business Profile. Both halves come from BUSINESS so the digits
+    // shown and the digits dialled cannot drift apart: telephoneAlt is stored
+    // '+91-90334-38967' and displayed with spaces, whatsapp is the bare
+    // country-code form wa.me needs.
+    label: 'WhatsApp',
+    value: BUSINESS.telephoneAlt.replace(/-/g, ' '),
+    href: `https://wa.me/${BUSINESS.whatsapp}`,
   },
   {
     icon: <><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></>,
