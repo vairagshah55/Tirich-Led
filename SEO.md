@@ -136,6 +136,36 @@ Check off items as you go.
   new attribute — without that it reported "unique canonicals 1" for the whole
   site, a broken matcher rather than a broken site.
 
+**Audit pass 9 — one phone number, everywhere:**
+
+Pass 7 published a second line on the reasoning that a number on the Google
+Business Profile but absent from the site reads as a NAP mismatch. That fixed
+the mismatch and created a worse one: the site then published *two* sales
+numbers, and which one a visitor got depended on where they tapped — footer and
+Organization schema gave +91-73832-47625, the WhatsApp button and the contact
+page's WhatsApp row gave +91-90334-38967. Two `contactPoint` entries of the same
+`contactType: 'sales'` tell Google there are two sales lines to choose between,
+which is the ambiguity the NAP rule exists to prevent.
+
+- **One number now: +91-90334-38967** — the line the Business Profile already
+  carries and the one already answering WhatsApp, so it is the one with the
+  established signal. The other line is no longer published anywhere on the site.
+- **Written once.** `BUSINESS.telephone` is now a `PHONE` constant at the top of
+  `config/seo.js`, and `BUSINESS.whatsapp` is derived from it
+  (`PHONE.replace(/\D/g, '')`) rather than typed out again — the shown digits and
+  the dialled digits can no longer drift. `telephoneAlt` is gone, and with it the
+  conditional second `contactPoint`.
+- **The hardcoded pair on the contact page is gone.** Its Phone row carried a
+  literal `'+91 73832 47625'` / `'tel:+917383247625'` that no config change could
+  reach; both halves now read from `BUSINESS`. Footer already derived from
+  `BUSINESS.telephone`, so it followed automatically.
+- **Mirrored in `scripts/seo-shared.js`** (the prerender's copy of the config)
+  and replayed through all 108 committed `prerender-cache/` bodies, so the
+  pre-rendered HTML a non-JS crawler sees carries the same single number.
+- **Still to do by hand, outside the repo:** the Google Business Profile itself
+  — the site is now consistent, but the profile is the other half of the NAP
+  pair. See the checklist in Phase 7.
+
 **Audit pass 8 — Product schema, the two paths reconciled:**
 
 Found by a new test that parses the JSON-LD out of the pre-rendered HTML and
@@ -622,7 +652,7 @@ const orgLd = {
   sameAs: [ /* Instagram, LinkedIn, Facebook URLs */ ],
   contactPoint: {
     "@type": "ContactPoint",
-    telephone: "+91-73832-47625",
+    telephone: "+91-90334-38967",
     contactType: "sales"
   }
 };
@@ -810,6 +840,22 @@ Core Web Vitals are ranking signals. Measure with
       "enquire", WhatsApp clicks, catalogue downloads.
 - [ ] ✅ **Google Business Profile** — critical for a lighting brand/showroom;
       add NAP (Name, Address, Phone), categories, photos.
+- [ ] ⚠️ **Google Business Profile — set the phone to +91-90334-38967 and remove
+      the second line.** This is the outside-the-repo half of audit pass 9 and
+      the only step there that code cannot do. The site now publishes exactly
+      one number; until the profile agrees, the NAP pair is still inconsistent
+      and the local pack still sees two sales lines for one business.
+      - Primary phone: **+91 90334 38967**. If +91-73832-47625 is listed as an
+        additional phone, delete it rather than demoting it — an additional
+        number is still a published number.
+      - Check the same number on any other listing that carries it: Bing
+        Places, Justdial, IndiaMART, Facebook, Instagram bio, the WhatsApp
+        Business profile, and the e-mail signature. A retired number left on a
+        third-party listing keeps the mismatch alive.
+      - The profile is **unclaimed** (see the pass-7 note above), so claiming it
+        is a prerequisite for editing the phone at all.
+      - Verify afterwards: search the brand, open the profile, confirm the call
+        button dials 90334 38967.
 - [ ] 🔁 After deploying Phase 2, use **URL Inspection → Request Indexing** in GSC
       for key pages to accelerate crawling.
 

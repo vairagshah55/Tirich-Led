@@ -23,22 +23,28 @@ const HOME_DESCRIPTION =
 // Site-wide fallback for any route without its own description.
 const DEFAULT_DESCRIPTION = HOME_DESCRIPTION;
 
+// The single phone number the business publishes, written once. Everything
+// that shows or dials a number — the footer link, the contact page, the
+// WhatsApp button, the Organization schema — reads it from here, so there is
+// no second place for a different number to appear.
+const PHONE = '+91-90334-38967';
+
 const BUSINESS = {
   name: SITE_NAME,
   legalName: 'Tirich Lighting Company',
   // Real short forms people search for — no invented variants.
   alternateName: ['Tirich', 'Tirich Lighting'],
-  telephone: '+91-73832-47625',
-  // A second real line, not a duplicate of the one above. It is the number
-  // the Google Business Profile carries, so it is published too rather than
-  // silently dropped — a number Google associates with the business but the
-  // site never mentions reads as a name/address/phone mismatch.
-  telephoneAlt: '+91-90334-38967',
-  // The WhatsApp line, in wa.me's format: country code, no +, no spaces.
-  // Kept here because the floating button and the quote modal had drifted to
-  // two different numbers (917383247625 and 919586556384) — a visitor got a
-  // different destination depending on which one they tapped.
-  whatsapp: '919033438967',
+  // The one published line, taken from PHONE above. The site used to carry
+  // two — +91-73832-47625 in the footer and the schema, +91-90334-38967 on
+  // WhatsApp and the Google Business Profile — so the number a visitor got
+  // depended on which element they tapped, and Google saw two competing
+  // name/address/phone signals for one business. Now it is this one
+  // everywhere: footer, contact page, WhatsApp, schema and the profile.
+  telephone: PHONE,
+  // The same line in wa.me's format: country code, no +, no spaces. Derived
+  // from PHONE rather than typed out, so the digits shown and the digits
+  // dialled cannot drift apart again.
+  whatsapp: PHONE.replace(/\D/g, ''),
   email: 'salestirichled@gmail.com',
   // Spelt as the Google Business Profile spells it ('Udhana', not 'Udhna'):
   // the profile is what feeds the local pack, so it is the spelling to match.
@@ -160,15 +166,6 @@ const organizationLd = {
       areaServed: 'IN',
       availableLanguage: ['en', 'hi', 'gu'],
     },
-    ...(BUSINESS.telephoneAlt
-      ? [{
-          '@type': 'ContactPoint',
-          telephone: BUSINESS.telephoneAlt,
-          contactType: 'sales',
-          areaServed: 'IN',
-          availableLanguage: ['en', 'hi', 'gu'],
-        }]
-      : []),
   ],
 };
 

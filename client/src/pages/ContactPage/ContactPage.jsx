@@ -27,19 +27,20 @@ const CONTACT_INFO = [
   {
     icon: <><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></>,
     label: 'Phone',
-    value: '+91 73832 47625',
-    href: 'tel:+917383247625',
+    value: BUSINESS.telephone.replace(/-/g, ' '),
+    href: `tel:${BUSINESS.telephone.replace(/[^+\d]/g, '')}`,
   },
   {
     // Feather's message-circle, to match the outline style of the icons above.
     icon: <><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></>,
-    // The second line, which is also the WhatsApp number and the one on the
-    // Google Business Profile. Both halves come from BUSINESS so the digits
-    // shown and the digits dialled cannot drift apart: telephoneAlt is stored
-    // '+91-90334-38967' and displayed with spaces, whatsapp is the bare
-    // country-code form wa.me needs.
+    // The same line as Phone above — the business publishes one number, so
+    // the two rows are two ways to reach it rather than two destinations.
+    // Both halves come from BUSINESS so the digits shown and the digits
+    // dialled cannot drift apart: telephone is stored '+91-90334-38967' and
+    // displayed with spaces, whatsapp is the bare country-code form wa.me
+    // needs.
     label: 'WhatsApp',
-    value: BUSINESS.telephoneAlt.replace(/-/g, ' '),
+    value: BUSINESS.telephone.replace(/-/g, ' '),
     href: `https://wa.me/${BUSINESS.whatsapp}`,
   },
   {
