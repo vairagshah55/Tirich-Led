@@ -67,35 +67,60 @@ const MODES = [
 ];
 
 const STATS = [
-  { value: '50K', unit: 'hrs', label: 'Lifespan' },
+  // A real number, not the string '50K'. <Counter> ran this through
+  // parseInt, and parseInt('50K', 10) is 50 — the K was dropped in silence
+  // and the strip advertised a 50-hour LED. Anything <Counter> should count
+  // has to be a number here; how it is punctuated is the renderer's job.
+  // The unit leads with a non-breaking space so '50,000 hrs' cannot break
+  // across two lines inside the flex:1 stat box on a narrow screen.
+  { value: 50000, unit: '\u00A0hrs', label: 'Lifespan' },
+  // Not countable, so these two are passed through and rendered verbatim.
   { value: 'CRI', unit: '95+', label: 'Colour Accuracy' },
   { value: 'IP65', unit: '', label: 'Weather Rated' },
 ];
 
-/* Animated floating number counter */
+/* Group thousands without Intl. The homepage body is pre-rendered in headless
+   Chrome and hydrated in the visitor's browser, and toLocaleString's grouping
+   follows the locale of whichever one is running — en-IN would render 50,000
+   here and 50,000 there but disagree on six digits and up. A fixed regex gives
+   both passes the same string, so the counter cannot cause a hydration
+   mismatch. */
+const group = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+/* Animated floating number counter. A numeric `to` counts up; anything else
+   ('CRI', 'IP65') is rendered as it stands. */
 function Counter({ to, suffix = '' }) {
-  const [val, setVal] = useState(0);
+  const countable = typeof to === 'number' && Number.isFinite(to);
+  /* Seeded with the final value rather than 0. This section is pre-rendered,
+     so whatever state the component holds at capture time is what gets baked
+     into build/index.html — seeding 0 wrote '0hrs Lifespan' into the HTML, and
+     that is what a non-JS crawler read and what every visitor saw until the
+     observer below happened to fire. Starting at the true value means the
+     markup is correct with no JS at all; the count-up is then an enhancement
+     on top of it. */
+  const [val, setVal] = useState(countable ? to : 0);
   const ref = useRef(null);
   useEffect(() => {
-    const num = parseInt(to, 10);
-    if (isNaN(num)) return;
+    if (!countable) return;
     let frame;
     const observer = new IntersectionObserver(([e]) => {
       if (!e.isIntersecting) return;
       observer.disconnect();
+      /* Rewind to 0 only once the strip is actually on screen, so the reset is
+         never something the visitor watches happen. */
       let start = null;
       const tick = (ts) => {
         if (!start) start = ts;
         const p = Math.min((ts - start) / 1400, 1);
-        setVal(Math.round(p * num));
+        setVal(Math.round(p * to));
         if (p < 1) frame = requestAnimationFrame(tick);
       };
       frame = requestAnimationFrame(tick);
     }, { threshold: 0.5 });
     if (ref.current) observer.observe(ref.current);
     return () => { cancelAnimationFrame(frame); observer.disconnect(); };
-  }, [to]);
-  return <span ref={ref}>{isNaN(parseInt(to, 10)) ? to : val}{suffix}</span>;
+  }, [to, countable]);
+  return <span ref={ref}>{countable ? group(val) : to}{suffix}</span>;
 }
 
 /* 3D tilt hook for image card */
