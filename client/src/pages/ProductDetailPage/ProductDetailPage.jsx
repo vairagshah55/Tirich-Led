@@ -316,7 +316,14 @@ export default function ProductDetailPage() {
                   </div>
                   {/* Right — specs */}
                   <div className={styles.diagramRight}>
-                    <h3 className={styles.diagramSpecsTitle}>Specifications</h3>
+                    {/* h2, not h3: this names the whole tab section, which is a
+                        peer of the 'Related Products' <h2> further down, and the
+                        page had no h2 between the product-name h1 and this. On
+                        tlc-203 — the one product with no related items — the
+                        related block never renders, so the page shipped no h2 at
+                        all. The class carries every typographic property, so the
+                        change is structural only and nothing moves. */}
+                    <h2 className={styles.diagramSpecsTitle}>Specifications</h2>
                     <div className={styles.diagramSpecs}>
                       {/* Skip the first 3 (Wattage, CRI, CCT) — shown in the strip
                           under the product name; here show only IP Rating & Rated Life. */}

@@ -247,6 +247,19 @@ export default function ProductsPage() {
           </div>
         </motion.div>
 
+        {/* Names the listing below, and completes the outline. The category
+            routes are the keyword-targeted landing pages, and they ran h1
+            straight into the h3 of each card: nothing told a reader — or a
+            crawler reading the heading outline — what the grid underneath
+            actually was. Built from the same category record as the h1, so the
+            two cannot drift apart, and it carries the category term once more
+            without restating the h1 word for word. */}
+        <h2 className={styles.gridHeading}>
+          {activeCategoryLabel
+            ? `${activeCategoryLabel} from Tirich LED`
+            : 'All LED Lighting Products'}
+        </h2>
+
         <div className={styles.grid}>
           {filtered.length === 0 ? (
             <div className={styles.empty}>

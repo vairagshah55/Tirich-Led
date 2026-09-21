@@ -228,6 +228,19 @@
   padding: 4rem 4rem 5rem;
 }
 
+/* Section label above the product grid. Deliberately far smaller than
+   .pageTitle: it is there to name the listing and complete the heading
+   outline, not to compete with the h1 it sits under. */
+.gridHeading {
+  max-width: 1200px;
+  margin: 0 auto 1.1rem;
+  font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 1.02rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-on-section);
+}
+
 .grid {
   max-width: 1200px;
   margin: 0 auto;

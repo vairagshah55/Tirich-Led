@@ -76,8 +76,16 @@ const BUSINESS = {
   longitude: null,
   // The Google Maps place URL itself
   hasMap: '',
-  // [{ days: ['Mo','Tu','We','Th','Fr','Sa'], opens: '10:00', closes: '19:00' }]
-  openingHours: [],
+  // Not guessed — this is the site's own published claim, verbatim from the
+  // contact page's 'Business Hours' row ('Mon – Sat, 9 AM – 6 PM IST'), in the
+  // 24-hour form schema.org wants. The page already told visitors this; the
+  // schema simply stops withholding it from Google, and the two now say the
+  // same thing. If the real hours ever differ from that row, fix the row
+  // first — a schema time that contradicts the visible page is worse than no
+  // schema time at all.
+  openingHours: [
+    { days: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'], opens: '09:00', closes: '18:00' },
+  ],
   sameAs: [
     'https://www.instagram.com/tirich_led/',
     'https://www.facebook.com/tirichledlighting',
