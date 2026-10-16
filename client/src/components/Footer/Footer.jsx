@@ -1,108 +1,185 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import styles from './Footer.module.css';
-import footerLogo from '../../assets/logo-r.webp';
+// Dark-background version of the logo — see Navbar.jsx.
+import footerLogo from '../../assets/logo-r-light.webp';
 import { BUSINESS } from '../../config/seo';
 import { CATEGORIES } from '../../data/products';
+import SectionLink from '../SectionLink/SectionLink';
+import Icon, { WhatsAppGlyph } from '../Icon/Icon';
 
-const EASE = [0.25, 1, 0.5, 1];
+const EASE = [0.22, 1, 0.36, 1];
+const PHONE_DISPLAY = BUSINESS.telephone.replace(/-/g, ' ');
+const PHONE_HREF = `tel:${BUSINESS.telephone.replace(/[^+\d]/g, '')}`;
 
-// Real profiles only — these also back the Organization schema's sameAs, so a
-// placeholder here would put a dead link in our structured data.
+// Real profiles only — Instagram and Facebook also back the Organization
+// schema's sameAs, so a placeholder here would put a dead link in our
+// structured data. The design's LinkedIn and YouTube buttons are left out
+// until those profiles exist.
 const SOCIALS = [
-  { label: 'Instagram', href: BUSINESS.sameAs[0], icon: <><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></> },
-  { label: 'Facebook', href: BUSINESS.sameAs[1], icon: <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/> },
+  { label: 'Instagram', href: BUSINESS.sameAs[0], icon: <Icon name="instagram" size={16} strokeWidth={1.8} /> },
+  { label: 'Facebook', href: BUSINESS.sameAs[1], icon: <Icon name="facebook" size={16} strokeWidth={1.8} /> },
+  { label: 'WhatsApp', href: `https://wa.me/${BUSINESS.whatsapp}`, icon: <WhatsAppGlyph size={16} /> },
 ];
 
-// Every category landing page linked from every page — without this the
-// /products/category/* pages are only reachable through the hover-only
-// mega-menu, i.e. invisible to crawlers.
-const FOOTER_CATEGORIES = CATEGORIES.slice(0, 6);
+// The design's Products column, in its order. Entries with a `slug` are
+// category landing pages: linking them from every page is what lets a
+// crawler reach /products/category/* without the hover-only mega-menu. Each
+// is kept only while that category exists, so a renamed one drops out
+// instead of becoming a site-wide dead link.
+const CATEGORY_SLUGS = new Set(CATEGORIES.map((c) => c.slug));
+const FOOTER_CATEGORIES = [
+  { label: 'COB Downlights', slug: 'cob-lights' },
+  { label: 'Track Lights', slug: 'track-lights' },
+  { label: 'Magnetic Track', slug: 'magnetic-track' },
+  { label: 'Linear / Batten', slug: 'linear-lights' },
+  { label: 'Panel Lights', to: '/products?search=panel' },
+  { label: 'Outdoor / Flood', slug: 'outdoor-lights' },
+  { label: 'Smart Lighting', to: '/smart-lighting' },
+  { label: 'Wall Washers', to: '/products/wall-washer' },
+].filter((cat) => !cat.slug || CATEGORY_SLUGS.has(cat.slug));
+
+// Each entry is one of: { to } a route, { href } a file, { section, … } a
+// homepage section (optionally pre-filling the enquiry form), or neither —
+// a page that doesn't exist yet, rendered as plain text so nothing looks
+// clickable that isn't.
+const COLUMNS = [
+  {
+    heading: 'Trade',
+    links: [
+      { label: 'Dealer Programme', section: 'connect', audience: 'dealer' },
+      { label: 'Distributor Tiers', section: 'contact', who: 'dealer', enquiry: 'trade' },
+      { label: 'Apply for Account', section: 'contact', who: 'dealer', enquiry: 'trade' },
+      { label: 'IES Files', section: 'contact', who: 'architect', enquiry: 'technical' },
+      { label: 'Spec Sheets', section: 'contact', enquiry: 'technical' },
+      { label: '2026 Catalogue', href: '/Tirich-LED-Catalogue-2026.pdf' },
+      { label: 'Marketing Kit', section: 'contact', who: 'dealer', enquiry: 'catalogue' },
+      { label: 'Training Videos', section: 'contact', enquiry: 'general' },
+    ],
+  },
+  {
+    heading: 'Company',
+    links: [
+      { label: 'About Tirich LED', to: '/about' },
+      { label: 'Projects', section: 'projects' },
+      { label: 'Applications', section: 'spaces' },
+      { label: 'For Architects', section: 'connect', audience: 'architect' },
+      { label: 'Blog & Insights' },
+      { label: 'Contact', to: '/contact' },
+      { label: 'Privacy Policy' },
+      { label: 'Terms of Trade' },
+    ],
+  },
+];
+
+function FooterLink({ link }) {
+  if (link.to) return <Link to={link.to}>{link.label}</Link>;
+  if (link.href) {
+    return (
+      <a href={link.href} target="_blank" rel="noopener noreferrer">
+        {link.label}
+      </a>
+    );
+  }
+  if (link.section) {
+    return (
+      <SectionLink section={link.section} audience={link.audience} who={link.who} enquiry={link.enquiry}>
+        {link.label}
+      </SectionLink>
+    );
+  }
+  return <span className={styles.pending}>{link.label}</span>;
+}
+
+const columnVariants = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
+};
 
 export default function Footer() {
   return (
     <footer className={styles.footer}>
-      <div className={styles.footerOrb} aria-hidden />
+      <span className={styles.beam} aria-hidden="true" />
 
       <motion.div
-        className={styles.footerTop}
-        initial={{ opacity: 0, y: 28 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.6, ease: EASE }}
+        className={styles.top}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.15 }}
+        variants={{ hidden: {}, show: { transition: { staggerChildren: 0.08 } } }}
       >
-        <div className={styles.footerBrand}>
-          <div className={styles.footerLogoRow}>
-            <img src={footerLogo} alt="Tirich LED" className={styles.footerLogo} width="325" height="160" loading="lazy" decoding="async" />
-          </div>
-          <p className={styles.footerTagline}>
-            Premium LED lighting solutions — engineered for commercial, residential, and architectural spaces.
+        <motion.div className={styles.brand} variants={columnVariants}>
+          <Link to="/" className={styles.logoBadge} aria-label="Tirich LED — home">
+            <img src={footerLogo} alt="Tirich LED" className={styles.logo} width="325" height="160" loading="lazy" decoding="async" />
+          </Link>
+          <p className={styles.reg}>JEET INDUSTRIES</p>
+          <p className={styles.desc}>
+            Precision-manufactured LED lighting for interiors and architecture. Trusted by dealers,
+            specified by architects, installed across 18 states in India.
           </p>
-          <div className={styles.footerSocials}>
+          {/* The full postal address, spelt as the Google Business Profile
+              spells it — a visible address that matches the profile is one
+              of the few on-page local signals that counts. */}
+          <address className={styles.addr}>
+            <strong>Registered Office</strong>
+            {BUSINESS.streetAddress && <>{BUSINESS.streetAddress}<br /></>}
+            {BUSINESS.addressLocality}, {BUSINESS.addressRegion}
+            {BUSINESS.postalCode ? ` ${BUSINESS.postalCode}` : ''}
+            <span className={styles.addrGap} />
+            <a href={PHONE_HREF} className={styles.addrStrong}>{PHONE_DISPLAY}</a>
+            <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a>
+          </address>
+          <div className={styles.socials}>
             {SOCIALS.map((s) => (
-              <motion.a
+              <a
                 key={s.label}
                 href={s.href}
-                className={styles.footerSocialLink}
+                className={styles.social}
                 aria-label={s.label}
-                whileHover={{ y: -3, scale: 1.1 }}
-                whileTap={{ scale: 0.92 }}
+                title={s.label}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  {s.icon}
-                </svg>
-              </motion.a>
+                {s.icon}
+              </a>
             ))}
           </div>
-        </div>
+        </motion.div>
 
-        <nav className={styles.footerNav}>
-          <div className={styles.footerNavCol}>
-            <span className={styles.footerNavHead}>Explore</span>
-            <Link to="/products">All Products</Link>
-            <Link to="/smart-lighting">Smart Lighting</Link>
-            <Link to="/about">About Us</Link>
-            <a href="/Tirich-LED-Catalogue-2026.pdf" target="_blank" rel="noopener noreferrer">
-              2026 Catalogue (PDF)
-            </a>
-          </div>
-          <div className={styles.footerNavCol}>
-            <span className={styles.footerNavHead}>Categories</span>
+        <motion.nav className={styles.col} variants={columnVariants} aria-label="Products">
+          <p className={styles.colHead}>Products</p>
+          <ul className={styles.links}>
             {FOOTER_CATEGORIES.map((cat) => (
-              <Link key={cat.slug} to={`/products/category/${cat.slug}`}>{cat.label}</Link>
+              <li key={cat.label}>
+                {cat.slug ? (
+                  <Link to={`/products/category/${cat.slug}`}>{cat.label}</Link>
+                ) : (
+                  <Link to={cat.to}>{cat.label}</Link>
+                )}
+              </li>
             ))}
-          </div>
-          <div className={styles.footerNavCol}>
-            <span className={styles.footerNavHead}>Company</span>
-            <Link to="/contact">Contact</Link>
-            <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a>
-            <a href={`tel:${BUSINESS.telephone.replace(/[^+\d]/g, '')}`}>{BUSINESS.telephone.replace(/-/g, ' ')}</a>
-            {/* The full postal address, spelt exactly as the Google Business
-                Profile spells it. A visible address that matches the profile
-                is one of the few on-page local signals that actually counts;
-                locality alone ("Udhana, Surat") is not an address anyone can
-                match against. <address> because that is what it is. */}
-            <address className={styles.footerNavNote}>
-              {BUSINESS.streetAddress && <>{BUSINESS.streetAddress}<br /></>}
-              {BUSINESS.addressLocality}, {BUSINESS.addressRegion}
-              {BUSINESS.postalCode ? ` ${BUSINESS.postalCode}` : ''}
-            </address>
-          </div>
-        </nav>
+          </ul>
+        </motion.nav>
+
+        {COLUMNS.map((col) => (
+          <motion.nav key={col.heading} className={styles.col} variants={columnVariants} aria-label={col.heading}>
+            <p className={styles.colHead}>{col.heading}</p>
+            <ul className={styles.links}>
+              {col.links.map((link) => (
+                <li key={link.label}>
+                  <FooterLink link={link} />
+                </li>
+              ))}
+            </ul>
+          </motion.nav>
+        ))}
       </motion.div>
 
-      <div className={styles.footerBottom}>
-        <p>&copy; {new Date().getFullYear()} Tirich LED. All rights reserved.</p>
-        {/* Privacy Policy and Terms pages do not exist yet. Rendered as plain
-            text rather than buttons so nothing looks clickable that is not —
-            swap these for <Link>s once the real pages are written. */}
-        <div className={styles.footerBottomLinks}>
-          <span className={styles.footerLegalPending}>Privacy</span>
-          <span className={styles.footerDivider} />
-          <span className={styles.footerLegalPending}>Terms</span>
-        </div>
+      <div className={styles.bottom}>
+        <p className={styles.copy}>
+          &copy; {new Date().getFullYear()} Tirich LED · JEET INDUSTRIES. All rights reserved. Registered trademark ®
+        </p>
+        <p className={styles.standards}>BIS · CE · RoHS · DALI-2 · IP65/67 · GST Registered · Made in India</p>
       </div>
     </footer>
   );

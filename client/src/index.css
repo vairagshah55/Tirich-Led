@@ -64,6 +64,39 @@
   /* Shared easing — Apple-ish decelerate */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 
+  /* ── Navy / orange system ───────────────────────────────────── */
+  /* From the "Full Homepage (B2B + B2C)" design. Drives the homepage and
+     the shared chrome (Navbar, Footer). Prefixed --tl-* so it sits beside
+     the white-studio tokens above instead of replacing them — the other
+     pages' bodies still read those. */
+  --tl-navy: #1A1A3E;
+  --tl-navy-deep: #0F0F28;
+  --tl-navy-mid: #21215A;
+  --tl-navy-light: #2E2E6E;
+  --tl-ink: #0C0C22;
+  --tl-orange: #E87722;
+  --tl-orange-lt: #F5A05A;
+  --tl-orange-dim: rgba(232, 119, 34, 0.15);
+  --tl-orange-tint: #FFF0E0;
+  --tl-offwhite: #F4F4FA;
+  --tl-text: #1A1A3E;
+  --tl-text-mid: #4A4A6A;
+  --tl-text-muted: #8888AA;
+  --tl-text-on-dark: rgba(255, 255, 255, 0.65);
+  --tl-border: #E0E0F0;
+  --tl-r4: 4px;
+  --tl-r8: 8px;
+  --tl-r12: 12px;
+  --tl-r20: 20px;
+  --tl-container: 1200px;
+  --tl-gutter: clamp(20px, 4vw, 32px);
+  --tl-nav-h: 68px;
+  --tl-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --font-display: 'Barlow Semi Condensed', 'Barlow', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Barlow', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
   /* ── Floating WhatsApp button geometry ──────────────────────── */
   /* The button is `position: fixed`, so it sits outside the flow and can
      cover whatever happens to be at the bottom of the document. These
@@ -179,6 +212,19 @@ button {
     transition: none;
   }
   .pageTransition { animation: none; }
+}
+
+/* Read by screen readers and crawlers, never painted. */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* ── Semantic landmark ──────────────────────────────────────────────

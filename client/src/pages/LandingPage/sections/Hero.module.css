@@ -1,0 +1,521 @@
+/* ════════════════════════════════════════════════════════════════════
+   Hero — navy-deep stage, orange beam, LED dot-grid, featured-range card
+   ════════════════════════════════════════════════════════════════════ */
+
+.hero {
+  --mx: 0;
+  --my: 0;
+  --cycle: 3600ms; /* = CYCLE_MS in Hero.jsx */
+
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  padding-top: var(--tl-nav-h);
+  background: var(--tl-navy-deep);
+  overflow: hidden;
+  isolation: isolate;
+  scroll-margin-top: 0;
+}
+
+/* A soft fall-off into the ticker so the stage doesn't end on a hard edge. */
+.hero::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 140px;
+  background: linear-gradient(180deg, transparent, rgba(15, 15, 40, 0.9));
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ── Background layers ────────────────────────────────────────────── */
+.beam {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: -100px;
+  width: 420px;
+  background: linear-gradient(170deg, var(--tl-orange) 0%, rgba(232, 119, 34, 0) 60%);
+  opacity: 0.08;
+  transform: skewX(-12deg);
+  pointer-events: none;
+  z-index: -1;
+  animation: beamDrift 9s ease-in-out infinite alternate;
+}
+
+@keyframes beamDrift {
+  from { transform: skewX(-12deg) translateX(0); opacity: 0.07; }
+  to   { transform: skewX(-12deg) translateX(-46px); opacity: 0.13; }
+}
+
+.beam2 {
+  position: absolute;
+  top: 30%;
+  right: 60px;
+  width: 3px;
+  height: 55%;
+  background: linear-gradient(180deg, var(--tl-orange), rgba(232, 119, 34, 0));
+  opacity: 0.4;
+  transform: rotate(-12deg) skewX(-12deg);
+  overflow: hidden;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* A pulse of light travelling down the slash. */
+.beam2::after {
+  content: '';
+  position: absolute;
+  left: -2px;
+  right: -2px;
+  height: 28%;
+  top: -30%;
+  background: linear-gradient(180deg, transparent, #FFFFFF, transparent);
+  animation: beamPulse 4.8s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+}
+
+@keyframes beamPulse {
+  0%   { top: -30%; opacity: 0; }
+  15%  { opacity: 1; }
+  70%  { opacity: 0.9; }
+  100% { top: 105%; opacity: 0; }
+}
+
+.dots {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(232, 119, 34, 0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* The same grid, brighter, revealed only in a pool around the pointer —
+   the dots read as LEDs switching on as you move. */
+.dotsLit {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(245, 160, 90, 0.55) 1.2px, transparent 1.6px);
+  background-size: 32px 32px;
+  -webkit-mask-image: radial-gradient(240px circle at var(--px, -999px) var(--py, -999px), #000, transparent 72%);
+  mask-image: radial-gradient(240px circle at var(--px, -999px) var(--py, -999px), #000, transparent 72%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.hero[data-pointer='on'] .dotsLit {
+  opacity: 1;
+}
+
+.glow {
+  position: absolute;
+  width: 720px;
+  height: 720px;
+  right: -120px;
+  top: 8%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232, 119, 34, 0.16), rgba(232, 119, 34, 0.04) 45%, transparent 68%);
+  transform: translate(calc(var(--mx) * 70px), calc(var(--my) * 70px));
+  transition: transform 1.2s var(--tl-ease);
+  pointer-events: none;
+  z-index: -1;
+  animation: glowBreathe 7s ease-in-out infinite alternate;
+}
+
+@keyframes glowBreathe {
+  from { opacity: 0.75; }
+  to   { opacity: 1; }
+}
+
+/* ── Content grid ─────────────────────────────────────────────────── */
+.content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 64px;
+  width: 100%;
+  max-width: var(--tl-container);
+  margin: 0 auto;
+  padding: 80px var(--tl-gutter) 60px;
+}
+
+.left {
+  flex: 1;
+  min-width: 0;
+  max-width: 620px;
+}
+
+/* ── Kicker ───────────────────────────────────────────────────────── */
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(232, 119, 34, 0.12);
+  border: 1px solid rgba(232, 119, 34, 0.25);
+  border-radius: 40px;
+  padding: 5px 14px 5px 5px;
+  margin-bottom: 28px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.kickerDot {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(232, 119, 34, 0.18);
+  flex-shrink: 0;
+}
+
+.kickerDot::after {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border-radius: 50%;
+  background: var(--tl-orange);
+  box-shadow: 0 0 10px var(--tl-orange);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.5; transform: scale(1.3); }
+}
+
+.kickerText {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--tl-orange);
+  letter-spacing: 0.04em;
+}
+
+/* ── Headline ─────────────────────────────────────────────────────── */
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 5vw, 68px);
+  font-weight: 900;
+  color: #FFFFFF;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  margin-bottom: 24px;
+}
+
+/* Each line rises out of its own mask. The padding/negative margin gives
+   descenders room inside the mask without changing the line box. */
+.lineMask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}
+
+.line,
+.line2 {
+  display: block;
+  will-change: transform;
+}
+
+.line2 {
+  background: linear-gradient(
+    90deg,
+    var(--tl-orange) 0%,
+    var(--tl-orange-lt) 30%,
+    #FFC895 45%,
+    var(--tl-orange-lt) 60%,
+    var(--tl-orange) 100%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: shimmer 7s linear infinite;
+}
+
+@keyframes shimmer {
+  from { background-position: 100% 0; }
+  to   { background-position: -150% 0; }
+}
+
+.sub {
+  font-size: 17px;
+  color: var(--tl-text-on-dark);
+  line-height: 1.75;
+  max-width: 520px;
+  margin-bottom: 36px;
+  font-weight: 400;
+}
+
+.btns {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 48px;
+}
+
+/* ── Stats ────────────────────────────────────────────────────────── */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  justify-content: start;
+  margin: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 36px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column-reverse; /* number above label; DOM keeps dt → dd */
+  justify-content: flex-end;
+  padding: 0 28px;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.stat:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.statN {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-weight: 900;
+  color: var(--tl-orange);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.statL {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.45);
+  margin-top: 5px;
+  letter-spacing: 0.03em;
+}
+
+/* ── Featured-range card ──────────────────────────────────────────── */
+.right {
+  width: 400px;
+  flex-shrink: 0;
+  position: relative;
+  perspective: 1200px;
+}
+
+.card {
+  position: relative;
+  /* Reads as the design's rgba(255,255,255,0.03) over navy-deep, but the
+     navy base underneath keeps the pointer-lit dot-grid from showing
+     through the glass at full strength. */
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)),
+    rgba(15, 15, 40, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--tl-r20);
+  padding: 32px;
+  overflow: hidden;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.6);
+  transform: rotateY(calc(var(--mx) * -7deg)) rotateX(calc(var(--my) * 7deg));
+  transition: transform 0.8s var(--tl-ease), border-color 0.4s ease;
+}
+
+.card:hover {
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(232, 119, 34, 0.18), transparent 70%);
+  pointer-events: none;
+}
+
+.cardLabel {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tl-orange);
+  margin-bottom: 20px;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.product {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--tl-r12);
+  text-decoration: none;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.product:hover {
+  border-color: rgba(232, 119, 34, 0.4);
+  background: rgba(232, 119, 34, 0.05);
+}
+
+.product:focus-visible {
+  outline: 2px solid var(--tl-orange);
+  outline-offset: 2px;
+}
+
+/* The active highlight is one element that springs between rows. */
+.highlight {
+  position: absolute;
+  inset: -1px;
+  border: 1px solid var(--tl-orange);
+  border-radius: var(--tl-r12);
+  background: rgba(232, 119, 34, 0.08);
+  box-shadow: 0 0 28px -6px rgba(232, 119, 34, 0.45);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Hairline that fills while a row is showcased, then hands on. */
+.cycle {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--tl-orange), var(--tl-orange-lt));
+  transform-origin: 0 50%;
+  animation: cycleFill var(--cycle) linear both;
+}
+
+.cardHeld .cycle {
+  animation: none;
+  transform: scaleX(1);
+  opacity: 0.6;
+}
+
+@keyframes cycleFill {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+.icon {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--tl-r8);
+  background: rgba(232, 119, 34, 0.12);
+  color: var(--tl-orange-lt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.4s var(--tl-ease);
+}
+
+.productOn .icon {
+  background: var(--tl-orange);
+  color: #FFFFFF;
+  transform: scale(1.04);
+}
+
+.productText {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.productName {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 2px;
+}
+
+.productSpec {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--tl-orange);
+  letter-spacing: 0.04em;
+}
+
+.productArrow {
+  position: relative;
+  color: var(--tl-orange);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.3s ease, transform 0.35s var(--tl-ease);
+}
+
+.productOn .productArrow,
+.product:hover .productArrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ── Responsive ───────────────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .content { gap: 40px; }
+  .right { width: 360px; }
+  .card { padding: 26px; }
+  .stat { padding: 0 20px; }
+}
+
+@media (max-width: 900px) {
+  /* As in the design: the card steps aside and the copy takes the stage. */
+  .right { display: none; }
+  .content { padding-top: 56px; padding-bottom: 72px; }
+  .left { max-width: 640px; }
+  .beam2 { right: 24px; }
+}
+
+@media (max-width: 600px) {
+  .content { padding-top: 40px; padding-bottom: 64px; }
+  .kicker { margin-bottom: 22px; }
+  .kickerText { font-size: 11px; }
+  .title { font-size: clamp(36px, 10.5vw, 44px); }
+  .sub { font-size: 16px; margin-bottom: 30px; }
+  .btns { margin-bottom: 40px; }
+  .btns > a { flex: 1 1 auto; }
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 24px;
+    padding-top: 28px;
+  }
+  .stat { padding: 0 0 0 18px; }
+  .stat:nth-child(odd) { padding-left: 0; border-left: 0; }
+  .statN { font-size: 30px; }
+  .beam { width: 260px; right: -120px; }
+  /* At full-width buttons the slash would cut straight through them. */
+  .beam2 { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beam, .beam2::after, .glow, .kickerDot::after, .line2, .cycle {
+    animation: none;
+  }
+  .card, .glow { transition: none; transform: none; }
+  .dotsLit { display: none; }
+}

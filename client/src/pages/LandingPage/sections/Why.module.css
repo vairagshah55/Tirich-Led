@@ -1,0 +1,108 @@
+.section {
+  background: var(--tl-offwhite);
+}
+
+.grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.cell {
+  display: flex;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  padding: 32px;
+  background: #FFFFFF;
+  border: 1px solid var(--tl-border);
+  border-radius: var(--tl-r12);
+  overflow: hidden;
+  transition: transform 0.5s var(--tl-ease), box-shadow 0.5s var(--tl-ease), border-color 0.3s ease;
+}
+
+/* The design's orange left edge — drawn in from the top on hover. */
+.card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--tl-orange);
+  transform: scaleY(0);
+  transform-origin: 50% 0;
+  transition: transform 0.45s var(--tl-ease);
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(232, 119, 34, 0.25);
+  box-shadow: 0 22px 44px -26px rgba(26, 26, 62, 0.35);
+}
+
+.card:hover::before {
+  transform: scaleY(1);
+}
+
+.icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--tl-r8);
+  background: var(--tl-orange-tint);
+  color: var(--tl-orange);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.35s ease, color 0.35s ease, transform 0.5s var(--tl-ease);
+}
+
+.card:hover .icon {
+  background: var(--tl-orange);
+  color: #FFFFFF;
+  transform: rotate(-6deg) scale(1.06);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--tl-navy);
+  margin-bottom: 6px;
+}
+
+.text {
+  font-size: 14px;
+  color: var(--tl-text-mid);
+  line-height: 1.65;
+}
+
+.spec {
+  display: inline-block;
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--tl-orange);
+}
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr; gap: 16px; }
+}
+
+@media (max-width: 600px) {
+  .card { padding: 24px 20px; gap: 16px; }
+  .icon { width: 42px; height: 42px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .card::before, .icon { transition: none; }
+}

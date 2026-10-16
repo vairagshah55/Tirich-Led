@@ -1,0 +1,350 @@
+.section {
+  background: var(--tl-navy);
+  overflow: hidden;
+}
+
+/* Glow behind the form card. */
+.section::before {
+  content: '';
+  position: absolute;
+  width: 760px;
+  height: 760px;
+  right: -200px;
+  top: 10%;
+  background: radial-gradient(circle, rgba(232, 119, 34, 0.12), transparent 62%);
+  pointer-events: none;
+}
+
+.inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+
+.heading {
+  margin-bottom: 16px;
+}
+
+.lead {
+  margin-bottom: 36px;
+}
+
+/* ── Channels ─────────────────────────────────────────────────────── */
+.channels {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.channel {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--tl-r8);
+  text-decoration: none;
+  transition: border-color 0.25s ease, background-color 0.25s ease, transform 0.45s var(--tl-ease);
+}
+
+.channel:hover {
+  border-color: rgba(232, 119, 34, 0.4);
+  background: rgba(232, 119, 34, 0.05);
+  transform: translateX(4px);
+}
+
+.channel:focus-visible {
+  outline: 2px solid var(--tl-orange);
+  outline-offset: 2px;
+}
+
+.channelIcon {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--tl-r8);
+  background: rgba(232, 119, 34, 0.12);
+  color: var(--tl-orange-lt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.channel:hover .channelIcon {
+  background: var(--tl-orange);
+  color: #FFFFFF;
+}
+
+.channelText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.channelLabel {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.channelValue {
+  font-size: 15px;
+  font-weight: 600;
+  color: #FFFFFF;
+  overflow-wrap: anywhere;
+}
+
+.channelArrow {
+  display: flex;
+  color: var(--tl-orange);
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 0.3s ease, transform 0.4s var(--tl-ease);
+}
+
+.channel:hover .channelArrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ── Form card ────────────────────────────────────────────────────── */
+.form {
+  background: #FFFFFF;
+  border-radius: var(--tl-r20);
+  padding: 36px;
+  box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.55);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--tl-navy);
+  margin-bottom: 6px;
+}
+
+.sub {
+  font-size: 14px;
+  color: var(--tl-text-mid);
+  margin-bottom: 24px;
+}
+
+.label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--tl-text);
+  padding: 0;
+}
+
+.label span {
+  color: var(--tl-orange);
+}
+
+/* ── "I am a" chips — real radios, styled ─────────────────────────── */
+.who {
+  border: 0;
+  margin: 0 0 16px;
+  padding: 0;
+  min-width: 0;
+}
+
+.who .label {
+  margin-bottom: 8px;
+}
+
+.chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  position: relative;
+  padding: 5px 12px;
+  border-radius: 40px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1.5px solid var(--tl-border);
+  background: #FFFFFF;
+  color: var(--tl-text-mid);
+  cursor: pointer;
+  user-select: none;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.chip:hover {
+  border-color: var(--tl-navy);
+  color: var(--tl-navy);
+}
+
+.chip:has(input:focus-visible) {
+  outline: 2px solid var(--tl-orange);
+  outline-offset: 2px;
+}
+
+.chipOn,
+.chipOn:hover {
+  border-color: var(--tl-navy);
+  color: #FFFFFF;
+}
+
+.chipPill {
+  position: absolute;
+  inset: -1.5px;
+  border-radius: 40px;
+  background: var(--tl-navy);
+}
+
+.chipLabel {
+  position: relative;
+}
+
+/* ── Fields ───────────────────────────────────────────────────────── */
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 14px;
+}
+
+.input {
+  width: 100%;
+  border: 1.5px solid var(--tl-border);
+  border-radius: var(--tl-r4);
+  padding: 10px 14px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--tl-text);
+  background: #FFFFFF;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.25s ease;
+}
+
+.input::placeholder {
+  color: var(--tl-text-muted);
+}
+
+.input:hover {
+  border-color: #C9C9E0;
+}
+
+.input:focus {
+  border-color: var(--tl-orange);
+  box-shadow: 0 0 0 4px rgba(232, 119, 34, 0.12);
+}
+
+.groupError .input {
+  border-color: #D93B3B;
+}
+
+.groupError .input:focus {
+  box-shadow: 0 0 0 4px rgba(217, 59, 59, 0.12);
+}
+
+.selectWrap {
+  position: relative;
+}
+
+.selectWrap::after {
+  content: '';
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-right: 1.5px solid var(--tl-text-mid);
+  border-bottom: 1.5px solid var(--tl-text-mid);
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
+}
+
+.selectWrap select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 38px;
+  cursor: pointer;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.error {
+  display: block;
+  overflow: hidden;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #D93B3B;
+}
+
+.submit {
+  width: 100%;
+  font-size: 16px;
+  margin-top: 4px;
+}
+
+.note {
+  font-size: 11px;
+  color: var(--tl-text-muted);
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* ── Sent state ───────────────────────────────────────────────────── */
+.sent {
+  text-align: center;
+  padding: 24px 0 8px;
+}
+
+.sentBadge {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  background: var(--tl-orange-tint);
+  color: var(--tl-orange);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 10px rgba(232, 119, 34, 0.06);
+}
+
+.sentActions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+@media (max-width: 900px) {
+  .inner { grid-template-columns: 1fr; gap: 48px; }
+}
+
+@media (max-width: 600px) {
+  .form { padding: 26px 20px; border-radius: var(--tl-r12); }
+  .row { grid-template-columns: 1fr; gap: 0; }
+  /* 16px stops iOS zooming into a focused field. */
+  .input { font-size: 16px; }
+  .channel { padding: 14px 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .channel, .channelArrow { transition: none; }
+}

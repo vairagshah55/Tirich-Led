@@ -1,0 +1,80 @@
+.strip {
+  position: relative;
+  background: var(--tl-navy);
+  padding: 60px var(--tl-gutter);
+  overflow: hidden;
+}
+
+/* Hairline beams top and bottom — the strip reads as a lit band. */
+.strip::before,
+.strip::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(232, 119, 34, 0.45), transparent);
+}
+
+.strip::before { top: 0; }
+.strip::after { bottom: 0; }
+
+.inner {
+  max-width: var(--tl-container);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* dt is first in the DOM (term before value); the grid order puts the
+   number on top as the design does. */
+.stat {
+  display: grid;
+  grid-template-areas: 'value' 'label' 'note';
+  text-align: center;
+  padding: 20px;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.stat:last-child {
+  border-right: none;
+}
+
+.value {
+  grid-area: value;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 44px;
+  font-weight: 900;
+  color: var(--tl-orange);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 28px rgba(232, 119, 34, 0.35);
+}
+
+.label {
+  grid-area: label;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 6px;
+}
+
+.note {
+  grid-area: note;
+  margin: 2px 0 0;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.25);
+  font-family: var(--font-mono);
+}
+
+@media (max-width: 900px) {
+  .inner { grid-template-columns: 1fr 1fr; }
+  .stat:nth-child(2) { border-right: none; }
+  .stat:nth-child(-n + 2) { border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+}
+
+@media (max-width: 600px) {
+  .strip { padding: 36px var(--tl-gutter); }
+  .stat { padding: 18px 8px; }
+  .value { font-size: 34px; }
+}

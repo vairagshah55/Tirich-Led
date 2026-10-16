@@ -1,210 +1,253 @@
-/* ── Footer — shared component, white theme ──────────────────── */
+/* ════════════════════════════════════════════════════════════════════
+   Footer — deep navy, from the "Full Homepage (B2B + B2C)" design.
+   Shared by every page.
+   ════════════════════════════════════════════════════════════════════ */
+
 .footer {
-  background: var(--bg-page, #FFFFFF);
-  color: var(--text-body, #17164A);
   position: relative;
+  background: var(--tl-ink);
+  padding: 60px var(--tl-gutter) 28px;
+  font-family: var(--font-body);
   overflow: hidden;
-  border-top: 1px solid rgba(21, 21, 21, 0.08);
 }
 
-.footerOrb {
+/* A hairline of light along the top edge. */
+.beam {
   position: absolute;
-  width: 400px;
-  height: 400px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 157, 28, 0.07) 0%, transparent 70%);
-  top: -120px;
-  right: -80px;
-  pointer-events: none;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(232, 119, 34, 0.55), transparent);
 }
 
-.footerTop {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 4rem;
-  border-bottom: 1px solid rgba(21, 21, 21, 0.08);
-  gap: 4rem;
-  position: relative;
-  z-index: 1;
+.top {
+  max-width: var(--tl-container);
+  margin: 0 auto 28px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  display: grid;
+  grid-template-columns: 2.2fr 1fr 1fr 1fr;
+  gap: 48px;
 }
 
-.footerBrand {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  max-width: 320px;
+/* ── Brand column ─────────────────────────────────────────────────── */
+.logoBadge {
+  display: inline-flex;
+  border-radius: var(--tl-r4);
+  transition: opacity 0.25s ease;
 }
 
-.footerLogoRow {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
+.logoBadge:hover {
+  opacity: 0.85;
 }
 
-.footerLogo {
-  height: 39px;
+.logoBadge:focus-visible {
+  outline: 2px solid var(--tl-orange);
+  outline-offset: 4px;
+}
+
+.logo {
+  height: 48px;
   width: auto;
   display: block;
 }
 
-.footerTagline {
-  font-size: 0.82rem;
-  color: rgba(21, 21, 21, 0.5);
-  margin: 0;
-  line-height: 1.65;
+.reg {
+  margin: 12px 0 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.25);
 }
 
-.footerSocials {
+.desc {
+  margin: 10px 0 20px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.75;
+  max-width: 380px;
+}
+
+.addr {
+  display: flex;
+  flex-direction: column;
+  font-style: normal;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.35);
+  line-height: 1.8;
+}
+
+.addr strong {
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 600;
+}
+
+.addrGap {
+  height: 1.8em;
+}
+
+.addr a {
+  color: rgba(255, 255, 255, 0.35);
+  text-decoration: none;
+  align-self: flex-start;
+  transition: color 0.15s ease;
+}
+
+.addr a:hover {
+  color: var(--tl-orange);
+}
+
+.addr .addrStrong {
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 600;
+}
+
+.socials {
   display: flex;
   gap: 8px;
-  margin-top: 0.3rem;
+  margin-top: 16px;
 }
 
-.footerSocialLink {
+.social {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--tl-r4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  border: 1px solid rgba(21, 21, 21, 0.1);
-  background: var(--bg-section, #F5F5F9);
-  color: rgba(21, 21, 21, 0.45);
   text-decoration: none;
-  transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease;
+  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease, transform 0.35s var(--tl-ease);
 }
 
-.footerSocialLink:hover {
-  border-color: rgba(255, 157, 28, 0.4);
-  color: var(--brand-orange, #FF9D1C);
-  background: rgba(255, 157, 28, 0.06);
+.social:hover {
+  border-color: var(--tl-orange);
+  background: rgba(232, 119, 34, 0.1);
+  color: var(--tl-orange);
+  transform: translateY(-2px);
 }
 
-.footerNav {
-  display: flex;
-  gap: 3.5rem;
+.social:focus-visible {
+  outline: 2px solid var(--tl-orange);
+  outline-offset: 2px;
 }
 
-.footerNavCol {
+/* ── Link columns ─────────────────────────────────────────────────── */
+.colHead {
+  margin: 0 0 16px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--tl-orange);
+}
+
+.links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
+  gap: 9px;
 }
 
-.footerNavHead {
-  font-size: 0.62rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--brand-orange, #FF9D1C);
-  font-weight: 700;
-  margin-bottom: 0.35rem;
-}
-
-.footerNavCol a {
-  color: rgba(21, 21, 21, 0.55);
-  text-decoration: none;
-  font-size: 0.82rem;
-  letter-spacing: 0.02em;
-  transition: color 0.22s ease;
-}
-
-.footerNavCol a:hover { color: var(--brand-navy, #17164A); }
-
-.footerBottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.3rem 4rem;
-  font-size: 0.72rem;
-  color: rgba(21, 21, 21, 0.3);
+.links a {
   position: relative;
-  z-index: 1;
-}
-
-.footerBottom p { margin: 0; }
-
-.footerBottomLinks {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-}
-
-.footerBottomLinks a {
-  color: rgba(21, 21, 21, 0.3);
+  display: inline-block;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.4);
   text-decoration: none;
-  font-size: 0.72rem;
-  transition: color 0.22s ease;
+  transition: color 0.15s ease, transform 0.3s var(--tl-ease);
 }
 
-.footerBottomLinks a:hover { color: var(--brand-orange, #FF9D1C); }
-
-.footerDivider {
-  width: 1px;
-  height: 12px;
-  background: rgba(21, 21, 21, 0.12);
+/* Underline beam that draws in from the left. */
+.links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 1px;
+  background: var(--tl-orange);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 0.35s var(--tl-ease);
 }
 
-@media (max-width: 1100px) {
-  .footerTop { padding: 3rem 2rem; gap: 2.5rem; }
-  .footerNav { gap: 2rem; }
-  .footerBottom { padding: 1.2rem 2rem; }
+.links a:hover {
+  color: rgba(255, 255, 255, 0.85);
+  transform: translateX(2px);
 }
 
-@media (max-width: 760px) {
-  .footerTop { flex-direction: column; padding: 2.5rem 1.5rem; gap: 2rem; }
-  .footerBrand { max-width: 100%; }
-  .footerNav { flex-wrap: wrap; gap: 2rem; }
-  .footerBottom { flex-direction: column; gap: 0.6rem; padding: 1.2rem 1.5rem; text-align: center; }
-  .footerBottomLinks { justify-content: center; }
+.links a:hover::after {
+  transform: scaleX(1);
 }
 
-@media (max-width: 480px) {
-  .footerTop { padding: 2rem 1.25rem; }
-  .footerBottom { padding: 1rem 1.25rem; }
+.links a:focus-visible {
+  outline: 2px solid var(--tl-orange);
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
-/* The floating WhatsApp button is `position: fixed`, so at the very bottom of
-   the document there is no scroll left to move content out from under it — it
-   was permanently covering the copyright line and the Terms link. This is the
-   last block on the page, so it is where the button's footprint is reserved.
-   --wa-reserve is derived from the button's own inset and height, not a
-   guessed pixel value. */
+/* Pages not written yet — present, but not pretending to be links. */
+.pending {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.2);
+}
+
+/* ── Bottom bar ───────────────────────────────────────────────────── */
+.bottom {
+  max-width: var(--tl-container);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.copy {
+  margin: 0;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.standards {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.2);
+}
+
+/* ── Responsive ───────────────────────────────────────────────────── */
+@media (max-width: 1000px) {
+  .top { grid-template-columns: 1fr 1fr 1fr; gap: 40px 32px; }
+  .brand { grid-column: 1 / -1; }
+  .desc { max-width: 520px; }
+}
+
 @media (max-width: 600px) {
-  .footerBottom { padding-bottom: calc(1rem + var(--wa-reserve, 82px)); }
+  .footer { padding-top: 48px; }
+  .top { grid-template-columns: 1fr 1fr; gap: 36px 24px; padding-bottom: 36px; }
+  .links a, .pending { min-height: 32px; display: inline-flex; align-items: center; }
+  .links { gap: 2px; }
+  .social { width: 44px; height: 44px; }
 }
 
-/* Same bug above 600px, where the button collapses to a 52px icon in the
-   corner. There it only needs clearing horizontally, which leaves the bar's
-   height — and so the look of the page — unchanged. */
+/* The floating WhatsApp button is position: fixed, so it sits over whatever
+   is at the bottom of the document — here, the copyright line. Reserve its
+   footprint (--wa-reserve / --wa-inset, set in index.css from the button's
+   own geometry) rather than guessing a pixel value. */
+@media (max-width: 600px) {
+  .bottom { padding-bottom: var(--wa-reserve, 82px); }
+}
+
 @media (min-width: 601px) {
-  .footerBottom { padding-right: calc(var(--wa-inset) + 52px + 1.5rem); }
+  .bottom { padding-right: calc(var(--wa-inset) + 52px + 1.5rem); }
 }
 
-@media (max-width: 480px) {
-  .footerSocialLink { width: 44px; height: 44px; }
-  .footerNavCol a { min-height: 36px; display: flex; align-items: center; }
-}
-
-/* Non-link contact line in the footer nav — matches the link rhythm. */
-.footerNavNote {
-  font-size: 0.78rem;
-  color: rgba(21, 21, 21, 0.45);
-  line-height: 1.5;
-  /* This is an <address>, which browsers italicise by default. Nothing else in
-     the column is italic, and a postal address is not an aside. */
-  font-style: normal;
-}
-
-/* Legal links with no page behind them yet — same look as the nav text but no
-   pointer cursor or hover affordance, so nothing pretends to be a link. */
-.footerLegalPending {
-  color: rgba(21, 21, 21, 0.3);
-  font-size: 0.72rem;
-}
-
-/* Column headings resolved to 9.9px on a phone — under the readable floor for
-   letter-spaced caps. Desktop keeps its size. */
-@media (max-width: 700px) {
-  .footerNavHead { font-size: 0.7rem; letter-spacing: 0.1em; }
+@media (prefers-reduced-motion: reduce) {
+  .links a, .links a::after, .social, .logoBadge { transition: none; }
 }

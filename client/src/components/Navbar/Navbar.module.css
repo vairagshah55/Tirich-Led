@@ -1,53 +1,59 @@
 /* ════════════════════════════════════════════════════════════════════
-   Navbar — Pro-level header
+   Navbar — the solid navy bar from the "Full Homepage (B2B + B2C)"
+   design, on every page. Height stays 68px: every page offsets by it.
    ════════════════════════════════════════════════════════════════════ */
 
-/* ── Nav shell ──────────────────────────────────────────────────── */
 .nav {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 200;
+  font-family: var(--font-body);
+  background: rgba(26, 26, 62, 0.96);
+  backdrop-filter: blur(14px) saturate(1.3);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 1px 12px rgba(0, 0, 0, 0.18);
+  transition: box-shadow 0.35s ease;
+}
+
+.navScrolled {
+  box-shadow: 0 2px 24px rgba(0, 0, 0, 0.4);
+}
+
+.inner {
+  max-width: var(--tl-container);
+  height: var(--tl-nav-h);
+  margin: 0 auto;
+  padding: 0 var(--tl-gutter);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 3rem;
-  height: 68px;
-  background: var(--nav-bg);
-  backdrop-filter: blur(20px) saturate(1.4);
-  -webkit-backdrop-filter: blur(20px) saturate(1.4);
-  border-bottom: 1px solid var(--line-faint);
-  transition:
-    background  0.35s ease,
-    box-shadow  0.35s ease,
-    border-color 0.35s ease;
+  gap: 16px;
 }
 
-/* Scrolled state — stronger depth */
-.navScrolled {
-  border-bottom-color: var(--line-soft);
-  box-shadow: 0 1px 2px rgba(21, 21, 21, 0.03), 0 8px 28px rgba(21, 21, 21, 0.06);
-}
-
-/* ── Brand / Logo ───────────────────────────────────────────────── */
-.navBrand {
-  text-decoration: none;
+/* ── Brand — the dark-background logo, straight on the bar ─────────── */
+.brandWrap {
   flex-shrink: 0;
+}
+
+.navBrand {
   display: flex;
   align-items: center;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  text-decoration: none;
+  border-radius: var(--tl-r4);
+  transition: opacity 0.25s ease, transform 0.35s var(--tl-ease);
 }
 
 .navBrand:hover {
-  opacity: 0.82;
+  opacity: 0.88;
   transform: translateY(-1px);
 }
 
 .navBrand:focus-visible {
-  outline: 2px solid var(--brand-orange);
+  outline: 2px solid var(--tl-orange);
   outline-offset: 4px;
-  border-radius: 3px;
 }
 
 .navLogo {
@@ -57,87 +63,83 @@
   object-fit: contain;
 }
 
-/* Dark mode: multiply kills logo colours on dark bg — use a ghost pill instead */
-
 /* ── Center links ───────────────────────────────────────────────── */
 .navCenter {
   display: flex;
   align-items: center;
-  gap: 0.15rem;
-  flex: 1;
-  justify-content: center;
+  gap: 6px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
   min-width: 0;
-  overflow: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+/* Search open: the links make way for the field (see .navSearchOpen). */
+.searching .navCenter {
+  opacity: 0;
+  visibility: hidden;
 }
 
 .navLink {
-  color: var(--nav-text);
-  text-decoration: none;
-  font-size: 0.76rem;
-  font-weight: 500;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  padding: 0.45rem 0.9rem;
-  border-radius: 3px;
   position: relative;
-  transition: color 0.2s ease;
+  display: block;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: var(--tl-r4);
   white-space: nowrap;
-}
-
-/* Animated underline */
-.navLink::after {
-  content: '';
-  position: absolute;
-  bottom: 2px;
-  left: 0.9rem;
-  right: 0.9rem;
-  height: 1.5px;
-  background: var(--clr-accent-decoration);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.28s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: color 0.15s ease;
 }
 
 .navLink:hover {
-  color: var(--brand-orange);
+  color: #FFFFFF;
 }
 
-.navLink:hover::after {
-  transform: scaleX(1);
-}
-
-.navLinkActive {
-  color: var(--brand-orange);
-}
-
-.navLinkActive::after {
-  transform: scaleX(1);
+.navLinkActive,
+.navLinkActive:hover {
+  color: var(--tl-orange);
 }
 
 .navLink:focus-visible {
-  outline: 2px solid var(--brand-orange);
+  outline: 2px solid var(--tl-orange);
   outline-offset: 2px;
-  border-radius: 3px;
 }
 
-/* Products trigger button */
-.navLinkBtn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
+.linkText {
+  position: relative;
+  display: inline-flex;
   align-items: center;
-  gap: 0.38rem;
-  font-family: inherit;
+  gap: 5px;
 }
 
-.navLinkBtn svg {
-  transition: transform 0.28s cubic-bezier(0.23, 1, 0.32, 1);
-  flex-shrink: 0;
+/* One pill glides between hovered links; one bar marks the active one. */
+.hoverPill {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--tl-r4);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.activeBar {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: -2px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--tl-orange);
+  box-shadow: 0 0 10px rgba(232, 119, 34, 0.8);
+}
+
+.chevron {
   opacity: 0.65;
+  transition: transform 0.28s var(--tl-ease), opacity 0.2s ease;
 }
 
-.megaTrigger:hover .navLinkBtn svg {
+.megaTrigger:hover .chevron {
   transform: rotate(180deg);
   opacity: 1;
 }
@@ -146,82 +148,258 @@
 .navRight {
   display: flex;
   align-items: center;
-  gap: 0.875rem;
+  gap: 10px;
   flex-shrink: 0;
-  margin-left: auto;
 }
 
-/* ── Theme toggle ───────────────────────────────────────────────── */
-
-/* ── Partner login CTA (hidden until ready) ─────────────────────── */
-.navCta {
-  background: transparent;
-  border: 1px solid var(--btn-ghost-fg);
-  color: var(--clr-accent-text);
-  padding: 0.42rem 1.1rem;
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  cursor: pointer;
-  font-family: inherit;
-  border-radius: 2px;
-  transition: background 0.25s ease, color 0.25s ease;
+.navPhone {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
   white-space: nowrap;
+  padding: 4px 6px;
+  border-radius: var(--tl-r4);
+  transition: color 0.2s ease;
+}
+
+.navPhone strong {
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.navPhoneIcon {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(232, 119, 34, 0.15);
+  color: var(--tl-orange);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.navPhone:hover .navPhoneIcon {
+  background: var(--tl-orange);
+  color: #FFFFFF;
+}
+
+.navPhone:focus-visible {
+  outline: 2px solid var(--tl-orange);
+  outline-offset: 2px;
+}
+
+.navCta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--tl-orange);
+  color: #FFFFFF;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  padding: 9px 22px;
+  border-radius: var(--tl-r4);
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  isolation: isolate;
+  transition: box-shadow 0.35s var(--tl-ease), transform 0.35s var(--tl-ease);
+}
+
+.navCta::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, 0.35) 48%, transparent 66%);
+  transform: translateX(-120%);
+  transition: transform 0.8s var(--tl-ease);
 }
 
 .navCta:hover {
-  background: var(--btn-solid-bg);
-  color: var(--btn-solid-text);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px -10px rgba(232, 119, 34, 0.9);
 }
 
-/* ── Lead user greeting ────────────────────────────────────────── */
-.leadUser {
+.navCta:hover::after {
+  transform: translateX(120%);
+}
+
+.navCta:focus-visible {
+  outline: 2px solid #FFFFFF;
+  outline-offset: 2px;
+}
+
+.navCtaArrow {
+  transition: transform 0.35s var(--tl-ease);
+}
+
+.navCta:hover .navCtaArrow {
+  transform: translateX(3px);
+}
+
+/* ── Account chip — the signed-in visitor, far right ──────────────── */
+/* Sits after the CTA, where account controls are expected; the greeting
+   and log-out live in its menu instead of loose in the link row. */
+.account {
+  position: relative;
+  margin-left: 4px;
+  padding-left: 14px;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.accountBtn {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 8px;
+  height: 38px;
+  padding: 3px 12px 3px 3px;
+  border-radius: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  color: #FFFFFF;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
-.leadAvatar {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: rgba(255, 157, 28, 0.1);
-  border: 1.5px solid rgba(255, 157, 28, 0.3);
+.accountBtn:hover,
+.accountBtnOpen {
+  border-color: rgba(232, 119, 34, 0.6);
+  background: rgba(232, 119, 34, 0.08);
+}
+
+.accountBtn:focus-visible {
+  outline: 2px solid var(--tl-orange);
+  outline-offset: 2px;
+}
+
+.accountAvatar,
+.accountAvatarLg {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #FF9D1C;
   flex-shrink: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--tl-orange), var(--tl-orange-lt));
+  color: #FFFFFF;
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 1;
 }
 
-.leadName {
-  font-size: 0.74rem;
-  font-weight: 600;
-  color: var(--nav-text);
-  letter-spacing: 0.02em;
+.accountAvatar {
+  width: 30px;
+  height: 30px;
+  font-size: 14px;
+}
+
+.accountAvatarLg {
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+  box-shadow: 0 6px 16px -6px rgba(232, 119, 34, 0.8);
+}
+
+.accountName {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.leadLogout {
-  width: 26px;
-  height: 26px;
-  border-radius: 6px;
-  border: 1px solid rgba(21, 21, 21, 0.08);
-  background: transparent;
-  color: rgba(21, 21, 21, 0.35);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  flex-shrink: 0;
-  margin-left: 0.15rem;
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
+.accountChevron {
+  opacity: 0.6;
+  transition: transform 0.25s var(--tl-ease);
 }
 
-.leadLogout:hover {
-  background: rgba(231, 76, 60, 0.08);
-  color: #e74c3c;
-  border-color: rgba(231, 76, 60, 0.25);
+.accountBtnOpen .accountChevron {
+  transform: rotate(180deg);
+}
+
+.accountMenu {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 236px;
+  padding: 6px;
+  background: rgba(20, 20, 50, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--tl-r12);
+  box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.6);
+  transform-origin: top right;
+}
+
+.accountHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 10px 12px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.accountHeadText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.accountFullName {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  color: #FFFFFF;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.accountMeta {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.accountItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 10px;
+  border: none;
+  border-radius: var(--tl-r8);
+  background: none;
+  color: rgba(255, 255, 255, 0.78);
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  font-weight: 500;
+  text-decoration: none;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.accountItem:hover,
+.accountItem:focus-visible {
+  background: rgba(255, 255, 255, 0.06);
+  color: #FFFFFF;
+  outline: none;
+}
+
+.accountLogout:hover,
+.accountLogout:focus-visible {
+  background: rgba(231, 76, 60, 0.14);
+  color: #FF8A7D;
 }
 
 /* ── Nav search (desktop, expandable) ───────────────────────────── */
@@ -236,27 +414,29 @@
   opacity: 0;
   padding: 0;
   border: 1px solid transparent;
-  background: rgba(255, 157, 28, 0.06);
-  border-radius: 4px;
-  height: 34px;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: var(--tl-r4);
+  height: 38px;
   font-family: inherit;
-  font-size: 0.76rem;
-  letter-spacing: 0.04em;
-  color: var(--nav-text);
+  font-size: 14px;
+  color: #FFFFFF;
   transition:
-    width 0.3s cubic-bezier(0.23, 1, 0.32, 1),
+    width 0.35s var(--tl-ease),
     opacity 0.25s ease,
     padding 0.3s ease,
     border-color 0.2s ease;
 }
+
+/* The field takes the room the links have just vacated. */
 .navSearchOpen .navSearchInput {
-  width: 190px;
+  width: 320px;
   opacity: 1;
-  padding: 0 0.7rem;
-  border-color: rgba(255, 157, 28, 0.25);
+  padding: 0 0.85rem;
+  border-color: rgba(232, 119, 34, 0.45);
 }
-.navSearchInput::placeholder { color: var(--nav-text); opacity: 0.4; }
-.navSearchInput:focus { outline: none; border-color: var(--brand-orange); }
+
+.navSearchInput::placeholder { color: rgba(255, 255, 255, 0.4); }
+.navSearchInput:focus { outline: none; border-color: var(--tl-orange); }
 
 .navSearchBtn {
   display: flex;
@@ -267,43 +447,21 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--nav-text);
-  opacity: 0.7;
+  color: rgba(255, 255, 255, 0.7);
   flex-shrink: 0;
-  border-radius: 6px;
-  transition: color 0.2s ease, opacity 0.2s ease;
-}
-.navSearchBtn:hover { color: var(--brand-orange); opacity: 1; }
-.navSearchBtn:focus-visible {
-  outline: 2px solid var(--brand-orange);
-  outline-offset: 2px;
+  border-radius: var(--tl-r4);
+  transition: color 0.2s ease, background-color 0.2s ease;
 }
 
-/* ── Mobile search box ──────────────────────────────────────────── */
-.mobileSearch {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  background: rgba(21, 21, 21, 0.035);
-  border: 1px solid var(--line-soft);
-  border-radius: 8px;
-  padding: 0.75rem 0.9rem;
-  margin-bottom: 1rem;
-  color: var(--nav-text);
+.navSearchBtn:hover {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.08);
 }
-.mobileSearch svg { opacity: 0.5; flex-shrink: 0; }
-.mobileSearch:focus-within { border-color: var(--brand-orange); }
-.mobileSearchInput {
-  background: none;
-  border: none;
-  outline: none;
-  color: var(--nav-text);
-  font-family: inherit;
-  font-size: 0.95rem;
-  letter-spacing: 0.03em;
-  width: 100%;
+
+.navSearchBtn:focus-visible {
+  outline: 2px solid var(--tl-orange);
+  outline-offset: 2px;
 }
-.mobileSearchInput::placeholder { color: var(--nav-text); opacity: 0.4; }
 
 /* ── Hamburger ──────────────────────────────────────────────────── */
 .hamburger {
@@ -319,29 +477,24 @@
   cursor: pointer;
   padding: 0;
   border-radius: 6px;
-  transition: opacity 0.2s ease;
-}
-
-.hamburger:hover {
-  opacity: 0.75;
 }
 
 .hamburger:focus-visible {
-  outline: 2px solid var(--brand-orange);
+  outline: 2px solid var(--tl-orange);
   outline-offset: 2px;
 }
 
 .hamburger span {
   display: block;
   width: 22px;
-  height: 1.5px;
-  background: var(--nav-text);
+  height: 2px;
+  background: #FFFFFF;
   border-radius: 2px;
-  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.25s ease;
+  transition: transform 0.3s var(--tl-ease), opacity 0.25s ease;
 }
 
 .hamburgerOpen span:nth-child(1) {
-  transform: translateY(6.5px) rotate(45deg);
+  transform: translateY(7px) rotate(45deg);
 }
 
 .hamburgerOpen span:nth-child(2) {
@@ -350,107 +503,92 @@
 }
 
 .hamburgerOpen span:nth-child(3) {
-  transform: translateY(-6.5px) rotate(-45deg);
+  transform: translateY(-7px) rotate(-45deg);
 }
 
-/* ── Mega menu trigger ──────────────────────────────────────────── */
+/* ── Mega menu ──────────────────────────────────────────────────── */
 .megaTrigger {
   position: static;
 }
 
-/* ── Mega Menu ──────────────────────────────────────────────────── */
 .megaMenu {
   position: fixed;
-  top: 68px;
+  top: var(--tl-nav-h);
   left: 0;
   right: 0;
   z-index: 190;
-  background: var(--nav-bg);
-  backdrop-filter: blur(28px) saturate(1.5);
-  -webkit-backdrop-filter: blur(28px) saturate(1.5);
-  border-bottom: 1px solid rgba(255, 157, 28, 0.12);
-  box-shadow:
-    0 1px 0 rgba(255, 157, 28, 0.06),
-    0 20px 60px rgba(0, 0, 0, 0.32);
+  background: rgba(20, 20, 50, 0.97);
+  backdrop-filter: blur(24px) saturate(1.3);
+  -webkit-backdrop-filter: blur(24px) saturate(1.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(232, 119, 34, 0.25);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);
+}
+
+.megaInner {
+  max-width: var(--tl-container);
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 300px;
-  gap: 0;
-  animation: megaEnter 0.24s cubic-bezier(0.23, 1, 0.32, 1) both;
-  overflow: hidden;
+  grid-template-columns: 1fr 280px;
 }
 
-@keyframes megaEnter {
-  from { opacity: 0; transform: translateY(-10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ── Mega left: categories ──────────────────────────────────────── */
 .megaLeft {
-  padding: 2.25rem 2.75rem;
-  border-right: 1px solid rgba(255, 157, 28, 0.1);
+  padding: 2rem var(--tl-gutter) 2.25rem;
 }
 
 .megaHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .megaTitle {
-  font-size: 0.72rem;
-  letter-spacing: 0.24em;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--clr-accent-text);
+  color: var(--tl-orange);
   margin: 0;
-  font-family: inherit;
-  font-weight: 500;
 }
 
 .megaViewAll {
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--nav-text);
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
   text-decoration: none;
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  opacity: 0.5;
-  transition: opacity 0.2s ease, color 0.2s ease, gap 0.2s ease;
+  transition: color 0.2s ease, gap 0.2s ease;
 }
 
 .megaViewAll:hover {
-  opacity: 1;
-  color: var(--clr-accent-text);
+  color: var(--tl-orange);
   gap: 0.6rem;
 }
 
 .megaGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0.65rem;
+  gap: 0.6rem;
 }
 
-/* ── Category card ──────────────────────────────────────────────── */
 .catCard {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 0.875rem;
-  padding: 0.875rem;
-  border: 1px solid rgba(255, 157, 28, 0.09);
-  border-radius: 4px;
+  gap: 0.85rem;
+  padding: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: var(--tl-r8);
+  background: rgba(255, 255, 255, 0.03);
   text-decoration: none;
-  cursor: pointer;
-  background: transparent;
-  font-family: inherit;
-  text-align: left;
-  transition:
-    background    0.2s ease,
-    border-color  0.2s ease,
-    transform     0.22s cubic-bezier(0.23, 1, 0.32, 1);
-  position: relative;
   overflow: hidden;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.25s var(--tl-ease);
 }
 
 .catCard::before {
@@ -460,15 +598,15 @@
   top: 0;
   bottom: 0;
   width: 2px;
-  background: var(--clr-accent-decoration);
+  background: var(--tl-orange);
   transform: scaleY(0);
   transform-origin: bottom;
-  transition: transform 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: transform 0.25s var(--tl-ease);
 }
 
 .catCard:hover {
-  background: rgba(255, 157, 28, 0.07);
-  border-color: rgba(255, 157, 28, 0.26);
+  background: rgba(232, 119, 34, 0.08);
+  border-color: rgba(232, 119, 34, 0.35);
   transform: translateY(-2px);
 }
 
@@ -477,23 +615,23 @@
 }
 
 .catCard:focus-visible {
-  outline: 2px solid var(--brand-orange);
+  outline: 2px solid var(--tl-orange);
   outline-offset: 2px;
 }
 
 .catThumb {
   width: 48px;
   height: 48px;
-  border-radius: 3px;
+  border-radius: var(--tl-r4);
   overflow: hidden;
   flex-shrink: 0;
-  background: rgba(255, 157, 28, 0.07);
+  background: #FFFFFF;
 }
 
 .catThumb img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   transition: transform 0.45s ease;
 }
 
@@ -507,40 +645,37 @@
 }
 
 .catLabel {
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--nav-text);
-  letter-spacing: 0.03em;
-  margin: 0 0 0.18rem;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0 0 0.1rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  transition: color 0.2s ease;
-}
-
-.catCard:hover .catLabel {
-  color: var(--clr-accent-text);
 }
 
 .catDesc {
-  font-size: 0.75rem;
-  color: var(--nav-text);
-  opacity: 0.45;
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.45);
   line-height: 1.4;
   margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .catCount {
-  font-size: 0.72rem;
-  color: var(--clr-accent-text);
-  letter-spacing: 0.1em;
-  opacity: 0.65;
-  margin-top: 0.28rem;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--tl-orange);
+  margin-top: 0.25rem;
   display: block;
 }
 
 .catArrow {
-  color: var(--clr-accent-text);
+  color: var(--tl-orange);
   opacity: 0;
   font-size: 0.88rem;
   transition: opacity 0.2s ease, transform 0.2s ease;
@@ -553,18 +688,21 @@
   transform: translateX(0);
 }
 
-/* ── Mega right: featured ───────────────────────────────────────── */
 .megaRight {
-  background: rgba(255, 157, 28, 0.035);
   display: flex;
   flex-direction: column;
+  background: rgba(232, 119, 34, 0.05);
+  border-left: 1px solid rgba(255, 255, 255, 0.06);
   overflow: hidden;
-  border-left: 1px solid rgba(255, 157, 28, 0.08);
 }
 
+/* Same treatment as the homepage product tiles: a cut-out on a lit navy
+   gradient rather than a white box in a dark menu. */
 .megaFeaturedImg {
-  width: 100%;
-  height: 175px;
+  height: 170px;
+  background:
+    radial-gradient(circle at 50% 48%, rgba(255, 255, 255, 0.18), rgba(245, 160, 90, 0.08) 40%, transparent 70%),
+    linear-gradient(135deg, #1A1A3E, #2E2E6E);
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -572,9 +710,11 @@
 .megaFeaturedImg img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  padding: 14px;
+  object-fit: contain;
   display: block;
-  transition: transform 0.65s cubic-bezier(0.23, 1, 0.32, 1);
+  filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.45));
+  transition: transform 0.65s var(--tl-ease);
 }
 
 .megaRight:hover .megaFeaturedImg img {
@@ -582,43 +722,42 @@
 }
 
 .megaFeaturedBody {
-  padding: 1.5rem;
+  padding: 1.25rem 1.5rem 1.5rem;
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
 .megaFeaturedEye {
-  font-size: 0.72rem;
-  letter-spacing: 0.22em;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--clr-accent-text);
-  margin: 0 0 0.4rem;
+  color: var(--tl-orange);
+  margin: 0 0 0.35rem;
 }
 
 .megaFeaturedName {
-  font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
-  font-size: 1.15rem;
-  font-weight: 400;
-  color: var(--nav-text);
-  margin: 0 0 0.4rem;
-  line-height: 1.25;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin: 0 0 0.3rem;
+  line-height: 1.2;
 }
 
 .megaFeaturedTag {
-  font-size: 0.76rem;
-  color: var(--nav-text);
-  opacity: 0.45;
-  margin: 0 0 1.25rem;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0 0 1.1rem;
   flex: 1;
   line-height: 1.5;
 }
 
 .megaFeaturedLink {
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--clr-accent-text);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--tl-orange);
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -634,192 +773,219 @@
 /* ── Mobile menu ────────────────────────────────────────────────── */
 .mobileMenu {
   position: fixed;
-  top: 68px;
+  top: var(--tl-nav-h);
   left: 0;
   right: 0;
   bottom: 0;
   z-index: 180;
-  /* Was --nav-bg (white at 0.88) over a 28px backdrop blur. The panel covers
-     the whole viewport below the navbar, so there is nothing worth showing
-     through it — and the hero product behind it came through as a grey smudge
-     under the menu items. Opaque, with a hairline seam under the navbar and a
-     soft cast so it still reads as a layer above the page. */
-  background: #FFFFFF;
-  box-shadow:
-    inset 0 1px 0 var(--line-faint),
-    0 24px 60px -24px rgba(21, 21, 21, 0.2);
+  /* Opaque: the whole viewport below the bar is covered, so nothing behind
+     it is worth showing through. */
+  background: var(--tl-navy-deep);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
   overflow-y: auto;
-  padding: 1.75rem 1.75rem 3rem;
+  padding: 1.5rem var(--tl-gutter) 3rem;
+}
+
+/* The LED dot-grid from the hero, faint. */
+.mobileMenu::before {
+  content: '';
+  position: fixed;
+  inset: var(--tl-nav-h) 0 0;
+  background-image: radial-gradient(circle, rgba(232, 119, 34, 0.07) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+}
+
+.mobileList {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 0;
-  animation: megaEnter 0.24s cubic-bezier(0.23, 1, 0.32, 1) both;
 }
 
 .mobileLink {
-  color: var(--nav-text);
-  text-decoration: none;
-  font-size: 0.95rem;
-  font-weight: 500;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  padding: 1rem 0;
-  border-bottom: 1px solid var(--line-faint);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  transition: color 0.2s ease, padding-left 0.2s ease;
-  background: none;
-  border-left: none;
-  border-right: none;
-  border-top: none;
-  cursor: pointer;
   width: 100%;
-  font-family: inherit;
+  min-height: 52px;
+  padding: 0.9rem 0;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  text-decoration: none;
   text-align: left;
+  background: none;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  cursor: pointer;
+  transition: color 0.2s ease, padding-left 0.25s var(--tl-ease);
 }
 
-/* The last item in the list had a rule under it separating it from nothing. */
-.mobileLink:last-of-type { border-bottom: none; }
-
-.mobileLink:hover {
-  color: var(--clr-accent-text);
-  padding-left: 0.5rem;
+.mobileLink:hover,
+.mobileLink:focus-visible {
+  color: var(--tl-orange);
+  padding-left: 0.4rem;
+  outline: none;
 }
 
 .mobileCatList {
   display: flex;
   flex-direction: column;
-  margin: 0.25rem 0 0.75rem 0;
+  margin: 0.4rem 0 0.75rem 0.25rem;
   padding: 0;
   list-style: none;
-  border-left: 1.5px solid var(--line-soft);
-  margin-left: 0.5rem;
+  border-left: 2px solid rgba(232, 119, 34, 0.35);
 }
 
 .mobileCatList a {
-  color: var(--nav-text);
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.5rem 0 0.5rem 1rem;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.65);
   text-decoration: none;
-  font-size: 0.85rem;
-  opacity: 0.6;
-  display: block;
-  padding: 0.55rem 0 0.55rem 1rem;
-  transition: color 0.2s ease, opacity 0.2s ease, padding-left 0.2s ease;
+  transition: color 0.2s ease, padding-left 0.2s ease;
 }
 
 .mobileCatList a:hover {
-  color: var(--clr-accent-text);
-  opacity: 1;
-  padding-left: 1.35rem;
+  color: var(--tl-orange);
+  padding-left: 1.3rem;
+}
+
+.mobileSearch {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--tl-r8);
+  padding: 0.75rem 0.9rem;
+  margin-bottom: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.mobileSearch:focus-within {
+  border-color: var(--tl-orange);
+}
+
+.mobileSearchInput {
+  background: none;
+  border: none;
+  outline: none;
+  color: #FFFFFF;
+  font-family: inherit;
+  font-size: 16px;
+  width: 100%;
+}
+
+.mobileSearchInput::placeholder {
+  color: rgba(255, 255, 255, 0.4);
 }
 
 .mobileGreeting {
   display: flex;
   align-items: center;
-  gap: 0.55rem;
-  padding: 0.8rem 0 1rem;
-  border-bottom: 1px solid var(--line-soft);
-  margin-bottom: 0.25rem;
+  gap: 0.7rem;
+  padding: 0.85rem;
+  margin-bottom: 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--tl-r12);
 }
 
-.mobileGreetText {
-  font-size: 0.9rem;
+.mobileLogout {
+  margin-left: auto;
+  flex-shrink: 0;
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: none;
+  color: rgba(255, 255, 255, 0.75);
+  font-family: var(--font-body);
+  font-size: 13px;
   font-weight: 600;
-  color: var(--nav-text);
+  cursor: pointer;
 }
 
-.mobileDivider {
-  height: 1px;
-  background: var(--line-faint);
-  margin: 0.75rem 0;
+.mobileLogout:hover {
+  border-color: rgba(231, 76, 60, 0.5);
+  color: #FF8A7D;
 }
 
 .mobileCtaRow {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  margin-top: 1.5rem;
+  margin-top: 1.75rem;
 }
 
 .mobileCta {
-  background: var(--btn-solid-bg);
-  color: var(--btn-solid-text);
-  border: none;
-  padding: 0.9rem;
-  font-size: 0.78rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  cursor: pointer;
-  font-family: inherit;
-  font-weight: 600;
-  width: 100%;
-  transition: background 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  background: var(--tl-orange);
+  color: #FFFFFF;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border-radius: var(--tl-r4);
+  text-decoration: none;
 }
 
-.mobileCta:hover {
-  background: var(--brand-orange-hover);
+.mobilePhone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 50px;
+  border: 1.5px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--tl-r4);
+  color: #FFFFFF;
+  font-weight: 600;
+  text-decoration: none;
 }
 
 /* ════════════════════════════════════════════════════════════════════
    Responsive
    ════════════════════════════════════════════════════════════════════ */
 
-@media (max-width: 1024px) {
-  .nav {
-    padding: 0 1.75rem;
-  }
-
-  .megaGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .megaLeft {
-    padding: 2rem 2rem;
-  }
+/* With a signed-in visitor the chip needs room: the name folds into the
+   avatar first, then the phone number goes. */
+@media (max-width: 1400px) {
+  .accountName { display: none; }
+  .accountBtn { padding-right: 9px; }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1240px) {
+  .navPhone { display: none; }
+}
+
+@media (max-width: 1100px) {
+  .navLink { padding: 6px 10px; }
+  .activeBar { left: 10px; right: 10px; }
+  .megaGrid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 980px) {
   .navCenter { display: none; }
-  .navCta    { display: none; }
-  .leadUser  { display: none; }
+  .account   { display: none; }
   .navSearch { display: none; }
-  .hamburger { display: flex; }
   .megaMenu  { display: none; }
+  .hamburger { display: flex; }
 }
 
-@media (max-width: 640px) {
-  .mobileMenu {
-    padding: 1.25rem 1.25rem 2.5rem;
-  }
-
-  .mobileLink {
-    font-size: 0.88rem;
-    padding: 0.9rem 0;
-    min-height: 44px;
-  }
-
-  .mobileCatList a {
-    padding: 0.65rem 0 0.65rem 1rem;
-    min-height: 44px;
-    display: flex;
-    align-items: center;
-  }
-
-  .mobileCta {
-    min-height: 44px;
-  }
+@media (max-width: 520px) {
+  .navCta { display: none; }
+  .navLogo { height: 34px; }
 }
 
-@media (max-width: 480px) {
-  .nav {
-    padding: 0 1.25rem;
-  }
-
-  .navLogo {
-    height: 44px;
-  }
-
-  .navBrand {
-    padding: 4px 10px;
+@media (prefers-reduced-motion: reduce) {
+  .nav, .navBrand, .navCta, .navCta::after, .catCard, .mobileLink {
+    transition: none;
   }
 }

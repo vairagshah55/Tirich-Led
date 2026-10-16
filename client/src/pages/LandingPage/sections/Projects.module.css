@@ -1,0 +1,160 @@
+.section {
+  background: var(--tl-navy-deep);
+}
+
+/* Bento: the hero project spans two rows on the left. */
+.grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 16px;
+}
+
+.cell {
+  display: flex;
+}
+
+.cellBig {
+  grid-row: 1 / 3;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border-radius: var(--tl-r12);
+  overflow: hidden;
+  background: var(--tl-navy-mid);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  isolation: isolate;
+  transition: border-color 0.3s ease, transform 0.6s var(--tl-ease), box-shadow 0.6s var(--tl-ease);
+}
+
+.big {
+  min-height: 500px;
+}
+
+.card:hover {
+  border-color: var(--tl-orange);
+  transform: translateY(-3px);
+  box-shadow: 0 26px 50px -30px rgba(0, 0, 0, 0.9);
+}
+
+/* The design's faint emoji — here a fine-line drawing of the space. */
+.bgIcon {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  opacity: 0.08;
+  background: linear-gradient(135deg, rgba(232, 119, 34, 0.12), transparent);
+  transition: opacity 0.5s ease;
+}
+
+.bgIcon svg {
+  transition: transform 1.2s var(--tl-ease);
+}
+
+.card:hover .bgIcon {
+  opacity: 0.14;
+}
+
+.card:hover .bgIcon svg {
+  transform: scale(1.08) rotate(-3deg);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(0deg, rgba(15, 15, 40, 0.95), rgba(15, 15, 40, 0.2));
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(280px circle at var(--sx, 50%) var(--sy, 50%), rgba(232, 119, 34, 0.16), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.card:hover::after {
+  opacity: 1;
+}
+
+.content {
+  position: relative;
+  padding: 24px;
+}
+
+.type {
+  display: inline-block;
+  border: 1px solid rgba(232, 119, 34, 0.4);
+  color: var(--tl-orange);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 3px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin-bottom: 4px;
+}
+
+.big .name {
+  font-size: 28px;
+}
+
+.loc {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--tl-orange);
+  margin-top: 8px;
+}
+
+.ctaRow {
+  margin-top: 40px;
+}
+
+@media (max-width: 1000px) {
+  .grid { grid-template-columns: 1fr 1fr; }
+  .cellBig { grid-column: 1 / -1; grid-row: auto; }
+  .big { min-height: 360px; }
+}
+
+@media (max-width: 600px) {
+  .grid { grid-template-columns: 1fr; gap: 12px; }
+  .card { min-height: 200px; }
+  .big { min-height: 300px; }
+  .big .name { font-size: 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .bgIcon, .bgIcon svg { transition: none; }
+}

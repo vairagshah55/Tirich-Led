@@ -1,0 +1,158 @@
+.section {
+  position: relative;
+  background: var(--tl-orange);
+  padding: 80px var(--tl-gutter);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* The design's skewed white panel on the right. */
+.section::before {
+  content: '';
+  position: absolute;
+  right: -80px;
+  top: 50%;
+  width: 400px;
+  height: 120%;
+  transform: translateY(-50%) rotate(-12deg) skewX(-8deg);
+  background: rgba(255, 255, 255, 0.06);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* A brighter band that sweeps across every few seconds. */
+.sheen {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.16) 50%, transparent 65%);
+  transform: translateX(-100%);
+  animation: sheen 6.5s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+  pointer-events: none;
+}
+
+@keyframes sheen {
+  0%   { transform: translateX(-100%); }
+  45%  { transform: translateX(100%); }
+  100% { transform: translateX(100%); }
+}
+
+.inner {
+  max-width: var(--tl-container);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.left {
+  flex: 1 1 520px;
+  min-width: 0;
+}
+
+.kicker {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 10px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3vw, 44px);
+  font-weight: 900;
+  color: #FFFFFF;
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+
+.sub {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.7;
+  max-width: 520px;
+}
+
+.who {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.whoTag {
+  background: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.whoTag:hover {
+  background: rgba(255, 255, 255, 0.24);
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.right > div {
+  display: flex;
+}
+
+.right .btnWhite,
+.right .btnGhost {
+  width: 100%;
+}
+
+.btnWhite {
+  background: #FFFFFF;
+  color: var(--tl-orange);
+  font-weight: 800;
+  font-size: 16px;
+  padding: 15px 32px;
+}
+
+.btnWhite:hover {
+  box-shadow: 0 16px 34px -12px rgba(90, 40, 0, 0.55);
+}
+
+.btnGhost {
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  background: transparent;
+  color: #FFFFFF;
+  font-size: 15px;
+  padding: 14px 32px;
+}
+
+.btnGhost:hover {
+  border-color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 900px) {
+  .right { width: 100%; flex-direction: row; flex-wrap: wrap; }
+  .right > div { flex: 1 1 240px; }
+}
+
+@media (max-width: 600px) {
+  .section { padding: 60px var(--tl-gutter); }
+  .right > div { flex-basis: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheen { animation: none; display: none; }
+}

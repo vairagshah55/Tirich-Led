@@ -1,0 +1,298 @@
+.section {
+  background: var(--tl-navy-deep);
+  overflow: hidden;
+}
+
+/* A faint orange glow pooled behind the grid. */
+.section::before {
+  content: '';
+  position: absolute;
+  width: 900px;
+  height: 900px;
+  left: 50%;
+  top: 38%;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(232, 119, 34, 0.07), transparent 62%);
+  pointer-events: none;
+}
+
+/* ── Filters ──────────────────────────────────────────────────────── */
+.filters {
+  position: relative;
+  display: flex;
+  gap: 6px;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+}
+
+.filter {
+  position: relative;
+  padding: 7px 18px;
+  border-radius: 40px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.55);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.filter:hover {
+  color: #FFFFFF;
+  border-color: rgba(232, 119, 34, 0.6);
+  background: rgba(232, 119, 34, 0.08);
+}
+
+.filter:focus-visible {
+  outline: 2px solid var(--tl-orange);
+  outline-offset: 3px;
+}
+
+.filterOn,
+.filterOn:hover {
+  color: #FFFFFF;
+  border-color: var(--tl-orange);
+  background: transparent;
+}
+
+.filterPill {
+  position: absolute;
+  inset: -1px;
+  border-radius: 40px;
+  background: var(--tl-orange);
+  box-shadow: 0 8px 22px -8px rgba(232, 119, 34, 0.8);
+}
+
+.filterLabel {
+  position: relative;
+}
+
+/* ── Grid ─────────────────────────────────────────────────────────── */
+.grid {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.cell {
+  display: flex;
+}
+
+/* ── Card ─────────────────────────────────────────────────────────── */
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: var(--tl-r12);
+  overflow: hidden;
+  text-decoration: none;
+  isolation: isolate;
+  transition:
+    border-color 0.3s ease,
+    transform 0.5s var(--tl-ease),
+    box-shadow 0.5s var(--tl-ease);
+}
+
+.card:hover {
+  border-color: var(--tl-orange);
+  transform: translateY(-4px);
+  box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(232, 119, 34, 0.25);
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--tl-orange);
+  outline-offset: 3px;
+}
+
+/* Pointer light — follows the cursor across the whole card. */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: radial-gradient(260px circle at var(--sx, 50%) var(--sy, 50%), rgba(232, 119, 34, 0.13), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+.card:hover::after {
+  opacity: 1;
+}
+
+/* ── Media tile ───────────────────────────────────────────────────── */
+.media {
+  position: relative;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: linear-gradient(135deg, rgba(232, 119, 34, 0.06), rgba(26, 26, 62, 0.8));
+}
+
+/* The design's six tile gradients, plus the two it set inline. */
+.tile1 { background: linear-gradient(135deg, #1A1A3E, #2E2E6E); }
+.tile2 { background: linear-gradient(135deg, #2A1A0A, #5A3010); }
+.tile3 { background: linear-gradient(135deg, #0A1A2A, #10304A); }
+.tile4 { background: linear-gradient(135deg, #1A2A1A, #284028); }
+.tile5 { background: linear-gradient(135deg, #2A1A3A, #4A2060); }
+.tile6 { background: linear-gradient(135deg, #2A2A1A, #4A4010); }
+.tile7 { background: linear-gradient(135deg, #2A1A0A, #3A2A10); }
+.tile8 { background: linear-gradient(135deg, #1A2A2A, #102828); }
+
+/* A pool of light behind the fitting — lifts dark fixtures off dark tiles. */
+.halo {
+  position: absolute;
+  inset: 8%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 46%, rgba(255, 255, 255, 0.2), rgba(245, 160, 90, 0.1) 38%, transparent 68%);
+  transition: transform 0.7s var(--tl-ease), opacity 0.5s ease;
+  opacity: 0.85;
+}
+
+.card:hover .halo {
+  transform: scale(1.12);
+  opacity: 1;
+}
+
+.img {
+  position: relative;
+  width: 78%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 18px 22px rgba(0, 0, 0, 0.45));
+  transition: transform 0.7s var(--tl-ease);
+}
+
+.card:hover .img {
+  transform: translateY(-6px) scale(1.05);
+}
+
+.mediaIcon {
+  position: relative;
+  color: var(--tl-orange-lt);
+  filter: drop-shadow(0 0 20px rgba(232, 119, 34, 0.5));
+  transition: transform 0.7s var(--tl-ease);
+}
+
+.card:hover .mediaIcon {
+  transform: translateY(-4px) scale(1.06);
+}
+
+.badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 1;
+  background: var(--tl-orange);
+  color: #FFFFFF;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 3px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  box-shadow: 0 4px 12px -4px rgba(232, 119, 34, 0.8);
+}
+
+/* ── Body ─────────────────────────────────────────────────────────── */
+.body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 16px;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 4px;
+}
+
+.sub {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.45);
+  margin-bottom: 10px;
+}
+
+.specs {
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0;
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.spec {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  background: rgba(232, 119, 34, 0.12);
+  color: var(--tl-orange-lt);
+  padding: 2px 7px;
+  border-radius: 3px;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--tl-orange);
+}
+
+.linkArrow {
+  transition: transform 0.35s var(--tl-ease);
+}
+
+.card:hover .linkArrow {
+  transform: translateX(4px);
+}
+
+/* ── Responsive ───────────────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 700px) {
+  .filters {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin: 0 calc(-1 * var(--tl-gutter)) 32px;
+    padding: 2px var(--tl-gutter) 6px;
+  }
+  .filters::-webkit-scrollbar { display: none; }
+}
+
+@media (max-width: 420px) {
+  .grid { gap: 10px; }
+  .body { padding: 12px; }
+  .name { font-size: 15px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .img, .halo, .mediaIcon { transition: none; }
+}

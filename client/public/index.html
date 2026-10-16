@@ -17,7 +17,7 @@
     <link rel="icon" type="image/png" sizes="48x48" href="%PUBLIC_URL%/favicon-48.png" />
     <link rel="icon" type="image/svg+xml" href="%PUBLIC_URL%/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#FFFFFF" />
+    <meta name="theme-color" content="#1A1A3E" />
 
     <!--
       Google Search Console ownership. Must stay put once verified — Google
@@ -56,8 +56,13 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!--
+      Barlow Semi Condensed / Barlow / JetBrains Mono drive the navy-and-orange
+      system (homepage, Navbar, Footer). Space Grotesk + Inter still set the
+      other pages' bodies. One request, only the weights actually used.
+    -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700;800;900&family=Barlow:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
     <style>
@@ -66,7 +71,9 @@
         position: fixed;
         inset: 0;
         z-index: 9999;
-        background: #FFFFFF;
+        /* Navy, not white: every page now opens under the navy navbar, and the
+           homepage hero is navy too — a white splash flashed on the way out. */
+        background: #0F0F28;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -87,11 +94,11 @@
         gap: 0.9rem;
       }
       .splash-tirich {
-        font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+        font-family: 'Barlow Semi Condensed', 'Helvetica Neue', Arial, sans-serif;
         font-size: clamp(3.2rem, 9vw, 5.8rem);
-        font-weight: 700;
+        font-weight: 800;
         letter-spacing: 0.32em;
-        color: #151515;
+        color: #FFFFFF;
         line-height: 1;
         margin: 0;
         opacity: 0;
@@ -101,16 +108,16 @@
       .splash-rule {
         width: 0;
         height: 1px;
-        background: #FF9D1C;
+        background: #E87722;
         animation: splashRule 0.45s ease 0.35s forwards;
       }
       .splash-led {
-        font-family: 'Inter', Arial, sans-serif;
+        font-family: 'Barlow', Arial, sans-serif;
         font-size: clamp(0.6rem, 1.4vw, 0.72rem);
         font-weight: 500;
         letter-spacing: 0.62em;
         text-transform: uppercase;
-        color: #FF9D1C;
+        color: #E87722;
         margin: 0;
         opacity: 0;
         transform: translateY(10px);
@@ -121,7 +128,7 @@
       .splash-bar-wrap {
         width: 48px;
         height: 1px;
-        background: rgba(255, 157, 28, 0.12);
+        background: rgba(232, 119, 34, 0.14);
         overflow: hidden;
         margin-top: 3.2rem;
         opacity: 0;
@@ -130,7 +137,7 @@
       .splash-bar {
         height: 100%;
         width: 45%;
-        background: #FF9D1C;
+        background: #E87722;
         animation: splashSweep 1.05s ease-in-out 1.1s infinite;
       }
 
