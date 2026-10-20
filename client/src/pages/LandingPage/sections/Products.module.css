@@ -78,7 +78,7 @@
   padding: 0;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  gap: 20px;
 }
 
 .cell {
@@ -86,41 +86,48 @@
 }
 
 /* ── Card ─────────────────────────────────────────────────────────── */
+/* A dark glass frame holding a lit product studio. */
 .card {
   position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: var(--tl-r12);
-  overflow: hidden;
+  padding: 8px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.025));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 22px;
   text-decoration: none;
   isolation: isolate;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
   transition:
-    border-color 0.3s ease,
-    transform 0.5s var(--tl-ease),
-    box-shadow 0.5s var(--tl-ease);
+    border-color 0.35s ease,
+    transform 0.6s var(--tl-ease),
+    box-shadow 0.6s var(--tl-ease);
 }
 
 .card:hover {
-  border-color: var(--tl-orange);
-  transform: translateY(-4px);
-  box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(232, 119, 34, 0.25);
+  border-color: rgba(232, 119, 34, 0.55);
+  transform: translateY(-6px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 30px 60px -30px rgba(0, 0, 0, 0.9),
+    0 20px 50px -28px rgba(232, 119, 34, 0.55);
 }
 
 .card:focus-visible {
   outline: 2px solid var(--tl-orange);
-  outline-offset: 3px;
+  outline-offset: 4px;
 }
 
-/* Pointer light — follows the cursor across the whole card. */
+/* Pointer light on the frame — sits behind the studio so it only warms the
+   glass around it. */
 .card::after {
   content: '';
   position: absolute;
   inset: 0;
-  z-index: 2;
-  background: radial-gradient(260px circle at var(--sx, 50%) var(--sy, 50%), rgba(232, 119, 34, 0.13), transparent 60%);
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(240px circle at var(--sx, 50%) var(--sy, 50%), rgba(232, 119, 34, 0.18), transparent 65%);
   opacity: 0;
   transition: opacity 0.35s ease;
   pointer-events: none;
@@ -130,65 +137,74 @@
   opacity: 1;
 }
 
-/* ── Media tile ───────────────────────────────────────────────────── */
+/* ── Studio ───────────────────────────────────────────────────────── */
+/* Pure white at the centre, as on the product pages. The catalogue
+   cut-outs carry a pale edge from their original white backdrop: on white it
+   vanishes, on any tint — or under a drop-shadow, which traces it — it reads
+   as a sticker outline. So: white behind the fitting, no shadow on it. */
 .media {
   position: relative;
-  aspect-ratio: 1;
+  aspect-ratio: 1 / 0.92;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  background: linear-gradient(135deg, rgba(232, 119, 34, 0.06), rgba(26, 26, 62, 0.8));
+  border-radius: 15px;
+  background: radial-gradient(circle at 50% 46%, #FFFFFF 0%, #FFFFFF 48%, #F3F3F9 100%);
 }
 
-/* The design's six tile gradients, plus the two it set inline. */
-.tile1 { background: linear-gradient(135deg, #1A1A3E, #2E2E6E); }
-.tile2 { background: linear-gradient(135deg, #2A1A0A, #5A3010); }
-.tile3 { background: linear-gradient(135deg, #0A1A2A, #10304A); }
-.tile4 { background: linear-gradient(135deg, #1A2A1A, #284028); }
-.tile5 { background: linear-gradient(135deg, #2A1A3A, #4A2060); }
-.tile6 { background: linear-gradient(135deg, #2A2A1A, #4A4010); }
-.tile7 { background: linear-gradient(135deg, #2A1A0A, #3A2A10); }
-.tile8 { background: linear-gradient(135deg, #1A2A2A, #102828); }
-
-/* A pool of light behind the fitting — lifts dark fixtures off dark tiles. */
-.halo {
+/* A faint warm bloom behind the fitting on hover — tinted light, kept
+   well away from its edges. */
+.media::before {
+  content: '';
   position: absolute;
-  inset: 8%;
-  border-radius: 50%;
-  background: radial-gradient(circle at 50% 46%, rgba(255, 255, 255, 0.2), rgba(245, 160, 90, 0.1) 38%, transparent 68%);
-  transition: transform 0.7s var(--tl-ease), opacity 0.5s ease;
-  opacity: 0.85;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, transparent 38%, rgba(245, 160, 90, 0.12) 75%, rgba(232, 119, 34, 0.18) 100%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
 }
 
-.card:hover .halo {
-  transform: scale(1.12);
+.card:hover .media::before {
   opacity: 1;
 }
 
 .img {
   position: relative;
-  width: 78%;
-  height: auto;
+  width: 100%;
+  height: 100%;
+  padding: 15% 10% 7%; /* extra headroom clears the badge */
   object-fit: contain;
-  filter: drop-shadow(0 18px 22px rgba(0, 0, 0, 0.45));
   transition: transform 0.7s var(--tl-ease);
 }
 
 .card:hover .img {
-  transform: translateY(-6px) scale(1.05);
+  transform: scale(1.06);
 }
 
-.mediaIcon {
+/* For a range with no single photograph: a wall controller, lit. */
+.device {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 96px;
+  height: 128px;
+  border-radius: 22px;
   color: var(--tl-orange-lt);
-  filter: drop-shadow(0 0 20px rgba(232, 119, 34, 0.5));
+  background: linear-gradient(160deg, #2E2E6E, #15153A 70%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.3),
+    0 18px 24px -10px rgba(26, 26, 62, 0.45);
   transition: transform 0.7s var(--tl-ease);
 }
 
-.card:hover .mediaIcon {
-  transform: translateY(-4px) scale(1.06);
+.device svg {
+  filter: drop-shadow(0 0 10px rgba(232, 119, 34, 0.75));
+}
+
+.card:hover .device {
+  transform: translateY(-8px) scale(1.04);
 }
 
 .badge {
@@ -196,15 +212,39 @@
   top: 12px;
   left: 12px;
   z-index: 1;
-  background: var(--tl-orange);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px 5px 8px;
+  border-radius: 40px;
+  background: var(--tl-navy);
   color: #FFFFFF;
-  font-size: 9px;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 3px;
-  letter-spacing: 0.06em;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  box-shadow: 0 4px 12px -4px rgba(232, 119, 34, 0.8);
+  box-shadow: 0 6px 14px -6px rgba(26, 26, 62, 0.6);
+}
+
+.badge::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--tl-orange-lt);
+  box-shadow: 0 0 6px rgba(232, 119, 34, 0.9);
+}
+
+.number {
+  position: absolute;
+  top: 13px;
+  right: 14px;
+  z-index: 1;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  color: rgba(26, 26, 62, 0.4);
 }
 
 /* ── Body ─────────────────────────────────────────────────────────── */
@@ -212,59 +252,98 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding: 16px;
+  gap: 14px;
+  padding: 16px 8px 8px;
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .name {
   font-family: var(--font-display);
-  font-size: 16px;
+  font-size: 19px;
   font-weight: 700;
+  line-height: 1.15;
   color: #FFFFFF;
   margin-bottom: 4px;
 }
 
 .sub {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.45);
-  margin-bottom: 10px;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.5);
 }
 
+/* Round arrow — tilted up-right at rest, levels out and lights on hover. */
+.go {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  transition:
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.go svg {
+  rotate: -45deg;
+  transition: rotate 0.5s var(--tl-ease);
+}
+
+.card:hover .go {
+  background: var(--tl-orange);
+  border-color: var(--tl-orange);
+  box-shadow: 0 8px 20px -6px rgba(232, 119, 34, 0.8);
+}
+
+.card:hover .go svg {
+  rotate: 0deg;
+}
+
+/* Specs as one segmented strip. */
 .specs {
   list-style: none;
-  margin: 0 0 14px;
+  margin: auto 0 0;
   padding: 0;
-  display: flex;
-  gap: 4px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: rgba(0, 0, 0, 0.18);
+  transition: border-color 0.35s ease;
+}
+
+.card:hover .specs {
+  border-color: rgba(232, 119, 34, 0.35);
 }
 
 .spec {
+  padding: 8px 4px;
+  min-width: 0;
   font-family: var(--font-mono);
-  font-size: 10px;
-  background: rgba(232, 119, 34, 0.12);
+  font-size: 10.5px;
+  text-align: center;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.spec + .spec {
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.spec:first-child {
   color: var(--tl-orange-lt);
-  padding: 2px 7px;
-  border-radius: 3px;
-}
-
-.link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: auto;
-  padding-top: 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--tl-orange);
-}
-
-.linkArrow {
-  transition: transform 0.35s var(--tl-ease);
-}
-
-.card:hover .linkArrow {
-  transform: translateX(4px);
 }
 
 /* ── Responsive ───────────────────────────────────────────────────── */
@@ -287,12 +366,22 @@
   .filters::-webkit-scrollbar { display: none; }
 }
 
-@media (max-width: 420px) {
-  .grid { gap: 10px; }
-  .body { padding: 12px; }
+@media (max-width: 520px) {
+  .grid { gap: 12px; }
+  .card { padding: 6px; border-radius: 18px; }
+  .media { border-radius: 13px; }
+  .badge { top: 8px; left: 8px; padding: 4px 8px 4px 6px; font-size: 8.5px; }
+  .number { top: 9px; right: 10px; font-size: 9.5px; }
+  .img { padding: 24% 8% 6%; }
+  .device { width: 64px; height: 86px; border-radius: 16px; }
+  .device svg { width: 28px; height: 28px; }
+  .body { gap: 10px; padding: 12px 4px 4px; }
   .name { font-size: 15px; }
+  .sub { font-size: 11.5px; }
+  .go { display: none; }
+  .spec { padding: 6px 2px; font-size: 9px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .card, .img, .halo, .mediaIcon { transition: none; }
+  .card, .img, .device, .go, .go svg, .media::before { transition: none; }
 }

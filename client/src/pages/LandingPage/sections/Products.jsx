@@ -17,6 +17,10 @@ const CARD_HIDDEN = { opacity: 0, y: 26, scale: 0.97 };
 const CARD_SHOWN = { opacity: 1, y: 0, scale: 1 };
 const CARD_EXIT = { opacity: 0, scale: 0.92, transition: { duration: 0.22, ease: [0.4, 0, 1, 1] } };
 
+// Catalogue number, fixed to the product rather than to its place in a
+// filtered grid.
+const NUMBER = new Map(SHOWCASE.map((p, i) => [p.name, String(i + 1).padStart(2, '0')]));
+
 export default function Products() {
   const [filter, setFilter] = useState(ALL);
   const spot = useSpotlight();
@@ -79,8 +83,7 @@ export default function Products() {
                 className={styles.cell}
               >
                 <Link to={p.to} className={styles.card} data-spot>
-                  <div className={`${styles.media} ${styles[`tile${p.tile}`]}`}>
-                    <span className={styles.halo} aria-hidden="true" />
+                  <div className={styles.media}>
                     {p.img ? (
                       <img
                         className={styles.img}
@@ -92,21 +95,28 @@ export default function Products() {
                         decoding="async"
                       />
                     ) : (
-                      <Icon name={p.icon} size={72} strokeWidth={1.3} className={styles.mediaIcon} />
+                      <span className={styles.device}>
+                        <Icon name={p.icon} size={40} strokeWidth={1.4} />
+                      </span>
                     )}
                     {p.badge && <span className={styles.badge}>{p.badge}</span>}
+                    <span className={styles.number} aria-hidden="true">{NUMBER.get(p.name)}</span>
                   </div>
                   <div className={styles.body}>
-                    <h3 className={styles.name}>{p.name}</h3>
-                    <p className={styles.sub}>{p.sub}</p>
+                    <div className={styles.head}>
+                      <div>
+                        <h3 className={styles.name}>{p.name}</h3>
+                        <p className={styles.sub}>{p.sub}</p>
+                      </div>
+                      <span className={styles.go} aria-hidden="true">
+                        <Icon name="arrow" size={16} strokeWidth={2} />
+                      </span>
+                    </div>
                     <ul className={styles.specs}>
                       {p.specs.map((s) => (
                         <li key={s} className={styles.spec}>{s}</li>
                       ))}
                     </ul>
-                    <span className={styles.link}>
-                      View product <span className={styles.linkArrow} aria-hidden="true">→</span>
-                    </span>
                   </div>
                 </Link>
               </motion.li>

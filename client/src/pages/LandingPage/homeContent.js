@@ -268,47 +268,46 @@ export const PRODUCT_SECTION = {
 export const PRODUCT_FILTERS = ['All Products', 'Downlights', 'Track', 'Linear', 'Outdoor', 'Smart', 'Panel'];
 
 // `img` is a real catalogue cut-out of that fitting type; `to` is the
-// category or product page it belongs to. `tile` picks the design's
-// background gradient.
+// category or product page it belongs to.
 export const SHOWCASE = [
   {
     name: 'COB Downlight', sub: 'Anti-glare recessed series', badge: 'Bestseller',
-    specs: ['CRI 95+', '7–30W', 'IP65'], group: 'Downlights', tile: 1,
+    specs: ['CRI 95+', '7–30W', 'IP65'], group: 'Downlights',
     img: imgCob, alt: 'Tirich LED anti-glare COB recessed downlight', to: '/products/category/cob-lights',
   },
   {
     name: 'Track Light', sub: 'Adjustable retail/hospitality', badge: 'New 2026',
-    specs: ['15°–60°', '15–50W', '3CCT'], group: 'Track', tile: 2,
+    specs: ['15°–60°', '15–50W', '3CCT'], group: 'Track',
     img: imgTrack, alt: 'Tirich LED track-mounted COB spotlight', to: '/products/category/track-lights',
   },
   {
     name: 'Magnetic Track', sub: '48V modular system', badge: 'Premium',
-    specs: ['48V', 'IP54', 'DALI'], group: 'Track', tile: 3,
+    specs: ['48V', 'IP54', 'DALI'], group: 'Track',
     img: imgMagnetic, alt: 'Tirich LED 48V magnetic track module', to: '/products/category/magnetic-track',
   },
   {
     name: 'Linear Batten', sub: 'Suspended & surface mount',
-    specs: ['0.6–1.2m', 'DALI', 'IK08'], group: 'Linear', tile: 4,
+    specs: ['0.6–1.2m', 'DALI', 'IK08'], group: 'Linear',
     img: imgLinear, alt: 'Tirich LED linear light modules', to: '/products/category/linear-lights',
   },
   {
     name: 'Slim Panel Light', sub: 'Edge-lit office series', badge: 'New',
-    specs: ['UGR<19', '40–60W', '600×600'], group: 'Panel', tile: 5,
+    specs: ['UGR<19', '40–60W', '600×600'], group: 'Panel',
     img: imgPanel, alt: 'Tirich LED slim square panel light', to: '/products/tlc-339',
   },
   {
     name: 'Wall Washer', sub: 'Architectural facade wash',
-    specs: ['IP67', 'RGBW', 'DMX'], group: 'Outdoor', tile: 6,
+    specs: ['IP67', 'RGBW', 'DMX'], group: 'Outdoor',
     img: imgWallWasher, alt: 'Tirich LED profile wall washer', to: '/products/wall-washer',
   },
   {
     name: 'Flood Light', sub: 'High-lumen outdoor',
-    specs: ['IP67', '30–200W', 'IK10'], group: 'Outdoor', tile: 7,
+    specs: ['IP67', '30–200W', 'IK10'], group: 'Outdoor',
     img: imgFlood, alt: 'Tirich LED high-lumen flood lights', to: '/products/tlc-218',
   },
   {
     name: 'Smart Dimming System', sub: 'DALI / BMS / Zone control', badge: 'Smart',
-    specs: ['DALI-2', 'BMS', 'WiFi'], group: 'Smart', tile: 8,
+    specs: ['DALI-2', 'BMS', 'WiFi'], group: 'Smart',
     icon: 'smart', to: '/smart-lighting',
   },
 ];
