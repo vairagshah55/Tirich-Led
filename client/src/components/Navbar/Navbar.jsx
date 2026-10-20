@@ -358,10 +358,6 @@ export default function Navbar() {
               <strong>{PHONE_DISPLAY}</strong>
             </a>
 
-            <SectionLink section="contact" who="dealer" enquiry="pricing" className={styles.navCta}>
-              Get Trade Pricing <span className={styles.navCtaArrow} aria-hidden="true">→</span>
-            </SectionLink>
-
             {firstName && (
               <div className={styles.account} ref={accountRef}>
                 <button

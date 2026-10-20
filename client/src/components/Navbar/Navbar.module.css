@@ -194,60 +194,8 @@
   outline-offset: 2px;
 }
 
-.navCta {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--tl-orange);
-  color: #FFFFFF;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: 0.02em;
-  padding: 9px 22px;
-  border-radius: var(--tl-r4);
-  text-decoration: none;
-  white-space: nowrap;
-  overflow: hidden;
-  isolation: isolate;
-  transition: box-shadow 0.35s var(--tl-ease), transform 0.35s var(--tl-ease);
-}
-
-.navCta::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, 0.35) 48%, transparent 66%);
-  transform: translateX(-120%);
-  transition: transform 0.8s var(--tl-ease);
-}
-
-.navCta:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 24px -10px rgba(232, 119, 34, 0.9);
-}
-
-.navCta:hover::after {
-  transform: translateX(120%);
-}
-
-.navCta:focus-visible {
-  outline: 2px solid #FFFFFF;
-  outline-offset: 2px;
-}
-
-.navCtaArrow {
-  transition: transform 0.35s var(--tl-ease);
-}
-
-.navCta:hover .navCtaArrow {
-  transform: translateX(3px);
-}
-
 /* ── Account chip — the signed-in visitor, far right ──────────────── */
-/* Sits after the CTA, where account controls are expected; the greeting
+/* Sits at the end of the bar, where account controls are expected; the greeting
    and log-out live in its menu instead of loose in the link row. */
 .account {
   position: relative;
@@ -980,12 +928,11 @@
 }
 
 @media (max-width: 520px) {
-  .navCta { display: none; }
   .navLogo { height: 34px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .nav, .navBrand, .navCta, .navCta::after, .catCard, .mobileLink {
+  .nav, .navBrand, .catCard, .mobileLink {
     transition: none;
   }
 }
