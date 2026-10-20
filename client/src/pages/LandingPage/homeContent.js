@@ -19,6 +19,11 @@ import imgPanel from '../../assets/HD PHOTO/TLC-339.webp';
 import imgWallWasher from '../../assets/HD PHOTO/WALL-WASHER.webp';
 import imgFlood from '../../assets/HD PHOTO/TLC-218.webp';
 
+import spaceHotel from '../../assets/ambient/hotel2.jpg';
+import spaceRetail from '../../assets/ambient/showroom6.jpg';
+import spaceOffice from '../../assets/ambient/hotel1.jpg';
+import spaceHome from '../../assets/ambient/house8.jpg';
+
 export const PHONE_DISPLAY = BUSINESS.telephone.replace(/-/g, ' ');
 export const PHONE_HREF = `tel:${BUSINESS.telephone.replace(/[^+\d]/g, '')}`;
 export const EMAIL = BUSINESS.email;
@@ -329,13 +334,42 @@ export const SPACES_SECTION = {
     'application with the right fixture for the environment.',
 };
 
+// A bento grid, read left to right: `wide` cards span two columns, and the
+// order is chosen so each row of four columns fills exactly. A space with a
+// photograph of a lit interior shows it (`photo`); one without shows the
+// fitting it's lit with (`fixture`) instead of a stand-in photo of some
+// other kind of room.
 export const SPACES = [
-  { icon: 'hotel', tile: 2, tag: 'Hospitality', name: 'Hotels & Resorts', desc: 'Warm CRI 95+ downlights and dimmable track for lobbies, rooms and F&B spaces' },
-  { icon: 'bag', tile: 1, tag: 'Retail', name: 'Retail & Showrooms', desc: 'High-CRI track lighting that makes merchandise colour-accurate and desirable' },
-  { icon: 'office', tile: 3, tag: 'Commercial', name: 'Corporate Offices', desc: 'UGR<19 panel lights and dimmable linear for productive, glare-free workspaces' },
-  { icon: 'hospital', tile: 4, tag: 'Healthcare', name: 'Hospitals & Clinics', desc: 'Flicker-free, high-CRI lighting for patient rooms, OTs and diagnostic areas' },
-  { icon: 'home', tile: 5, tag: 'Residential', name: 'Premium Homes & Villas', desc: 'Architectural COB downlights and magnetic track for luxury residential interiors' },
-  { icon: 'factory', tile: 6, tag: 'Industrial', name: 'Warehouses & Factories', desc: 'High-bay and flood lighting with IP67 rating for demanding industrial environments' },
+  {
+    icon: 'hotel', tag: 'Hospitality', name: 'Hotels & Resorts', wide: true,
+    desc: 'Warm CRI 95+ downlights and dimmable track for lobbies, rooms and F&B spaces',
+    photo: { src: spaceHotel, width: 659, height: 465, alt: 'Hotel lobby with warm cove lighting and recessed downlights' },
+  },
+  {
+    icon: 'bag', tag: 'Retail', name: 'Retail & Showrooms',
+    desc: 'High-CRI track lighting that makes merchandise colour-accurate and desirable',
+    photo: { src: spaceRetail, width: 678, height: 452, alt: 'Clothing store lit by ceiling track spotlights' },
+  },
+  {
+    icon: 'office', tag: 'Commercial', name: 'Corporate Offices',
+    desc: 'UGR<19 panel lights and dimmable linear for productive, glare-free workspaces',
+    photo: { src: spaceOffice, width: 690, height: 445, alt: 'Corporate reception with a backlit desk and linear ceiling lights' },
+  },
+  {
+    icon: 'hospital', tag: 'Healthcare', name: 'Hospitals & Clinics',
+    desc: 'Flicker-free, high-CRI lighting for patient rooms, OTs and diagnostic areas',
+    fixture: { src: imgPanel, name: 'Slim Panel Light', alt: 'Tirich LED slim square panel light' },
+  },
+  {
+    icon: 'home', tag: 'Residential', name: 'Premium Homes & Villas', wide: true,
+    desc: 'Architectural COB downlights and magnetic track for luxury residential interiors',
+    photo: { src: spaceHome, width: 1200, height: 1200, alt: 'Living room under warm recessed downlights' },
+  },
+  {
+    icon: 'factory', tag: 'Industrial', name: 'Warehouses & Factories',
+    desc: 'High-bay and flood lighting with IP67 rating for demanding industrial environments',
+    fixture: { src: imgFlood, name: 'Flood Light', alt: 'Tirich LED high-lumen flood lights' },
+  },
 ];
 
 /* ── Why Tirich ───────────────────────────────────────────────────── */

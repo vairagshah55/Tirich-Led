@@ -19,15 +19,46 @@ export default function Spaces() {
 
         <motion.ul className={styles.grid} onPointerMove={spot} {...group(0.08)}>
           {SPACES.map((s) => (
-            <motion.li key={s.name} className={styles.cell} variants={itemScale}>
-              <div className={styles.card} data-spot>
-                <div className={`${styles.bg} ${styles[`tile${s.tile}`]}`} aria-hidden="true">
-                  <span className={styles.cone} />
-                  <Icon name={s.icon} size={88} strokeWidth={1.1} className={styles.icon} />
-                </div>
-                <div className={styles.overlay} aria-hidden="true" />
+            <motion.li
+              key={s.name}
+              className={`${styles.cell}${s.wide ? ` ${styles.wide}` : ''}`}
+              variants={itemScale}
+            >
+              <div className={`${styles.card} ${s.photo ? styles.photoCard : styles.fixtureCard}`} data-spot>
+                {s.photo ? (
+                  <>
+                    <img
+                      className={styles.photo}
+                      src={s.photo.src}
+                      alt={s.photo.alt}
+                      width={s.photo.width}
+                      height={s.photo.height}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <span className={styles.shade} aria-hidden="true" />
+                  </>
+                ) : (
+                  <div className={styles.stage}>
+                    <img
+                      className={styles.fixture}
+                      src={s.fixture.src}
+                      alt={s.fixture.alt}
+                      width="1600"
+                      height="1600"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                )}
+
+                <span className={styles.tag}>
+                  <Icon name={s.icon} size={13} strokeWidth={2} />
+                  {s.tag}
+                </span>
+
                 <div className={styles.content}>
-                  <span className={styles.tag}>{s.tag}</span>
+                  {s.fixture && <p className={styles.shown}>Shown · {s.fixture.name}</p>}
                   <h3 className={styles.name}>{s.name}</h3>
                   <p className={styles.desc}>{s.desc}</p>
                 </div>

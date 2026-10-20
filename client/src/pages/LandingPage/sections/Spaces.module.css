@@ -2,153 +2,233 @@
   background: #FFFFFF;
 }
 
+/* Bento: four columns, two rows; `wide` cards span two. `dense` lets the two
+   fixture cards pair up when the grid drops to two columns. */
 .grid {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 372px;
+  grid-auto-flow: dense;
   gap: 20px;
 }
 
 .cell {
   display: flex;
+  min-width: 0;
 }
 
+.wide {
+  grid-column: span 2;
+}
+
+/* ── Card ─────────────────────────────────────────────────────────── */
 .card {
   position: relative;
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  border-radius: var(--tl-r12);
-  overflow: hidden;
   display: flex;
-  align-items: flex-end;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 100%;
+  border-radius: 22px;
+  overflow: hidden;
   isolation: isolate;
-  box-shadow: 0 18px 40px -26px rgba(15, 15, 40, 0.7);
   transition: transform 0.6s var(--tl-ease), box-shadow 0.6s var(--tl-ease);
 }
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 30px 60px -28px rgba(15, 15, 40, 0.8);
 }
 
-/* ── Background: the design's gradient, a fixture icon, a light cone ── */
-.bg {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.tile1 { background: linear-gradient(135deg, #1A1A3E, #2E2E6E); }
-.tile2 { background: linear-gradient(135deg, #2A1A0A, #5A3010); }
-.tile3 { background: linear-gradient(135deg, #0A1A2A, #10304A); }
-.tile4 { background: linear-gradient(135deg, #1A2A1A, #284028); }
-.tile5 { background: linear-gradient(135deg, #2A1A3A, #4A2060); }
-.tile6 { background: linear-gradient(135deg, #2A2A1A, #4A4010); }
-
-.icon {
-  color: rgba(255, 255, 255, 0.85);
-  margin-bottom: 18%;
-  filter: drop-shadow(0 0 22px rgba(245, 160, 90, 0.35));
-  transition: transform 0.9s var(--tl-ease), color 0.4s ease;
-}
-
-.card:hover .icon {
-  transform: scale(1.1) translateY(-4px);
-  color: #FFFFFF;
-}
-
-/* A beam from a fitting overhead — fades up on hover. */
-.cone {
-  position: absolute;
-  top: -10%;
-  left: 50%;
-  width: 70%;
-  height: 90%;
-  transform: translateX(-50%);
-  background: radial-gradient(ellipse 50% 70% at 50% 0%, rgba(255, 214, 170, 0.32), rgba(232, 119, 34, 0.08) 55%, transparent 75%);
-  opacity: 0.35;
-  transition: opacity 0.6s ease, transform 0.9s var(--tl-ease);
-}
-
-.card:hover .cone {
-  opacity: 1;
-  transform: translateX(-50%) scaleY(1.08);
-}
-
-.overlay {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: linear-gradient(0deg, var(--tl-navy) 0%, rgba(26, 26, 62, 0.4) 50%, transparent 100%);
-}
-
-/* Pointer light, painted over the overlay. */
+/* Pointer light. */
 .card::after {
   content: '';
   position: absolute;
   inset: 0;
-  z-index: -1;
-  background: radial-gradient(240px circle at var(--sx, 50%) var(--sy, 50%), rgba(232, 119, 34, 0.18), transparent 60%);
+  z-index: 1;
+  background: radial-gradient(260px circle at var(--sx, 50%) var(--sy, 50%), rgba(255, 196, 130, 0.16), transparent 65%);
   opacity: 0;
   transition: opacity 0.4s ease;
+  pointer-events: none;
 }
 
 .card:hover::after {
   opacity: 1;
 }
 
+/* ── Photo card ───────────────────────────────────────────────────── */
+/* The room sits a little dim, and its lights come up on hover. */
+.photoCard {
+  background: var(--tl-navy-deep);
+  box-shadow: 0 24px 48px -30px rgba(15, 15, 40, 0.7);
+}
+
+.photoCard:hover {
+  box-shadow: 0 36px 64px -32px rgba(15, 15, 40, 0.8);
+}
+
+.photo {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.8) saturate(0.95);
+  transform: scale(1.02);
+  transition: transform 1.4s var(--tl-ease), filter 0.8s ease;
+}
+
+.photoCard:hover .photo {
+  filter: brightness(1.02) saturate(1.08);
+  transform: scale(1.07);
+}
+
+/* Darkens the top for the tag and the bottom for the copy. */
+.shade {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg,
+    rgba(12, 12, 34, 0.4) 0%,
+    transparent 26%,
+    transparent 42%,
+    rgba(12, 12, 34, 0.6) 68%,
+    rgba(12, 12, 34, 0.92) 100%);
+}
+
+/* ── Fixture card ─────────────────────────────────────────────────── */
+/* The product-page studio: white behind the fitting, no shadow on it. */
+.fixtureCard {
+  background: radial-gradient(circle at 50% 36%, #FFFFFF 0%, #FFFFFF 42%, #F0F0F7 100%);
+  border: 1px solid var(--tl-border);
+}
+
+.fixtureCard:hover {
+  box-shadow: 0 30px 56px -34px rgba(26, 26, 62, 0.45);
+}
+
+.stage {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 44px 24px 0;
+}
+
+/* Scaled past its box: the cut-outs carry wide transparent margins. */
+.fixture {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform: scale(1.2);
+  transition: transform 0.8s var(--tl-ease);
+}
+
+.fixtureCard:hover .fixture {
+  transform: scale(1.28);
+}
+
+/* ── Tag ──────────────────────────────────────────────────────────── */
+.tag {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px 6px 10px;
+  border-radius: 40px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.tag svg {
+  color: var(--tl-orange-lt);
+}
+
+.photoCard .tag {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  backdrop-filter: blur(10px) saturate(140%);
+}
+
+.fixtureCard .tag {
+  color: #FFFFFF;
+  background: var(--tl-navy);
+  box-shadow: 0 6px 14px -6px rgba(26, 26, 62, 0.6);
+}
+
+/* ── Copy ─────────────────────────────────────────────────────────── */
 .content {
   position: relative;
+  z-index: 2;
   padding: 24px;
   transition: transform 0.6s var(--tl-ease);
 }
 
 .card:hover .content {
-  transform: translateY(-4px);
-}
-
-.tag {
-  display: inline-block;
-  background: var(--tl-orange);
-  color: #FFFFFF;
-  font-size: 10px;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 3px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  margin-bottom: 8px;
+  transform: translateY(-3px);
 }
 
 .name {
   font-family: var(--font-display);
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 800;
-  color: #FFFFFF;
-  margin-bottom: 4px;
+  line-height: 1.1;
+  margin-bottom: 6px;
+  text-wrap: balance;
+}
+
+.wide .name {
+  font-size: 30px;
 }
 
 .desc {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.65);
-  line-height: 1.5;
+  font-size: 13px;
+  line-height: 1.55;
+  max-width: 40ch;
 }
 
+.photoCard .name { color: #FFFFFF; }
+.photoCard .desc { color: rgba(255, 255, 255, 0.75); }
+
+.fixtureCard .content { padding-top: 16px; }
+.fixtureCard .name { color: var(--tl-navy); }
+.fixtureCard .desc { color: var(--tl-text-mid); }
+
+.shown {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tl-orange);
+  margin-bottom: 8px;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────── */
 @media (max-width: 1000px) {
-  .grid { grid-template-columns: 1fr 1fr; }
+  .grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 340px; }
 }
 
 @media (max-width: 600px) {
-  .grid { grid-template-columns: 1fr; gap: 14px; }
-  .card { aspect-ratio: 16 / 10; }
+  .grid { grid-template-columns: 1fr; grid-auto-rows: auto; gap: 14px; }
+  .wide { grid-column: auto; }
+  .photoCard { min-height: 300px; }
+  /* Rows are auto-height here, so the stage needs its own. */
+  .stage { flex: none; height: 230px; padding: 52px 32px 0; }
   .content { padding: 20px; }
+  .name, .wide .name { font-size: 24px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .card, .icon, .cone, .content { transition: none; }
+  .card, .photo, .fixture, .content { transition: none; }
 }
