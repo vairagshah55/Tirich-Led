@@ -19,13 +19,52 @@ const panelVariants = {
 
 const visualVariants = {
   hidden: { opacity: 0, scale: 0.97, y: 12 },
-  show: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
+  show: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: EASE, staggerChildren: 0.05, delayChildren: 0.15 },
+  },
+};
+
+// The downlight switches on the way an LED driver does: a catch, a dip,
+// then full output.
+const beamVariants = {
+  hidden: { opacity: 0 },
+  show: { opacity: [0, 0.9, 0.45, 1], transition: { duration: 0.9, times: [0, 0.3, 0.5, 1], delay: 0.2 } },
 };
 
 const iconVariants = {
   hidden: { opacity: 0, scale: 0.6, rotate: -12 },
-  show: { opacity: 1, scale: 1, rotate: 0, transition: { type: 'spring', stiffness: 260, damping: 18, delay: 0.1 } },
+  show: { opacity: 1, scale: 1, rotate: 0, transition: { type: 'spring', stiffness: 260, damping: 18 } },
 };
+
+const riseVariants = {
+  hidden: { opacity: 0, y: 10 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
+};
+
+// Where the downlight sits, as a fraction of the card's width. Passed to CSS
+// as --lamp-x so the beam's pivot and the aim maths agree.
+const LAMP_X = 0.64;
+const MAX_AIM = 26;
+
+// Swing the beam toward the pointer, pivoting at the lamp.
+function aimBeam(e) {
+  if (e.pointerType === 'touch') return;
+  const card = e.currentTarget;
+  const r = card.getBoundingClientRect();
+  const dx = e.clientX - r.left - r.width * LAMP_X;
+  const dy = Math.max(e.clientY - r.top, 40);
+  const deg = (-Math.atan2(dx, dy) * 180) / Math.PI;
+  card.style.setProperty('--aim', `${Math.max(-MAX_AIM, Math.min(MAX_AIM, deg)).toFixed(1)}deg`);
+}
+
+function releaseBeam(e) {
+  e.currentTarget.style.removeProperty('--aim');
+}
+
+const pad = (n) => String(n).padStart(2, '0');
 
 const copyVariants = {
   hidden: { opacity: 0, y: 14 },
@@ -152,7 +191,7 @@ export default function Audience({ active, onChange, onAction }) {
         </motion.div>
 
         <motion.div {...reveal(0.12)}>
-          {AUDIENCES.map((a) => {
+          {AUDIENCES.map((a, i) => {
             const on = a.id === active;
             return (
               <motion.div
@@ -170,19 +209,52 @@ export default function Audience({ active, onChange, onAction }) {
                   className={styles.visual}
                   data-tone={a.tone}
                   data-spot
-                  onPointerMove={spot}
+                  style={{ '--lamp-x': `${LAMP_X * 100}%` }}
+                  onPointerMove={(e) => {
+                    spot(e);
+                    aimBeam(e);
+                  }}
+                  onPointerLeave={releaseBeam}
                   variants={visualVariants}
                 >
-                  <span className={styles.visualSweep} aria-hidden="true" />
+                  <span className={styles.lamp} aria-hidden="true">
+                    <motion.span className={styles.beamRig} variants={beamVariants}>
+                      <span className={styles.beam}>
+                        <span className={styles.glow} />
+                        <span className={styles.motes} />
+                      </span>
+                    </motion.span>
+                  </span>
+
+                  <motion.div className={styles.visualTop} variants={riseVariants}>
+                    <span className={styles.status}>
+                      <span className={styles.statusDot} aria-hidden="true" />
+                      {a.visualLabel}
+                    </span>
+                    <span className={styles.index} aria-hidden="true">
+                      <b>{pad(i + 1)}</b> / {pad(AUDIENCES.length)}
+                    </span>
+                  </motion.div>
+
                   <motion.span className={styles.bigIcon} variants={iconVariants}>
-                    <Icon name={a.icon} size={64} strokeWidth={1.4} />
+                    <Icon name={a.icon} size={28} strokeWidth={1.6} />
                   </motion.span>
-                  <p className={styles.visualTitle}>
+                  <motion.p className={styles.visualTitle} variants={riseVariants}>
                     {a.visualTitle[0]}
                     <br />
-                    {a.visualTitle[1]}
-                  </p>
-                  <p className={styles.visualSub}>{a.visualSub}</p>
+                    <span>{a.visualTitle[1]}</span>
+                  </motion.p>
+                  <motion.ul className={styles.tags} variants={riseVariants}>
+                    {a.visualTags.map((t) => <li key={t}>{t}</li>)}
+                  </motion.ul>
+                  <motion.dl className={styles.stats} variants={riseVariants}>
+                    {a.visualStats.map((s) => (
+                      <div key={s.label} className={styles.stat}>
+                        <dt>{s.label}</dt>
+                        <dd>{s.value}</dd>
+                      </div>
+                    ))}
+                  </motion.dl>
                 </motion.div>
 
                 <div className={styles.content}>
